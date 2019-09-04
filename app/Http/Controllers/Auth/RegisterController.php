@@ -2,7 +2,7 @@
 
 namespace Erp\Http\Controllers\Auth;
 
-use Erp\User;
+use Erp\Models\User;
 use Erp\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
