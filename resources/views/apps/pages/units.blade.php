@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Work Center Management
+FiberTekno | Unit Kerja
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@ FiberTekno | Work Center Management
 			<div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Work Center Table 
+                        <i class="fa fa-database"></i>Data Unit Kerja
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -22,7 +22,7 @@ FiberTekno | Work Center Management
                         <div class="form-group">
                             <tr>
                                 <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Add New </a>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Tambah Baru </a>
                                 </td>
                             </tr>
                         </div>
@@ -35,7 +35,7 @@ FiberTekno | Work Center Management
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">New Work Center</h4>
+                                        <h4 class="modal-title">Unit Kerja Baru</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -70,7 +70,8 @@ FiberTekno | Work Center Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Name</th>
+                				<th>Nama Unit Kerja</th>
+                                <th>Created By</th>
                 				<th>Created At</th>
                 				<th>Action</th>
                 			</tr>
@@ -80,11 +81,11 @@ FiberTekno | Work Center Management
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $wc->name }}</td>
+                                <td>{{ $wc->Author->name}}</td>
                 				<td>{{date("d F Y H:i",strtotime($wc->created_at)) }}</td>
                 				<td>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="" title="View User" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success modalMd" href="#" value="" title="Edit User" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['uker.destroy', $wc->id],'style'=>'display:inline']) !!}
+                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\UserManagementController@ukerEdit',['id'=>$wc->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['uker.destroy', $wc->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Data']) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -106,4 +107,14 @@ FiberTekno | Work Center Management
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Are you sure you want to delete?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

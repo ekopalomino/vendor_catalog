@@ -49,7 +49,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Unit Kerja</label>
-                        {!! Form::select('uker_id', $ukers,old('uker_id'), array('class' => 'form-control')) !!}
+                        {!! Form::select('division_id', $ukers,old('division_id'), array('class' => 'form-control')) !!}
                     </div>
                 </div>                                                              
             </div>
@@ -73,7 +73,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Status</label>
-                        {!! Form::select('status_id', $status,old('status_id'), array('class' => 'form-control')) !!}
+                        {!! Form::select('status_id', array('2b643e21-a94c-4713-93f1-f1cbde6ad633'=>'Active','82e9ec8c-5a82-4009-ba2f-ab620eeaa71a'=>'Suspended'),old('status_id'), array('class' => 'form-control')) !!}
                     </div>
                 </div>
             </div>

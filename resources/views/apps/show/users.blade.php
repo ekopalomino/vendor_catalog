@@ -23,6 +23,10 @@
 			            </td>
 					</tr>
 					<tr>
+						<th>Divisi</th>
+						<td>{{ $user->Divisions->name}}</td>
+					</tr>
+					<tr>
 						<th>Created Date</th>
 						<td>
 							{{ date("d F Y",strtotime($user->created_at)) }} jam {{date("g:ha",strtotime($user->created_at)) }}

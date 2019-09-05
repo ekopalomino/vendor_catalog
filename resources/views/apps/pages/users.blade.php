@@ -81,7 +81,7 @@ FiberTekno | User Management
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Unit Kerja</label>
-                                                    {!! Form::select('uker_id', [null=>'Please Select'] + $ukers,[], array('class' => 'form-control')) !!}
+                                                    {!! Form::select('division_id', [null=>'Please Select'] + $ukers,[], array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>                                                              
                                         </div>

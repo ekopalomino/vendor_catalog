@@ -14,7 +14,7 @@ FiberTekno | Gudang
 			<div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Gudang 
+                        <i class="fa fa-database"></i>Data Gudang 
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -22,7 +22,7 @@ FiberTekno | Gudang
                         <div class="form-group">
                             <tr>
                                 <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Add New </a>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Tambah Baru </a>
                                 </td>
                             </tr>
                         </div>
@@ -35,7 +35,7 @@ FiberTekno | Gudang
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">New Warehouse</h4>
+                                        <h4 class="modal-title">Data Gudang Baru</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -70,7 +70,8 @@ FiberTekno | Gudang
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Name</th>
+                				<th>Nama Gudang</th>
+                                <th>Created By</th>
                 				<th>Created At</th>
                 				<th>Action</th>
                 			</tr>
@@ -80,10 +81,11 @@ FiberTekno | Gudang
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $val->name }}</td>
+                                <td>{{ $val->Author->name }}</td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\ConfigurationController@warehouseEdit',['id'=>$val->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['warehouse.destroy', $val->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['warehouse.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Data']) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -105,4 +107,14 @@ FiberTekno | Gudang
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Are you sure you want to delete?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

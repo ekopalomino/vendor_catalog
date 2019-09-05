@@ -25,6 +25,9 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('users/show/{id}','Apps\UserManagementController@userShow')->name('user.show');
     Route::post('users/update/{id}','Apps\UserManagementController@userUpdate')->name('user.update');
     Route::post('users/delete/{id}','Apps\UserManagementController@userDestroy')->name('user.destroy');
+    Route::get('users/profile', 'Apps\UserManagementController@userProfile')->name('user.profile');
+    Route::post('users/profile/avatar', 'Apps\UserManagementController@updateAvatar')->name('user.avatar');
+    Route::post('users/profile/password', 'Apps\UserManagementController@updatePassword')->name('user.password');
     Route::get('users/roles','Apps\UserManagementController@roleIndex')->name('role.index');
     Route::post('users/roles/create','Apps\UserManagementController@roleStore')->name('role.store');
     Route::get('users/roles/edit/{id}','Apps\UserManagementController@roleEdit')->name('role.edit');

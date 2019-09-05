@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Erp\Http\Controllers\Controller;
 use Erp\Models\User;
 use Erp\Models\Warehouse;
-use Erp\Models\Uker;
+use Erp\Models\Division;
 use Erp\Models\Status;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -28,7 +28,7 @@ class UserManagementController extends Controller
     {
         $users = User::orderBy('name','asc')
                         ->get();
-        $ukers = Uker::pluck('name','id')->toArray();
+        $ukers = Division::pluck('name','id')->toArray();
         $warehouses = Warehouse::pluck('name','id')->toArray();
         $roles = Role::pluck('name','name')->all();
         
@@ -38,9 +38,7 @@ class UserManagementController extends Controller
     public function userProfile()
     {
         $user = Auth::user();
-        $units = Uker::pluck('name','id')->toArray();
-        $warehouses = Warehouse::pluck('name','id')->toArray();
-        return view('apps.shows.userProfile',compact('user','units','warehouses'));
+        return view('apps.pages.profile',compact('user'));
     }
 
     public function userStore(Request $request)
@@ -50,7 +48,7 @@ class UserManagementController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
             'roles' => 'required',
-            'uker_id' => 'required',
+            'division_id' => 'required',
             'warehouse_id' => 'required',
         ]);
 
@@ -80,11 +78,10 @@ class UserManagementController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        $ukers = Uker::pluck('name','id')->toArray();
+        $ukers = Division::pluck('name','id')->toArray();
         $warehouses = Warehouse::pluck('name','id')->toArray();
-        $status = Status::where('function','Data')->pluck('name','id')->toArray();
-       
-        return view('apps.edit.users',compact('user','roles','userRole','ukers','warehouses','status'))->renderSections()['content'];
+        
+        return view('apps.edit.users',compact('user','roles','userRole','ukers','warehouses'))->renderSections()['content'];
     }
 
     public function userUpdate(Request $request, $id)
@@ -94,7 +91,7 @@ class UserManagementController extends Controller
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required',
-            'uker_id' => 'required',
+            'division_id' => 'required',
             'warehouse_id' => 'required',
         ]);
 
@@ -277,21 +274,22 @@ class UserManagementController extends Controller
 
     public function ukerIndex()
     {
-        $units = Uker::orderBy('name','ASC')->get();
+        $units = Division::orderBy('name','ASC')->get();
         return view('apps.pages.units',compact('units'));
     }
 
     public function ukerStore(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:ukers,name',
+            'name' => 'required|unique:divisions,name',
         ]);
 
         $input = [
             'name' => $request->input('name'),
+            'created_by' => auth()->user()->id,
         ];
 
-        $data = Uker::create($input);
+        $data = Division::create($input);
         $log = 'Work Unit '.($data->name).' Created';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -304,17 +302,20 @@ class UserManagementController extends Controller
 
     public function ukerEdit($id)
     {
-        $data = Uker::find($id);
+        $data = Division::find($id);
         return view('apps.edit.units',compact('data'))->renderSections()['content'];
     }
     public function ukerUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:ukers,name',
+            'name' => 'required|unique:divisions,name',
         ]);
 
-        $input = $request->all();
-        $data = Uker::find($id);
+        $input = [
+            'name' => $request->input('name'),
+            'updated_by' => auth()->user()->id,
+        ];
+        $data = Division::find($id);
         $log = 'Work Unit '.($data->name).' Edited';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -328,7 +329,7 @@ class UserManagementController extends Controller
 
     public function ukerDestroy($id)
     {
-        $data = Uker::find($id);
+        $data = Division::find($id);
         $log = 'Work Unit '.($data->name).' Deleted';
          \LogActivity::addToLog($log);
         $notification = array (

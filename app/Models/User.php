@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Status::class,'status_id');
     }
+
+    public function Divisions()
+    {
+        return $this->belongsTo(Division::class,'division_id');
+    }
+
+    public function Warehouses()
+    {
+        return $this->belongsTo(Warehouse::class,'warehouse_id');
+    }
 }

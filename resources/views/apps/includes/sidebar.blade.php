@@ -14,7 +14,7 @@
                 </a>
             </li>
             @can('Can Access Settings')
-            <li class="nav-item {{ set_active(['warehouse.index','role.index','uker.index','user.log','uom-cat.index','uom-val.index','pay-method.index','pay-term.index']) }}">
+            <li class="nav-item {{ set_active(['warehouse.index','uom-cat.index','uom-val.index','pay-method.index','pay-term.index']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-settings"></i>
                     <span class="title">Konfigurasi Umum</span>
@@ -66,14 +66,14 @@
             </li>
             @endcan
             @can('Can Access Users')
-            <li class="nav-item {{ set_active(['user.index','role.index','uker.index','user.log']) }}">
+            <li class="nav-item {{ set_active(['user.index','user.profile','role.index','uker.index','user.log']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-users"></i>
                     <span class="title">Manajemen User</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['user.index']) }}">
+                    <li class="nav-item {{ set_active(['user.index','user.profile']) }}">
                         <a href="{{ route('user.index') }}" class="nav-link ">
                             <span class="title">Daftar User</span>
                         </a>
