@@ -7,6 +7,8 @@ use Erp\Http\Controllers\Controller;
 use Erp\Models\Warehouse;
 use Erp\Models\PaymentMethod;
 use Erp\Models\PaymentTerm;
+use Erp\Models\UomCategory;
+use Erp\Models\UomValue;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
@@ -229,5 +231,155 @@ class ConfigurationController extends Controller
         $data->delete();
 
         return redirect()->route('pay-term.index')->with($notification);
+    }
+
+    public function uomcatIndex()
+    {
+        $data = UomCategory::orderBy('name','asc')->get();
+
+        return view('apps.pages.uomCategory',compact('data'));
+    }
+
+    public function uomcatStore(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:uom_categories,name',
+        ]);
+
+        $input = [
+            'name' => $request->input('name'),
+            'created_by' => auth()->user()->id,
+        ];
+        $data = UomCategory::create($input);
+        $log = 'Kategori UOM '.($data->name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori UOM '.($data->name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('uom-cat.index')->with($notification);
+    }
+
+    public function uomcatEdit($id)
+    {
+        $data = UomCategory::find($id);
+
+        return view('apps.edit.uomCategory',compact('data'))->renderSections()['content'];
+    }
+
+    public function uomcatUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:uom_categories,name',
+        ]);
+
+        $input = [
+            'name' => $request->input('name'),
+            'updated_by' => auth()->user()->id,
+        ];
+        $data = UomCategory::find($id)->update($input);
+        $log = 'Kategori UOM '.($data->name).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori UOM '.($data->name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('uom-cat.index')->with($notification);
+    }
+
+    public function uomcatDestroy($id)
+    {
+        $data = UomCategory::find($id);
+        $log = 'Kategori UOM '.($data->name).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Kategori UOM '.($data->name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->delete();
+
+        return redirect()->route('uom-cat.index')->with($notification);
+    }
+
+    public function uomvalIndex()
+    {
+        $data = UomValue::orderBy('name','asc')->get();
+        $categories = UomCategory::pluck('name','id')->toArray();
+
+        return view('apps.pages.uomValue',compact('data','categories'));
+    }
+
+    public function uomvalStore(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:uom_values,name',
+            'type_id' => 'required',
+            'value' => 'required|numeric',
+        ]);
+
+        $input = [
+            'name' => $request->input('name'),
+            'type_id' => $request->input('type_id'),
+            'value' => $request->input('value'),
+            'created_by' => auth()->user()->id,
+        ];
+        $data = UomValue::create($input);
+        $log = 'UOM '.($data->name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'UOM '.($data->name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('uom-val.index')->with($notification);
+    }
+
+    public function uomvalEdit($id)
+    {
+        $data = UomValue::find($id);
+        $categories = UomCategory::pluck('name','id')->toArray();
+
+        return view('apps.edit.uomValue',compact('data','categories'))->renderSections()['content'];
+    }
+
+    public function uomvalUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:uom_values,name',
+            'type_id' => 'required',
+            'value' => 'required|numeric',
+        ]);
+
+        $input = [
+            'name' => $request->input('name'),
+            'type_id' => $request->input('type_id'),
+            'value' => $request->input('value'),
+            'updated_by' => auth()->user()->id,
+        ];
+        $data = UomValue::find($id)->update($input);
+        $log = 'UOM '.($data->name).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'UOM '.($data->name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('uom-val.index')->with($notification);
+    }
+
+    public function uomvalDestroy($id)
+    {
+        $data = UomValue::find($id);
+        $log = 'UOM '.($data->name).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'UOM '.($data->name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->delete();
+
+        return redirect()->route('uom-val.index')->with($notification);
     }
 }
