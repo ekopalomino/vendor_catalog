@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Customer Management
+FiberTekno | Data Supplier
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,11 +14,11 @@ FiberTekno | Customer Management
             <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Customer Card 
+                        <i class="fa fa-database"></i>Supplier Card 
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Customer</button></a>
+                            <a href="{{ route('supplier.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Supplier</button></a>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ FiberTekno | Customer Management
                             <div class="tile-object">
                                 <div class="number">
                                     <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn btn-default"> View</button></a>
-                                    <a href="{{ route('customer.edit',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default"> Edit</button></a>
+                                    <a href="{{ route('supplier.edit',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default"> Edit</button></a>
                                 </div>
                             </div>
                         </div>

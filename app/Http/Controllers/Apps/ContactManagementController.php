@@ -185,7 +185,7 @@ class ContactManagementController extends Controller
     {
     	$data = Contact::where('type_id','2')->get();
 
-    	return view('apps.pages.suppliers',compact('data'));
+    	return view('apps.pages.supplierNew',compact('data'));
     }
 
     public function supplierCreate()
