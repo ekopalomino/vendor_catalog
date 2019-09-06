@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Tambah Customer
+Fiber Tekno | Edit Supplier
 @endsection
 @section('content')
 <div class="page-content">
@@ -8,7 +8,7 @@ Fiber Tekno | Tambah Customer
         <div class="portlet box red">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-database"></i>Form Customer Baru 
+                    <i class="fa fa-database"></i>Form Edit Supplier
                 </div>
             </div>
             <div class="portlet-body form">                
@@ -22,18 +22,18 @@ Fiber Tekno | Tambah Customer
                     </ul>
                 </div>
                 @endif
-                {!! Form::open(array('route' => 'customer.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+                {!! Form::model($suppliers, ['method' => 'POST','route' => ['supplier.update', $suppliers->id], 'class' => 'form-horizontal']) !!}
                     @csrf
                     <div class="form-body">
-                        <h3 class="form-section">Customer Info</h3>
+                        <h3 class="form-section">Supplier Info</h3>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Customer ID</label>
+                            <label class="col-md-3 control-label">Supplier ID</label>
                             <div class="col-md-4">
                                 {!! Form::text('contact_ref', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Customer Name</label>
+                            <label class="col-md-3 control-label">Supplier Name</label>
                             <div class="col-md-4">
                                 {!! Form::text('name', null, array('placeholder' => 'Supplier Name','class' => 'form-control')) !!} 
                             </div>
@@ -62,7 +62,7 @@ Fiber Tekno | Tambah Customer
                                 {!! Form::text('email', null, array('placeholder' => 'Supplier Email','class' => 'form-control')) !!} 
                             </div>
                         </div>
-                        <h3 class="form-section">Customer Address</h3>
+                        <h3 class="form-section">Supplier Address</h3>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Billing Address</label>
                             <div class="col-md-4">
@@ -72,7 +72,7 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-4">
-                                {!! Form::checkbox('bill_ship','false') !!}
+                                <input type="checkbox" value="false" name="bill_ship" />
                                 <span>Check if Shipping Address same as Billing Address</span>
                             </div>
                         </div>
@@ -111,10 +111,10 @@ Fiber Tekno | Tambah Customer
                                 <input type="text" class="form-control" placeholder="Tax No" name="tax_no"> 
                             </div>
                         </div>
-                        {{ Form::hidden('type_id', '1') }}
+                        {{ Form::hidden('type_id', '2') }}
                     </div>
                     <div class="form-actions right">
-                        <a button type="button" class="btn default" href="{{ route('customer.index') }}">Cancel</a>
+                        <a button type="button" class="btn default" href="{{ route('supplier.index') }}">Cancel</a>
                         <button type="submit" class="btn blue">
                         <i class="fa fa-check"></i> Save</button>
                     </div>
@@ -126,5 +126,5 @@ Fiber Tekno | Tambah Customer
 </div>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('apps/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 @endsection

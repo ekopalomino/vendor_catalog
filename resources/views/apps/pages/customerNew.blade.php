@@ -37,15 +37,16 @@ FiberTekno | Customer Management
                         @foreach($data as $key=>$val)
                     	<div class="tile double bg-blue-madison">
                             <div class="tile-body">
-                                <img class="img-circle" src="/storage/avatars/user.jpg" alt="" style="height:89px;">
+                                <img class="img-circle" src="/storage/avatars/user.jpg" alt="" style="height:80px;">
                                     <h4>{{ $val->name }}</h4>
                                     <p> {{ $val->company }} </p>
                                     <p> {{date("d F Y H:i",strtotime($val->created_at)) }} </p>
                             </div>
                             <div class="tile-object">
                                 <div class="number">
-                                    <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn btn-default"> View</button></a>
-                                    <a href="{{ route('customer.edit',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default"> Edit</button></a>
+                                    <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn btn-default">View</button></a>
+                                    <a href="{{ route('customer.edit',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default">Edit</button></a>
+                                    <a href="{{ route('customer.destroy',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default">Delete</button></a>
                                 </div>
                             </div>
                         </div>

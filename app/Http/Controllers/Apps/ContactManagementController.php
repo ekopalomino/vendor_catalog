@@ -259,10 +259,10 @@ class ContactManagementController extends Controller
 
     public function supplierEdit($id)
     {
-        $clients = Contact::find($id);
+        $suppliers = Contact::find($id);
         $methods = PaymentMethod::pluck('name','id')->toArray();
         $terms = PaymentTerm::pluck('name','id')->toArray();
-        return view('apps.edit.suppliers',compact('clients','methods','terms'));
+        return view('apps.edit.suppliers',compact('suppliers','methods','terms'));
     }
 
     public function supplierUpdate(Request $request,$id)

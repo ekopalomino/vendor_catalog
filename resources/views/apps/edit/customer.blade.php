@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Tambah Customer
+Fiber Tekno | Edit Customer
 @endsection
 @section('content')
 <div class="page-content">
@@ -8,7 +8,7 @@ Fiber Tekno | Tambah Customer
         <div class="portlet box red">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-database"></i>Form Customer Baru 
+                    <i class="fa fa-database"></i>Form Edit Customer
                 </div>
             </div>
             <div class="portlet-body form">                
@@ -22,14 +22,14 @@ Fiber Tekno | Tambah Customer
                     </ul>
                 </div>
                 @endif
-                {!! Form::open(array('route' => 'customer.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
+                {!! Form::model($clients, ['method' => 'POST','route' => ['customer.update', $clients->id], 'class' => 'form-horizontal']) !!}
                     @csrf
                     <div class="form-body">
                         <h3 class="form-section">Customer Info</h3>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Customer ID</label>
                             <div class="col-md-4">
-                                {!! Form::text('contact_ref', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
+                                {!! Form::text('ref_id', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
@@ -72,7 +72,7 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-4">
-                                {!! Form::checkbox('bill_ship','false') !!}
+                                {!! Form::checkbox('bill_ship','true','false',old('bill_ship')) !!}
                                 <span>Check if Shipping Address same as Billing Address</span>
                             </div>
                         </div>
@@ -86,23 +86,19 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Payment Method</label>
                             <div class="col-md-4">
-                                {!! Form::select('payment_method', [null=>'Please Select'] + $methods,[], array('class' => 'form-control')) !!}
+                                {!! Form::select('payment_method', $methods,old('payment_method'), array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Payment Terms</label>
                             <div class="col-md-4">
-                                {!! Form::select('payment_term', [null=>'Please Select'] + $terms,[], array('class' => 'form-control')) !!}
+                                {!! Form::select('payment_term', $terms,old('payment_term'), array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tax Option</label>
                             <div class="col-md-4">
-                                <select class="form-control" name="tax">
-                                    <option>Select Option</option>
-                                    <option value="0">No</option>
-                                    <option value="0">Yes</option>
-                                </select>  
+                                {!! Form::select('tax', array('0'=>'No','2'=>'Yes'),old('tax'), array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
