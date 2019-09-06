@@ -117,8 +117,29 @@
                 </ul>
             </li>
             @endcan
+            @can('Can Access Contact')
+            <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','supplier.index','supplier.create','supplier.edit']) }}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-user-follow"></i>
+                    <span class="title">Kontak</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit']) }}">
+                        <a href="{{ route('customer.index') }}" class="nav-link ">
+                            <span class="title">Data Pelanggan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['supplier.index','supplier.create','supplier.edit']) }}">
+                        <a href="{{ route('supplier.index') }}" class="nav-link ">
+                            <span class="title">Data Pemasok</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
             @can('Can Access Sales')
-            <li class="nav-item {{ set_active(['sales.index','sales.create','customer.index','customer.create']) }}">
+            <li class="nav-item {{ set_active(['sales.index','sales.create']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-present"></i>
             		<span class="title">Penjualan</span>
@@ -130,16 +151,11 @@
                             <span class="title">Sales Orders</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['customer.index','customer.create']) }}">
-                		<a href="{{ route('customer.index') }}" class="nav-link ">
-                            <span class="title">Customers</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item {{ set_active(['supplier.index','supplier.create']) }}">
+            <li class="nav-item ">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
                     <span class="title">Pembelian</span>
@@ -154,11 +170,6 @@
                     <li class="nav-item ">
                         <a href="" class="nav-link ">
                             <span class="title">Purchase Request</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ set_active(['supplier.index','supplier.create']) }}">
-                        <a href="{{ route('supplier.index') }}" class="nav-link ">
-                            <span class="title">Suppliers</span>
                         </a>
                     </li>
                 </ul>

@@ -94,13 +94,21 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('products/bom/delete/{id}','Apps\ProductManagementController@destroyBom')->name('product-bom.destroy');
     /*-----------------------End Product Management--------------------------------*/
 
+    /*-----------------------Contact Management------------------------------------*/
+    Route::get('customers','Apps\ContactManagementController@customerIndex')->name('customer.index');
+    Route::get('customers/create','Apps\ContactManagementController@customerCreate')->name('customer.create');
+    Route::post('customers/store','Apps\ContactManagementController@customerStore')->name('customer.store');
+    Route::get('customers/edit/{id}','Apps\ContactManagementController@customerEdit')->name('customer.edit');
+    Route::post('customers/update/{id}','Apps\ContactManagementController@customerUpdate')->name('customer.update');
+    Route::post('customers/delete/{id}','Apps\ContactManagementController@customerDestroy')->name('customer.destroy');
+    Route::get('suppliers','Apps\ContactManagementController@supplierIndex')->name('supplier.index');
+    Route::get('suppliers/create','Apps\ContactManagementController@supplierCreate')->name('supplier.create');
+    Route::post('suppliers/store','Apps\ContactManagementController@supplierStore')->name('supplier.store');
+    Route::get('suppliers/edit/{id}','Apps\ContactManagementController@supplierEdit')->name('supplier.edit');
+    Route::post('suppliers/update/{id}','Apps\ContactManagementController@supplierUpdate')->name('supplier.update');
+    Route::post('suppliers/delete/{id}','Apps\ContactManagementController@supplierDestroy')->name('supplier.destroy');
+
     /*-----------------------Sales Management------------------------------------*/
-    Route::get('sales/customers','Apps\SalesManagementController@customerIndex')->name('customer.index');
-    Route::get('sales/customers/create','Apps\SalesManagementController@customerCreate')->name('customer.create');
-    Route::post('sales/customers/store','Apps\SalesManagementController@customerStore')->name('customer.store');
-    Route::get('sales/customers/edit/{id}','Apps\SalesManagementController@customerEdit')->name('customer.edit');
-    Route::post('sales/customers/update/{id}','Apps\SalesManagementController@customerUpdate')->name('customer.update');
-    Route::post('sales/customers/delete/{id}','Apps\SalesManagementController@customerDestroy')->name('customer.destroy');
     Route::get('sales','Apps\SalesManagementController@index')->name('sales.index');
     Route::get('sales/orders/create','Apps\SalesManagementController@create')->name('sales.create');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
@@ -111,12 +119,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     /*-----------------------End Sales Management------------------------------------*/
 
     /*-----------------------Purchase Management------------------------------------*/
-    Route::get('purchase/suppliers','Apps\PurchaseManagementController@supplierIndex')->name('supplier.index');
-    Route::get('purchase/suppliers/create','Apps\PurchaseManagementController@supplierCreate')->name('supplier.create');
-    Route::post('purchase/suppliers/store','Apps\PurchaseManagementController@supplierStore')->name('supplier.store');
-    Route::get('purchase/suppliers/edit/{id}','Apps\PurchaseManagementController@supplierEdit')->name('supplier.edit');
-    Route::post('purchase/suppliers/update/{id}','Apps\PurchaseManagementController@supplierUpdate')->name('supplier.update');
-    Route::post('purchase/suppliers/delete/{id}','Apps\PurchaseManagementController@supplierDestroy')->name('supplier.destroy');
+    
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/

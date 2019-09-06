@@ -13,20 +13,7 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'Can Access Settings',
-            'Can Access Users',
-            'Can Access Sales',
-            'Can Access Purchasing',
-            'Can Access Products',
-            'Can Access Inventories',
-            'Can Access Manufactures',
-            'Can Access Finances',
-            'Can Create Data',
-            'Can Edit Data',
-            'Can Delete Data',
-            'Can Change Status',
-            'Can View Data',
-            'Can Create Adjustment',
+            'Can Access Contact',
         ];
 
         foreach($permissions as $permission) {
