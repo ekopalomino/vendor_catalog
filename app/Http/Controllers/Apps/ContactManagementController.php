@@ -25,7 +25,7 @@ class ContactManagementController extends Controller
     {
     	$data = Contact::where('type_id','1')->get();
 
-    	return view('apps.pages.customers',compact('data'));
+    	return view('apps.pages.customerNew',compact('data'));
     }
 
     public function customerCreate()

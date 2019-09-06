@@ -10,7 +10,7 @@ class Contact extends Model
     use Uuid;
 
     protected $fillable = [
-        'contact_ref',
+        'ref_id',
         'type_id',
         'name',
         'company',
@@ -19,8 +19,8 @@ class Contact extends Model
         'email',
         'billing_address',
         'shipping_address',
-        'method_id',
-        'terms_id',
+        'payment_method',
+        'payment_terms',
         'tax',
         'tax_no',
         'created_by',
