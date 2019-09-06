@@ -44,7 +44,7 @@ FiberTekno | Customer Management
                             </div>
                             <div class="tile-object">
                                 <div class="number">
-                                    <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn btn-default">View</button></a>
+                                    <a href="{{ route('customer.show',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default">View</button></a>
                                     <a href="{{ route('customer.edit',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default">Edit</button></a>
                                     <a href="{{ route('customer.destroy',$val->id) }}"><button id="sample_editable_1_new" class="btn btn-default">Delete</button></a>
                                 </div>

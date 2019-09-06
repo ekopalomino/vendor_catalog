@@ -118,14 +118,14 @@
             </li>
             @endcan
             @can('Can Access Contact')
-            <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','supplier.index','supplier.create','supplier.edit']) }}">
+            <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','customer.show','supplier.index','supplier.create','supplier.edit']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-user-follow"></i>
                     <span class="title">Kontak</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit']) }}">
+                    <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','customer.show']) }}">
                         <a href="{{ route('customer.index') }}" class="nav-link ">
                             <span class="title">Data Pelanggan</span>
                         </a>

@@ -99,6 +99,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('customers/create','Apps\ContactManagementController@customerCreate')->name('customer.create');
     Route::post('customers/store','Apps\ContactManagementController@customerStore')->name('customer.store');
     Route::get('customers/edit/{id}','Apps\ContactManagementController@customerEdit')->name('customer.edit');
+    Route::get('customers/show/{id}','Apps\ContactManagementController@customerShow')->name('customer.show');
     Route::post('customers/update/{id}','Apps\ContactManagementController@customerUpdate')->name('customer.update');
     Route::post('customers/delete/{id}','Apps\ContactManagementController@customerDestroy')->name('customer.destroy');
     Route::get('suppliers','Apps\ContactManagementController@supplierIndex')->name('supplier.index');

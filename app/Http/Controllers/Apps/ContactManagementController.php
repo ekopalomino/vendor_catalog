@@ -97,6 +97,13 @@ class ContactManagementController extends Controller
         
     }
 
+    public function customerShow($id)
+    {
+        $data = Contact::find($id);
+
+        return view('apps.show.customer',compact('data'));
+    }
+
     public function customerEdit($id)
     {
         $clients = Contact::find($id);
