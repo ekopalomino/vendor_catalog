@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Edit Customer
+Fiber Tekno | Edit Customer 
 @endsection
 @section('content')
 <div class="page-content">
