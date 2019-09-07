@@ -12,6 +12,7 @@ use Erp\Models\Warehouse;
 use Erp\Models\Contact;
 use Erp\Models\Inventory;
 use Auth;
+use PDF;
 
 class ProductManagementController extends Controller
 {

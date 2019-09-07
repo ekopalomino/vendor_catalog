@@ -175,7 +175,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Inventory')
+            @can('Can Access Inventories')
             <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
@@ -219,7 +219,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Manufacture')
+            @can('Can Access Manufactures')
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
