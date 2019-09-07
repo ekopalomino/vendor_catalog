@@ -27,13 +27,13 @@ FiberTekno | Customer Detail
 	                    <div class="col-md-9">
 				          	<div class="row">
 				           		<div class="col-md-8 profile-info">
-				           			<h1 class="font-green sbold uppercase">John Doe</h1>
-				           			<p>Company</p>
-				           			<p>Billing Address</p>
-				          			<p>Shipping Address</p>
+				           			<h1 class="font-green sbold uppercase">{{ $data->name }}</h1>
+				           			<p>Company Name : {{ $data->company }}</p>
+				           			<p>Billing Address : {{ $data->billing_address }}</p>
+				          			<p>Shipping Address : {{ $data->shipping_address }}</p>
 				          			<p>Tax No</p>
-				           			<p>Payment Method</p>
-				          			<p>Payment Terms</p>
+				           			<p>Payment Method : {{ $data->Methods->name }}</p>
+				          			<p>Payment Terms : {{ $data->Terms->name }}</p>
 				           		</div>
 				           		<div class="col-md-4">
 				           		</div>
@@ -41,7 +41,7 @@ FiberTekno | Customer Detail
 				            <div class="tabbable-line tabbable-custom-profile">
 				               	<ul class="nav nav-tabs">
 				               		<li class="active">
-				                        <a href="#tab_1_11" data-toggle="tab"> Latest Customers </a>
+				                        <a href="#tab_1_11" data-toggle="tab"> Latest Purchase </a>
 				                    </li>
 				                </ul>
 				                <div class="tab-content">
@@ -56,7 +56,10 @@ FiberTekno | Customer Detail
 				                   					</tr>
 				                   				</thead>
 				                   				<tbody>
-						                                					
+				                   					<tr>
+				                   						<td></td>
+				                   						<td></td>
+				                   						<td></td>			
 				                   				</tbody>
 			                       			</table>
 			                       		</div>

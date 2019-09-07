@@ -39,4 +39,14 @@ class Contact extends Model
     {
         return $this->belongsTo(User::class,'updated_by');
     }
+
+    public function Methods()
+    {
+        return $this->belongsTo(PaymentMethod::class,'payment_method');
+    }
+
+    public function Terms()
+    {
+        return $this->belongsTo(PaymentTerm::class,'payment_terms');
+    }
 }
