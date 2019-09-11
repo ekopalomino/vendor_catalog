@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Sales Management
+FiberTekno | Manufactures
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,13 +14,13 @@ FiberTekno | Sales Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Sales Order Data 
+                        <i class="fa fa-database"></i>Manufacture Order Data 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('sales.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Sales Order
+                            <a href=""><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Order
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -38,10 +38,9 @@ FiberTekno | Sales Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>SO Ref</th>
-                                <th>Customer Name</th>
-                                <th>Qty Sale</th>
-                                <th>Total Sale</th>
+                				<th>MO Ref</th>
+                                <th>SO ref</th>
+                                <th>Quantity</th>
                                 <th>Status</th>
                 				<th>Created By</th>
                 				<th>Created At</th>
@@ -49,21 +48,7 @@ FiberTekno | Sales Management
                 			</tr>
                 		</thead>
                 		<tbody>
-                            @foreach($sales as $key => $sale)
-                			<tr>
-                				<td>{{ $key+1 }}</td>
-                                <td>{{ $sale->order_ref }}</td>
-                                <td>{{ $sale->Customers->name}}</td>
-                                <td>{{ number_format($sale->quantity,2,',','.')}}</td>
-                                <td>{{ number_format($sale->total,2,',','.')}}</td>
-                                <td><label class="badge badge-success">{{ $sale->Statuses->name }}</label></td>
-                                <td>{{ $sale->Author->name }}</td>
-                                <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
-                                <td>
-                                    <a class="btn btn-xs btn-success" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
-                                </td>
-                			</tr>
-                            @endforeach
+                            
                 		</tbody>
                 	</table>
                 </div>

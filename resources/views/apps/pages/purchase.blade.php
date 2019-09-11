@@ -63,6 +63,8 @@ FiberTekno | Purchase Management
                                     <label class="badge badge-success">{{ $val->Statuses->name }}</label>
                                     @elseif(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     <label class="badge badge-warning">{{ $val->Statuses->name }}</label>
+                                    @elseif(($val->status) == '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                    <label class="badge badge-info">{{ $val->Statuses->name }}</label>
                                     @else
                                     <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
                                     @endif

@@ -5,30 +5,19 @@ namespace Erp\Models;
 use Erp\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class Delivery extends Model
 {
     use Uuid;
 
     protected $fillable = [
         'order_ref',
-        'client_id',
-        'client_code',
-        'billing_address',
-        'shipping_address',
-        'delivery_date',
-        'quantity',
-        'total',
+        'sales_ref',
         'status_id',
         'created_by',
         'updated_by',
     ];
 
     public $incrementing = false;
-
-    public function Customers()
-    {
-        return $this->belongsTo(Contact::class,'client_id');
-    }
 
     public function Author()
     {
@@ -40,13 +29,15 @@ class Sale extends Model
         return $this->belongsTo(User::class,'updated_by');
     }
 
-    public function Items()
+    public function SalesItem()
     {
-        return $this->hasMany(SaleItem::class,'sales_id');
+        return $this->hasOne(SalesItem::class,'sales_ref');
     }
 
     public function Statuses()
     {
         return $this->belongsTo(Status::class,'status_id');
     }
+
+
 }

@@ -11,6 +11,8 @@ use Erp\Models\Warehouse;
 use Erp\Models\InternalTransfer;
 use Erp\Models\Purchase;
 use Erp\Models\PurchaseItem;
+use Erp\Models\Delivery;
+use Erp\Models\Sale;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -162,7 +164,8 @@ class InventoryManagementController extends Controller
             'rem' => ($moves->rem) - ($internal->amount),
         ]);
         $move = InventoryMovement::where('product_id',$internal->product_id)->orderBy('created_at','DESC')->first();
-        InventoryMovement::create([
+        $source = Inventory::where('product_id',$internal->product_id)->orderBy('created_at','DESC')->first();
+        $movements = InventoryMovement::create([
             'type' => '4',
             'reference_id' => $ref,
             'product_id' => $internal->product_id,
@@ -170,7 +173,60 @@ class InventoryManagementController extends Controller
             'in' => $internal->amount,
             'rem' => ($move->rem) + ($internal->amount),
         ]);
+        Inventory::create([
+            'product_id' => $internal->product_id,
+            'min_stock' => $source->min_stock,
+            'warehouse_id' => $internal->to_id,
+            'opening_amount' => ($source->opening_amount) + ($movements->in),
+            'closing_amount' => $source->closing_amount,
+            'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
+        ]);
 
         return redirect()->route('internal.transfer');
     }
+
+    public function deliveryIndex()
+    {
+        $data = Delivery::get();
+        $sales = Sale::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->pluck('order_ref','id')->toArray();
+
+        return view('apps.pages.deliveryOrder',compact('data','sales'));
+    }
+
+    public function deliveryOrder(Request $request)
+    {
+        $this->validate($request, [
+            'sales_ref' => 'required',
+        ]);
+
+        $input = $request->all();
+        
+        $lastOrder = Delivery::count();
+        $refs = 'DO/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $salesRefs = Sale::where('id',($request->input('sales_ref')))->first();
+
+        $orders = Delivery::create([
+            'order_ref' => $refs,
+            'sales_ref' => $salesRefs->order_ref,
+            'created_by' => auth()->user()->id,
+        ]);
+        
+        return redirect()->route('delivery.index');
+    }
+
+    public function deliveryDone(Request $request,$id)
+    {
+        $data = Delivery::find($id);
+        $data->update([
+            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+        ]);
+
+        $source = Delivery::where('id',$id)->first();
+        $sales = Sale::where('order_ref',$source->sales_ref)->update([
+            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+        ]);
+    
+        return redirect()->route('delivery.index');
+    }
+
 }

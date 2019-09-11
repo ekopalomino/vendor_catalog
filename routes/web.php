@@ -142,5 +142,11 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
     Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('internal.transfer');
     Route::post('inventories/internal-transfer/create','Apps\InventoryManagementController@internStore')->name('internal.store');
+    Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
+    Route::post('inventories/delivery-order/create','Apps\InventoryManagementController@deliveryOrder')->name('delivery.process');
+    Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
     /*-----------------------End Inventory Management------------------------------------*/
+
+    /*-----------------------Manufacture Management------------------------------------*/
+    Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
 });
