@@ -141,5 +141,6 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
     Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
     Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('internal.transfer');
+    Route::post('inventories/internal-transfer/create','Apps\InventoryManagementController@internStore')->name('internal.store');
     /*-----------------------End Inventory Management------------------------------------*/
 });

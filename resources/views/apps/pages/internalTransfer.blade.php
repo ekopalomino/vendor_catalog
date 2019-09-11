@@ -31,7 +31,7 @@ FiberTekno | Internal Transfer
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    {!! Form::open(array('route' => 'receipt.store','method'=>'POST')) !!}
+                                    {!! Form::open(array('route' => 'internal.store','method'=>'POST')) !!}
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -46,11 +46,11 @@ FiberTekno | Internal Transfer
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label">From</label>
-                                                    {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                                                    {!! Form::select('from_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label">To</label>
-                                                    {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                                                    {!! Form::select('to_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label">Amount</label>

@@ -119,7 +119,7 @@ class InventoryManagementController extends Controller
             'in' => $items[0]->quantity,
             'rem' => ($moves->rem) + ($items[0]->quantity),
         ]);
-        dd($inv);
+        
         $main = Inventory::where('product_id',$items[0]->product_id)->update($inv->rem);
 
         return redirect()->route('inventory.index');
@@ -150,21 +150,27 @@ class InventoryManagementController extends Controller
             'amount' => $request->input('amount'),
         ];
         $internal = InternalTransfer::create($data);
+        $reference = InternalTransfer::count();
+        $ref = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.$reference.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $moves = InventoryMovement::where('product_id',$internal->product_id)->orderBy('created_at','DESC')->first();
         InventoryMovement::create([
             'type' => '4',
-            'reference_id' => '',
-            'product_id' => '',
-            'warehouse_id' => '',
-            'out' => '',
-            'rem' => '',
+            'reference_id' => $ref,
+            'product_id' => $internal->product_id,
+            'warehouse_id' => $internal->from_id,
+            'out' => $internal->amount,
+            'rem' => ($moves->rem) - ($internal->amount),
         ]);
+        $move = InventoryMovement::where('product_id',$internal->product_id)->orderBy('created_at','DESC')->first();
         InventoryMovement::create([
             'type' => '4',
-            'reference_id' => '',
-            'product_id' => '',
-            'warehouse_id' => '',
-            'in' => '',
-            'rem' => '',
+            'reference_id' => $ref,
+            'product_id' => $internal->product_id,
+            'warehouse_id' => $internal->to_id,
+            'in' => $internal->amount,
+            'rem' => ($move->rem) + ($internal->amount),
         ]);
+
+        return redirect()->route('internal.transfer');
     }
 }
