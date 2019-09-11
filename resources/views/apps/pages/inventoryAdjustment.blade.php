@@ -37,16 +37,20 @@ FiberTekno | Inventory Adjustment
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $product->Products->name }}</td>
-                                <td>{{ $product->Locations->name }}</td>
+                                <td>
+                                    @if(!empty($product->warehouse_id))
+                                    {{ $product->Locations->name }}
+                                    @endif
+                                </td>
                                 <td>{{ $product->Products->Uoms->name }}</td>
                                 <td>{{ $product->opening_amount }}</td>
                                 <td>{{ $product->closing_amount }}</td>
                                 <td>
-                                    @if( ($product->closing_amount) == 0)
+                                    @if( ($product->status_id) == '72ceba35-758d-4bc2-9295-fd9f9f393c56')
                                         <label class="badge badge-danger">No Stock</label>
-                                    @elseif(($product->closing_amount)<($product->min_stock))
+                                    @elseif(($product->status_id) == 'f8b26119-fb0c-40ff-85c0-8fb85696f220')
                                         <label class="badge badge-warning">Low On Stock</label>
-                                    @elseif(($product->closing_amount)>($product->min_stock))
+                                    @elseif(($product->status_id) == '533806c2-19dc-4b24-886f-d783a8b448b7')
                                         <label class="badge badge-success">Stock Normal</label>
                                     @endif
                                 </td>

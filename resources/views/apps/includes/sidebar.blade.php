@@ -155,28 +155,23 @@
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item ">
+            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
                     <span class="title">Pembelian</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">
+                    <li class="nav-item {{ set_active(['purchase.index','request.form']) }}">
+                        <a href="{{ route('purchase.index') }}" class="nav-link">
                             <span class="title">Purchase Orders</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">
-                            <span class="title">Purchase Request</span>
                         </a>
                     </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Inventories')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust']) }}">
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','internal.transfer','receipt.index']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Inventory</span>
@@ -185,7 +180,7 @@
                 <ul class="sub-menu">
                 	<li class="nav-item  {{ set_active(['inventory.index']) }}">
                 		<a href="{{ route('inventory.index') }}" class="nav-link ">
-                            <span class="title">Products</span>
+                            <span class="title">Product Stock</span>
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['inventory.adjust']) }}">
@@ -193,15 +188,15 @@
                             <span class="title">Inventory Adjustment</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
+                    <li class="nav-item {{ set_active(['internal.transfer','receipt.index']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Inventory Movement</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
-                                    <span class="title">Receipts</span>
+                            <li class="nav-item {{ set_active(['receipt.index']) }}">
+                                <a href="{{ route('receipt.index') }}" class="nav-link ">
+                                    <span class="title">Purchase Receipts</span>
                                 </a>
                             </li>
                             <li class="nav-item  ">
@@ -209,8 +204,8 @@
                                     <span class="title">Delivery Orders</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
+                            <li class="nav-item {{ set_active(['internal.transfer']) }}">
+                                <a href="{{ route('internal.transfer') }}" class="nav-link ">
                                     <span class="title">Internal Transfer</span>
                                 </a>
                             </li>

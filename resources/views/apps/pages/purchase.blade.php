@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Supplier Management
+FiberTekno | Purchase Management
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,13 +14,13 @@ FiberTekno | Supplier Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Supplier Table 
+                        <i class="fa fa-database"></i>Purchase Order Data 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('supplier.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Supplier
+                            <a href="{{ route('request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">New Request
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -38,12 +38,13 @@ FiberTekno | Supplier Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                                <th>Supplier ID</th>
-                				<th>Name</th>
-                				<th>Email</th>
-                				<th>Address</th>
-                				<th>Status</th>
+                				<th>Ref No</th>
+                                <th>Supplier Name</th>
+                                <th>Qty Sale</th>
+                                <th>Total Sale</th>
+                				<th>Request By</th>
                 				<th>Created At</th>
+                                <th>Status</th>
                 				<th>Action</th>
                 			</tr>
                 		</thead>
@@ -51,18 +52,26 @@ FiberTekno | Supplier Management
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->ref_id }}</td>
-                				<td>{{ $val->name }}</td>
-                                <td>{{ $val->email }}</td>
-                                <td>{{ $val->billing_address }}</td>
-                				<td><label class="badge badge-info">{{ $val->Statuses->name }}</label></td>
-                				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
-                				<td>
-                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.show',$val->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['supplier.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
-                                    {!! Form::close() !!}
+                                <td>{{ $val->order_ref }}</td>
+                                <td>{{ $val->Suppliers->name}}</td>
+                                <td>{{ number_format($val->quantity,2,',','.')}}</td>
+                                <td>{{ number_format($val->total,2,',','.')}}</td>
+                                <td>{{ $val->Author->name }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
+                                <td>
+                                    @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')
+                                    <label class="badge badge-success">{{ $val->Statuses->name }}</label>
+                                    @elseif(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
+                                    <label class="badge badge-warning">{{ $val->Statuses->name }}</label>
+                                    @else
+                                    <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    @if(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
+                                    <a class="btn btn-xs btn-success" title="Approve Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-check"></i></a>
+                                    @endif
                                 </td>
                 			</tr>
                             @endforeach

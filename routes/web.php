@@ -105,6 +105,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('suppliers','Apps\ContactManagementController@supplierIndex')->name('supplier.index');
     Route::get('suppliers/create','Apps\ContactManagementController@supplierCreate')->name('supplier.create');
     Route::post('suppliers/store','Apps\ContactManagementController@supplierStore')->name('supplier.store');
+    Route::get('suppliers/show/{id}','Apps\ContactManagementController@supplierShow')->name('supplier.show');
     Route::get('suppliers/edit/{id}','Apps\ContactManagementController@supplierEdit')->name('supplier.edit');
     Route::post('suppliers/update/{id}','Apps\ContactManagementController@supplierUpdate')->name('supplier.update');
     Route::post('suppliers/delete/{id}','Apps\ContactManagementController@supplierDestroy')->name('supplier.destroy');
@@ -117,10 +118,17 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
 	Route::post('sales/orders/items/store','Apps\SalesManagementController@storeItems')->name('sales-item.store');
 	Route::get('sales/orders/sum/{id}','Apps\SalesManagementController@updateSo')->name('sales.sum');
 	Route::get('sales/orders/show/{id}','Apps\SalesManagementController@salesShow')->name('sales.show');
+    Route::get('sales/orders/addmore','Apps\SalesManagementController@addMore');
+    Route::post('sales/orders/addmore','Apps\SalesManagementController@addMoreItem');
+    Route::get('sales/orders/getaddress', 'Apps\SalesManagementController@getAddress')->name('get.address');
     /*-----------------------End Sales Management------------------------------------*/
 
     /*-----------------------Purchase Management------------------------------------*/
-    
+    Route::get('purchase','Apps\PurchaseManagementController@index')->name('purchase.index');
+    Route::get('purchase/request/create','Apps\PurchaseManagementController@requestCreate')->name('request.create');
+    Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
+    Route::get('purchase/request/edit/{id}','Apps\PurchaseManagementController@requestForm')->name('request.form');
+    Route::post('purchase/request/approve','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/
@@ -129,5 +137,9 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventory/adjustment','Apps\InventoryManagementController@inventoryAdjustIndex')->name('inventory.adjust');
     Route::get('inventory/adjustment/{id}','Apps\InventoryManagementController@makeAdjust')->name('make.adjust');
     Route::post('inventory/adjustment/store/{id}','Apps\InventoryManagementController@storeAdjust')->name('store.adjust');
+    Route::get('inventories/internal-transfer','Apps\InventoryManagementController@transferIndex')->name('trans.index');
+    Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
+    Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
+    Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('internal.transfer');
     /*-----------------------End Inventory Management------------------------------------*/
 });

@@ -106,16 +106,14 @@ class ProductManagementController extends Controller
         $categories = ProductCategory::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         $vendors = Contact::where('type_id','2')->pluck('name','id')->toArray();
-        $locations = Warehouse::pluck('name','id')->toArray();
-
-        return view('apps.input.products',compact('categories','uoms','vendors','locations'));
+        
+        return view('apps.input.products',compact('categories','uoms','vendors'));
     }
 
     public function productStore(Request $request)
     {
         $this->validate($request, [
-            'product_sku' => 'required|unique:products,product_sku',
-            'barcode' => 'required|numeric|unique:products,product_barcode',
+            'barcode' => 'required|numeric',
             'name' => 'required|unique:products,name',
             'category_id' => 'required',
             'uom_id' => 'required',
@@ -137,13 +135,11 @@ class ProductManagementController extends Controller
             ->move($destinationPath, $filename);
 
             $input = [ 
-                'product_sku' => $request->input('product_sku'),
                 'product_barcode' => $request->input('barcode'),
                 'name' => $request->input('name'),
                 'category_id' => $request->input('category_id'),
                 'uom_id' => $request->input('uom_id'),
                 'supplier_id' => $request->input('supplier_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
                 'image' => $filename,
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
@@ -152,13 +148,11 @@ class ProductManagementController extends Controller
             ];
         } else {
             $input = [
-                'product_sku' => $request->input('product_sku'),
                 'product_barcode' => $request->input('barcode'),
                 'name' => $request->input('name'),
                 'category_id' => $request->input('category_id'),
                 'uom_id' => $request->input('uom_id'),
                 'supplier_id' => $request->input('supplier_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
@@ -169,10 +163,10 @@ class ProductManagementController extends Controller
         $data = Product::create($input);
         $rel = Inventory::create([
             'product_id' => $data->id,
-            'warehouse_id' => $data->warehouse_id,
             'min_stock' => $data->min_stock,
             'opening_amount' => 0,
             'closing_amount' => 0,
+            'status_id' => '72ceba35-758d-4bc2-9295-fd9f9f393c56',
         ]);
         $log = 'Produk '.($data->name).' berhasil disimpan';
          \LogActivity::addToLog($log);
@@ -222,9 +216,8 @@ class ProductManagementController extends Controller
     public function productUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'product_sku' => 'required|unique:products,product_sku',
-            'barcode' => 'required|numeric|unique:products,product_barcode',
-            'name' => 'required|unique:products,name',
+            'barcode' => 'required|numeric',
+            'name' => 'required',
             'category_id' => 'required',
             'uom_id' => 'required',
             'image' => 'nullable|file|image',
@@ -245,13 +238,11 @@ class ProductManagementController extends Controller
             ->move($destinationPath, $filename);
 
             $input = [ 
-                'product_sku' => $request->input('product_sku'),
                 'product_barcode' => $request->input('barcode'),
                 'name' => $request->input('name'),
                 'category_id' => $request->input('category_id'),
                 'uom_id' => $request->input('uom_id'),
                 'supplier_id' => $request->input('supplier_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
                 'image' => $filename,
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
@@ -260,13 +251,11 @@ class ProductManagementController extends Controller
             ];
         } else {
             $input = [
-                'product_sku' => $request->input('product_sku'),
                 'product_barcode' => $request->input('barcode'),
                 'name' => $request->input('name'),
                 'category_id' => $request->input('category_id'),
                 'uom_id' => $request->input('uom_id'),
                 'supplier_id' => $request->input('supplier_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),

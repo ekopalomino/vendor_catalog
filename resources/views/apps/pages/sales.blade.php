@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Supplier Management
+FiberTekno | Sales Management
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,13 +14,13 @@ FiberTekno | Supplier Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Supplier Table 
+                        <i class="fa fa-database"></i>Sales Order Data 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('supplier.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Supplier
+                            <a href="{{ route('sales.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Sales Order
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -38,31 +38,27 @@ FiberTekno | Supplier Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                                <th>Supplier ID</th>
-                				<th>Name</th>
-                				<th>Email</th>
-                				<th>Address</th>
-                				<th>Status</th>
+                				<th>SO Ref</th>
+                                <th>Customer Name</th>
+                                <th>Qty Sale</th>
+                                <th>Total Sale</th>
+                				<th>Created By</th>
                 				<th>Created At</th>
                 				<th>Action</th>
                 			</tr>
                 		</thead>
                 		<tbody>
-                            @foreach($data as $key => $val)
+                            @foreach($sales as $key => $sale)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->ref_id }}</td>
-                				<td>{{ $val->name }}</td>
-                                <td>{{ $val->email }}</td>
-                                <td>{{ $val->billing_address }}</td>
-                				<td><label class="badge badge-info">{{ $val->Statuses->name }}</label></td>
-                				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
-                				<td>
-                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.show',$val->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['supplier.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
-                                    {!! Form::close() !!}
+                                <td>{{ $sale->order_ref }}</td>
+                                <td>{{ $sale->Customers->name}}</td>
+                                <td>{{ number_format($sale->quantity,2,',','.')}}</td>
+                                <td>{{ number_format($sale->total,2,',','.')}}</td>
+                                <td>{{ $sale->Author->name }}</td>
+                                <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
+                                <td>
+                                    <a class="btn btn-xs btn-success" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
                                 </td>
                 			</tr>
                             @endforeach

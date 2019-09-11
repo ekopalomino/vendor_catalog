@@ -10,14 +10,12 @@ class Product extends Model
     use Uuid;
 
     protected $fillable = [
-        'product_sku',
         'product_barcode',
         'name',
         'category_id',
         'uom_id',
         'image',
         'supplier_id',
-        'warehouse_id',
         'min_stock',
         'base_price',
         'sale_price',

@@ -49,4 +49,9 @@ class Contact extends Model
     {
         return $this->belongsTo(PaymentTerm::class,'payment_terms');
     }
+
+    public function Statuses()
+    {
+        return $this->belongsTo(Status::class,'active');
+    }
 }

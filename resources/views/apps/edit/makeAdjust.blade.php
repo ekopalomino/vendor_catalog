@@ -17,16 +17,16 @@
             @csrf
             <div class="row">
             	<div class="col-md-12">
-                	<div class="form-group">
-                		<label class="control-label">Opening Amount</label>
-                		{!! Form::text('opening_amount', null, array('placeholder' => 'Opening Amount','class' => 'form-control')) !!}
-                	</div>
                     <div class="form-group">
-                        <label class="control-label">Closing Amount</label>
-                        {!! Form::text('closing_amount', null, array('placeholder' => 'Closing Amount','class' => 'form-control')) !!}
+                        <label class="control-label">Gudang</label>
+                        {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Closing Amount</label>
+                        <label class="control-label">Adjustment Amount</label>
+                        {!! Form::text('adjust_amount', null, array('placeholder' => 'Closing Amount','class' => 'form-control')) !!}
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Notes</label>
                         {!! Form::textarea('notes', null, array('placeholder' => 'Notes','class' => 'form-control')) !!}
                     </div>
                     {{ Form::hidden('product_id', $data->product_id) }}

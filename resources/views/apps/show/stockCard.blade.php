@@ -32,7 +32,7 @@
 	                	<td>{{ $val->reference_id}}</td>
 	                	<td>{{ $val->in}}</td>
 	                	<td>{{ $val->out }}</td>
-	                	<td>{{ ($val->in) - ($val->out) }}</td>
+	                	<td>{{ $val->rem }}</td>
 	                </tr>
                 	@endforeach
                 </tbody>

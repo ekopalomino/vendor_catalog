@@ -25,12 +25,6 @@ Fiber Tekno | Add Product
                 @csrf
                 <div class="form-body">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Product SKU</label>
-                        <div class="col-md-4">
-                            {!! Form::text('product_sku', null, array('placeholder' => 'Product SKU','class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-md-3 control-label">Product Barcode</label>
                         <div class="col-md-4">
                             {!! Form::text('barcode', null, array('placeholder' => 'Product Barcode','class' => 'form-control')) !!}
@@ -58,12 +52,6 @@ Fiber Tekno | Add Product
                         <label class="col-md-3 control-label">Product UOM</label>
                         <div class="col-md-4">
                             {!! Form::select('uom_id', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Product Storage</label>
-                        <div class="col-md-4">
-                            {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
                     <div class="form-group">

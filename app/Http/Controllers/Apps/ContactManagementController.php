@@ -25,7 +25,7 @@ class ContactManagementController extends Controller
     {
     	$data = Contact::where('type_id','1')->get();
 
-    	return view('apps.pages.customerNew',compact('data'));
+    	return view('apps.pages.customers',compact('data'));
     }
 
     public function customerCreate()
@@ -192,7 +192,7 @@ class ContactManagementController extends Controller
     {
     	$data = Contact::where('type_id','2')->get();
 
-    	return view('apps.pages.supplierNew',compact('data'));
+    	return view('apps.pages.suppliers',compact('data'));
     }
 
     public function supplierCreate()
@@ -262,6 +262,13 @@ class ContactManagementController extends Controller
 
         return redirect()->route('supplier.index')->with($notification);
         
+    }
+
+    public function supplierShow($id)
+    {
+        $data = Contact::find($id);
+
+        return view('apps.show.supplier',compact('data'));
     }
 
     public function supplierEdit($id)

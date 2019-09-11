@@ -40,8 +40,9 @@ FiberTekno | Customer Management
                                 <th>No</th>
                                 <th>Customer ID</th>
                 				<th>Name</th>
+                                <th>Company Name</th>
                 				<th>Email</th>
-                				<th>Address</th>
+                				<th>Billing Address</th>
                 				<th>Status</th>
                 				<th>Created At</th>
                 				<th>Action</th>
@@ -53,13 +54,17 @@ FiberTekno | Customer Management
                 				<td>{{ $key+1 }}</td>
                                 <td>{{ $val->ref_id }}</td>
                 				<td>{{ $val->name }}</td>
+                                <td>{{ $val->company }}</td>
                                 <td>{{ $val->email }}</td>
                                 <td>{{ $val->billing_address }}</td>
                 				<td><label class="badge badge-info">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="" title="Lihat Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success modalMd" href="#" value="" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-xs btn-success" href="{{ route('customer.show',$val->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-xs btn-success" href="{{ route('customer.edit',$val->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['customer.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
+                                    {!! Form::close() !!}
                                 </td>
                 			</tr>
                             @endforeach
@@ -79,4 +84,14 @@ FiberTekno | Customer Management
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Are you sure you want to delete?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection
