@@ -13,6 +13,8 @@ use Erp\Models\UomValue;
 use Erp\Models\Contact;
 use Erp\Models\PaymentMethod;
 use Erp\Models\PaymentTerm;
+use Erp\Models\Warehouse;
+use Erp\Models\InternalTransfer;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -74,11 +76,13 @@ class SalesManagementController extends Controller
     {
         $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
         $products = Product::join('inventories','products.id','=','inventories.product_id')
+                    ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
                     ->where('inventories.closing_amount','>','min_amount')
                     ->pluck('products.name','products.id')
                     ->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
-        return view('apps.input.salesNew',compact('customers','products','uoms'));
+        $locations = Warehouse::pluck('name','id')->toArray();
+        return view('apps.input.salesNew',compact('customers','products','uoms','locations'));
     }
 
     public function storeSales(Request $request)
@@ -111,7 +115,7 @@ class SalesManagementController extends Controller
         $quantity = $request->quantity;
         $sale_price = $request->sale_price;
         $sale_id = $data->id;
-        $movement = InventoryMovement::where('product_id',$request->product_id)->orderBy('id','DESC')->first();
+        $movement = InventoryMovement::where('product_id',$request->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('id','DESC')->first();
         $inventory = Inventory::where('product_id',$request->product_id)->first();
         
         foreach($items as $index=>$item) {
@@ -130,7 +134,16 @@ class SalesManagementController extends Controller
         $saleData = DB::table('sales')
                         ->where('id',$sale_id)
                         ->update(['quantity' => $qty, 'total' => $price]);
+        
         $moves = SaleItem::where('sales_id',$sale_id)->get();
+        foreach($moves as $index=>$val) {
+            InternalTransfer::create([
+                'product_id' => $val->product_id,
+                'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                'amount' => $val->quantity,
+            ]);
+        };
         foreach($moves as $index=>$val) {
             InventoryMovement::create([
                 'type' => '4',
@@ -139,6 +152,18 @@ class SalesManagementController extends Controller
                 'in' => $movement->rem,
                 'out' => $val->quantity,
                 'rem' => ($movement->rem) - ($val->quantity),
+                'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+            ]);
+        };
+        
+        foreach($moves as $index=>$val) {
+            InventoryMovement::create([
+                'type' => '4',
+                'reference_id' => $data->order_ref,
+                'product_id' => $val->product_id,
+                'in' => $val->quantity,
+                'rem' => $val->quantity,
+                'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
             ]);
         };
         foreach($moves as $index=>$val) {

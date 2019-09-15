@@ -14,13 +14,13 @@ FiberTekno | Produk
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="icon-grid"></i>Produk 
+                        <i class="fa fa-database"></i>Data Produk 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Product
+                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -38,13 +38,14 @@ FiberTekno | Produk
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Product Name</th>
-                                <th>Product Category</th>
-                                <th>Product UOM</th>
-                                <th>Product Image</th>
-                				<th>Created At</th>
-                				<th>Updated At</th>
-                				<th>Action</th>
+                				<th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Satuan</th>
+                                <th>Gambar</th>
+                                <th>Dibuat</th>
+                				<th>Tgl Input</th>
+                				<th>Tgl Update</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -58,16 +59,16 @@ FiberTekno | Produk
                                 </td>
                                 <td>{{ $product->Uoms->name }}</td>
                                 <td><img src="/public/products/{{$product->image}}" width="75" height="100" ></td>
+                                <td>{{ $product->Author->name }}</td>
                 				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($product->updated_at)) }}</td>
                 				<td>
                                     {!! Form::open(['method' => 'GET','route' => ['product-bom.create', $product ->id],'style'=>'display:inline']) !!}
                                     {!! Form::button('<i class="fa fa-sitemap"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Add BoM']) !!}
                                     {!! Form::close() !!}
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ProductManagementController@productBarcode',['id'=>$product->id]) }}" title="Print Barcode"data-toggle="modal" data-target="#modalMd"><i class="fa fa-barcode"></i></a>
                                     <a class="btn btn-xs btn-success" href="{{ route('product.show',$product->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
                                     <a class="btn btn-xs btn-success" href="{{ route('product.edit',$product->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['product.destroy', $product->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['product.destroy', $product->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Product']) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -89,4 +90,14 @@ FiberTekno | Produk
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Are you sure you want to delete?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

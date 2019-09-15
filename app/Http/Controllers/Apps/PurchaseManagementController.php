@@ -38,9 +38,7 @@ class PurchaseManagementController extends Controller
     public function requestCreate()
     {
         $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
-        $products = Product::join('inventories','products.id','=','inventories.product_id')
-                    ->where('inventories.closing_amount','>','min_amount')
-                    ->pluck('products.name','products.id')
+        $products = Product::pluck('products.name','products.id')
                     ->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         return view('apps.input.purchase',compact('suppliers','products','uoms'));

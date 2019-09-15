@@ -38,21 +38,27 @@ Fiber Tekno | Add Sales Order
             		<!--/span-->
             	</div>
             	<div class="row">
-            		<div class="col-md-4">
+            		<div class="col-md-3">
 	            		<div class="form-group">
 	            			<label class="control-label">Discount(Amount)</label>
 	            			{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 	            		</div>
 	            	</div>
-	            	<div class="col-md-4">
+	            	<div class="col-md-3">
 	            		<div class="form-group">
 	            			<label class="control-label">Discount(%)</label>
 	            			{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
 	            		</div>
 	            	</div>
-	            	<div class="col-md-4">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="control-label">Gudang Penjualan</label>
+                    {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                  </div>
+                </div>
+	            	<div class="col-md-3">
 	            		<div class="form-group">
-	            			<label class="control-label">Delivery Date</label>
+	            			<label class="control-label">Tgl Pengiriman</label>
 	            			{!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
 	            		</div>
 	            	</div>
@@ -62,10 +68,10 @@ Fiber Tekno | Add Sales Order
 	            		<table class="table table-striped table-bordered table-hover" id="sample_2">
 	            			<thead>
 	            				<tr>
-	            					<th>Product</th>
-	            					<th>Quantity</th>
-	            					<th>UOM</th>
-	            					<th>Item Price</th>
+	            					<th>Produk</th>
+	            					<th>Jumlah</th>
+	            					<th>Satuan</th>
+	            					<th>Harga</th>
 	            					<th></th>
 	            				</tr>
 	            			</thead>

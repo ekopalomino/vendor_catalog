@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Internal Transfer
+FiberTekno | Mutasi Barang
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@ FiberTekno | Internal Transfer
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Internal Transfer 
+                        <i class="fa fa-database"></i>Data Mutasi Internal 
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -22,7 +22,7 @@ FiberTekno | Internal Transfer
                         <div class="form-group">
                             <tr>
                                 <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Make Transfer </a>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Buat Mutasi </a>
                                 </td>
                             </tr>
                         </div>
@@ -35,26 +35,30 @@ FiberTekno | Internal Transfer
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Add Internal Transfer</h4>
+                                        <h4 class="modal-title">Buat Mutasi Internal</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Product</label>
+                                                    <label class="control-label">Produk</label>
                                                     {!! Form::select('product_id', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">From</label>
+                                                    <label class="control-label">Gudang Asal</label>
                                                     {!! Form::select('from_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">To</label>
+                                                    <label class="control-label">Gudang Tujuan</label>
                                                     {!! Form::select('to_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label">Amount</label>
+                                                    <label class="control-label">Jumlah</label>
                                                     {!! Form::text('amount', null, array('placeholder' => 'Amount','class' => 'form-control')) !!}
+                                                </div>
+                                                 <div class="form-group">
+                                                    <label class="control-label">Satuan</label>
+                                                    {!! Form::select('convert', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                         </div>  
@@ -82,18 +86,24 @@ FiberTekno | Internal Transfer
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                                <th>Ref</th>
-                				<th>Product Name</th>
-                                <th>From</th>
-                                <th>To</th>
-                                <th>Product UOM</th>
-                                <th>Transfer Amount</th>
-                                <th>Created At</th>
-                                <th></th>
+                				<th>Produk</th>
+                                <th>Gudang Asal</th>
+                                <th>Gudang Tujuan</th>
+                                <th>Jumlah</th>
+                                <th>Tgl Dibuat</th>
                 			</tr>
                 		</thead>
                 		<tbody>
-                            
+                            @foreach($data as $key=>$val)
+                            <tr>      
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $val->Products->name }}</td>
+                                <td>{{ $val->From->name }}</td>
+                                <td>{{ $val->To->name }}</td>
+                                <td>{{ $val->amount }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>    
+                            </tr>
+                            @endforeach
                 		</tbody>
                 	</table>
                 </div>

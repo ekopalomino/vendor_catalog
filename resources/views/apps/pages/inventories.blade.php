@@ -18,13 +18,68 @@ FiberTekno | Inventory
                     </div>
                 </div>
                 <div class="portlet-body">
-                	<table class="table table-striped table-bordered table-hover" id="sample_2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <tr>
+                                <td>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Stok Awal </a>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    {!! Form::open(array('route' => 'initial.stock','method'=>'POST')) !!}
+                                    @csrf
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                        <h4 class="modal-title">Add Initial Stock</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Product</label>
+                                                    {!! Form::select('product_id', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Warehouse</label>
+                                                    {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Amount</label>
+                                                    {!! Form::text('amount', null, array('placeholder' => 'Amount','class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                                        <button id="register" type="submit" class="btn green">Save changes</button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (count($errors) > 0) 
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    @endif
+                	<table class="table table-striped table-bordered table-hover" id="sample_1">
                 		<thead>
                 			<tr>
                                 <th>No</th>
                 				<th>Product Name</th>
                                 <th>Product Location</th>
-                                <th>Product UOM</th>
                                 <th>Opening Stock</th>
                                 <th>Closing Stock</th>
                                 <th>Stock Status</th>
@@ -42,7 +97,6 @@ FiberTekno | Inventory
                                     {{ $product->Locations->name }}
                                     @endif
                                 </td>
-                                <td>{{ $product->Products->Uoms->name }}</td>
                                 <td>{{ $product->opening_amount }}</td>
                                 <td>{{ $product->closing_amount }}</td>
                                 <td>

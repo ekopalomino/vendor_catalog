@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Add BoM
+Fiber Tekno | Bill of Material
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@ Fiber Tekno | Add BoM
             <div class="portlet box red ">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i> Add Bill of Material 
+                        <i class="fa fa-database"></i> Form Bill of Material 
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -22,8 +22,8 @@ Fiber Tekno | Add BoM
                         <div class="form-group">
                             <tr>
                                 <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Add Material </a>
-                                    <a button type="close" class="btn green btn-outline sbold" href="{{ route('product.index') }}">Finish</a>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Tambah </a>
+                                    <a button type="close" class="btn green btn-outline sbold" href="{{ route('product.index') }}">Selesai</a>
                                 </td>
                             </tr>
                         </div>
@@ -34,25 +34,25 @@ Fiber Tekno | Add BoM
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Add BoM</h4>
+                                        <h4 class="modal-title">Tambah Data</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Material Name</label>
+                                                    <label class="control-label">Nama Barang</label>
                                                     {!! Form::select('material_id', [null=>'Please Select'] + $materials,[], array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Material Quantity</label>
+                                                    <label class="control-label">Jumlah</label>
                                                     {!! Form::text('quantity', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Material UoM</label>
+                                                    <label class="control-label">Satuan</label>
                                                     {!! Form::select('uom_id', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>
@@ -60,8 +60,8 @@ Fiber Tekno | Add BoM
                                         </div> 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Save changes</button>
+                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Tutup</button>
+                                        <button id="register" type="submit" class="btn green">Simpan</button>
                                     </div>
                                     {!! Form::close() !!}
                                 </div>

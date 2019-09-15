@@ -82,7 +82,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('products/store','Apps\ProductManagementController@productStore')->name('product.store');
     Route::get('products/show/{id}','Apps\ProductManagementController@productShow')->name('product.show');
     Route::get('products/show/print/{id}','Apps\ProductManagementController@productPdf')->name('product.pdf');
-    Route::get('products/barcode/{id}','Apps\ProductManagementController@productBarcode')->name('product.barcode');
+    Route::get('products/barcode','Apps\ProductManagementController@productBarcode')->name('product.barcode');
+    Route::get('products/barcode/pdf','Apps\ProductManagementController@barcodePdf')->name('barcode.pdf');
     Route::get('products/edit/{id}','Apps\ProductManagementController@productEdit')->name('product.edit');
     Route::post('products/update/{id}','Apps\ProductManagementController@productUpdate')->name('product.update');
     Route::post('products/delete/{id}','Apps\ProductManagementController@productDestroy')->name('product.destroy');
@@ -133,6 +134,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
 
     /*-----------------------Inventory Management------------------------------------*/
     Route::get('inventories','Apps\InventoryManagementController@inventoryIndex')->name('inventory.index');
+    Route::post('inventories/initial-stock','Apps\InventoryManagementController@initialStock')->name('initial.stock');
     Route::get('inventories/stockcard/{id}','Apps\InventoryManagementController@stockCard')->name('inventory.card');
     Route::get('inventory/adjustment','Apps\InventoryManagementController@inventoryAdjustIndex')->name('inventory.adjust');
     Route::get('inventory/adjustment/{id}','Apps\InventoryManagementController@makeAdjust')->name('make.adjust');

@@ -70,10 +70,10 @@ FiberTekno | Termin Pembayaran
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Name</th>
-                                <th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                				<th>Nama Termin</th>
+                                <th>Dibuat</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -110,7 +110,7 @@ FiberTekno | Termin Pembayaran
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to delete?");
+    var x = confirm("Yakin Data Akan Dihapus?");
     if (x)
         return true;
     else

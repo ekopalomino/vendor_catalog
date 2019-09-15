@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
-@section('header.title')
-FiberTekno | Manufactures
+@section('header.title') 
+FiberTekno | Produk Barcode
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -11,19 +11,19 @@ FiberTekno | Manufactures
 <div class="page-content">
 	<div class="row">
 		<div class="col-md-12">
-            <div class="portlet box green">
+            <div class="portlet light bordered">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Manufacture Order Data 
+                        <i class="fa fa-database"></i>Produk Barcode 
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <a href="{{ route('barcode.pdf') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print Barcode</button></a>
+                        </div>
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <a href=""><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Order
-                            </button></a>
-                        </div>
-                        @if (count($errors) > 0) 
+                    @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
                                 <ul>
@@ -32,26 +32,17 @@ FiberTekno | Manufactures
                                     @endforeach
                                 </ul>
                         </div>
-                        @endif
+                    @endif
+                    <div class="tiles"> 
+                        @foreach($data as $key=>$val)
+                    	<div class="tile double bg-white-madison">
+                            <div class="tile-body">
+                                <h4 style="color:#000000;">{{ $val->name }}</h4>
+                                <p> <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($val->barcode, 'UPCA')}}" alt="barcode" /> </p>    
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
-                		<thead>
-                			<tr>
-                                <th>No</th>
-                				<th>MO Ref</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Uom</th>
-                                <th>Status</th>
-                				<th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
-                			</tr>
-                		</thead>
-                		<tbody>
-                            
-                		</tbody>
-                	</table>
                 </div>
             </div>
         </div>

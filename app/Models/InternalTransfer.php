@@ -12,4 +12,19 @@ class InternalTransfer extends Model
         'to_id',
         'amount',
     ];
+
+    public function Products()
+    {
+        return $this->belongsTo(Product::class,'product_id');
+    }
+
+    public function From()
+    {
+        return $this->belongsTo(Warehouse::class,'from_id');
+    }
+
+    public function To()
+    {
+        return $this->belongsTo(Warehouse::class,'to_id');
+    }
 }

@@ -11,8 +11,10 @@ use Erp\Models\UomValue;
 use Erp\Models\Warehouse;
 use Erp\Models\Contact;
 use Erp\Models\Inventory;
+use Erp\Models\InventoryMovement;
 use Auth;
 use PDF;
+use File;
 
 class ProductManagementController extends Controller
 {
@@ -161,13 +163,6 @@ class ProductManagementController extends Controller
         }
         
         $data = Product::create($input);
-        $rel = Inventory::create([
-            'product_id' => $data->id,
-            'min_stock' => $data->min_stock,
-            'opening_amount' => 0,
-            'closing_amount' => 0,
-            'status_id' => '72ceba35-758d-4bc2-9295-fd9f9f393c56',
-        ]);
         $log = 'Produk '.($data->name).' berhasil disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -195,11 +190,19 @@ class ProductManagementController extends Controller
         return $pdf->download('product-detail.pdf');
     }
 
-    public function productBarcode($id) 
+    public function productBarcode() 
     {
-        $data = Product::find($id);
+        $data = Product::where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')->get();
         
-        return view('apps.show.productBarcode',compact('data'))->renderSections()['content'];
+        return view('apps.pages.productBarcode',compact('data'));
+    }
+
+    public function barcodePdf()
+    {
+        $data = Product::where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')->orderBy('name','ASC')->get();
+
+        $pdf = PDF::loadview('apps.print.barcode',compact('data'));
+        return $pdf->download('barcode.pdf');
     }
 
     public function productEdit($id)
@@ -277,6 +280,7 @@ class ProductManagementController extends Controller
     public function productDestroy($id)
     {
         $data = Product::find($id);
+        $file = $data->image;
         $log = 'Produk '.($data->name).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -284,6 +288,7 @@ class ProductManagementController extends Controller
             'alert-type' => 'success'
         );
         $data->delete();
+        \File::delete(\public_path('public/products'. $file));
 
         return redirect()->route('product.index')->with($notification);
     }

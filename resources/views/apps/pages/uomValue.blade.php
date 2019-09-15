@@ -53,6 +53,18 @@ FiberTekno | Nilai UOM
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
+                                                    <label class="control-label">Satuan Dasar</label>
+                                                    {!! Form::checkbox('is_parent') !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Parent Satuan</label>
+                                                    {!! Form::select('parent_id', [null=>'Please Select'] + $parents,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
                                                     <label class="control-label">Nilai Satuan</label>
                                                     {!! Form::text('value', null, array('placeholder' => 'Value','class' => 'form-control')) !!}
                                                 </div>
@@ -85,9 +97,9 @@ FiberTekno | Nilai UOM
                 				<th>Nama</th>
                                 <th>Kategori</th>
                                 <th>Nilai</th>
-                                <th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                                <th>Dibuat</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -126,7 +138,7 @@ FiberTekno | Nilai UOM
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to delete?");
+    var x = confirm("Yakin Data Akan Dihapus?");
     if (x)
         return true;
     else

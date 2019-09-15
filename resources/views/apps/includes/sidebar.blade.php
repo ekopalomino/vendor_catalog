@@ -97,7 +97,7 @@
             </li>
             @endcan
             @can('Can Access Products')
-            <li class="nav-item {{ set_active(['product-cat.index','product.index','product.create','product.edit','product-bom.index','product-bom.create','product.show']) }}">
+            <li class="nav-item {{ set_active(['product-cat.index','product.index','product.create','product.edit','product-bom.index','product-bom.create','product.show','product.barcode']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-social-dropbox"></i>
             		<span class="title">Produk</span>
@@ -112,6 +112,11 @@
                     <li class="nav-item {{ set_active(['product-cat.index']) }}">
                 		<a href="{{ route('product-cat.index') }}" class="nav-link ">
                             <span class="title">Kategori Produk</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['product.barcode']) }}">
+                        <a href="{{ route('product.barcode') }}" class="nav-link ">
+                            <span class="title">Produk Barcode</span>
                         </a>
                     </li>
                 </ul>
@@ -180,12 +185,12 @@
                 <ul class="sub-menu">
                 	<li class="nav-item  {{ set_active(['inventory.index']) }}">
                 		<a href="{{ route('inventory.index') }}" class="nav-link ">
-                            <span class="title">Product Stock</span>
+                            <span class="title">Stok Produk</span>
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['inventory.adjust']) }}">
                 		<a href="{{ route('inventory.adjust') }}" class="nav-link ">
-                            <span class="title">Inventory Adjustment</span>
+                            <span class="title">Penyesuaian</span>
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['internal.transfer','receipt.index','delivery.index']) }}">
@@ -206,7 +211,7 @@
                             </li>
                             <li class="nav-item {{ set_active(['internal.transfer']) }}">
                                 <a href="{{ route('internal.transfer') }}" class="nav-link ">
-                                    <span class="title">Internal Transfer</span>
+                                    <span class="title">Mutasi Produk</span>
                                 </a>
                             </li>
                         </ul>

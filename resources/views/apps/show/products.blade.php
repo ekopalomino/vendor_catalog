@@ -30,7 +30,7 @@ FiberTekno | Lihat Produk
 							<div class="portlet-title tabbable-line">
 								<div class="caption caption-md">
                                     <i class="icon-globe theme-font hide"></i>
-                                    <span class="caption-subject font-blue-madison bold uppercase">Product Details</span>
+                                    <span class="caption-subject font-blue-madison bold uppercase">Detail Produk</span>
                                 </div>
                                 <ul class="nav nav-tabs">
                                     <li class="active">
@@ -42,38 +42,34 @@ FiberTekno | Lihat Produk
 								<div class="tab-content">
 									<div class="tab-pane active" id="tab_1_1">
 										<div class="col-md-6">
-											<div class="form-group">
-                                                <label class="control-label">Product SKU :</label>
-                                                <p>{{ $product->product_sku }}</p>
-                                            </div>
                                             <div class="form-group">
-                                                <label class="control-label">Product Barcode :</label>
+                                                <label class="control-label">Barcode :</label>
                                                 <p><img src="data:image/png;base64,{{DNS1D::getBarcodePNG($product->barcode, 'UPCA')}}" alt="barcode" /></p>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">Product Category :</label>
+                                                <label class="control-label">Kategori :</label>
                                                 <p>{{ $product->Categories->name }}</p> 
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">Product UOM :</label>
+                                                <label class="control-label">Satuan :</label>
                                                 <p>{{ $product->Uoms->name }}</p> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
 											<div class="form-group">
-                                                <label class="control-label">Product Supplier :</label>
+                                                <label class="control-label">Supplier :</label>
                                                 <p>{{ $product->Suppliers->name }}</p>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">Product Cost Price :</label>
+                                                <label class="control-label">Harga Modal :</label>
                                                 <p>Rp {{ number_format($product->base_price,2,',','.')}}</p>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">Product Sale Price :</label>
+                                                <label class="control-label">Harga Jual :</label>
                                                 <p>Rp {{ number_format($product->sale_price,2,',','.')}}</p>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label">Last Update :</label>
+                                                <label class="control-label">Update Terakhir :</label>
                                                 <p>{{date("d F Y H:i",strtotime($product->updated_at)) }}</p> 
                                             </div>
                                         </div>
@@ -89,9 +85,9 @@ FiberTekno | Lihat Produk
 		                                        		<thead>
 								                			<tr>
 								                                <th>No</th>
-								                				<th>Material Name</th>
-								                				<th>Quantity</th>
-								                                <th>Material UOM</th>
+								                				<th>Nama Material</th>
+								                				<th>Jumlah</th>
+								                                <th>Satuan</th>
 								                			</tr>
 								                		</thead>
 								                		<tbody>

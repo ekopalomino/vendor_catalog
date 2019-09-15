@@ -14,13 +14,13 @@ FiberTekno | Customer Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Customer Table 
+                        <i class="fa fa-database"></i>Data Customer 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Customer
+                            <a href="{{ route('customer.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Customer Baru
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -38,14 +38,14 @@ FiberTekno | Customer Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                                <th>Customer ID</th>
-                				<th>Name</th>
-                                <th>Company Name</th>
+                                <th>ID Customer</th>
+                				<th>Nama</th>
+                                <th>Perusahaan</th>
                 				<th>Email</th>
-                				<th>Billing Address</th>
+                				<th>Alamat Penagihan</th>
                 				<th>Status</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -57,7 +57,7 @@ FiberTekno | Customer Management
                                 <td>{{ $val->company }}</td>
                                 <td>{{ $val->email }}</td>
                                 <td>{{ $val->billing_address }}</td>
-                				<td><label class="badge badge-info">{{ $val->Statuses->name }}</label></td>
+                				<td><label class="badge badge-success">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success" href="{{ route('customer.show',$val->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
