@@ -30,9 +30,9 @@
 	                	<td>{{ $key+1 }}</td>
 	                	<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
 	                	<td>{{ $val->reference_id}}</td>
-	                	<td>{{ $val->in}}</td>
-	                	<td>{{ $val->out }}</td>
-	                	<td>{{ $val->rem }}</td>
+	                	<td>{{ $val->incoming}}</td>
+	                	<td>{{ $val->outgoing }}</td>
+	                	<td>{{ $val->remaining }}</td>
 	                </tr>
                 	@endforeach
                 </tbody>

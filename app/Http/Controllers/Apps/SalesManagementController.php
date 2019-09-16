@@ -20,7 +20,7 @@ use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
 use Auth;
 use DB;
-use Validator;
+use PDF;
 
 class SalesManagementController extends Controller
 {
@@ -35,8 +35,9 @@ class SalesManagementController extends Controller
     public function index()
     {
         $sales = Sale::orderBy('updated_at','desc')->get();
+        $inventories = Inventory::get();
 
-        return view('apps.pages.sales',compact('sales'));
+        return view('apps.pages.sales',compact('sales','inventories'));
     }
 
     public function addMore()
@@ -115,8 +116,9 @@ class SalesManagementController extends Controller
         $quantity = $request->quantity;
         $sale_price = $request->sale_price;
         $sale_id = $data->id;
-        $movement = InventoryMovement::where('product_id',$request->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('id','DESC')->first();
-        $inventory = Inventory::where('product_id',$request->product_id)->first();
+        $movements = InventoryMovement::where('product_id',$request->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('id','DESC')->get();
+        
+        $stocks = Inventory::where('product_id',$request->product_id)->get();
         
         foreach($items as $index=>$item) {
             $items = SaleItem::create([
@@ -126,6 +128,47 @@ class SalesManagementController extends Controller
                 'sale_price' => $sale_price[$index],
                 'sub_total' => ($sale_price[$index]) * ($quantity[$index]),
             ]);
+            $movements = InventoryMovement::where('product_id',$item)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('id','DESC')->get();
+            $stocks = Inventory::where('product_id',$item)->get();
+            
+            $transfers = InternalTransfer::create([
+                    'product_id' => $item,
+                    'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                    'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                    'amount' => $quantity[$index],
+                ]);
+            $inventories = Inventory::updateorCreate([
+                    'product_id' => $item,
+                    'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e'],[
+                    'min_stock' => $stocks[0]->min_stock,
+                    'opening_amount' =>  $quantity[$index],
+                    'closing_amount' =>  $quantity[$index],
+                    'status_id' => '0',
+                ]);
+            $moveouts = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $data->order_ref,
+                    'product_id' => $item,
+                    'incoming' => '0',
+                    'outgoing' => $quantity[$index],
+                    'remaining' => ($movements[0]->remaining) - ($quantity[$index]),
+                    'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                ]);
+            $moveins = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $data->order_ref,
+                    'product_id' => $item,
+                    'incoming' => $quantity[$index],
+                    'outgoing' => '0', 
+                    'remaining' => $quantity[$index],
+                    'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                ]);
+            $results =  Inventory::where('product_id',$item)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->update([
+                'closing_amount' => ($movements[0]->remaining) - ($quantity[$index]),
+            ]);
+            
         }
         
         $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
@@ -134,43 +177,6 @@ class SalesManagementController extends Controller
         $saleData = DB::table('sales')
                         ->where('id',$sale_id)
                         ->update(['quantity' => $qty, 'total' => $price]);
-        
-        $moves = SaleItem::where('sales_id',$sale_id)->get();
-        foreach($moves as $index=>$val) {
-            InternalTransfer::create([
-                'product_id' => $val->product_id,
-                'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-                'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
-                'amount' => $val->quantity,
-            ]);
-        };
-        foreach($moves as $index=>$val) {
-            InventoryMovement::create([
-                'type' => '4',
-                'reference_id' => $data->order_ref,
-                'product_id' => $val->product_id,
-                'in' => $movement->rem,
-                'out' => $val->quantity,
-                'rem' => ($movement->rem) - ($val->quantity),
-                'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-            ]);
-        };
-        
-        foreach($moves as $index=>$val) {
-            InventoryMovement::create([
-                'type' => '4',
-                'reference_id' => $data->order_ref,
-                'product_id' => $val->product_id,
-                'in' => $val->quantity,
-                'rem' => $val->quantity,
-                'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
-            ]);
-        };
-        foreach($moves as $index=>$val) {
-            Inventory::where('product_id',$val->product_id)->update([
-                'closing_amount' => ($movement->rem) - ($val->quantity),
-            ]);
-        };
         
         return redirect()->route('sales.index');
     }
@@ -182,4 +188,14 @@ class SalesManagementController extends Controller
 
         return view('apps.show.sales',compact('sales','data'));
     }
+
+    public function salesPrint($id) 
+    {
+        $sales = Sale::find($id);
+        $data = SaleItem::where('sales_id',$id)->get();
+
+        $pdf = PDF::loadview('apps.print.sales',compact('data','sales'));
+        return $pdf->download('SO.pdf');
+    }
+
 }

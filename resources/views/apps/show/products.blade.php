@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Lihat Produk
+FiberTekno | Lihat Produk 
 @endsection
 @section('header.plugins')
 <link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />

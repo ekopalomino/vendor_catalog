@@ -24,4 +24,9 @@ class Inventory extends Model
     {
         return $this->belongsTo(Warehouse::class,'warehouse_id');
     }
+
+    public function Statuses()
+    {
+        return $this->belongsTo(Status::class,'status_id');
+    }
 }

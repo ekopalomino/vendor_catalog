@@ -115,6 +115,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('sales','Apps\SalesManagementController@index')->name('sales.index');
     Route::get('sales/orders/create','Apps\SalesManagementController@create')->name('sales.create');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
+    Route::get('products/barcode/pdf/{id}','Apps\SalesManagementController@salesPrint')->name('sales.pdf');
     Route::get('sales/orders/items/create/{id}','Apps\SalesManagementController@createItems')->name('sales.items');
 	Route::post('sales/orders/items/store','Apps\SalesManagementController@storeItems')->name('sales-item.store');
 	Route::get('sales/orders/sum/{id}','Apps\SalesManagementController@updateSo')->name('sales.sum');

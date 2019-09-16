@@ -45,7 +45,7 @@ class InventoryManagementController extends Controller
         $data = InventoryMovement::where('product_id',$source->product_id)
                                 ->where('warehouse_id',$source->warehouse_id)
                                 ->paginate(5);
-       
+        
         return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
     }
 
@@ -54,6 +54,60 @@ class InventoryManagementController extends Controller
         $data = Inventory::orderBy('id','asc')->get();
         
         return view('apps.pages.inventoryAdjustment',compact('data'));
+    }
+
+    public function makeAdjust($id)
+    {
+        $data = Inventory::find($id);
+
+        return view('apps.edit.makeAdjust',compact('data'))->renderSections()['content'];
+    }
+
+    public function storeAdjust(Request $request,$id)
+    {
+        $ref = 'ADJ/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $input = [
+            'reference_id' => $ref,
+            'type' => '1',
+            'inventory_id' => $id,
+            'product_id' => $request->input('product_id'),
+            'warehouse_id' => $request->input('warehouse_id'),
+            'incoming' => $request->input('adjust_amount'),
+            'outgoing' => '0',
+            'remaining' => $request->input('adjust_amount'),
+            'notes' => $request->input('notes'),
+        ];
+        
+        $products = Product::where('id',$request->input('product_id'))->first();
+        
+        if($request->input('adjust_amount') > $products->min_stock) {
+            $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
+                'opening_amount' => $request->input('adjust_amount'),
+                'closing_amount' => $request->input('adjust_amount'),
+                'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
+            ]);
+        } elseif($request->input('adjust_amount') == '0') {
+            $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
+                'opening_amount' => $request->input('adjust_amount'),
+                'closing_amount' => $request->input('adjust_amount'),
+                'status_id' => '72ceba35-758d-4bc2-9295-fd9f9f393c56',
+            ]);
+        } else {
+            $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
+                'opening_amount' => $request->input('adjust_amount'),
+                'closing_amount' => $request->input('adjust_amount'),
+                'status_id' => 'f8b26119-fb0c-40ff-85c0-8fb85696f220',
+            ]);
+        }
+        $movements = InventoryMovement::create($input);
+        $log = 'Stok Adjustment '.($products->name).' Berhasil disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Stok Adjustment '.($products->name).' Berhasil disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('inventory.adjust')->with($notification);
     }
 
     public function initialStock(Request $request)
@@ -86,8 +140,8 @@ class InventoryManagementController extends Controller
                 'reference_id' => 'Initial Stock',
                 'product_id' => $request->input('product_id'),
                 'warehouse_id' => $request->input('warehouse_id'),
-                'in' => $request->input('amount'),
-                'rem' => ($request->input('amount')),
+                'incoming' => $request->input('amount'),
+                'remaining' => ($request->input('amount')),
             ]);
         } elseif ($request->input('amount') < $rel->min_stock) {
             $source = Inventory::create([
@@ -104,8 +158,8 @@ class InventoryManagementController extends Controller
                 'reference_id' => 'Initial Stock',
                 'product_id' => $request->input('product_id'),
                 'warehouse_id' => $request->input('warehouse_id'),
-                'in' => $request->input('amount'),
-                'rem' => ($request->input('amount')),
+                'incoming' => $request->input('amount'),
+                'remaining' => ($request->input('amount')),
             ]);
         } else {
             $source = Inventory::create([
@@ -122,52 +176,12 @@ class InventoryManagementController extends Controller
                 'reference_id' => 'Initial Stock',
                 'product_id' => $request->input('product_id'),
                 'warehouse_id' => $request->input('warehouse_id'),
-                'in' => $request->input('amount'),
-                'rem' => ($request->input('amount')),
+                'incoming' => $request->input('amount'),
+                'remaining' => ($request->input('amount')),
             ]);
         }
         
         return redirect()->route('inventory.index');
-    }
-
-    public function makeAdjust($id)
-    {
-        $data = Inventory::find($id);
-
-        return view('apps.edit.makeAdjust',compact('data'))->renderSections()['content'];
-    }
-
-    public function storeAdjust(Request $request,$id)
-    {
-        $ref = 'ADJ/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-        $input = [
-            'reference_id' => $ref,
-            'type' => '1',
-            'product_id' => $request->input('product_id'),
-            'warehouse_id' => $request->input('warehouse_id'),
-            'in' => $request->input('adjust_amount'),
-            'out' => '0',
-            'rem' => ($request->input('adjust_amount')) - '0',
-            'notes' => $request->input('notes'),
-        ];
-        $data = InventoryMovement::create($input);
-        $rel = Product::where('id',$data->product_id)->first('min_stock');
-
-        if($data->in > $rel->min_stock) {
-            $source = Inventory::where('product_id',$data->product_id)->where('warehouse_id',$data->warehouse_id)->update([
-                'opening_amount' => $data->in,
-                'closing_amount' => $data->in,
-                'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
-            ]);
-        } else {
-            $source = Inventory::where('product_id',$data->product_id)->where('warehouse_id',$data->warehouse_id)->update([
-                'opening_amount' => $data->in,
-                'closing_amount' => $data->in,
-                'status_id' => 'f8b26119-fb0c-40ff-85c0-8fb85696f220',
-            ]);
-        }
-        
-        return redirect()->back();
     }
     
     public function receiptIndex()
@@ -185,24 +199,42 @@ class InventoryManagementController extends Controller
 
         $data = Purchase::where('id',$request->input('order_ref'))->first();
         $items = PurchaseItem::where('purchase_id',$request->input('order_ref'))->get();
-        $moves = InventoryMovement::where('product_id',$items[0]->product_id)->orderBy('created_at','DESC')->first();
         
         $in = Purchase::where('id',$request->input('order_ref'))->update([
             'status' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
         ]);
-        $inv = InventoryMovement::create([
-            'type' => '3',
-            'reference_id' => $data->order_ref,
-            'product_id' => $items[0]->product_id,
-            'warehouse' => $request->input('warehouse_id'),
-            'in' => $items[0]->quantity,
-            'rem' => ($moves->rem) + ($items[0]->quantity),
-        ]);
-        
-        $main = Inventory::where('product_id',$items[0]->product_id)->update([
-            'closing_amount' => $inv->rem,
-        ]);
-
+        foreach($items as $index=>$item) {
+            $sources = Inventory::where('product_id',$item->product_id)->orderBy('updated_at','DESC')->get();
+            $moves = InventoryMovement::where('product_id',$item->product_id)->orderBy('updated_at','DESC')->first();
+            $inventories = Inventory::updateOrCreate([
+                'product_id' => $item->product_id,
+                'warehouse_id' => $request->input('warehouse_id')],[
+                'opening_amount' => ($sources[0]->closing_amount) + ($item->quantity),
+                'closing_amount' => ($sources[0]->closing_amount) + ($item->quantity),
+                'status' => '0',
+            ]);
+            if($moves === null) {
+                $movements = InventoryMovement::create([
+                    'product_id' => $inventories->product_id,
+                    'warehouse_id' => $inventories->warehouse_id,
+                    'type' => '3',
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $data->order_ref,
+                    'incoming' => $item->quantity,
+                    'remaining' => $item->quantity,
+                ]);
+            } else {
+                $movements = InventoryMovement::create([
+                    'product_id' => $inventories->product_id,
+                    'warehouse_id' => $inventories->warehouse_id,
+                    'type' => '3',
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $data->order_ref,
+                    'incoming' => $item->quantity,
+                    'remaining' => ($moves->rem) + ($item->quantity),
+                ]);
+            }
+        }
         return redirect()->route('inventory.index');
     }
 
@@ -252,7 +284,7 @@ class InventoryManagementController extends Controller
             'rem' => ($moves->rem) - ($internal->amount),
         ]);
         Inventory::where('product_id',$internal->product_id)->where('warehouse_id',$internal->from_id)
-                    ->update([
+                    ->updateOrCreate([
                         'closing_amount' => $outake->rem,
                     ]);
 
@@ -266,7 +298,7 @@ class InventoryManagementController extends Controller
             'rem' => ($move->rem) + ($internal->amount),
         ]);
         Inventory::where('product_id',$internal->product_id)->where('warehouse_id',$internal->to_id)
-                    ->update([
+                    ->updateOrCreate([
                         'closing_amount' => $intake->rem,
                     ]);
         
@@ -301,15 +333,21 @@ class InventoryManagementController extends Controller
         $moves = SaleItem::where('sales_id',$salesRefs->id)->get();
         $source = InventoryMovement::where('product_id',$moves[0]->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->orderBy('created_at','DESC')->first();
         foreach($moves as $index=>$val) {
-            InventoryMovement::create([
+            $movements = InventoryMovement::create([
                 'type' => '5',
+                'inventory_id' => $source->inventory_id,
                 'reference_id' => $refs,
                 'product_id' => $val->product_id,
-                'out' => $val->quantity,
-                'rem' => ($source->rem) - ($val->quantity),
+                'outgoing' => $val->quantity,
+                'remaining' => ($source->remaining) - ($val->quantity),
                 'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
             ]);
         };
+        foreach($moves as $index=>$val) {
+            Inventory::where('product_id',$val->product_id)->where('warehouse_id',$movements->warehouse_id)->update([
+                'closing_amount' => $movements->remaining,
+            ]);
+        }
         
         return redirect()->route('delivery.index');
     }

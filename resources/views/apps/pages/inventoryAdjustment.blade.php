@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Inventory Adjustment
+FiberTekno | Penyesuaian Persediaan
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@ FiberTekno | Inventory Adjustment
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Inventory Adjusment
+                        <i class="fa fa-database"></i>Penyesuaian Persediaan
                     </div>
                 </div>
                 <div class="portlet-body">

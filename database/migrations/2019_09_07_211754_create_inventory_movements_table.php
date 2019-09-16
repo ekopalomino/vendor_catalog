@@ -15,12 +15,15 @@ class CreateInventoryMovementsTable extends Migration
     {
         Schema::create('inventory_movements', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('inventory_id')->unsigned();
             $table->uuid('reference_id');
             $table->uuid('product_id');
-            $table->decimal('in',10,2)->nullable();
-            $table->decimal('out',10,2)->nullable();
+            $table->uuid('warehouse_id');
+            $table->decimal('incoming',10,2)->nullable();
+            $table->decimal('outgoing',10,2)->nullable();
+            $table->decimal('remaining',10,2);
             $table->string('notes')->nullable();
-            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('inventory_id')->references('id')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

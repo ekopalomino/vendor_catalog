@@ -10,6 +10,47 @@ FiberTekno | Sales Management
 @section('content')
 <div class="page-content">
 	<div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-database"></i>Data Persediaan Barang 
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped table-bordered table-hover" id="sample_2">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Product Name</th>
+                                <th>Product Location</th>
+                                <th>Jumlah Stok</th>
+                                <th>Status Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($inventories as $key => $val)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $val->Products->name }}</td>
+                                <td>{{ $val->Locations->name}}</td>
+                                <td>{{ number_format($val->closing_amount,2,',','.')}}</td>
+                                <td>
+                                    @if( ($val->status_id) == '72ceba35-758d-4bc2-9295-fd9f9f393c56')
+                                        <label class="badge badge-danger">No Stock</label>
+                                    @elseif(($val->status_id) == 'f8b26119-fb0c-40ff-85c0-8fb85696f220')
+                                        <label class="badge badge-warning">Low On Stock</label>
+                                    @elseif(($val->status_id) == '533806c2-19dc-4b24-886f-d783a8b448b7')
+                                        <label class="badge badge-success">Stock Normal</label>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 		<div class="col-md-12">
             <div class="portlet box green">
                 <div class="portlet-title">

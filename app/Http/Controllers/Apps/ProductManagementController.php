@@ -163,6 +163,14 @@ class ProductManagementController extends Controller
         }
         
         $data = Product::create($input);
+        $stocks = Inventory::create([
+            'product_id' => $data->id,
+            'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+            'min_stock' => $data->min_stock,
+            'opening_amount' => '0',
+            'closing_amount' => '0',
+            'status_id' => '72ceba35-758d-4bc2-9295-fd9f9f393c56',
+        ]);
         $log = 'Produk '.($data->name).' berhasil disimpan';
          \LogActivity::addToLog($log);
         $notification = array (

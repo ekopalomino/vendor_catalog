@@ -1,26 +1,22 @@
-@extends('apps.layouts.main')
-@section('header.title')
-FiberTekno | Sales Order Detail
-@endsection
-@section('header.plugin')
-<link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
 <div class="page-content">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="portlet light portlet-fit portlet-datatable bordered">
 				<div class="portlet-title">
 					<div class="caption">
-						
+						<i class="icon-settings font-dark"></i>
+                        <span class="caption-subject font-dark sbold uppercase"> Order {{$sales->order_ref}}
+                            <span class="hidden-xs">| {{date("d F Y H:i",strtotime($sales->created_at)) }} </span>
+                        </span>
                     </div>
                     <div class="actions">
                         <div class="btn-group">
                             <a href="{{ route('sales.pdf',$sales->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print SO</button></a>
-                            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Tutup</button></a>
                         </div>
                     </div>
                 </div>
@@ -133,8 +129,8 @@ FiberTekno | Sales Order Detail
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="2" style="background:#4B77BE;color: #ffffff;" align="center">Thank You For Your Business!</td>
-                                        <td colspan="3"><strong>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->total,0,',','.')}}</strong></td>
+                                        <td colspan="2">Thank You For Your Business</td>
+                                        <td colspan="3"><strong>TOTAL</strong>Rp {{ number_format($sales->total,0,',','.')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -168,15 +164,5 @@ FiberTekno | Sales Order Detail
         </div>
     </div>
 </div>
-@endsection
-@section('footer.plugins')
-<script src="{{ asset('assets/global/scripts/datatable.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
-@endsection
-@section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/ecommerce-orders-view.min.js') }}" type="text/javascript"></script>
-@endsection
+</body>
+</html>

@@ -22,7 +22,7 @@ FiberTekno | Delivery Order
                         <div class="form-group">
                             <tr>
                                 <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Add Order </a>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Proses SO </a>
                                 </td>
                             </tr>
                         </div>
