@@ -21,6 +21,11 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
+                    <li class="nav-item ">
+                        <a href="" class="nav-link">
+                            <span class="title">Data Perusahaan</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
@@ -229,7 +234,7 @@
                 <ul class="sub-menu">
                     <li class="nav-item {{ set_active(['manufacture.index']) }}">
                         <a href="{{ route('manufacture.index') }}" class="nav-link ">
-                            <span class="title">Manufaktur Orders</span>
+                            <span class="title">Manufacture Orders</span>
                         </a>
                     </li>
                 </ul>

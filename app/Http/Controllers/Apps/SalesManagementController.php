@@ -75,10 +75,12 @@ class SalesManagementController extends Controller
 
     public function create()
     {
+        
         $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
-        $products = Product::join('inventories','products.id','=','inventories.product_id')
+        $prod = Product::first();
+        $products = Product::join('inventories','inventories.product_id','=','products.id')
                     ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
-                    ->where('inventories.closing_amount','>','min_amount')
+                    ->where('inventories.closing_amount','>=',$prod->min_stock)
                     ->pluck('products.name','products.id')
                     ->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
