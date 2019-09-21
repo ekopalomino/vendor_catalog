@@ -14,13 +14,13 @@ FiberTekno | Manufactures
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Manufacture Order Data 
+                        <i class="fa fa-database"></i>Data Manufaktur 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href=""><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Order
+                            <a href="{{ route('manufacture.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Order
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -39,13 +39,13 @@ FiberTekno | Manufactures
                 			<tr>
                                 <th>No</th>
                 				<th>MO Ref</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Uom</th>
+                                <th>Produk</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
                                 <th>Status</th>
-                				<th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                				<th>Dibuat</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>

@@ -78,6 +78,12 @@ Fiber Tekno | Add Product
                             {!! Form::file('image', null, array('placeholder' => 'Product Image','class' => 'form-control')) !!}
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Produk Manufaktur</label>
+                        <div class="col-md-4">
+                            {!! Form::checkbox('is_manufacture') !!}
+                        </div>
+                    </div>
                     <div class="form-actions right">
                         <a button type="button" class="btn default" href="{{ route('product.index') }}">Cancel</a>
                         <button type="submit" class="btn blue">

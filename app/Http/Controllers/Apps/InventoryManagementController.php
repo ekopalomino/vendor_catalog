@@ -241,68 +241,121 @@ class InventoryManagementController extends Controller
     public function internTransfer()
     {
         $data = InternalTransfer::orderBy('created_at','DESC')->get();
+       
+        return view('apps.pages.internalTransfer',compact('data'));
+    }
+
+    public function addTransfer()
+    {
         $locations = Warehouse::pluck('name','id')->toArray();
         $products = Product::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
 
-        return view('apps.pages.internalTransfer',compact('data','locations','products','uoms'));
+        return view('apps.input.internalTransfer',compact('locations','products','uoms'));
     }
 
     public function internStore(Request $request)
     {
-        $this->validate($request, [
-            'product_id' => 'required',
-            'from_id' => 'required',
-            'to_id' => 'required',
-            'amount' => 'required|numeric',
-            'convert' => 'required',
-        ]);
-        $bases = UomValue::where('id',$request->input('convert'))->first();
-       
-        if($bases->is_parent == null) {
-            $convertion = ($request->input('amount')) * ($bases->value); 
-        } else {
-            $convertion = $request->input('amount');
-        }
-        $data = [
-            'product_id' => $request->input('product_id'),
-            'from_id' => $request->input('from_id'),
-            'to_id' => $request->input('to_id'),
-            'amount' => $convertion,
-        ];
-        $internal = InternalTransfer::create($data);
+        $items = $request->product_id;
+        $quantity = $request->quantity;
+        $uom = $request->uom_id;
         $reference = InternalTransfer::count();
         $ref = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-
-        $moves = InventoryMovement::where('product_id',$internal->product_id)->where('warehouse_id',$internal->from_id)->orderBy('created_at','DESC')->first();
-        $outake = InventoryMovement::create([
-            'type' => '4',
-            'reference_id' => $ref,
-            'product_id' => $internal->product_id,
-            'warehouse_id' => $internal->from_id,
-            'out' => $internal->amount,
-            'rem' => ($moves->rem) - ($internal->amount),
-        ]);
-        Inventory::where('product_id',$internal->product_id)->where('warehouse_id',$internal->from_id)
-                    ->updateOrCreate([
-                        'closing_amount' => $outake->rem,
-                    ]);
-
-        $move = InventoryMovement::where('product_id',$internal->product_id)->where('warehouse_id',$internal->to_id)->orderBy('created_at','DESC')->first();
-        $intake = InventoryMovement::create([
-            'type' => '4',
-            'reference_id' => $ref,
-            'product_id' => $internal->product_id,
-            'warehouse_id' => $internal->to_id,
-            'in' => $internal->amount,
-            'rem' => ($move->rem) + ($internal->amount),
-        ]);
-        Inventory::where('product_id',$internal->product_id)->where('warehouse_id',$internal->to_id)
-                    ->updateOrCreate([
-                        'closing_amount' => $intake->rem,
-                    ]);
+        $data = [
+            'order_ref' => $ref,
+            'from_id' => $request->input('from_id'),
+            'to_id' => $request->input('to_id'),
+            'created_by' => auth()->user()->id,
+        ];
+        $internal = InternalTransfer::create($data);
         
-        return redirect()->route('internal.transfer');
+        foreach($items as $index=>$item) {
+            $bases = UomValue::where('id',$uom[$index])->first();
+            if($bases->is_parent == null) {
+                $convertion = ($quantity[$index]) * ($bases->value); 
+            } else {
+                $convertion = $quantity[$index];
+            }
+            $refProduct = Product::where('id',$item)->first();
+            $base = Inventory::where('product_id',$item)->where('warehouse_id',$internal->to_id)->first();
+            $source = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->first();
+            $from = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->from_id)->orderBy('updated_at','DESC')->first();
+            $to = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->to_id)->orderBy('updated_at','DESC')->first();
+            if($base == null) {
+                $dataInvent = Inventory::create([
+                    'product_id' => $item,
+                    'warehouse_id' => $internal->to_id,
+                    'min_stock' => $refProduct->min_stock,
+                    'opening_amount' => $convertion,
+                    'closing_amount' => $convertion,
+                ]);
+                $outcome = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $dataInvent->id,
+                    'reference_id' => $ref,
+                    'product_id' => $dataInvent->product_id,
+                    'warehouse_id' => $from->warehouse_id,
+                    'incoming' => '0',
+                    'outgoing' => $convertion,
+                    'remaining' => ($from->remaining) - ($convertion),
+                ]);
+
+                $income = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $dataInvent->id,
+                    'reference_id' => $ref,
+                    'product_id' => $dataInvent->product_id,
+                    'warehouse_id' => $dataInvent->warehouse_id,
+                    'incoming' => $convertion,
+                    'outgoing' => '0',
+                    'remaining' => $convertion,
+                ]);
+                $updateInvent = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->update([
+                    'closing_amount' => ($source->closing_amount) - ($convertion),
+                ]);
+            } else {
+                $dataInvent = $base->update([
+                    'closing_amount' => ($base->closing_amount) + ($convertion),
+                ]);
+                $outcome = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $base->id,
+                    'reference_id' => $ref,
+                    'product_id' => $base->product_id,
+                    'warehouse_id' => $from->warehouse_id,
+                    'incoming' => '0',
+                    'outgoing' => $convertion,
+                    'remaining' => ($from->remaining) - ($convertion),
+                ]);
+
+                $income = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $base->id,
+                    'reference_id' => $ref,
+                    'product_id' => $base->product_id,
+                    'warehouse_id' => $base->warehouse_id,
+                    'incoming' => ($to->remaining) + ($convertion),
+                    'outgoing' => '0',
+                    'remaining' => ($to->remaining) + ($convertion),
+                ]);
+                $updateInvent = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->update([
+                    'closing_amount' => ($source->closing_amount) - ($convertion),
+                ]);
+
+            }
+        }
+        
+        return redirect()->route('transfer.index');
+    }
+
+    public function transferAccept(Request $request,$id)
+    {
+        $data = InternalTransfer::find($id);
+        $accept = $data->update([
+            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+        ]);
+
+        return redirect()->route('transfer.index');
     }
 
     public function deliveryIndex()

@@ -181,7 +181,7 @@
             </li>
             @endcan
             @can('Can Access Inventories')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','internal.transfer','receipt.index','delivery.index','inventory.card']) }}">
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','transfer.index','receipt.index','delivery.index','inventory.card','add.transfer']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Persediaan</span>
@@ -198,7 +198,7 @@
                             <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['internal.transfer','receipt.index','delivery.index']) }}">
+                    <li class="nav-item {{ set_active(['transfer.index','receipt.index','delivery.index','add.transfer']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Pergerakan Stok</span>
                             <span class="arrow"></span>
@@ -214,8 +214,8 @@
                                     <span class="title">Pengiriman</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ set_active(['internal.transfer']) }}">
-                                <a href="{{ route('internal.transfer') }}" class="nav-link ">
+                            <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
+                                <a href="{{ route('transfer.index') }}" class="nav-link ">
                                     <span class="title">Mutasi Internal</span>
                                 </a>
                             </li>
@@ -225,14 +225,19 @@
             </li>
             @endcan
             @can('Can Access Manufactures')
-            <li class="nav-item {{ set_active(['manufacture.index']) }}">
+            <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
                     <span class="title">Manufaktur</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['manufacture.index']) }}">
+                    <li class="nav-item {{ set_active(['manufacture-request.index']) }}">
+                        <a href="{{ route('manufacture-request.index') }}" class="nav-link ">
+                            <span class="title">Manufacture Request</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['manufacture.index','manufacture.create']) }}">
                         <a href="{{ route('manufacture.index') }}" class="nav-link ">
                             <span class="title">Manufacture Orders</span>
                         </a>

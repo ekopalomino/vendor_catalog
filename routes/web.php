@@ -140,16 +140,21 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventory/adjustment','Apps\InventoryManagementController@inventoryAdjustIndex')->name('inventory.adjust');
     Route::get('inventory/adjustment/{id}','Apps\InventoryManagementController@makeAdjust')->name('make.adjust');
     Route::post('inventory/adjustment/store/{id}','Apps\InventoryManagementController@storeAdjust')->name('store.adjust');
-    Route::get('inventories/internal-transfer','Apps\InventoryManagementController@transferIndex')->name('trans.index');
+    Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('transfer.index');
+    Route::get('inventories/internal-transfer/create','Apps\InventoryManagementController@addTransfer')->name('add.transfer');
+    Route::post('inventories/internal-transfer/store','Apps\InventoryManagementController@internStore')->name('store.transfer');
+    Route::post('inventories/internal-transfer/accept','Apps\InventoryManagementController@transferAccept')->name('transfer.accept');
     Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
     Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
-    Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('internal.transfer');
-    Route::post('inventories/internal-transfer/create','Apps\InventoryManagementController@internStore')->name('internal.store');
     Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
     Route::post('inventories/delivery-order/create','Apps\InventoryManagementController@deliveryOrder')->name('delivery.process');
     Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
     /*-----------------------End Inventory Management------------------------------------*/
 
     /*-----------------------Manufacture Management------------------------------------*/
+    Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
     Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
+    Route::post('manufactures/request/create','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
+    Route::get('manufactures/request/check-stock/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture.stocker');
+    Route::post('manufactures/order/create/{id}','Apps\ManufactureManagementController@makeManufacture')->name('make.manufacture');
 });

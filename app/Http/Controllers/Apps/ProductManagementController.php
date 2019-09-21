@@ -146,6 +146,7 @@ class ProductManagementController extends Controller
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
+                'is_manufacture' => $request->input('is_manufacture'),
                 'created_by' => auth()->user()->id,
             ];
         } else {
@@ -158,6 +159,7 @@ class ProductManagementController extends Controller
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
+                'is_manufacture' => $request->input('is_manufacture'),
                 'created_by' => auth()->user()->id,
             ];
         }
@@ -258,6 +260,7 @@ class ProductManagementController extends Controller
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
+                'is_manufacture' => $request->input('is_manufacture'),
                 'updated_by' => auth()->user()->id,
             ];
         } else {
@@ -270,6 +273,7 @@ class ProductManagementController extends Controller
                 'min_stock' => $request->input('min_stock'),
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
+                'is_manufacture' => $request->input('is_manufacture'),
                 'updated_by' => auth()->user()->id,
             ];
         }

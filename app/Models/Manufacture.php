@@ -11,10 +11,10 @@ class Manufacture extends Model
 
     protected $fillable = [
         'order_ref',
+        'type_id',
         'product_id',
-        'uom_id',
         'quantity',
-        'deadline',
+        'uom_id',
         'status_id',
         'warehouse_id',
         'created_by',
@@ -33,23 +33,28 @@ class Manufacture extends Model
         return $this->belongsTo(User::class,'updated_by');
     }
 
-    public function Uoms()
-    {
-        return $this->belongsTo(UomValue::class,'uom_id');
-    }
-
     public function Products()
     {
         return $this->belongsTo(Product::class,'product_id');
     }
 
-    public function Items()
+    public function Child()
     {
-        return $this->hasMany(ManufactureItem::class);
+        return $this->hasMany(ManufactureItem::class,'manufacture_id');
     }
 
     public function Locations()
     {
         return $this->belongsTo(Warehouse::class,'warehouse_id');
+    }
+
+    public function Uoms()
+    {
+        return $this->belongsTo(UomValue::class,'uom_id');
+    }
+
+    public function Statuses()
+    {
+        return $this->belongsTo(Status::class,'status_id');
     }
 }

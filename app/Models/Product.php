@@ -20,6 +20,7 @@ class Product extends Model
         'base_price',
         'sale_price',
         'active',
+        'is_manufacture',
         'created_by',
         'updated_by',
     ];
