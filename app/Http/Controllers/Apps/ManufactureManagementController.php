@@ -13,6 +13,7 @@ use Erp\Models\InternalTransfer;
 use Erp\Models\Manufacture;
 use Erp\Models\ManufactureItem;
 use Erp\Models\UomValue;
+use Erp\Models\Sale;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -22,16 +23,16 @@ class ManufactureManagementController extends Controller
 {
     public function index()
     {
-        return view ('apps.pages.manufacture');
+        $data = Manufacture::where('status_id','!=','5bc79891-e396-4792-a0f3-617ece2a00ce')->get();
+       
+        return view ('apps.pages.manufacture',compact('data'));
     }
 
     public function requestIndex()
     {
-        $data = Manufacture::where('type_id','1')->get();
-        $products = Product::where('is_manufacture','1')->pluck('name','id')->toArray();
-        $uoms = UomValue::pluck('name','id')->toArray();
-
-        return view('apps.pages.manufactureRequest',compact('data','products','uoms'));
+        $data = Manufacture::where('status_id','5bc79891-e396-4792-a0f3-617ece2a00ce')->get();
+        
+        return view('apps.pages.manufactureRequest',compact('data'));
     }
 
     public function manufactureRequest()
@@ -40,61 +41,73 @@ class ManufactureManagementController extends Controller
         return view('apps.input.manufactureRequest',compact('products'));
     }
 
+    public function createRequest()
+    {
+        $orders  = Sale::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->pluck('order_ref','id')->toArray();
+        $products = Product::where('is_manufacture','1')->pluck('name','id')->toArray();
+        $uoms = UomValue::pluck('name','id')->toArray();
+
+        return view('apps.input.manufactureRequest',compact('orders','products','uoms'));
+    }
+
     public function storeRequest(Request $request)
     {
-        $this->validate($request, [
-            'product_id' => 'required',
-            'quantity' => 'required|numeric',
-            'uom_id' => 'required',
-        ]);
-        $latestOrder = Manufacture::where('type_id','1')->count();
+        $latestOrder = Manufacture::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
         $ref = 'MR/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $input = [
-            'type_id' => '1',
             'order_ref' => $ref,
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'uom_id' => $request->input('uom_id'),
+            'sales_order' => $request->input('sales_order'),
+            'deadline' => $request->input('deadline'),
             'status_id' => '5bc79891-e396-4792-a0f3-617ece2a00ce',
             'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
             'created_by' => auth()->user()->id,
         ];
 
         $data = Manufacture::create($input);
+        $items = $request->product_id;
+        $quantity = $request->quantity;
+        $uoms = $request->uom_id;
 
-        $details = ProductBom::join('inventories','inventories.product_id','=','product_boms.material_id')
-                    ->where('inventories.warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')
-                    ->where('product_boms.product_id','=',$data->product_id)
-                    ->get();
-        foreach($details as $item) {
-            $bases = UomValue::where('id',$data->uom_id)->first();
+        foreach($items as $index=>$item) {
+            $bases = UomValue::where('id',$uoms[$index])->first();
             if($bases->is_parent == null) {
-                ManufactureItem::create([
-                    'manufacture_id' => $data->id,
-                    'item_id' => $item->material_id,
-                    'quantity' => ($data->quantity * $bases->value) * $item->quantity,
-                    'uom_id' => $item->uom_id,
-                ]);
+                $convertion = ($quantity[$index]) * ($bases->value); 
             } else {
-                ManufactureItem::create([
-                    'manufacture_id' => $data->id,
-                    'item_id' => $item->material_id,
-                    'quantity' => $data->quantity * $item->quantity,
-                    'uom_id' => $item->uom_id,
-                ]);
+                $convertion = $quantity[$index];
             }
+            $details = ManufactureItem::create([
+                'manufacture_id' => $data->id,
+                'item_id' => $item,
+                'quantity' => $convertion,
+                'uom_id' => $uoms[$index],
+            ]);
         }
 
         return redirect()->route('manufacture-request.index');
     }
 
+    public function approveRequest($id)
+    {
+        $latestOrder = Manufacture::where('status_id','45e139a2-a423-46ef-8901-d07b25b461a3')->count();
+        $ref = 'MO/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $data = Manufacture::find($id);
+        $accept = $data->update([
+            'order_ref' => $ref,
+            'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
+        ]);
+
+        return redirect()->route('manufacture.index');
+    }
+
     public function checkStock($id)
     {
-        $details = ManufactureItem::join('inventories','inventories.product_id','=','manufacture_items.item_id')
-                    ->where('manufacture_items.manufacture_id','=',$id)
-                    ->get();
+        $data = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_id')
+                                ->join('inventories','inventories.product_id','=','product_boms.material_id')
+                                ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
+                                ->where('manufacture_items.manufacture_id',$id)
+                                ->get();
         
-        return view('apps.show.manufactureStock',compact('details'))->renderSections()['content'];
+        return view('apps.show.manufactureStock',compact('data'))->renderSections()['content'];
     }
 
     public function makeManufacture(Request $request,$id)

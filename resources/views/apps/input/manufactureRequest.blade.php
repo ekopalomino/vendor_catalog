@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Add Sales Order
+Fiber Tekno | Buat Permintaan Manufaktur
 @endsection
 @section('header.plugins')
 <link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
@@ -11,7 +11,7 @@ Fiber Tekno | Add Sales Order
     <div class="portlet box red ">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-database"></i> Form Sales Order 
+                <i class="fa fa-database"></i> Form Permintaan Manufaktur 
             </div>
         </div>
         <div class="portlet-body form">
@@ -25,23 +25,22 @@ Fiber Tekno | Add Sales Order
                 </ul>
             </div>
             @endif
-            {!! Form::open(array('route' => 'sales.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
+            {!! Form::open(array('route' => 'manufacture-request.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
             @csrf
             <div class="form-body">
             	<div class="row">
             		<div class="col-md-5">
             			<div class="form-group">
-            				<label class="control-label">Customer</label>
-            				{!! Form::select('client_code', [null=>'Please Select'] + $customers,[], array('class' => 'form-control')) !!}
+            				<label class="control-label">Sales Order</label>
+            				{!! Form::select('sales_order', [null=>'Please Select'] + $orders,[], array('class' => 'form-control')) !!}
             			</div>
             		</div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label class="control-label">Tgl Pengiriman</label>
-                    {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
-                  </div>
-                </div>
-            		<!--/span-->
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="control-label">Deadline</label>
+                            {!! Form::date('deadline', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+                        </div>
+                    </div>
             	</div>            		
             	<div class="row">
             		<div class="col-md-12">
@@ -51,8 +50,6 @@ Fiber Tekno | Add Sales Order
 	            					<th>Produk</th>
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
-	            					<th>Harga</th>
-                                    <th>Diskon (Rp)</th>
 	            					<th></th>
 	            				</tr>
 	            			</thead>
@@ -61,8 +58,6 @@ Fiber Tekno | Add Sales Order
 	            					<td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::text('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control','required')) !!}</td>
-                            <td>{!! Form::text('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control','required')) !!}</td>
                     				<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
 	            				</tr>
 	            			</tbody>
@@ -70,7 +65,7 @@ Fiber Tekno | Add Sales Order
 	            	</div>
             	</div>
             	<div class="form-actions right">
-                    <a button type="button" class="btn default" href="{{ route('sales.index') }}">Cancel</a>
+                    <a button type="button" class="btn default" href="{{ route('manufacture-request.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">
                     <i class="fa fa-check"></i> Save</button>
                 </div>
@@ -92,7 +87,7 @@ Fiber Tekno | Add Sales Order
       var i=1;  
       $('#add').click(function(){  
            i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td><td>{!! Form::text('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });  
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   

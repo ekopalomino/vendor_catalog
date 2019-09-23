@@ -60,9 +60,9 @@ FiberTekno | Mutasi Barang
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\InventoryManagementController@transferView',['id'=>$val->id]) }}" title="Transfer Detail" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\InventoryManagementController@transferView',['id'=>$val->id]) }}" title="Detail Mutasi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
                                     {!! Form::open(['method' => 'POST','route' => ['transfer.accept', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Suspend User']) !!}
+                                    {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Mutasi']) !!}
                                     {!! Form::close() !!}
                                 </td>    
                             </tr>
@@ -86,7 +86,7 @@ FiberTekno | Mutasi Barang
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Internal Transfer Diterima?");
+    var x = confirm("Mutasi Barang Diterima?");
     if (x)
         return true;
     else

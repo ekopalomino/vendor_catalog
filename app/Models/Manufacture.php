@@ -10,11 +10,9 @@ class Manufacture extends Model
     use Uuid;
 
     protected $fillable = [
+        'sales_order',
         'order_ref',
-        'type_id',
-        'product_id',
-        'quantity',
-        'uom_id',
+        'deadline',
         'status_id',
         'warehouse_id',
         'created_by',

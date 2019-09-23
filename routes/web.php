@@ -154,10 +154,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
 
     /*-----------------------Manufacture Management------------------------------------*/
     Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
-    Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
-    Route::post('manufactures/request/create','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
+    Route::get('manufactures/request/create','Apps\ManufactureManagementController@createRequest')->name('manufacture-request.create');
+    Route::post('manufactures/request/store','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
+    Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
     Route::get('manufactures/request/check-stock/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture.stocker');
     Route::post('manufactures/order/create/{id}','Apps\ManufactureManagementController@makeManufacture')->name('make.manufacture');
+    Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
     /*-----------------------End Manufacture Management------------------------------------*/
 
     /*-----------------------Reports Management------------------------------------*/

@@ -14,14 +14,14 @@
                 	</tr>
                 </thead>
                 <tbody>
-                	@foreach($details as $key=>$val)
+                	@foreach($data as $key=>$val)
                 	<tr>
-	                	<td>{{ $val->Items->name }}</td>
-	                	<td>{{ $val->quantity}}</td>
+	                	<td>{{ $val->material_id }}</td>
+	                	<td>{{ $val->quantity * $val->qty }}</td>
 	                	<td>{{ $val->closing_amount }}</td>
                         <td>{{ $val->Uoms->name}}</td>
 	                	<td>
-                            @if(($val->quantity) > ($val->closing_amount))
+                            @if((($val->quantity) * ($val->qty)) > ($val->closing_amount))
                             <label class="badge badge-danger">Stok Tidak Cukup
                             @else      
                             <label class="badge badge-success">Stok Cukup

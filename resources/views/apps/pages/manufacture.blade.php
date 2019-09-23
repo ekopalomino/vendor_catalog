@@ -18,30 +18,13 @@ FiberTekno | Manufactures
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <a href="{{ route('manufacture.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Order
-                            </button></a>
-                        </div>
-                        @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                        @endif
-                    </div>
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
                 				<th>MO Ref</th>
-                                <th>Produk</th>
-                                <th>Jumlah</th>
-                                <th>Satuan</th>
+                                <th>Sales Ref</th>
+                                <th>Deadline</th>
                                 <th>Status</th>
                 				<th>Dibuat</th>
                 				<th>Tgl Dibuat</th>
@@ -49,7 +32,18 @@ FiberTekno | Manufactures
                 			</tr>
                 		</thead>
                 		<tbody>
-                            
+                            @foreach($data as $key=>$val)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $val->order_ref }}</td>
+                                <td>{{ $val->sales_order }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->deadline)) }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @endforeach
                 		</tbody>
                 	</table>
                 </div>

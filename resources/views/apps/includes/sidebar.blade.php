@@ -225,14 +225,14 @@
             </li>
             @endcan
             @can('Can Access Manufactures')
-            <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index']) }}">
+            <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index','manufacture-request.create']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
                     <span class="title">Manufaktur</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['manufacture-request.index']) }}">
+                    <li class="nav-item {{ set_active(['manufacture-request.index','manufacture-request.create']) }}">
                         <a href="{{ route('manufacture-request.index') }}" class="nav-link ">
                             <span class="title">Manufacture Request</span>
                         </a>

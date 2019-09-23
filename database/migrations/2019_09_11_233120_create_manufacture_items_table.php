@@ -18,6 +18,7 @@ class CreateManufactureItemsTable extends Migration
             $table->uuid('manufacture_id');
             $table->uuid('item_id');
             $table->decimal('quantity',50,2);
+            $table->uuid('uom_id');
             $table->foreign('manufacture_id')->references('id')->on('manufactures')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

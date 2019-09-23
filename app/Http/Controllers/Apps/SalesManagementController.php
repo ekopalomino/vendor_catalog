@@ -36,8 +36,10 @@ class SalesManagementController extends Controller
     public function index()
     {
         $sales = Sale::orderBy('updated_at','desc')->get();
-        $inventories = Inventory::get();
-
+        $inventories = Inventory::join('products','products.id','=','inventories.product_id')
+                                ->where('products.is_sale','1')
+                                ->get();
+        
         return view('apps.pages.sales',compact('sales','inventories'));
     }
 

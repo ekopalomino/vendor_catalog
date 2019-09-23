@@ -15,13 +15,11 @@ class CreateManufacturesTable extends Migration
     {
         Schema::create('manufactures', function (Blueprint $table) {
             $table->uuid('id');
+            $table->uuid('sales_order');
             $table->string('order_ref');
-            $table->uuid('product_id');
-            $table->uuid('uom_id');
-            $table->decimal('quantity',50,2);
             $table->date('deadline');
             $table->uuid('status_id')->default('8083f49e-f0aa-4094-894f-f64cd2e9e4e9');
-            $table->uuid('warehouse_id')->nullable();
+            $table->uuid('warehouse_id');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->primary('id');

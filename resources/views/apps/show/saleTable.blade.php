@@ -39,7 +39,7 @@ FiberTekno | Tabel Penjualan
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->Customers->name }}</td>
-                                <td>{{ $val->quantity }}</td>
+                                <td>{{ number_format($val->quantity,0,',','.')}}</td>
                                 <td>{{ number_format($val->total,2,',','.')}}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->delivery_date)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
