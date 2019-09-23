@@ -9,6 +9,7 @@ use Erp\Models\Inventory;
 use Erp\Models\InventoryMovement;
 use Erp\Models\Warehouse;
 use Erp\Models\InternalTransfer;
+use Erp\Models\InternalItems;
 use Erp\Models\Purchase;
 use Erp\Models\PurchaseItem;
 use Erp\Models\Delivery;
@@ -79,111 +80,22 @@ class InventoryManagementController extends Controller
         ];
         
         $products = Product::where('id',$request->input('product_id'))->first();
+        $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
+            'opening_amount' => $request->input('adjust_amount'),
+            'closing_amount' => $request->input('adjust_amount'),
+        ]);
         
-        if($request->input('adjust_amount') > $products->min_stock) {
-            $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
-                'opening_amount' => $request->input('adjust_amount'),
-                'closing_amount' => $request->input('adjust_amount'),
-                'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
-            ]);
-        } elseif($request->input('adjust_amount') == '0') {
-            $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
-                'opening_amount' => $request->input('adjust_amount'),
-                'closing_amount' => $request->input('adjust_amount'),
-                'status_id' => '72ceba35-758d-4bc2-9295-fd9f9f393c56',
-            ]);
-        } else {
-            $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
-                'opening_amount' => $request->input('adjust_amount'),
-                'closing_amount' => $request->input('adjust_amount'),
-                'status_id' => 'f8b26119-fb0c-40ff-85c0-8fb85696f220',
-            ]);
-        }
         $movements = InventoryMovement::create($input);
-        $log = 'Stok Adjustment '.($products->name).' Berhasil disimpan';
+        $log = 'Stok '.($products->name).' Berhasil Disesuaikan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Stok Adjustment '.($products->name).' Berhasil disimpan',
+            'message' => 'Stok '.($products->name).' Berhasil Disesuaikan',
             'alert-type' => 'success'
         );
 
         return redirect()->route('inventory.adjust')->with($notification);
     }
 
-    public function initialStock(Request $request)
-    {
-        $this->validate($request, [
-            'product_id' => 'required',
-            'warehouse_id' => 'required',
-            'amount' => 'required|numeric',
-        ]);
-
-        $input = [
-            'product_id' => $request->input('product_id'),
-            'warehouse_id' => $request->input('warehouse_id'),
-            'opening_amount' => $request->input('amount'),
-        ];
-        
-        $rel = Product::where('id',$request->input('product_id'))->first();
-        if($request->input('amount') > $rel->min_stock) {
-            $source = Inventory::create([
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
-                'opening_amount' => $request->input('amount'),
-                'closing_amount' => $request->input('amount'),
-                'min_stock' => $rel->min_stock,
-                'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
-            ]);
-
-            $moves = InventoryMovement::create([
-                'type' => '0',
-                'reference_id' => 'Initial Stock',
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
-                'incoming' => $request->input('amount'),
-                'remaining' => ($request->input('amount')),
-            ]);
-        } elseif ($request->input('amount') < $rel->min_stock) {
-            $source = Inventory::create([
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
-                'opening_amount' => $request->input('amount'),
-                'closing_amount' => $request->input('amount'),
-                'min_stock' => $rel->min_stock,
-                'status_id' => 'f8b26119-fb0c-40ff-85c0-8fb85696f220',
-            ]);
-
-            $moves = InventoryMovement::create([
-                'type' => '0',
-                'reference_id' => 'Initial Stock',
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
-                'incoming' => $request->input('amount'),
-                'remaining' => ($request->input('amount')),
-            ]);
-        } else {
-            $source = Inventory::create([
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
-                'opening_amount' => $request->input('amount'),
-                'closing_amount' => $request->input('amount'),
-                'min_stock' => $rel->min_stock,
-                'status_id' => '72ceba35-758d-4bc2-9295-fd9f9f393c56',
-            ]);
-
-            $moves = InventoryMovement::create([
-                'type' => '0',
-                'reference_id' => 'Initial Stock',
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => $request->input('warehouse_id'),
-                'incoming' => $request->input('amount'),
-                'remaining' => ($request->input('amount')),
-            ]);
-        }
-        
-        return redirect()->route('inventory.index');
-    }
-    
     public function receiptIndex()
     {
         $data = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
@@ -235,7 +147,14 @@ class InventoryManagementController extends Controller
                 ]);
             }
         }
-        return redirect()->route('inventory.index');
+        $log = 'Pembelian '.($in->order_ref).' Berhasil Diterima';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pembelian '.($in->order_ref).' Berhasil Diterima',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('inventory.index')->with($notification);
     }
 
     public function internTransfer()
@@ -281,6 +200,12 @@ class InventoryManagementController extends Controller
             $source = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->first();
             $from = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->from_id)->orderBy('updated_at','DESC')->first();
             $to = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->to_id)->orderBy('updated_at','DESC')->first();
+            $items = InternalItems::create([
+                'product_id' => $item,
+                'mutasi_id' => $internal->id,
+                'quantity' => $quantity[$index],
+                'uom_id' => $uom[$index],
+            ]);
             if($base == null) {
                 $dataInvent = Inventory::create([
                     'product_id' => $item,
@@ -334,7 +259,7 @@ class InventoryManagementController extends Controller
                     'reference_id' => $ref,
                     'product_id' => $base->product_id,
                     'warehouse_id' => $base->warehouse_id,
-                    'incoming' => ($to->remaining) + ($convertion),
+                    'incoming' => $convertion,
                     'outgoing' => '0',
                     'remaining' => ($to->remaining) + ($convertion),
                 ]);
@@ -344,18 +269,40 @@ class InventoryManagementController extends Controller
 
             }
         }
+        $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat',
+            'alert-type' => 'success'
+        );
         
-        return redirect()->route('transfer.index');
+        return redirect()->route('transfer.index')->with($notification);
+    }
+
+    public function transferView($id)
+    {
+        $data = InternalTransfer::join('inventory_movements','inventory_movements.reference_id','=','internal_transfers.order_ref')
+                                ->where('internal_transfers.id',$id)
+                                ->get();
+        dd($data);
+        return view('apps.show.internalTransfer',compact('data'))->renderSections()['content'];
     }
 
     public function transferAccept(Request $request,$id)
     {
         $data = InternalTransfer::find($id);
         $accept = $data->update([
-            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+            'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
+            'updated_by' => auth()->user()->id,
         ]);
+        $log = 'Internal Transfer '.($data->order_ref).' Berhasil Diterima';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Internal Transfer '.($data->order_ref).' Berhasil Diterima',
+            'alert-type' => 'success'
+        );
 
-        return redirect()->route('transfer.index');
+        return redirect()->route('transfer.index')->with($notification);
     }
 
     public function deliveryIndex()
@@ -401,8 +348,15 @@ class InventoryManagementController extends Controller
                 'closing_amount' => $movements->remaining,
             ]);
         }
+
+        $log = 'Delivery Order '.($orders->order_ref).' Berhasil Dibuat';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Delivery Order '.($orders->order_ref).' Berhasil Dibuat',
+            'alert-type' => 'success'
+        );
         
-        return redirect()->route('delivery.index');
+        return redirect()->route('delivery.index')->with($notification);
     }
 
     public function deliveryDone(Request $request,$id)
@@ -416,8 +370,15 @@ class InventoryManagementController extends Controller
         $sales = Sale::where('order_ref',$source->sales_ref)->update([
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
         ]);
+
+        $log = 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan',
+            'alert-type' => 'success'
+        );
     
-        return redirect()->route('delivery.index');
+        return redirect()->route('delivery.index')->wiht($notification);
     }
 
 }

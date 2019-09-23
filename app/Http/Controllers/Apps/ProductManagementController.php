@@ -147,6 +147,7 @@ class ProductManagementController extends Controller
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
+                'is_sale' => $request->input('is_sale'),
                 'created_by' => auth()->user()->id,
             ];
         } else {
@@ -160,6 +161,7 @@ class ProductManagementController extends Controller
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
+                'is_sale' => $request->input('is_sale'),
                 'created_by' => auth()->user()->id,
             ];
         }
@@ -261,6 +263,7 @@ class ProductManagementController extends Controller
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
+                'is_sale' => $request->input('is_sale'),
                 'updated_by' => auth()->user()->id,
             ];
         } else {
@@ -274,6 +277,7 @@ class ProductManagementController extends Controller
                 'base_price' => $request->input('base_price'),
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
+                'is_sale' => $request->input('is_sale'),
                 'updated_by' => auth()->user()->id,
             ];
         }

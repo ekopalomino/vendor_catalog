@@ -15,6 +15,7 @@ use Erp\Models\PaymentMethod;
 use Erp\Models\PaymentTerm;
 use Erp\Models\Warehouse;
 use Erp\Models\InternalTransfer;
+use Erp\Models\InternalItems;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -40,45 +41,13 @@ class SalesManagementController extends Controller
         return view('apps.pages.sales',compact('sales','inventories'));
     }
 
-    public function addMore()
-    {
-        return view('apps.pages.salesNew');
-    }
-
-    public function addMoreItem(Request $request)
-    {
-        $rules = [];
-
-
-        foreach($request->input('product_id') as $key => $value) {
-            $rules["product_id.{$key}"] = 'required';
-        }
-
-
-        $validator = Validator::make($request->all(), $rules);
-
-
-        if ($validator->passes()) {
-
-
-            foreach($request->input('product_id') as $key => $value) {
-                TagList::create(['product_id'=>$value]);
-            }
-
-
-            return response()->json(['success'=>'done']);
-        }
-
-
-        return response()->json(['error'=>$validator->errors()->all()]);
-    }
-
     public function create()
     {
         
         $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
         $prod = Product::first();
         $products = Product::join('inventories','inventories.product_id','=','products.id')
+                    ->where('products.is_sale','=','1')
                     ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
                     ->where('inventories.closing_amount','>=',$prod->min_stock)
                     ->pluck('products.name','products.id')
@@ -113,16 +82,33 @@ class SalesManagementController extends Controller
         ];
         
         $data = Sale::create($input);
-
+        $reference = InternalTransfer::count();
+        $refs = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $transfers = InternalTransfer::create([
+            'order_ref' => $refs,
+            'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+            'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+            'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+        ]);
+        /*--Reference Variable--*/
         $items = $request->product_id;
         $quantity = $request->quantity;
         $sale_price = $request->sale_price;
+        $uoms = $request->uom_id;
         $sale_id = $data->id;
-        $movements = InventoryMovement::where('product_id',$request->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('id','DESC')->get();
+        $movements = InventoryMovement::where('product_id',$request->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
         
         $stocks = Inventory::where('product_id',$request->product_id)->get();
         
         foreach($items as $index=>$item) {
+            $bases = UomValue::where('id',$uoms[$index])->first();
+            if($bases->is_parent == null) {
+                $convertion = ($quantity[$index]) * ($bases->value); 
+            } else {
+                $convertion = $quantity[$index];
+            }
             $items = SaleItem::create([
                 'sales_id' => $sale_id,
                 'product_id' => $item,
@@ -130,45 +116,72 @@ class SalesManagementController extends Controller
                 'sale_price' => $sale_price[$index],
                 'sub_total' => ($sale_price[$index]) * ($quantity[$index]),
             ]);
-            $movements = InventoryMovement::where('product_id',$item)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('id','DESC')->get();
-            $stocks = Inventory::where('product_id',$item)->get();
+            $moveout = InventoryMovement::where('product_id',$item)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
+            $movein = InventoryMovement::where('product_id',$item)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->orderBy('updated_at','DESC')->first();
+            $stocks = Inventory::where('product_id',$item)->first();
+            $base = Inventory::where('product_id',$item)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->first();
+
+            $itemTransfer = InternalItems::create([
+                'mutasi_id' => $transfers->id,
+                'product_id' => $item,
+                'quantity' => $quantity[$index],
+                'uom_id' => $uoms[$index],
+            ]);
             
-            $transfers = InternalTransfer::create([
-                    'product_id' => $item,
-                    'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-                    'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
-                    'amount' => $quantity[$index],
-                ]);
             $inventories = Inventory::updateorCreate([
                     'product_id' => $item,
                     'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e'],[
-                    'min_stock' => $stocks[0]->min_stock,
+                    'min_stock' => $stocks->min_stock,
                     'opening_amount' =>  $quantity[$index],
                     'closing_amount' =>  $quantity[$index],
                     'status_id' => '0',
                 ]);
-            $moveouts = InventoryMovement::create([
+            if($base == null) {
+                $moveouts = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
                     'product_id' => $item,
                     'incoming' => '0',
-                    'outgoing' => $quantity[$index],
-                    'remaining' => ($movements[0]->remaining) - ($quantity[$index]),
+                    'outgoing' => $convertion,
+                    'remaining' => ($moveout->remaining) - ($convertion),
                     'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
                 ]);
-            $moveins = InventoryMovement::create([
+                 $moveins = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
                     'product_id' => $item,
-                    'incoming' => $quantity[$index],
+                    'incoming' => $convertion,
                     'outgoing' => '0', 
-                    'remaining' => $quantity[$index],
+                    'remaining' => $convertion,
                     'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
                 ]);
+            } else {
+                $moveouts = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $data->order_ref,
+                    'product_id' => $item,
+                    'incoming' => '0',
+                    'outgoing' => $convertion,
+                    'remaining' => ($moveout->remaining) - ($convertion),
+                    'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                ]);
+                 $moveins = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $data->order_ref,
+                    'product_id' => $item,
+                    'incoming' => $convertion,
+                    'outgoing' => '0', 
+                    'remaining' => ($movein->remaining) + ($convertion),
+                    'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                ]);
+            }
+            
             $results =  Inventory::where('product_id',$item)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->update([
-                'closing_amount' => ($movements[0]->remaining) - ($quantity[$index]),
+                'closing_amount' => ($movements->remaining) - ($convertion),
             ]);
             
         }
@@ -180,7 +193,14 @@ class SalesManagementController extends Controller
                         ->where('id',$sale_id)
                         ->update(['quantity' => $qty, 'total' => $price]);
         
-        return redirect()->route('sales.index');
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Dibuat';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Dibuat',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('sales.index')->with($notification);
     }
  
     public function salesShow($id)

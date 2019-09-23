@@ -87,9 +87,8 @@ Fiber Tekno | Add Sales Order
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript">
+<script type="text/javascript"> 
     $(document).ready(function(){      
-      var postURL = "<?php echo url('apps/sales/orders/addmore'); ?>";
       var i=1;  
       $('#add').click(function(){  
            i++;  
@@ -98,42 +97,7 @@ Fiber Tekno | Add Sales Order
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   
            $('#row'+button_id+'').remove();  
-      });  
-      $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-      });
-      $('#submit').click(function(){            
-           $.ajax({  
-                url:postURL,  
-                method:"POST",  
-                data:$('#add_name').serialize(),
-                type:'json',
-                success:function(data)  
-                {
-                    if(data.error){
-                        printErrorMsg(data.error);
-                    }else{
-                        i=1;
-                        $('.dynamic-added').remove();
-                        $('#add_name')[0].reset();
-                        $(".print-success-msg").find("ul").html('');
-                        $(".print-success-msg").css('display','block');
-                        $(".print-error-msg").css('display','none');
-                        $(".print-success-msg").find("ul").append('<li>Record Inserted Successfully.</li>');
-                    }
-                }  
-           });  
-      });  
-      function printErrorMsg (msg) {
-         $(".print-error-msg").find("ul").html('');
-         $(".print-error-msg").css('display','block');
-         $(".print-success-msg").css('display','none');
-         $.each( msg, function( key, value ) {
-            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
-         });
-      }
+      });   
     });  
 </script>
 @endsection

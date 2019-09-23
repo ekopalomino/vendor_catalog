@@ -84,6 +84,12 @@ Fiber Tekno | Add Product
                             {!! Form::checkbox('is_manufacture') !!}
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Produk Bisa Dijual</label>
+                        <div class="col-md-4">
+                            {!! Form::checkbox('is_sale') !!}
+                        </div>
+                    </div>
                     <div class="form-actions right">
                         <a button type="button" class="btn default" href="{{ route('product.index') }}">Cancel</a>
                         <button type="submit" class="btn blue">

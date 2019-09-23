@@ -23,12 +23,13 @@ FiberTekno | Persediaan
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Product Name</th>
-                                <th>Product Location</th>
-                                <th>Opening Stock</th>
-                                <th>Closing Stock</th>
-                                <th>Stock Status</th>
-                				<th>Created At</th>
+                				<th>Produk</th>
+                                <th>Gudang</th>
+                                <th>Stok Awal</th>
+                                <th>Stok Akhir</th>
+                                <th>Satuan</th>
+                                <th>Status Stok</th>
+                				<th>Tgl Dibuat</th>
                                 <th></th>
                 			</tr>
                 		</thead>
@@ -42,14 +43,15 @@ FiberTekno | Persediaan
                                     {{ $product->Locations->name }}
                                     @endif
                                 </td>
-                                <td>{{ $product->opening_amount }}</td>
-                                <td>{{ $product->closing_amount }}</td>
+                                <td>{{ number_format($product->opening_amount,2,',','.')}}</td>
+                                <td>{{ number_format($product->closing_amount,2,',','.')}}</td>
+                                <td>{{ $product->Products->Uoms->name }}</td>
                                 <td>
-                                    @if( ($product->status_id) == '72ceba35-758d-4bc2-9295-fd9f9f393c56')
+                                    @if( ($product->closing_amount) == '0')
                                         <label class="badge badge-danger">No Stock</label>
-                                    @elseif(($product->status_id) == 'f8b26119-fb0c-40ff-85c0-8fb85696f220')
+                                    @elseif(($product->closing_amount) <= ($product->min_stock))
                                         <label class="badge badge-warning">Low On Stock</label>
-                                    @elseif(($product->status_id) == '533806c2-19dc-4b24-886f-d783a8b448b7')
+                                    @elseif(($product->closing_amount) >= ($product->min_stock))
                                         <label class="badge badge-success">Stock Normal</label>
                                     @endif
                                 </td>

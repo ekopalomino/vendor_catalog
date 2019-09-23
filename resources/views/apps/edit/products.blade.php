@@ -25,12 +25,6 @@ Fiber Tekno | Edit Product
                 @csrf
                 <div class="form-body">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Product SKU</label>
-                        <div class="col-md-4">
-                            {!! Form::text('product_sku', null, array('placeholder' => 'Product SKU','class' => 'form-control')) !!} 
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-md-3 control-label">Product Barcode</label>
                         <div class="col-md-4">
                             {!! Form::text('barcode', null, array('placeholder' => 'Product Barcode','class' => 'form-control')) !!}
@@ -88,6 +82,18 @@ Fiber Tekno | Edit Product
                         <label class="col-md-3 control-label">Product Image</label>
                         <div class="col-md-4">
                             {!! Form::file('image', null, array('placeholder' => 'Product Image','class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Produk Manufaktur</label>
+                        <div class="col-md-4">
+                            {!! Form::checkbox('is_manufacture') !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Produk Bisa Dijual Terpisah</label>
+                        <div class="col-md-4">
+                            {!! Form::checkbox('is_sale') !!}
                         </div>
                     </div>
                     <div class="form-actions right">

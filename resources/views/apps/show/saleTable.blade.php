@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Penyesuaian Persediaan
+FiberTekno | Tabel Penjualan
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,41 +14,38 @@ FiberTekno | Penyesuaian Persediaan
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Penyesuaian Persediaan
+                        <i class="fa fa-database"></i>Tabel Penjualan 
                     </div>
+                    <div class="tools"> </div>
                 </div>
                 <div class="portlet-body">
                 	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Produk</th>
-                                <th>Gudang</th>
-                                <th>Satuan</th>
-                                <th>Stok Awal</th>
-                                <th>Stok Akhir</th>
-                				<th>Tgl Dibuat</th>
+                				<th>Sales Order</th>
+                                <th>Nama Pembeli</th>
+                                <th>Jumlah Pembelian</th>
+                                <th>Total Pembelian</th>
+                                <th>Estimasi Dikirim</th>
+                                <th>Aktual Dikirim</th>
+                				<th>Sales</th>
                                 <th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
-                            @foreach($data as $key => $product)
+                            @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                				<td>{{ $product->Products->name }}</td>
+                				<td>{{ $val->order_ref }}</td>
+                                <td>{{ $val->Customers->name }}</td>
+                                <td>{{ $val->quantity }}</td>
+                                <td>{{ number_format($val->total,2,',','.')}}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->delivery_date)) }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
+                                <td>{{ $val->Author->name }}</td>
                                 <td>
-                                    @if(!empty($product->warehouse_id))
-                                    {{ $product->Locations->name }}
-                                    @endif
-                                </td>
-                                <td>{{ $product->Products->Uoms->name }}</td>
-                                <td>{{ number_format($product->opening_amount,2,',','.')}}</td>
-                                <td>{{ number_format($product->closing_amount,2,',','.')}}</td>
-                				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
-                                <td>
-                                    @can('Can Create Adjustment')
-                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\InventoryManagementController@makeAdjust',['id'=>$product->id]) }}" title="Make Adjustment" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
-                                    @endcan
+                                    
                                 </td>
                 			</tr>
                             @endforeach

@@ -4,14 +4,13 @@ namespace Erp\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends Model
+class InternalItems extends Model
 {
     protected $fillable = [
         'product_id',
-        'warehouse_id',
-        'min_stock',
-        'opening_amount',
-        'closing_amount',
+        'mutasi_id',
+        'quantity',
+        'uom_id',
     ];
 
     public function Products()
@@ -19,8 +18,8 @@ class Inventory extends Model
         return $this->belongsTo(Product::class,'product_id');
     }
 
-    public function Locations()
+    public function Uoms()
     {
-        return $this->belongsTo(Warehouse::class,'warehouse_id');
+        return $this->belongsTo(UomValue::class,'uom_id');
     }
 }

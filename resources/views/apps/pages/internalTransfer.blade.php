@@ -32,6 +32,7 @@ FiberTekno | Mutasi Barang
                                 <th>Gudang Asal</th>
                                 <th>Gudang Tujuan</th>
                                 <th>Tgl Dibuat</th>
+                                <th>Status</th>
                                 <th>Pengirim</th>
                                 <th>Penerima</th>
                                 <th></th>
@@ -41,13 +42,29 @@ FiberTekno | Mutasi Barang
                             @foreach($data as $key=>$val)
                             <tr>      
                                 <td>{{ $key+1 }}</td>
-                                <td></td>
+                                <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->From->name }}</td>
                                 <td>{{ $val->To->name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>    
+                                <td>
+                                    @if( ($val->status_id) == 'ffa20f52-a023-4333-b945-a46d04de961c')
+                                    <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
+                                    @elseif(($val->status_id) == '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                    <label class="badge badge-success">{{ $val->Statuses->name }}</label>
+                                    @endif
+                                </td>
+                                <td>{{ $val->Sender->name }}</td>
+                                <td>
+                                    @if(!empty($val->updated_by))
+                                    {{ $val->Receiver->name }}
+                                    @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\InventoryManagementController@transferView',['id'=>$val->id]) }}" title="Transfer Detail" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['transfer.accept', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Suspend User']) !!}
+                                    {!! Form::close() !!}
+                                </td>    
                             </tr>
                             @endforeach
                 		</tbody>
@@ -66,4 +83,14 @@ FiberTekno | Mutasi Barang
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Internal Transfer Diterima?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

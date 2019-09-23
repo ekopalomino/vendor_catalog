@@ -143,7 +143,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('transfer.index');
     Route::get('inventories/internal-transfer/create','Apps\InventoryManagementController@addTransfer')->name('add.transfer');
     Route::post('inventories/internal-transfer/store','Apps\InventoryManagementController@internStore')->name('store.transfer');
-    Route::post('inventories/internal-transfer/accept','Apps\InventoryManagementController@transferAccept')->name('transfer.accept');
+    Route::post('inventories/internal-transfer/accept/{id}','Apps\InventoryManagementController@transferAccept')->name('transfer.accept');
+    Route::get('inventories/internal-transfer/view/{id}','Apps\InventoryManagementController@transferView')->name('transfer.view');
     Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
     Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
     Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
@@ -157,4 +158,11 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('manufactures/request/create','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
     Route::get('manufactures/request/check-stock/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture.stocker');
     Route::post('manufactures/order/create/{id}','Apps\ManufactureManagementController@makeManufacture')->name('make.manufacture');
+    /*-----------------------End Manufacture Management------------------------------------*/
+
+    /*-----------------------Reports Management------------------------------------*/
+    Route::get('reports/table/sales','Apps\ReportManagementController@saleTable')->name('sale.table');
+    Route::post('reports/table/sales/view','Apps\ReportManagementController@reportSales')->name('sale-table.view');
+    Route::get('reports/table/inventory','Apps\ReportManagementController@inventoryTable')->name('inventory.table');
+    Route::get('reports/table/purchase','Apps\ReportManagementController@purchaseTable')->name('purchase.table');
 });

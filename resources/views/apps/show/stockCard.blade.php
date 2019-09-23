@@ -17,11 +17,11 @@
 				<thead>
                 	<tr>
                         <th>No</th>
-                		<th>Trans Date</th>
-                		<th>Reference ID</th>
-                		<th>Income</th>
-                		<th>Outcome</th>
-                		<th>Remaining</th>
+                		<th>Tgl Transaksi</th>
+                		<th>No Ref</th>
+                		<th>Brg Masuk</th>
+                		<th>Brg Keluar</th>
+                		<th>Sisa Brg</th>
                 	</tr>
                 </thead>
                 <tbody>
@@ -30,9 +30,9 @@
 	                	<td>{{ $key+1 }}</td>
 	                	<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
 	                	<td>{{ $val->reference_id}}</td>
-	                	<td>{{ $val->incoming}}</td>
-	                	<td>{{ $val->outgoing }}</td>
-	                	<td>{{ $val->remaining }}</td>
+	                	<td>{{ number_format($val->incoming,2,',','.')}}</td>
+	                	<td>{{ number_format($val->outgoing,2,',','.')}}</td>
+	                	<td>{{ number_format($val->remaining,2,',','.')}}</td>
 	                </tr>
                 	@endforeach
                 </tbody>

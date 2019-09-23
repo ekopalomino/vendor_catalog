@@ -17,4 +17,5 @@ class InventoryMovement extends Model
         'remaining',
         'notes',
     ];
+    
 }

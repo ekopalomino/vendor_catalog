@@ -21,6 +21,7 @@ class Product extends Model
         'sale_price',
         'active',
         'is_manufacture',
+        'is_sale',
         'created_by',
         'updated_by',
     ];
@@ -55,5 +56,10 @@ class Product extends Model
     public function Uoms()
     {
         return $this->belongsTo(UomValue::class,'uom_id');
+    }
+
+    public function Invent()
+    {
+        return $this->hasMany(Inventory::class,'product_id');
     }
 }

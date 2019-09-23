@@ -337,7 +337,7 @@
                 </ul>
             </li>
             @endcan
-            <li class="nav-item  ">
+            <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Reports</span>
@@ -367,25 +367,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item  ">
+                    <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
-                            <span class="title">Tables</span>
+                            <span class="title">Tabel</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Sales</span>
+                            <li class="nav-item {{ set_active(['sale.table','sale-table.view']) }}">
+                                <a href="{{ route('sale.table') }}" class="nav-link ">
+                                    <span class="title">Penjualan</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Inventory</span>
+                            <li class="nav-item {{ set_active(['inventory.table']) }}">
+                                <a href="{{ route('inventory.table') }}" class="nav-link ">
+                                    <span class="title">Stok</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Purchasing</span>
+                            <li class="nav-item {{ set_active(['purchase.table']) }}">
+                                <a href="{{ route('purchase.table') }}" class="nav-link ">
+                                    <span class="title">Pembelian</span>
                                 </a>
                             </li>
                         </ul>

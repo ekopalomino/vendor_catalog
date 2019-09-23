@@ -14,7 +14,7 @@ FiberTekno | Dashboard
                     <i class="fa fa-briefcase fa-icon-medium"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> $168,492.54 </div>
+                    <div class="number"> Rp {{ number_format($sumSales,2,',','.')}}</div>
                     <div class="desc"> Total Penjualan </div>
                 </div>
                 <a class="more" href="{{ route('sales.index') }}"> Lihat
@@ -28,7 +28,7 @@ FiberTekno | Dashboard
                     <i class="fa fa-shopping-cart"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> 1,127,390 </div>
+                    <div class="number"> {{ number_format($sumOrders,0,',','.')}} </div>
                     <div class="desc"> Total Pesanan </div>
                 </div>
                 <a class="more" href="{{ route('sales.index') }}"> Lihat
