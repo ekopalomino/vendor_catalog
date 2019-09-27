@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2019 at 06:34 PM
+-- Generation Time: Sep 27, 2019 at 04:39 AM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -77,13 +77,6 @@ CREATE TABLE `deliveries` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `deliveries`
---
-
-INSERT INTO `deliveries` (`id`, `order_ref`, `sales_ref`, `status_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('02e8a277-6d2d-4f1e-8214-7b8778f1b290', 'DO/0001/FTI/IX/2019', 'SO/0001/MRZ/IX/2019', 'e9395add-e815-4374-8ed3-c0d5f4481ab8', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-11 15:58:31', '2019-09-11 16:26:31');
-
 -- --------------------------------------------------------
 
 --
@@ -109,15 +102,45 @@ INSERT INTO `divisions` (`id`, `name`, `created_by`, `updated_by`, `created_at`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `internal_items`
+--
+
+CREATE TABLE `internal_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `mutasi_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` decimal(50,2) NOT NULL,
+  `uom_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `internal_items`
+--
+
+INSERT INTO `internal_items` (`id`, `mutasi_id`, `product_id`, `quantity`, `uom_id`, `created_at`, `updated_at`) VALUES
+(21, 11, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', '24.00', '1', '2019-09-26 16:48:05', '2019-09-26 16:48:05'),
+(22, 11, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', '120.00', '2', '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(23, 11, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', '24.00', '1', '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(24, 11, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', '240.00', '2', '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(25, 12, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', '9.00', '1', '2019-09-26 18:44:20', '2019-09-26 18:44:20'),
+(26, 13, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', '9.00', '1', '2019-09-26 18:47:48', '2019-09-26 18:47:48');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `internal_transfers`
 --
 
 CREATE TABLE `internal_transfers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `from_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `to_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` decimal(50,2) NOT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ffa20f52-a023-4333-b945-a46d04de961c',
+  `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -126,13 +149,10 @@ CREATE TABLE `internal_transfers` (
 -- Dumping data for table `internal_transfers`
 --
 
-INSERT INTO `internal_transfers` (`id`, `product_id`, `from_id`, `to_id`, `amount`, `created_at`, `updated_at`) VALUES
-(1, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '100.00', '2019-09-11 09:36:35', '2019-09-11 09:36:35'),
-(2, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', '2019-09-11 09:41:06', '2019-09-11 09:41:06'),
-(3, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', '2019-09-11 09:41:43', '2019-09-11 09:41:43'),
-(4, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', '2019-09-11 09:41:54', '2019-09-11 09:41:54'),
-(5, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', '2019-09-11 09:42:52', '2019-09-11 09:42:52'),
-(6, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '67.00', '2019-09-11 09:51:09', '2019-09-11 09:51:09');
+INSERT INTO `internal_transfers` (`id`, `order_ref`, `from_id`, `to_id`, `status_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(11, 'MO/0001/IX/2019', 'afdcd530-bb5e-462b-8dda-1371b9195903', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'bb536994-ada3-4caa-b97b-e412dc2cc882', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-26 16:48:05', '2019-09-26 16:48:05'),
+(12, 'IT/0002/IX/2019', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', 'afdcd530-bb5e-462b-8dda-1371b9195903', '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'bb536994-ada3-4caa-b97b-e412dc2cc882', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-26 18:44:20', '2019-09-26 18:47:11'),
+(13, 'IT/0003/IX/2019', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', 'afdcd530-bb5e-462b-8dda-1371b9195903', '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'bb536994-ada3-4caa-b97b-e412dc2cc882', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-26 18:47:48', '2019-09-26 18:47:56');
 
 -- --------------------------------------------------------
 
@@ -143,11 +163,10 @@ INSERT INTO `internal_transfers` (`id`, `product_id`, `from_id`, `to_id`, `amoun
 CREATE TABLE `inventories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `min_stock` decimal(10,2) NOT NULL,
-  `opening_amount` decimal(50,2) NOT NULL,
-  `closing_amount` decimal(50,2) NOT NULL,
-  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `min_stock` decimal(10,2) DEFAULT NULL,
+  `opening_amount` decimal(50,2) DEFAULT NULL,
+  `closing_amount` decimal(50,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -156,10 +175,15 @@ CREATE TABLE `inventories` (
 -- Dumping data for table `inventories`
 --
 
-INSERT INTO `inventories` (`id`, `product_id`, `warehouse_id`, `min_stock`, `opening_amount`, `closing_amount`, `status_id`, `created_at`, `updated_at`) VALUES
-(7, 'a447919d-a239-4211-841d-9b9fd04cc024', 'afdcd530-bb5e-462b-8dda-1371b9195903', '25.00', '500.00', '475.00', '533806c2-19dc-4b24-886f-d783a8b448b7', '2019-09-10 06:50:22', '2019-09-10 07:59:59'),
-(8, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', '25.00', '500.00', '245.00', '533806c2-19dc-4b24-886f-d783a8b448b7', '2019-09-10 06:50:41', '2019-09-10 12:49:58'),
-(9, '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', '567.00', '245.00', '533806c2-19dc-4b24-886f-d783a8b448b7', '2019-09-11 09:51:10', '2019-09-11 09:51:10');
+INSERT INTO `inventories` (`id`, `product_id`, `warehouse_id`, `min_stock`, `opening_amount`, `closing_amount`, `created_at`, `updated_at`) VALUES
+(18, '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'afdcd530-bb5e-462b-8dda-1371b9195903', '25.00', '250.00', '274.00', '2019-09-26 14:25:23', '2019-09-26 16:48:06'),
+(19, '81538756-6103-4928-ad1d-f49f89e5be9d', 'afdcd530-bb5e-462b-8dda-1371b9195903', '100000.00', '0.00', '9400.00', '2019-09-26 14:25:42', '2019-09-26 16:48:06'),
+(20, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', 'afdcd530-bb5e-462b-8dda-1371b9195903', '100.00', '0.00', '9.00', '2019-09-26 14:26:00', '2019-09-26 18:44:20'),
+(21, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', 'afdcd530-bb5e-462b-8dda-1371b9195903', '100.00', '0.00', '9.00', '2019-09-26 14:26:19', '2019-09-26 18:47:48'),
+(27, '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '48.00', '15.00', '2019-09-26 16:48:05', '2019-09-26 18:43:47'),
+(28, '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '360.00', '8.00', '2019-09-26 16:48:06', '2019-09-26 18:43:47'),
+(29, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '0.00', '0.00', '9.00', '2019-09-26 18:43:47', '2019-09-26 18:43:47'),
+(30, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '0.00', '0.00', '9.00', '2019-09-26 18:43:47', '2019-09-26 18:43:47');
 
 -- --------------------------------------------------------
 
@@ -169,13 +193,14 @@ INSERT INTO `inventories` (`id`, `product_id`, `warehouse_id`, `min_stock`, `ope
 
 CREATE TABLE `inventory_movements` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `type` int(10) NOT NULL,
-  `reference_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` smallint(2) NOT NULL,
+  `inventory_id` bigint(20) UNSIGNED NOT NULL,
+  `reference_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `in` decimal(10,2) DEFAULT NULL,
-  `out` decimal(10,2) DEFAULT NULL,
-  `rem` decimal(10,2) NOT NULL,
+  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `incoming` decimal(10,2) DEFAULT NULL,
+  `outgoing` decimal(10,2) DEFAULT NULL,
+  `remaining` decimal(10,2) NOT NULL,
   `notes` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -185,25 +210,55 @@ CREATE TABLE `inventory_movements` (
 -- Dumping data for table `inventory_movements`
 --
 
-INSERT INTO `inventory_movements` (`id`, `type`, `reference_id`, `product_id`, `warehouse_id`, `in`, `out`, `rem`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 1, 'ADJ/IX/2019', 'a447919d-a239-4211-841d-9b9fd04cc024', 'afdcd530-bb5e-462b-8dda-1371b9195903', '500.00', '0.00', '500.00', NULL, '2019-09-10 06:50:53', '2019-09-10 06:50:53'),
-(2, 1, 'ADJ/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', '500.00', '0.00', '500.00', NULL, '2019-09-10 06:50:59', '2019-09-10 06:50:59'),
-(25, 4, 'SO/0001/CPT/IX/2019', 'a447919d-a239-4211-841d-9b9fd04cc024', NULL, '500.00', '25.00', '475.00', NULL, '2019-09-10 07:59:59', '2019-09-10 07:59:59'),
-(26, 4, 'SO/0001/CPT/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', NULL, '500.00', '230.00', '270.00', NULL, '2019-09-10 07:59:59', '2019-09-10 07:59:59'),
-(27, 4, 'SO/0001/MRZ/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', NULL, '270.00', '25.00', '245.00', NULL, '2019-09-10 12:49:58', '2019-09-10 12:49:58'),
-(30, 3, 'PO/0002//IX/2019', 'a447919d-a239-4211-841d-9b9fd04cc024', NULL, '300.00', NULL, '775.00', NULL, '2019-09-11 05:37:12', '2019-09-11 05:37:12'),
-(37, 4, 'IT/0002/1/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', NULL, '100.00', '145.00', NULL, '2019-09-11 09:36:35', '2019-09-11 09:36:35'),
-(38, 4, 'IT/0002/1/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '100.00', NULL, '245.00', NULL, '2019-09-11 09:36:35', '2019-09-11 09:36:35'),
-(39, 4, 'IT/0003/2/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', NULL, '25.00', '120.00', NULL, '2019-09-11 09:41:06', '2019-09-11 09:41:06'),
-(40, 4, 'IT/0003/2/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', NULL, '145.00', NULL, '2019-09-11 09:41:06', '2019-09-11 09:41:06'),
-(41, 4, 'IT/0004/3/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', NULL, '25.00', '95.00', NULL, '2019-09-11 09:41:43', '2019-09-11 09:41:43'),
-(42, 4, 'IT/0004/3/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', NULL, '120.00', NULL, '2019-09-11 09:41:43', '2019-09-11 09:41:43'),
-(43, 4, 'IT/0005/4/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', NULL, '25.00', '70.00', NULL, '2019-09-11 09:41:54', '2019-09-11 09:41:54'),
-(44, 4, 'IT/0005/4/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', NULL, '95.00', NULL, '2019-09-11 09:41:54', '2019-09-11 09:41:54'),
-(45, 4, 'IT/0006/5/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', NULL, '25.00', '45.00', NULL, '2019-09-11 09:42:52', '2019-09-11 09:42:52'),
-(46, 4, 'IT/0006/5/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '25.00', NULL, '70.00', NULL, '2019-09-11 09:42:52', '2019-09-11 09:42:52'),
-(47, 4, 'IT/0007/6/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'afdcd530-bb5e-462b-8dda-1371b9195903', NULL, '67.00', '-22.00', NULL, '2019-09-11 09:51:09', '2019-09-11 09:51:09'),
-(48, 4, 'IT/0007/6/IX/2019', '0095ee65-875e-453a-83bb-1cb6738e33c9', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '67.00', NULL, '45.00', NULL, '2019-09-11 09:51:10', '2019-09-11 09:51:10');
+INSERT INTO `inventory_movements` (`id`, `type`, `inventory_id`, `reference_id`, `product_id`, `warehouse_id`, `incoming`, `outgoing`, `remaining`, `notes`, `created_at`, `updated_at`) VALUES
+(27, 1, 18, 'ADJ/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'afdcd530-bb5e-462b-8dda-1371b9195903', '250.00', '0.00', '250.00', 'Stok Awal', '2019-09-26 14:27:16', '2019-09-26 14:27:16'),
+(34, 3, 19, 'PO/0001//IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'afdcd530-bb5e-462b-8dda-1371b9195903', '10000.00', NULL, '10000.00', NULL, '2019-09-26 15:33:33', '2019-09-26 15:33:33'),
+(35, 3, 18, 'PO/0001//IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'afdcd530-bb5e-462b-8dda-1371b9195903', '120.00', NULL, '370.00', NULL, '2019-09-26 15:33:33', '2019-09-26 15:33:33'),
+(44, 7, 18, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'afdcd530-bb5e-462b-8dda-1371b9195903', '0.00', '24.00', '346.00', NULL, '2019-09-26 16:48:05', '2019-09-26 16:48:05'),
+(45, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '24.00', '0.00', '24.00', NULL, '2019-09-26 16:48:05', '2019-09-26 16:48:05'),
+(46, 7, 19, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'afdcd530-bb5e-462b-8dda-1371b9195903', '0.00', '120.00', '9880.00', NULL, '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(47, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '120.00', '0.00', '120.00', NULL, '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(48, 7, 18, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'afdcd530-bb5e-462b-8dda-1371b9195903', '0.00', '24.00', '322.00', NULL, '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(49, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '24.00', '0.00', '24.00', NULL, '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(50, 7, 19, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'afdcd530-bb5e-462b-8dda-1371b9195903', '0.00', '240.00', '9640.00', NULL, '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(51, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '240.00', '0.00', '240.00', NULL, '2019-09-26 16:48:06', '2019-09-26 16:48:06'),
+(52, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:29:27', '2019-09-26 18:29:27'),
+(53, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:29:27', '2019-09-26 18:29:27'),
+(54, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '10.00', '0.00', NULL, '2019-09-26 18:29:27', '2019-09-26 18:29:27'),
+(55, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '10.00', NULL, '10.00', NULL, '2019-09-26 18:29:27', '2019-09-26 18:29:27'),
+(56, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:32:19', '2019-09-26 18:32:19'),
+(57, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:32:19', '2019-09-26 18:32:19'),
+(58, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '10.00', '0.00', NULL, '2019-09-26 18:32:19', '2019-09-26 18:32:19'),
+(59, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '10.00', NULL, '10.00', NULL, '2019-09-26 18:32:19', '2019-09-26 18:32:19'),
+(60, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:33:14', '2019-09-26 18:33:14'),
+(61, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:33:14', '2019-09-26 18:33:14'),
+(62, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '10.00', '0.00', NULL, '2019-09-26 18:33:14', '2019-09-26 18:33:14'),
+(63, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '10.00', NULL, '10.00', NULL, '2019-09-26 18:33:14', '2019-09-26 18:33:14'),
+(64, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:35:37', '2019-09-26 18:35:37'),
+(65, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:35:37', '2019-09-26 18:35:37'),
+(66, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '10.00', '0.00', NULL, '2019-09-26 18:35:37', '2019-09-26 18:35:37'),
+(67, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '10.00', NULL, '10.00', NULL, '2019-09-26 18:35:37', '2019-09-26 18:35:37'),
+(68, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:36:11', '2019-09-26 18:36:11'),
+(69, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:36:11', '2019-09-26 18:36:11'),
+(70, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '10.00', '0.00', NULL, '2019-09-26 18:36:11', '2019-09-26 18:36:11'),
+(71, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '10.00', NULL, '10.00', NULL, '2019-09-26 18:36:11', '2019-09-26 18:36:11'),
+(72, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:37:42', '2019-09-26 18:37:42'),
+(73, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:37:42', '2019-09-26 18:37:42'),
+(74, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '10.00', '0.00', NULL, '2019-09-26 18:37:42', '2019-09-26 18:37:42'),
+(75, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '10.00', NULL, '10.00', NULL, '2019-09-26 18:37:42', '2019-09-26 18:37:42'),
+(76, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, NULL, '0.00', NULL, '2019-09-26 18:38:16', '2019-09-26 18:38:16'),
+(77, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:38:28', '2019-09-26 18:38:28'),
+(78, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:38:28', '2019-09-26 18:38:28'),
+(79, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:38:28', '2019-09-26 18:38:28'),
+(80, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:38:28', '2019-09-26 18:38:28'),
+(81, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:39:54', '2019-09-26 18:39:54'),
+(82, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:39:54', '2019-09-26 18:39:54'),
+(83, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '15.00', '0.00', NULL, '2019-09-26 18:39:55', '2019-09-26 18:39:55'),
+(84, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '15.00', NULL, '15.00', NULL, '2019-09-26 18:39:55', '2019-09-26 18:39:55'),
+(85, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '15.00', '0.00', NULL, '2019-09-26 18:43:47', '2019-09-26 18:43:47'),
+(86, 7, 27, 'MO/0001/IX/2019', '6283c57b-9542-4268-98fb-ff3d6c86eaac', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '15.00', NULL, '15.00', NULL, '2019-09-26 18:43:47', '2019-09-26 18:43:47'),
+(87, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', NULL, '8.00', '0.00', NULL, '2019-09-26 18:43:47', '2019-09-26 18:43:47'),
+(88, 7, 28, 'MO/0001/IX/2019', '81538756-6103-4928-ad1d-f49f89e5be9d', 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed', '8.00', NULL, '8.00', NULL, '2019-09-26 18:43:47', '2019-09-26 18:43:47');
 
 -- --------------------------------------------------------
 
@@ -228,57 +283,9 @@ CREATE TABLE `log_activities` (
 --
 
 INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Metode Pembayaran Cash on Delivery Berhasil Disimpan', 'http://fibertekno.local/apps/settings/payment-methods/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-05 16:07:12', '2019-09-05 16:07:12'),
-(2, 'Metode Pembayaran Cash on Delivery Berhasil Dihapus', 'http://fibertekno.local/apps/settings/payment-methods/delete/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-05 16:08:02', '2019-09-05 16:08:02'),
-(3, 'Pembayaran Direct Berhasil Disimpan', 'http://fibertekno.local/apps/settings/payment-terms/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-05 16:08:16', '2019-09-05 16:08:16'),
-(4, 'Pembayaran Direct Berhasil Dihapus', 'http://fibertekno.local/apps/settings/payment-terms/delete/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-05 16:08:23', '2019-09-05 16:08:23'),
-(5, 'Kategori UOM Pieces Berhasil Disimpan', 'http://fibertekno.local/apps/settings/uom-category/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-05 16:23:28', '2019-09-05 16:23:28'),
-(6, 'Kategori UOM Pieces Berhasil Dihapus', 'http://fibertekno.local/apps/settings/uom-category/delete/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-05 16:23:33', '2019-09-05 16:23:33'),
-(7, 'Hak Akses Administrator berhasil diubah', 'http://fibertekno.local/apps/users/roles/update/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-06 01:24:28', '2019-09-06 01:24:28'),
-(8, 'Metode Pembayaran Cash Berhasil Disimpan', 'http://fibertekno.local/apps/settings/payment-methods/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-06 15:54:31', '2019-09-06 15:54:31'),
-(9, 'Pembayaran Cash Berhasil Disimpan', 'http://fibertekno.local/apps/settings/payment-terms/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-06 15:54:44', '2019-09-06 15:54:44'),
-(10, 'Customer John Doe Berhasil Disimpan', 'http://fibertekno.local/apps/customers/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-06 15:57:02', '2019-09-06 15:57:02'),
-(11, 'Customer Mirza Berhasil Disimpan', 'http://fibertekno.local/apps/customers/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-06 16:02:57', '2019-09-06 16:02:57'),
-(12, 'Customer Company Test Berhasil Disimpan', 'http://fibertekno.local/apps/customers/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-06 16:21:31', '2019-09-06 16:21:31'),
-(13, 'Kategori Produk Barang Jadi Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:41:43', '2019-09-07 01:41:43'),
-(14, 'Kategori Produk Barang Jadi Berhasil Dihapus', 'http://fibertekno.local/apps/products/categories/delete/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:43:02', '2019-09-07 01:43:02'),
-(15, 'Kategori Produk Barang Jadi Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:43:15', '2019-09-07 01:43:15'),
-(16, 'Kategori Produk Barang Jadi Berhasil Dihapus', 'http://fibertekno.local/apps/products/categories/delete/2', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:43:21', '2019-09-07 01:43:21'),
-(17, 'Kategori Produk Barang Jadi Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:44:20', '2019-09-07 01:44:20'),
-(18, 'Kategori Produk Barang Jadi Berhasil Dihapus', 'http://fibertekno.local/apps/products/categories/delete/3', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:44:27', '2019-09-07 01:44:27'),
-(19, 'Kategori Produk Barang Jadi Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:44:54', '2019-09-07 01:44:54'),
-(20, 'Kategori Produk Barang Jadi Berhasil Dihapus', 'http://fibertekno.local/apps/products/categories/delete/4', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 01:44:58', '2019-09-07 01:44:58'),
-(21, 'Kategori Produk Barang Jadi Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 14:12:39', '2019-09-07 14:12:39'),
-(22, 'Kategori UOM Satuan Berhasil Disimpan', 'http://fibertekno.local/apps/settings/uom-category/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 14:12:48', '2019-09-07 14:12:48'),
-(23, 'UOM Pieces Berhasil Disimpan', 'http://fibertekno.local/apps/settings/uom-value/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 14:12:57', '2019-09-07 14:12:57'),
-(24, 'Supplier DD Berhasil Disimpan', 'http://fibertekno.local/apps/suppliers/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 14:13:53', '2019-09-07 14:13:53'),
-(25, 'Produk Kabel Tembaga Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/9b81e30f-b1ae-4585-984b-efcd7983152f', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-07 14:38:11', '2019-09-07 14:38:11'),
-(26, 'Gudang Gudang Manufaktur Berhasil Disimpan', 'http://fibertekno.local/apps/settings/warehouse/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:36:03', '2019-09-08 14:36:03'),
-(27, 'Kategori UOM Panjang Berhasil Disimpan', 'http://fibertekno.local/apps/settings/uom-category/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:36:12', '2019-09-08 14:36:12'),
-(28, 'UOM Meter Berhasil Disimpan', 'http://fibertekno.local/apps/settings/uom-value/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:36:22', '2019-09-08 14:36:22'),
-(29, 'Kategori Produk Material Utama Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:39:34', '2019-09-08 14:39:34'),
-(30, 'Kategori Produk Persediaan Berhasil disimpan', 'http://fibertekno.local/apps/products/categories/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:39:40', '2019-09-08 14:39:40'),
-(31, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:41:42', '2019-09-08 14:41:42'),
-(32, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-08 14:46:32', '2019-09-08 14:46:32'),
-(33, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/bc4ef546-547c-40b5-b6b4-5339bcf2ce43', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-09 14:11:10', '2019-09-09 14:11:10'),
-(34, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-09 14:24:39', '2019-09-09 14:24:39'),
-(35, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/3b486eda-84f2-4072-9c21-dda7c4278732', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-09 14:35:33', '2019-09-09 14:35:33'),
-(36, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-09 14:37:04', '2019-09-09 14:37:04'),
-(37, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/ff9336d6-913f-4c6f-a842-d41c8e99eb6e', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:36:52', '2019-09-10 05:36:52'),
-(38, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/8b2427e1-99e5-4147-8276-d37d8662df21', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:39:38', '2019-09-10 05:39:38'),
-(39, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/3ac75a25-c019-4016-90a4-d4c97b8801ec', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:40:44', '2019-09-10 05:40:44'),
-(40, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:41:00', '2019-09-10 05:41:00'),
-(41, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/7e0b4283-fb70-4e5c-9fe1-49cee0f042e0', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:47:50', '2019-09-10 05:47:50'),
-(42, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:48:57', '2019-09-10 05:48:57'),
-(43, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/f49699b0-3195-4ccb-b786-b273944f2058', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:52:04', '2019-09-10 05:52:04'),
-(44, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:52:18', '2019-09-10 05:52:18'),
-(45, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/62a2a56b-0039-4828-a800-3284a8996021', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:57:41', '2019-09-10 05:57:41'),
-(46, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 05:57:58', '2019-09-10 05:57:58'),
-(47, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/161dc698-86dc-43e2-b9eb-2574f2d840b8', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 06:07:03', '2019-09-10 06:07:03'),
-(48, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 06:17:50', '2019-09-10 06:17:50'),
-(49, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/75814082-143c-4815-a44b-053b08b18a55', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 06:50:08', '2019-09-10 06:50:08'),
-(50, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 06:50:22', '2019-09-10 06:50:22'),
-(51, 'Produk Konektor SMFC AMC (1.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-10 06:50:41', '2019-09-10 06:50:41');
+(1, 'Pembelian PO/0001//IX/2019 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/purchase-receipt/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-26 15:33:33', '2019-09-26 15:33:33'),
+(2, 'Internal Transfer IT/0002/IX/2019 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/internal-transfer/accept/12', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-26 18:47:11', '2019-09-26 18:47:11'),
+(3, 'Internal Transfer IT/0003/IX/2019 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/internal-transfer/accept/13', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-09-26 18:47:56', '2019-09-26 18:47:56');
 
 -- --------------------------------------------------------
 
@@ -288,18 +295,25 @@ INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `
 
 CREATE TABLE `manufactures` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sales_order` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `uom_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` decimal(50,2) NOT NULL,
-  `deadline` date NOT NULL,
+  `deadline` date DEFAULT NULL,
   `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '8083f49e-f0aa-4094-894f-f64cd2e9e4e9',
-  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_production` datetime DEFAULT NULL,
+  `end_production` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `manufactures`
+--
+
+INSERT INTO `manufactures` (`id`, `sales_order`, `order_ref`, `deadline`, `status_id`, `warehouse_id`, `created_by`, `updated_by`, `start_production`, `end_production`, `created_at`, `updated_at`) VALUES
+('58633050-bc4a-448a-8a21-ee80a6b65d15', NULL, 'MO/0001/IX/2019', NULL, '0fb7f4e6-e293-429d-8761-f978dc850a97', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-26 23:48:05', '2019-09-27 01:43:47', '2019-09-26 16:46:42', '2019-09-26 18:43:47');
 
 -- --------------------------------------------------------
 
@@ -311,10 +325,19 @@ CREATE TABLE `manufacture_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `manufacture_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `item_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` decimal(50,2) NOT NULL,
+  `qty` decimal(50,2) NOT NULL,
+  `uom_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `manufacture_items`
+--
+
+INSERT INTO `manufacture_items` (`id`, `manufacture_id`, `item_id`, `qty`, `uom_id`, `created_at`, `updated_at`) VALUES
+(37, '58633050-bc4a-448a-8a21-ee80a6b65d15', '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', '12.00', '3', '2019-09-26 16:46:42', '2019-09-26 16:46:42'),
+(38, '58633050-bc4a-448a-8a21-ee80a6b65d15', 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', '12.00', '3', '2019-09-26 16:46:42', '2019-09-26 16:46:42');
 
 -- --------------------------------------------------------
 
@@ -347,8 +370,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2019_09_06_074801_create_contacts_table', 5),
 (13, '2019_09_07_083416_create_product_categories_table', 6),
 (15, '2019_09_07_084554_create_products_table', 7),
-(16, '2019_09_07_211518_create_inventories_table', 8),
-(17, '2019_09_07_211754_create_inventory_movements_table', 8),
 (18, '2019_09_07_212548_create_product_boms_table', 9),
 (19, '2019_09_08_215819_create_internal_transfers_table', 10),
 (20, '2019_09_09_223056_create_sales_table', 11),
@@ -356,8 +377,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2019_09_10_200022_create_purchases_table', 12),
 (23, '2019_09_10_200121_create_purchase_items_table', 12),
 (24, '2019_09_11_223042_create_deliveries_table', 13),
-(25, '2019_09_11_232813_create_manufactures_table', 14),
-(26, '2019_09_11_233120_create_manufacture_items_table', 14);
+(27, '2019_09_07_211518_create_inventories_table', 15),
+(28, '2019_09_07_211754_create_inventory_movements_table', 15),
+(29, '2019_09_19_231526_create_manufacture_calculates_table', 16),
+(30, '2019_09_22_225704_create_internal_items_table', 17),
+(31, '2019_09_11_232813_create_manufactures_table', 18),
+(32, '2019_09_11_233120_create_manufacture_items_table', 18),
+(37, '2019_09_24_102135_create_work_items_table', 19);
 
 -- --------------------------------------------------------
 
@@ -388,6 +414,7 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(2, 'Erp\\Models\\User', 'ba757ac6-d4a7-4f8f-8698-8c14c60b8a63'),
 (1, 'Erp\\Models\\User', 'bb536994-ada3-4caa-b97b-e412dc2cc882');
 
 -- --------------------------------------------------------
@@ -496,10 +523,12 @@ CREATE TABLE `products` (
   `uom_id` int(11) NOT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `supplier_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `min_stock` decimal(50,2) NOT NULL,
+  `min_stock` decimal(50,2) DEFAULT NULL,
   `base_price` decimal(50,2) NOT NULL,
   `sale_price` decimal(50,2) NOT NULL,
   `active` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '2b643e21-a94c-4713-93f1-f1cbde6ad633',
+  `is_manufacture` tinyint(1) DEFAULT NULL,
+  `is_sale` tinyint(1) DEFAULT NULL,
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -510,9 +539,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `product_barcode`, `name`, `category_id`, `uom_id`, `image`, `supplier_id`, `min_stock`, `base_price`, `sale_price`, `active`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('0095ee65-875e-453a-83bb-1cb6738e33c9', 100002, 'Konektor SMFC AMC (1.00mm)', 2, 1, NULL, '39de8926-28ce-4e94-934a-c7525bfc64fa', '25.00', '500.00', '1000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-10 06:50:41', '2019-09-10 06:50:41'),
-('a447919d-a239-4211-841d-9b9fd04cc024', 100001, 'Konektor SMFC AMC (2.00mm)', 2, 1, NULL, '39de8926-28ce-4e94-934a-c7525bfc64fa', '25.00', '500.00', '1000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-10 06:50:22', '2019-09-10 06:50:22');
+INSERT INTO `products` (`id`, `product_barcode`, `name`, `category_id`, `uom_id`, `image`, `supplier_id`, `min_stock`, `base_price`, `sale_price`, `active`, `is_manufacture`, `is_sale`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', 20001, 'Kabel LAN 10 Meter', 1, 1, NULL, '39de8926-28ce-4e94-934a-c7525bfc64fa', '100.00', '300000.00', '500000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 1, 1, 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-26 14:26:00', '2019-09-26 14:26:00'),
+('6283c57b-9542-4268-98fb-ff3d6c86eaac', 100001, 'Konektor SMFC AMC (2.00mm)', 2, 1, 'download.jpgproduct.jpg', '39de8926-28ce-4e94-934a-c7525bfc64fa', '25.00', '500.00', '1000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, 1, 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-26 14:25:23', '2019-09-26 14:25:23'),
+('81538756-6103-4928-ad1d-f49f89e5be9d', 100002, 'Kabel Lan UTP 6', 2, 2, NULL, '39de8926-28ce-4e94-934a-c7525bfc64fa', '100000.00', '150000.00', '300000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-26 14:25:42', '2019-09-26 14:25:42'),
+('bc5940e1-456a-44de-a0a5-ce4d76557bd2', 20002, 'Kabel LAN 20 Meter', 1, 1, NULL, '39de8926-28ce-4e94-934a-c7525bfc64fa', '100.00', '300000.00', '500000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 1, 1, 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-26 14:26:19', '2019-09-26 14:26:19');
 
 -- --------------------------------------------------------
 
@@ -529,6 +560,16 @@ CREATE TABLE `product_boms` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_boms`
+--
+
+INSERT INTO `product_boms` (`id`, `product_id`, `material_id`, `quantity`, `uom_id`, `created_at`, `updated_at`) VALUES
+(5, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', '6283c57b-9542-4268-98fb-ff3d6c86eaac', '2.00', 1, '2019-09-26 14:26:30', '2019-09-26 14:26:30'),
+(6, '0d2d070a-ab9f-4bd6-b7bb-39eb99d792e6', '81538756-6103-4928-ad1d-f49f89e5be9d', '10.00', 2, '2019-09-26 14:26:37', '2019-09-26 14:26:37'),
+(7, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', '6283c57b-9542-4268-98fb-ff3d6c86eaac', '2.00', 1, '2019-09-26 14:26:49', '2019-09-26 14:26:49'),
+(8, 'bc5940e1-456a-44de-a0a5-ce4d76557bd2', '81538756-6103-4928-ad1d-f49f89e5be9d', '20.00', 2, '2019-09-26 14:26:57', '2019-09-26 14:26:57');
 
 -- --------------------------------------------------------
 
@@ -552,7 +593,8 @@ CREATE TABLE `product_categories` (
 INSERT INTO `product_categories` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (1, 'Barang Jadi', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-07 14:12:39', '2019-09-07 14:12:39'),
 (2, 'Material Utama', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-08 14:39:34', '2019-09-08 14:39:34'),
-(3, 'Persediaan', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-08 14:39:40', '2019-09-08 14:39:40');
+(3, 'Persediaan', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-08 14:39:40', '2019-09-08 14:39:40'),
+(4, 'Barang Scrap', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-22 15:25:47', '2019-09-22 15:25:47');
 
 -- --------------------------------------------------------
 
@@ -569,7 +611,7 @@ CREATE TABLE `purchases` (
   `shipping_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `delivery_date` date NOT NULL,
   `quantity` decimal(10,2) DEFAULT NULL,
-  `total` decimal(10,2) DEFAULT NULL,
+  `total` decimal(50,2) DEFAULT NULL,
   `status` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '8083f49e-f0aa-4094-894f-f64cd2e9e4e9',
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -582,9 +624,7 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`id`, `order_ref`, `supplier_id`, `supplier_code`, `billing_address`, `shipping_address`, `delivery_date`, `quantity`, `total`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('64e980db-c4ac-46e5-8c93-d7c98eda8fa3', 'PR/0001/D/IX/2019', '39de8926-28ce-4e94-934a-c7525bfc64fa', 'D', 'Test', 'Test', '2019-09-27', NULL, NULL, '8083f49e-f0aa-4094-894f-f64cd2e9e4e9', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-10 14:51:56', '2019-09-10 14:51:56'),
-('ac15c9c3-60d0-464d-a598-77d977b1d242', 'PO/0002//IX/2019', '39de8926-28ce-4e94-934a-c7525bfc64fa', 'D', 'Test', 'Test', '2019-09-27', '300.00', '150000.00', '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-10 14:54:15', '2019-09-11 05:37:12'),
-('f4931079-c883-45da-a3cd-78b33d0acf9c', 'PR/0003/D/IX/2019', '39de8926-28ce-4e94-934a-c7525bfc64fa', 'D', 'Test', 'Test', '2019-09-26', '480.00', '240000.00', 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-10 15:11:23', '2019-09-10 16:47:32');
+('28f15aca-f397-4fb0-be96-27c75b780b71', 'PO/0001//IX/2019', '39de8926-28ce-4e94-934a-c7525bfc64fa', 'D', 'Test', 'Test', '2019-09-27', '20.00', '150005000.00', '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-26 14:59:50', '2019-09-26 15:33:32');
 
 -- --------------------------------------------------------
 
@@ -597,9 +637,10 @@ CREATE TABLE `purchase_items` (
   `purchase_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` decimal(10,2) NOT NULL,
+  `uom_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `discount` decimal(10,2) DEFAULT NULL,
   `purchase_price` decimal(10,2) NOT NULL,
-  `sub_total` decimal(10,2) NOT NULL,
+  `sub_total` decimal(50,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -608,11 +649,9 @@ CREATE TABLE `purchase_items` (
 -- Dumping data for table `purchase_items`
 --
 
-INSERT INTO `purchase_items` (`id`, `purchase_id`, `product_id`, `quantity`, `discount`, `purchase_price`, `sub_total`, `created_at`, `updated_at`) VALUES
-(1, '64e980db-c4ac-46e5-8c93-d7c98eda8fa3', 'a447919d-a239-4211-841d-9b9fd04cc024', '25.00', NULL, '500.00', '12500.00', '2019-09-10 14:51:56', '2019-09-10 14:51:56'),
-(2, 'ac15c9c3-60d0-464d-a598-77d977b1d242', 'a447919d-a239-4211-841d-9b9fd04cc024', '300.00', NULL, '500.00', '150000.00', '2019-09-10 14:54:15', '2019-09-10 14:54:15'),
-(3, 'f4931079-c883-45da-a3cd-78b33d0acf9c', '0095ee65-875e-453a-83bb-1cb6738e33c9', '230.00', NULL, '500.00', '115000.00', '2019-09-10 15:11:23', '2019-09-10 15:11:23'),
-(4, 'f4931079-c883-45da-a3cd-78b33d0acf9c', 'a447919d-a239-4211-841d-9b9fd04cc024', '250.00', NULL, '500.00', '125000.00', '2019-09-10 15:11:24', '2019-09-10 15:11:24');
+INSERT INTO `purchase_items` (`id`, `purchase_id`, `product_id`, `quantity`, `uom_id`, `discount`, `purchase_price`, `sub_total`, `created_at`, `updated_at`) VALUES
+(13, '28f15aca-f397-4fb0-be96-27c75b780b71', '81538756-6103-4928-ad1d-f49f89e5be9d', '10.00', '4', NULL, '15000000.00', '150000000.00', '2019-09-26 14:59:50', '2019-09-26 14:59:50'),
+(14, '28f15aca-f397-4fb0-be96-27c75b780b71', '6283c57b-9542-4268-98fb-ff3d6c86eaac', '10.00', '3', NULL, '500.00', '5000.00', '2019-09-26 14:59:50', '2019-09-26 14:59:50');
 
 -- --------------------------------------------------------
 
@@ -633,7 +672,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'Administrator', 'web', '2019-09-04 14:23:40', '2019-09-04 14:23:40');
+(1, 'Administrator', 'web', '2019-09-04 14:23:40', '2019-09-04 14:23:40'),
+(2, 'Sales', 'web', '2019-09-15 01:07:52', '2019-09-15 01:07:52');
 
 -- --------------------------------------------------------
 
@@ -665,7 +705,13 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (12, 1),
 (13, 1),
 (14, 1),
-(15, 1);
+(15, 1),
+(3, 2),
+(6, 2),
+(9, 2),
+(10, 2),
+(11, 2),
+(13, 2);
 
 -- --------------------------------------------------------
 
@@ -683,19 +729,12 @@ CREATE TABLE `sales` (
   `delivery_date` date NOT NULL,
   `quantity` decimal(10,2) DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
-  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '8083f49e-f0aa-4094-894f-f64cd2e9e4e9',
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `sales`
---
-
-INSERT INTO `sales` (`id`, `order_ref`, `client_id`, `client_code`, `billing_address`, `shipping_address`, `delivery_date`, `quantity`, `total`, `status_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('fcf08981-b366-439b-a2aa-04fe5b44f185', 'SO/0001/MRZ/IX/2019', '68827de2-8fae-4511-b3f8-f8ca37ca1437', 'MRZ', 'Bekasi', 'Bekasi', '2019-09-19', '25.00', '125000.00', 'e9395add-e815-4374-8ed3-c0d5f4481ab8', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-10 12:49:58', '2019-09-11 16:26:31');
 
 -- --------------------------------------------------------
 
@@ -715,13 +754,6 @@ CREATE TABLE `sale_items` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `sale_items`
---
-
-INSERT INTO `sale_items` (`id`, `sales_id`, `product_id`, `quantity`, `discount`, `sale_price`, `sub_total`, `created_at`, `updated_at`) VALUES
-(1, 'fcf08981-b366-439b-a2aa-04fe5b44f185', '0095ee65-875e-453a-83bb-1cb6738e33c9', '25.00', NULL, '5000.00', '125000.00', '2019-09-10 12:49:58', '2019-09-10 12:49:58');
-
 -- --------------------------------------------------------
 
 --
@@ -740,10 +772,13 @@ CREATE TABLE `statuses` (
 --
 
 INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
+('0fb7f4e6-e293-429d-8761-f978dc850a97', 'Complete Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
 ('2b643e21-a94c-4713-93f1-f1cbde6ad633', 'Active', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'Received', '2019-09-11 05:20:52', '2019-09-11 05:20:52'),
 ('458410e7-384d-47bc-bdbe-02115adc4449', 'Approve', '2019-09-10 13:07:06', '2019-09-10 13:07:06'),
+('45e139a2-a423-46ef-8901-d07b25b461a3', 'Pending Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
 ('533806c2-19dc-4b24-886f-d783a8b448b7', 'Normal Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('5bc79891-e396-4792-a0f3-617ece2a00ce', 'Requested', '2019-09-20 16:14:02', '2019-09-20 16:14:02'),
 ('72ceba35-758d-4bc2-9295-fd9f9f393c56', 'Empty Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('8083f49e-f0aa-4094-894f-f64cd2e9e4e9', 'Submit', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('82e9ec8c-5a82-4009-ba2f-ab620eeaa71a', 'Suspended', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
@@ -751,7 +786,8 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('c2fdba02-e765-4ee8-8c8c-3073209ddd26', 'On Process', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('c51d7be2-7c72-41a8-93ff-03f780ece42a', 'Unpaid', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('e9395add-e815-4374-8ed3-c0d5f4481ab8', 'Delivered', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
-('f8b26119-fb0c-40ff-85c0-8fb85696f220', 'Low on Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54');
+('f8b26119-fb0c-40ff-85c0-8fb85696f220', 'Low on Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('ffa20f52-a023-4333-b945-a46d04de961c', 'Transfered', '2019-09-22 15:04:09', '2019-09-22 15:04:09');
 
 -- --------------------------------------------------------
 
@@ -785,6 +821,8 @@ INSERT INTO `uom_categories` (`id`, `name`, `created_by`, `updated_by`, `created
 CREATE TABLE `uom_values` (
   `id` int(10) UNSIGNED NOT NULL,
   `type_id` int(11) NOT NULL,
+  `is_parent` tinyint(1) DEFAULT NULL,
+  `parent_id` int(10) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` decimal(10,2) NOT NULL,
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -797,9 +835,11 @@ CREATE TABLE `uom_values` (
 -- Dumping data for table `uom_values`
 --
 
-INSERT INTO `uom_values` (`id`, `type_id`, `name`, `value`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Pieces', '1.00', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-07 14:12:57', '2019-09-07 14:12:57'),
-(2, 2, 'Meter', '1.00', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-08 14:36:22', '2019-09-08 14:36:22');
+INSERT INTO `uom_values` (`id`, `type_id`, `is_parent`, `parent_id`, `name`, `value`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, 'Pieces', '1.00', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-14 17:25:41', '2019-09-14 17:25:41'),
+(2, 2, 1, NULL, 'Meter', '1.00', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-14 17:25:52', '2019-09-14 17:25:52'),
+(3, 1, NULL, 1, 'Lusin', '12.00', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-14 17:26:00', '2019-09-14 17:26:00'),
+(4, 2, NULL, 2, 'Haspel', '1000.00', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-21 17:51:54', '2019-09-21 17:51:54');
 
 -- --------------------------------------------------------
 
@@ -829,7 +869,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `avatar`, `division_id`, `warehouse_id`, `status_id`, `last_login_at`, `last_login_from`, `remember_token`, `created_at`, `updated_at`) VALUES
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-09-11 21:41:00', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-09-11 14:41:00');
+('ba757ac6-d4a7-4f8f-8698-8c14c60b8a63', 'Heru', 'heru@local.com', NULL, '$2y$10$GLVtZtxqM11RN5X41lHfU.MX04IX7tmXCAhZ2l7ozrxgrQNCR6ESy', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-09-15 08:08:35', '127.0.0.1', NULL, '2019-09-15 01:08:21', '2019-09-15 01:08:35'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-09-27 09:01:24', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-09-27 02:01:24');
 
 -- --------------------------------------------------------
 
@@ -851,7 +892,9 @@ CREATE TABLE `warehouses` (
 --
 
 INSERT INTO `warehouses` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('34437a64-ca03-47ff-be0c-63da5814484e', 'Gudang Pengiriman', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-12 15:22:50', '2019-09-12 15:22:50'),
 ('afdcd530-bb5e-462b-8dda-1371b9195903', 'Gudang Utama', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-05 15:47:09', '2019-09-05 15:47:09'),
+('c40f889e-6fa3-43f2-bc2a-5fdded5aafed', 'Gudang Scrap', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-15 17:02:27', '2019-09-15 17:02:27'),
 ('ce8b061c-b1bb-4627-b80f-6a42a364109b', 'Gudang Manufaktur', 'bb536994-ada3-4caa-b97b-e412dc2cc882', NULL, '2019-09-08 14:36:03', '2019-09-08 14:36:03');
 
 --
@@ -877,6 +920,13 @@ ALTER TABLE `divisions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `internal_items`
+--
+ALTER TABLE `internal_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `internal_items_mutasi_id_foreign` (`mutasi_id`);
+
+--
 -- Indexes for table `internal_transfers`
 --
 ALTER TABLE `internal_transfers`
@@ -894,7 +944,7 @@ ALTER TABLE `inventories`
 --
 ALTER TABLE `inventory_movements`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `inventory_movements_product_id_foreign` (`product_id`);
+  ADD KEY `inventory_movements_inventory_id_foreign` (`inventory_id`);
 
 --
 -- Indexes for table `log_activities`
@@ -1053,40 +1103,46 @@ ALTER TABLE `warehouses`
 --
 
 --
+-- AUTO_INCREMENT for table `internal_items`
+--
+ALTER TABLE `internal_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
 -- AUTO_INCREMENT for table `internal_transfers`
 --
 ALTER TABLE `internal_transfers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
 --
 ALTER TABLE `inventory_movements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
 --
 ALTER TABLE `manufacture_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -1110,31 +1166,31 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `product_boms`
 --
 ALTER TABLE `product_boms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `uom_categories`
@@ -1146,11 +1202,17 @@ ALTER TABLE `uom_categories`
 -- AUTO_INCREMENT for table `uom_values`
 --
 ALTER TABLE `uom_values`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `internal_items`
+--
+ALTER TABLE `internal_items`
+  ADD CONSTRAINT `internal_items_mutasi_id_foreign` FOREIGN KEY (`mutasi_id`) REFERENCES `internal_transfers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `inventories`
@@ -1162,7 +1224,7 @@ ALTER TABLE `inventories`
 -- Constraints for table `inventory_movements`
 --
 ALTER TABLE `inventory_movements`
-  ADD CONSTRAINT `inventory_movements_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `inventory_movements_inventory_id_foreign` FOREIGN KEY (`inventory_id`) REFERENCES `inventories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `manufacture_items`
