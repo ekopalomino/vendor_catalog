@@ -64,7 +64,7 @@ FiberTekno | Manufacture Order Detail
                                                 <td>{{date("d F Y",strtotime($data->created_at)) }}</td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table> 
                                     <table class="table table-bordered table-hover" style="width: 50%;background:#4B77BE;margin-top: -10px;">
                                         <thead>
                                             

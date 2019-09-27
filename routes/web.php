@@ -164,6 +164,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('manufactures/order/done/{id}','Apps\ManufactureManagementController@manufactureDone')->name('manufacture.done');
     Route::post('manufactures/order/complete','Apps\ManufactureManagementController@process')->name('manufacture.complete');
     Route::get('manufactures/order/show/{id}','Apps\ManufactureManagementController@manufactureShow')->name('manufacture.show');
+    Route::get('manufactures/order/transfer/{id}','Apps\ManufactureManagementController@manufactureTransfer')->name('manufacture.transfer');
+    Route::post('manufactures/order/transfer/process/{id}','Apps\ManufactureManagementController@transferProcess')->name('transfer.process');
     /*-----------------------End Manufacture Management------------------------------------*/
 
     /*-----------------------Reports Management------------------------------------*/

@@ -44,12 +44,16 @@ FiberTekno | Manufactures
                                 <td>{{date("d F Y H:i",strtotime($val->start_production)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->end_production)) }}</td>
                                 <td>
+                                    @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline']) !!}
-                                    {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Mulai']) !!}
-                                    {!! Form::close() !!}                                    
-                                    <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Hasil Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
+                                    {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Mulai Proses Manufaktur']) !!}
+                                    {!! Form::close() !!}
+                                    @endif
+                                    @if($val->status_id == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')                                    
+                                    <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Selesai Proses Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
+                                    @endif
                                     <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Transfer Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-download"></i></a>
+                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureTransfer',['id'=>$val->id]) }}" title="Transfer Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-download"></i></a>
                                 </td>
                             </tr>
                             @endforeach

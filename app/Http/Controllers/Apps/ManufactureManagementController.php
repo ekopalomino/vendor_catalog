@@ -276,6 +276,32 @@ class ManufactureManagementController extends Controller
         return redirect()->route('manufacture.index');
     }
 
+    public function manufactureTransfer($id)
+    {
+        $locations = Warehouse::pluck('name','id')->toArray();
+        $data = Manufacture::find($id);
+
+        return view('apps.input.manufactureTransfer',compact('locations','data'))->renderSections()['content'];
+    }
+
+    public function transferProcess(Request $request,$id)
+    {
+        $details = Inventory::join('manufacture_items','manufacture_items.item_id','inventories.product_id')
+                           ->where('manufacture_items.manufacture_id',$id)
+                           ->where('inventories.warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
+                           ->orderBy('inventories.updated_at','DESC')
+                           ->get();
+        dd($data);
+        foreach($details as $data) {
+            Inventory::updateOrCreate([
+                'product_id' => $data->product_id,
+                'warehouse_id' => $request->input('to_id')],[
+                    'opening_amount' => $details->closing_amount,
+                    'closing_amount' => $details->closing_amount,
+            ]);
+        }
+    }
+
     public function refreshItems(Request $request,$id)
     {
         $items = ManufactureItem::where('manufacture_id',$id)->get();
