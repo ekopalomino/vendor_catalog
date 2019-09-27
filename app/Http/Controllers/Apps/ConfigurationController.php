@@ -305,10 +305,11 @@ class ConfigurationController extends Controller
 
     public function uomvalIndex()
     {
-        $data = UomValue::orderBy('name','asc')->get();
+        $data = UomValue::orderBy('created_at','asc')->get();
         $categories = UomCategory::pluck('name','id')->toArray();
+        $parents = UomValue::where('is_parent','1')->pluck('name','id')->toArray();
 
-        return view('apps.pages.uomValue',compact('data','categories'));
+        return view('apps.pages.uomValue',compact('data','categories','parents'));
     }
 
     public function uomvalStore(Request $request)
@@ -322,6 +323,8 @@ class ConfigurationController extends Controller
         $input = [
             'name' => $request->input('name'),
             'type_id' => $request->input('type_id'),
+            'is_parent' => $request->input('is_parent'),
+            'parent_id' => $request->input('parent_id'),
             'value' => $request->input('value'),
             'created_by' => auth()->user()->id,
         ];

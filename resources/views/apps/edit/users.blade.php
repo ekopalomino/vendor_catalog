@@ -1,4 +1,4 @@
-@extends('apps.layouts.main')
+@extends('apps.layouts.main') 
 @section('content')
 <div class="page-content">
     @if (count($errors) > 0) 

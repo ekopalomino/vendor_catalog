@@ -71,9 +71,9 @@ FiberTekno | Gudang
                 			<tr>
                                 <th>No</th>
                 				<th>Nama Gudang</th>
-                                <th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                                <th>Dibuat</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -110,7 +110,7 @@ FiberTekno | Gudang
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to delete?");
+    var x = confirm("Yakin Data Akan Dihapus?");
     if (x)
         return true;
     else

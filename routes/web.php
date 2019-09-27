@@ -82,7 +82,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('products/store','Apps\ProductManagementController@productStore')->name('product.store');
     Route::get('products/show/{id}','Apps\ProductManagementController@productShow')->name('product.show');
     Route::get('products/show/print/{id}','Apps\ProductManagementController@productPdf')->name('product.pdf');
-    Route::get('products/barcode/{id}','Apps\ProductManagementController@productBarcode')->name('product.barcode');
+    Route::get('products/barcode','Apps\ProductManagementController@productBarcode')->name('product.barcode');
+    Route::get('products/barcode/pdf','Apps\ProductManagementController@barcodePdf')->name('barcode.pdf');
     Route::get('products/edit/{id}','Apps\ProductManagementController@productEdit')->name('product.edit');
     Route::post('products/update/{id}','Apps\ProductManagementController@productUpdate')->name('product.update');
     Route::post('products/delete/{id}','Apps\ProductManagementController@productDestroy')->name('product.destroy');
@@ -94,36 +95,82 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('products/bom/delete/{id}','Apps\ProductManagementController@destroyBom')->name('product-bom.destroy');
     /*-----------------------End Product Management--------------------------------*/
 
+    /*-----------------------Contact Management------------------------------------*/
+    Route::get('customers','Apps\ContactManagementController@customerIndex')->name('customer.index');
+    Route::get('customers/create','Apps\ContactManagementController@customerCreate')->name('customer.create');
+    Route::post('customers/store','Apps\ContactManagementController@customerStore')->name('customer.store');
+    Route::get('customers/edit/{id}','Apps\ContactManagementController@customerEdit')->name('customer.edit');
+    Route::get('customers/show/{id}','Apps\ContactManagementController@customerShow')->name('customer.show');
+    Route::post('customers/update/{id}','Apps\ContactManagementController@customerUpdate')->name('customer.update');
+    Route::post('customers/delete/{id}','Apps\ContactManagementController@customerDestroy')->name('customer.destroy');
+    Route::get('suppliers','Apps\ContactManagementController@supplierIndex')->name('supplier.index');
+    Route::get('suppliers/create','Apps\ContactManagementController@supplierCreate')->name('supplier.create');
+    Route::post('suppliers/store','Apps\ContactManagementController@supplierStore')->name('supplier.store');
+    Route::get('suppliers/show/{id}','Apps\ContactManagementController@supplierShow')->name('supplier.show');
+    Route::get('suppliers/edit/{id}','Apps\ContactManagementController@supplierEdit')->name('supplier.edit');
+    Route::post('suppliers/update/{id}','Apps\ContactManagementController@supplierUpdate')->name('supplier.update');
+    Route::post('suppliers/delete/{id}','Apps\ContactManagementController@supplierDestroy')->name('supplier.destroy');
+
     /*-----------------------Sales Management------------------------------------*/
-    Route::get('sales/customers','Apps\SalesManagementController@customerIndex')->name('customer.index');
-    Route::get('sales/customers/create','Apps\SalesManagementController@customerCreate')->name('customer.create');
-    Route::post('sales/customers/store','Apps\SalesManagementController@customerStore')->name('customer.store');
-    Route::get('sales/customers/edit/{id}','Apps\SalesManagementController@customerEdit')->name('customer.edit');
-    Route::post('sales/customers/update/{id}','Apps\SalesManagementController@customerUpdate')->name('customer.update');
-    Route::post('sales/customers/delete/{id}','Apps\SalesManagementController@customerDestroy')->name('customer.destroy');
     Route::get('sales','Apps\SalesManagementController@index')->name('sales.index');
     Route::get('sales/orders/create','Apps\SalesManagementController@create')->name('sales.create');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
+    Route::get('products/barcode/pdf/{id}','Apps\SalesManagementController@salesPrint')->name('sales.pdf');
     Route::get('sales/orders/items/create/{id}','Apps\SalesManagementController@createItems')->name('sales.items');
 	Route::post('sales/orders/items/store','Apps\SalesManagementController@storeItems')->name('sales-item.store');
 	Route::get('sales/orders/sum/{id}','Apps\SalesManagementController@updateSo')->name('sales.sum');
 	Route::get('sales/orders/show/{id}','Apps\SalesManagementController@salesShow')->name('sales.show');
+    Route::get('sales/orders/addmore','Apps\SalesManagementController@addMore');
+    Route::post('sales/orders/addmore','Apps\SalesManagementController@addMoreItem');
+    Route::get('sales/orders/getaddress', 'Apps\SalesManagementController@getAddress')->name('get.address');
     /*-----------------------End Sales Management------------------------------------*/
 
     /*-----------------------Purchase Management------------------------------------*/
-    Route::get('purchase/suppliers','Apps\PurchaseManagementController@supplierIndex')->name('supplier.index');
-    Route::get('purchase/suppliers/create','Apps\PurchaseManagementController@supplierCreate')->name('supplier.create');
-    Route::post('purchase/suppliers/store','Apps\PurchaseManagementController@supplierStore')->name('supplier.store');
-    Route::get('purchase/suppliers/edit/{id}','Apps\PurchaseManagementController@supplierEdit')->name('supplier.edit');
-    Route::post('purchase/suppliers/update/{id}','Apps\PurchaseManagementController@supplierUpdate')->name('supplier.update');
-    Route::post('purchase/suppliers/delete/{id}','Apps\PurchaseManagementController@supplierDestroy')->name('supplier.destroy');
+    Route::get('purchase','Apps\PurchaseManagementController@index')->name('purchase.index');
+    Route::get('purchase/request/create','Apps\PurchaseManagementController@requestCreate')->name('request.create');
+    Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
+    Route::get('purchase/request/edit/{id}','Apps\PurchaseManagementController@requestForm')->name('request.form');
+    Route::post('purchase/request/approve','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
+    Route::get('purchase/order/show/{id}','Apps\PurchaseManagementController@purchaseShow')->name('purchase.show');
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/
     Route::get('inventories','Apps\InventoryManagementController@inventoryIndex')->name('inventory.index');
+    Route::post('inventories/initial-stock','Apps\InventoryManagementController@initialStock')->name('initial.stock');
     Route::get('inventories/stockcard/{id}','Apps\InventoryManagementController@stockCard')->name('inventory.card');
     Route::get('inventory/adjustment','Apps\InventoryManagementController@inventoryAdjustIndex')->name('inventory.adjust');
     Route::get('inventory/adjustment/{id}','Apps\InventoryManagementController@makeAdjust')->name('make.adjust');
     Route::post('inventory/adjustment/store/{id}','Apps\InventoryManagementController@storeAdjust')->name('store.adjust');
+    Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('transfer.index');
+    Route::get('inventories/internal-transfer/create','Apps\InventoryManagementController@addTransfer')->name('add.transfer');
+    Route::post('inventories/internal-transfer/store','Apps\InventoryManagementController@internStore')->name('store.transfer');
+    Route::post('inventories/internal-transfer/accept/{id}','Apps\InventoryManagementController@transferAccept')->name('transfer.accept');
+    Route::get('inventories/internal-transfer/view/{id}','Apps\InventoryManagementController@transferView')->name('transfer.view');
+    Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
+    Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
+    Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
+    Route::post('inventories/delivery-order/create','Apps\InventoryManagementController@deliveryOrder')->name('delivery.process');
+    Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
     /*-----------------------End Inventory Management------------------------------------*/
+
+    /*-----------------------Manufacture Management------------------------------------*/
+    Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
+    Route::get('manufactures/request/create','Apps\ManufactureManagementController@createRequest')->name('manufacture-request.create');
+    Route::post('manufactures/request/store','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
+    Route::get('manufactures/request/store/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture-request.check');
+    Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
+    Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
+    Route::post('manufactures/order/process/{id}','Apps\ManufactureManagementController@makeManufacture')->name('manufacture.process');
+    Route::get('manufactures/order/done/{id}','Apps\ManufactureManagementController@manufactureDone')->name('manufacture.done');
+    Route::post('manufactures/order/complete','Apps\ManufactureManagementController@process')->name('manufacture.complete');
+    Route::get('manufactures/order/show/{id}','Apps\ManufactureManagementController@manufactureShow')->name('manufacture.show');
+    Route::get('manufactures/order/transfer/{id}','Apps\ManufactureManagementController@manufactureTransfer')->name('manufacture.transfer');
+    Route::post('manufactures/order/transfer/process/{id}','Apps\ManufactureManagementController@transferProcess')->name('transfer.process');
+    /*-----------------------End Manufacture Management------------------------------------*/
+
+    /*-----------------------Reports Management------------------------------------*/
+    Route::get('reports/table/sales','Apps\ReportManagementController@saleTable')->name('sale.table');
+    Route::post('reports/table/sales/view','Apps\ReportManagementController@reportSales')->name('sale-table.view');
+    Route::get('reports/table/inventory','Apps\ReportManagementController@inventoryTable')->name('inventory.table');
+    Route::get('reports/table/purchase','Apps\ReportManagementController@purchaseTable')->name('purchase.table');
 });

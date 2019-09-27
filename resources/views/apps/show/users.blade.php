@@ -9,11 +9,11 @@
 			<table class="table table-bordered table-hover">
 				<thead>
 					<tr>
-						<th>Username</th>
+						<th>Nama</th>
 						<td>{{ $user->name}}</td>
 					</tr>
 					<tr>
-						<th>Access Role</th>
+						<th>Hak Akses</th>
 						<td>
 							@if(!empty($user->getRoleNames()))
 			                @foreach($user->getRoleNames() as $v)
@@ -27,13 +27,13 @@
 						<td>{{ $user->Divisions->name}}</td>
 					</tr>
 					<tr>
-						<th>Created Date</th>
+						<th>Tgl Dibuat</th>
 						<td>
 							{{ date("d F Y",strtotime($user->created_at)) }} jam {{date("g:ha",strtotime($user->created_at)) }}
 						</td>
 					</tr>
 					<tr>
-						<th>Last Login</th>
+						<th>Login Terakhir</th>
 						<td>@if(!empty($user->last_login_at))
 							{{ date("d F Y",strtotime($user->last_login_at)) }} jam {{date("g:ha",strtotime($user->last_login_at)) }}
 							@endif

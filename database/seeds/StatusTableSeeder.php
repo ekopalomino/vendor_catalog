@@ -13,15 +13,7 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            'Active',
-            'Suspended',
-            'Submit',
-            'Unpaid',
-            'Delivered',
-            'On Process',
-            'Empty Stock',
-            'Normal Stock',
-            'Low on Stock',
+            'Transfered',
         ];
 
         foreach($statuses as $status) {

@@ -21,6 +21,11 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
+                    <li class="nav-item ">
+                        <a href="" class="nav-link">
+                            <span class="title">Data Perusahaan</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
@@ -97,7 +102,7 @@
             </li>
             @endcan
             @can('Can Access Products')
-            <li class="nav-item {{ set_active(['product-cat.index','product.index','product.create','product.edit','product-bom.index','product-bom.create','product.show']) }}">
+            <li class="nav-item {{ set_active(['product-cat.index','product.index','product.create','product.edit','product-bom.index','product-bom.create','product.show','product.barcode']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-social-dropbox"></i>
             		<span class="title">Produk</span>
@@ -114,93 +119,104 @@
                             <span class="title">Kategori Produk</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ set_active(['product.barcode']) }}">
+                        <a href="{{ route('product.barcode') }}" class="nav-link ">
+                            <span class="title">Produk Barcode</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
+            @can('Can Access Contact')
+            <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','customer.show','supplier.index','supplier.create','supplier.edit']) }}">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-user-follow"></i>
+                    <span class="title">Kontak</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','customer.show']) }}">
+                        <a href="{{ route('customer.index') }}" class="nav-link ">
+                            <span class="title">Data Pelanggan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['supplier.index','supplier.create','supplier.edit']) }}">
+                        <a href="{{ route('supplier.index') }}" class="nav-link ">
+                            <span class="title">Data Pemasok</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Sales')
-            <li class="nav-item {{ set_active(['sales.index','sales.create','customer.index','customer.create']) }}">
+            <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-present"></i>
             		<span class="title">Penjualan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                	<li class="nav-item {{ set_active(['sales.index','sales.create']) }}">
+                	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
                             <span class="title">Sales Orders</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ set_active(['customer.index','customer.create']) }}">
-                		<a href="{{ route('customer.index') }}" class="nav-link ">
-                            <span class="title">Customers</span>
                         </a>
                     </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item {{ set_active(['supplier.index','supplier.create']) }}">
+            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
                     <span class="title">Pembelian</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">
+                    <li class="nav-item {{ set_active(['purchase.index','request.form','purchase.show']) }}">
+                        <a href="{{ route('purchase.index') }}" class="nav-link">
                             <span class="title">Purchase Orders</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">
-                            <span class="title">Purchase Request</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ set_active(['supplier.index','supplier.create']) }}">
-                        <a href="{{ route('supplier.index') }}" class="nav-link ">
-                            <span class="title">Suppliers</span>
                         </a>
                     </li>
                 </ul>
             </li>
             @endcan
-            @can('Can Access Inventory')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust']) }}">
+            @can('Can Access Inventories')
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','transfer.index','receipt.index','delivery.index','inventory.card','add.transfer','purchase.show']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
-            		<span class="title">Inventory</span>
+            		<span class="title">Persediaan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                	<li class="nav-item  {{ set_active(['inventory.index']) }}">
+                	<li class="nav-item  {{ set_active(['inventory.index','inventory.card']) }}">
                 		<a href="{{ route('inventory.index') }}" class="nav-link ">
-                            <span class="title">Products</span>
+                            <span class="title">Stok Produk</span>
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['inventory.adjust']) }}">
                 		<a href="{{ route('inventory.adjust') }}" class="nav-link ">
-                            <span class="title">Inventory Adjustment</span>
+                            <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
+                    <li class="nav-item {{ set_active(['transfer.index','receipt.index','delivery.index','add.transfer','purchase.show']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
-                            <span class="title">Inventory Movement</span>
+                            <span class="title">Pergerakan Stok</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
-                                    <span class="title">Receipts</span>
+                            <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
+                                <a href="{{ route('receipt.index') }}" class="nav-link ">
+                                    <span class="title">Penerimaan</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
-                                    <span class="title">Delivery Orders</span>
+                            <li class="nav-item {{ set_active(['delivery.index']) }}">
+                                <a href="{{ route('delivery.index') }}" class="nav-link ">
+                                    <span class="title">Pengiriman</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
-                                    <span class="title">Internal Transfer</span>
+                            <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
+                                <a href="{{ route('transfer.index') }}" class="nav-link ">
+                                    <span class="title">Mutasi Internal</span>
                                 </a>
                             </li>
                         </ul>
@@ -208,22 +224,22 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Manufacture')
-            <li class="nav-item  ">
+            @can('Can Access Manufactures')
+            <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index','manufacture-request.create','manufacture.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
-                    <span class="title">Manufacture</span>
+                    <span class="title">Manufaktur</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item  ">
-                        <a href="" class="nav-link ">
-                            <span class="title">Manufacture Orders</span>
+                    <li class="nav-item {{ set_active(['manufacture-request.index','manufacture-request.create']) }}">
+                        <a href="{{ route('manufacture-request.index') }}" class="nav-link ">
+                            <span class="title">Manufacture Request</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
-                        <a href="" class="nav-link ">
-                            <span class="title">Work Centre</span>
+                    <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture.show']) }}">
+                        <a href="{{ route('manufacture.index') }}" class="nav-link ">
+                            <span class="title">Manufacture Orders</span>
                         </a>
                     </li>
                 </ul>
@@ -321,7 +337,7 @@
                 </ul>
             </li>
             @endcan
-            <li class="nav-item  ">
+            <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Reports</span>
@@ -351,25 +367,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item  ">
+                    <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
-                            <span class="title">Tables</span>
+                            <span class="title">Tabel</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Sales</span>
+                            <li class="nav-item {{ set_active(['sale.table','sale-table.view']) }}">
+                                <a href="{{ route('sale.table') }}" class="nav-link ">
+                                    <span class="title">Penjualan</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Inventory</span>
+                            <li class="nav-item {{ set_active(['inventory.table']) }}">
+                                <a href="{{ route('inventory.table') }}" class="nav-link ">
+                                    <span class="title">Stok</span>
                                 </a>
                             </li>
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Purchasing</span>
+                            <li class="nav-item {{ set_active(['purchase.table']) }}">
+                                <a href="{{ route('purchase.table') }}" class="nav-link ">
+                                    <span class="title">Pembelian</span>
                                 </a>
                             </li>
                         </ul>

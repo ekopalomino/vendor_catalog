@@ -41,7 +41,7 @@ FiberTekno | Unit Kerja
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Name</label>
+                                                    <label class="control-label">Nama</label>
                                                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
@@ -71,9 +71,9 @@ FiberTekno | Unit Kerja
                 			<tr>
                                 <th>No</th>
                 				<th>Nama Unit Kerja</th>
-                                <th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                                <th>Dibuat</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -110,7 +110,7 @@ FiberTekno | Unit Kerja
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to delete?");
+    var x = confirm("Yakin Data Akan Dihapus?");
     if (x)
         return true;
     else

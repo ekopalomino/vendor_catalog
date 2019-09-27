@@ -13,7 +13,7 @@ FiberTekno | Role Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Access Roles Table 
+                        <i class="fa fa-database"></i>Data Hak Akses 
                     </div>
                     <div class="tools"> </div>
                 </div>
@@ -22,7 +22,7 @@ FiberTekno | Role Management
                         <div class="form-group">
                             <tr>
                                 <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Add Role </a>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Tambah Baru </a>
                                 </td>
                             </tr>
                         </div>
@@ -43,13 +43,13 @@ FiberTekno | Role Management
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Add Role</h4>
+                                        <h4 class="modal-title">Tambah Hak Akses Baru</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Name</label>
+                                                    <label class="control-label">Nama</label>
                                                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
@@ -77,8 +77,8 @@ FiberTekno | Role Management
                                         </div> 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Save changes</button>
+                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Tutup</button>
+                                        <button id="register" type="submit" class="btn green">Simpan</button>
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
@@ -89,9 +89,8 @@ FiberTekno | Role Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Role Name</th>
-                				<th>Created At</th>
-                				<th>Updated At</th>
+                				<th>Nama Hak Akses</th>
+                				<th>Tgl Dibuat</th>
                 				<th>Action</th>
                 			</tr>
                 		</thead>
@@ -101,10 +100,10 @@ FiberTekno | Role Management
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $role->name }}</td>
                 				<td>{{date("d F Y H:i",strtotime($role->created_at)) }}</td>
-                                <td>{{date("d F Y H:i",strtotime($role->updated_at)) }}</td>
                 				<td>
+                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\UserManagementController@roleShow',['id'=>$role->id]) }}" title="Lihat Hak Akses" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
                                     <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\UserManagementController@roleEdit',['id'=>$role->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['role.destroy', $role->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['role.destroy', $role->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Data']) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -126,4 +125,14 @@ FiberTekno | Role Management
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Yakin Data Akan Dihapus?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

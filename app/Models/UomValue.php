@@ -8,10 +8,16 @@ class UomValue extends Model
 {
     protected $fillable = [
         'type_id',
+        'is_parent',
+        'parent_id',
         'name',
         'value',
         'created_by',
         'updated_by',
+    ];
+
+    protected $casts = [
+        'is_parent' => 'boolean',
     ];
 
     public function Author()
