@@ -42,7 +42,7 @@ FiberTekno | Dashboard
                     <i class="fa fa-group fa-icon-medium"></i>
                 </div>
                 <div class="details">
-                    <div class="number"> $670.54 </div>
+                    <div class="number"> Rp {{ number_format($avgSales,0,',','.')}} </div>
                     <div class="desc"> Rata Rata Penjualan </div>
                 </div>
                 <a class="more" href="javascript:;"> View more

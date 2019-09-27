@@ -13,10 +13,12 @@
                 		<th>Status</th>
                 	</tr>
                 </thead>
-                <tbody>
+                <tbody> 
                 	@foreach($data as $key=>$val)
                 	<tr>
-	                	<td>{{ $val->material_id }}</td>
+	                	<td>
+                            {{ $val->material_id }}     
+                        </td>
 	                	<td>{{ $val->quantity * $val->qty }}</td>
 	                	<td>{{ $val->closing_amount }}</td>
                         <td>{{ $val->Uoms->name}}</td>

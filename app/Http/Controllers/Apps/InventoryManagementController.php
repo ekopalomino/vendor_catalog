@@ -100,8 +100,9 @@ class InventoryManagementController extends Controller
     {
         $data = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
         $locations = Warehouse::pluck('name','id')->toArray();
+        $details = Purchase::orderBy('created_at','ASC')->get();
 
-        return view('apps.pages.purchaseReceipt',compact('data','locations'));
+        return view('apps.pages.purchaseReceipt',compact('data','locations','details'));
     }
     public function purchaseReceipt(Request $request)
     {
@@ -116,15 +117,21 @@ class InventoryManagementController extends Controller
             'status' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
         ]);
         foreach($items as $index=>$item) {
+            $bases = UomValue::where('id',$item->uom_id)->first();
+            if($bases->is_parent == null) {
+                $convertion = ($item->quantity) * ($bases->value); 
+            } else {
+                $convertion = $item->quantity;
+            }
             $sources = Inventory::where('product_id',$item->product_id)->orderBy('updated_at','DESC')->get();
             $moves = InventoryMovement::where('product_id',$item->product_id)->orderBy('updated_at','DESC')->first();
             $inventories = Inventory::updateOrCreate([
                 'product_id' => $item->product_id,
                 'warehouse_id' => $request->input('warehouse_id')],[
-                'opening_amount' => ($sources[0]->closing_amount) + ($item->quantity),
-                'closing_amount' => ($sources[0]->closing_amount) + ($item->quantity),
-                'status' => '0',
+                'opening_amount' => $sources[0]->closing_amount,
+                'closing_amount' => ($sources[0]->closing_amount) + $convertion,
             ]);
+            
             if($moves === null) {
                 $movements = InventoryMovement::create([
                     'product_id' => $inventories->product_id,
@@ -132,8 +139,8 @@ class InventoryManagementController extends Controller
                     'type' => '3',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
-                    'incoming' => $item->quantity,
-                    'remaining' => $item->quantity,
+                    'incoming' => $convertion,
+                    'remaining' => $convertion,
                 ]);
             } else {
                 $movements = InventoryMovement::create([
@@ -142,19 +149,19 @@ class InventoryManagementController extends Controller
                     'type' => '3',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
-                    'incoming' => $item->quantity,
-                    'remaining' => ($moves->rem) + ($item->quantity),
+                    'incoming' => $convertion,
+                    'remaining' => ($moves->remaining) + $convertion,
                 ]);
             }
         }
-        $log = 'Pembelian '.($in->order_ref).' Berhasil Diterima';
+        $log = 'Pembelian '.($data->order_ref).' Berhasil Diterima';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembelian '.($in->order_ref).' Berhasil Diterima',
+            'message' => 'Pembelian '.($data->order_ref).' Berhasil Diterima',
             'alert-type' => 'success'
         );
 
-        return redirect()->route('inventory.index')->with($notification);
+        return redirect()->route('receipt.index')->with($notification);
     }
 
     public function internTransfer()

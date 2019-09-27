@@ -131,6 +131,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
     Route::get('purchase/request/edit/{id}','Apps\PurchaseManagementController@requestForm')->name('request.form');
     Route::post('purchase/request/approve','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
+    Route::get('purchase/order/show/{id}','Apps\PurchaseManagementController@purchaseShow')->name('purchase.show');
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/
@@ -156,10 +157,13 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
     Route::get('manufactures/request/create','Apps\ManufactureManagementController@createRequest')->name('manufacture-request.create');
     Route::post('manufactures/request/store','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
+    Route::get('manufactures/request/store/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture-request.check');
     Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
-    Route::get('manufactures/request/check-stock/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture.stocker');
-    Route::post('manufactures/order/create/{id}','Apps\ManufactureManagementController@makeManufacture')->name('make.manufacture');
     Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
+    Route::post('manufactures/order/process/{id}','Apps\ManufactureManagementController@makeManufacture')->name('manufacture.process');
+    Route::get('manufactures/order/done/{id}','Apps\ManufactureManagementController@manufactureDone')->name('manufacture.done');
+    Route::post('manufactures/order/complete','Apps\ManufactureManagementController@process')->name('manufacture.complete');
+    Route::get('manufactures/order/show/{id}','Apps\ManufactureManagementController@manufactureShow')->name('manufacture.show');
     /*-----------------------End Manufacture Management------------------------------------*/
 
     /*-----------------------Reports Management------------------------------------*/

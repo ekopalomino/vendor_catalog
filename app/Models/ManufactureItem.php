@@ -9,7 +9,7 @@ class ManufactureItem extends Model
     protected $fillable = [
         'manufacture_id',
         'item_id',
-        'quantity',
+        'qty',
         'uom_id',
     ];
 

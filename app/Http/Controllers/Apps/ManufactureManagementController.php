@@ -10,8 +10,10 @@ use Erp\Models\Inventory;
 use Erp\Models\InventoryMovement;
 use Erp\Models\Warehouse;
 use Erp\Models\InternalTransfer;
+use Erp\Models\InternalItems;
 use Erp\Models\Manufacture;
 use Erp\Models\ManufactureItem;
+use Erp\Models\WorkItem;
 use Erp\Models\UomValue;
 use Erp\Models\Sale;
 use Spatie\Permission\Models\Role;
@@ -78,7 +80,7 @@ class ManufactureManagementController extends Controller
             $details = ManufactureItem::create([
                 'manufacture_id' => $data->id,
                 'item_id' => $item,
-                'quantity' => $convertion,
+                'qty' => $convertion,
                 'uom_id' => $uoms[$index],
             ]);
         }
@@ -113,139 +115,165 @@ class ManufactureManagementController extends Controller
     public function makeManufacture(Request $request,$id)
     {
         $data = Manufacture::find($id);
-        $latestOrder = Manufacture::where('type_id','2')->count();
-        $ref = 'MO/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-        $details = ManufactureItem::join('inventories','inventories.product_id','=','manufacture_items.item_id')
-                    ->where('manufacture_items.manufacture_id','=',$id)
-                    ->get();
-        $process = Manufacture::find($id)->update([
-            'type_id' => '2',
-            'order_ref' => $ref,
-            'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
-            'updated_by' => auth()->user()->id,
-        ]);
-        foreach($details as $item) {
-            $invmove = InventoryMovement::where('product_id',$item->item_id)->orderBy('updated_at','DESC')->first();
-            
-            if($item->warehouse_id == 'afdcd530-bb5e-462b-8dda-1371b9195903') {
-                $transfer = InternalTransfer::create([
-                    'product_id' => $item->item_id,
-                    'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-                    'to_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                    'amount' => $item->quantity,
-                ]);
-                $inventories = Inventory::where('product_id',$item->item_id)
-                                ->updateorCreate([
-                                    'product_id' => $item->item_id,
-                                    'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                                    'min_stock' => $item->min_stock,
-                                    'opening_amount' => $item->opening_amount + $item->quantity,
-                                    'closing_amount' =>'0',
-                                    'status_id' => '1',
-                                ]);
-                $movements = InventoryMovement::create([
-                                'type' => '4',
-                                'inventory_id' => $inventories->id,
-                                'reference_id' => $ref,
-                                'product_id' => $item->item_id,
-                                'warehouse_id' => $inventories->warehouse_id,
-                                'incoming' => $item->quantity,
-                                'outgoing' => '0',
-                                'remaining' => $invmove->remaining + $item->quantity,
-                ]);
-            } else {
-                $inventories = Inventory::where('product_id',$item->item_id)
-                                ->updateorCreate([
-                                    'product_id' => $item->item_id,
-                                    'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                                    'min_stock' => $item->min_stock,
-                                    'opening_amount' => $item->opening_amount + $item->quantity,
-                                    'closing_amount' =>'0',
-                                ]);
-                $movements = InventoryMovement::create([
-                                'type' => '4',
-                                'inventory_id' => $inventories->id,
-                                'reference_id' => $ref,
-                                'product_id' => $item->item_id,
-                                'warehouse_id' => $inventories->warehouse_id,
-                                'incoming' => $item->quantity,
-                                'outgoing' => '0',
-                                'remaining' => $invmove->remaining + $item->quantity,
-                ]);
-            }
-        }
-    }
-
-    public function manufactureDone(Request $request,$id)
-    {
-        $data = Manufacture::find($id);
-        $details = ProductBom::join('inventories','inventories.product_id','=','product_boms.product_id')
-                    ->where('product_boms.product_id','=',$data->product_id)
-                    ->get();
-        $process = Manufacture::find($id)->update([
-            'type_id' => '2',
-            'order_ref' => $ref,
-            'status_id' => '0fb7f4e6-e293-429d-8761-f978dc850a97',
-            'updated_by' => auth()->user()->id,
-        ]);
-        $mainInventory = Inventory::where('product_id',$process->product_id)
-                            ->update([
-                                ''
-                            ]);
-    }
-
-    public function getCalculate(Request $request)
-    {
-        $details = ProductBom::join('inventories','inventories.product_id','=','product_boms.product_id')
-                                ->where('product_boms.product_id','=',$request->input('product_id'))
-                                ->get();
-        $latestOrder = Manufacture::count();
-        $ref = 'MO/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-        $mo = Manufacture::create([
-            'order_ref' => $ref,
-            'product_id' => $request->input('product_id'),
-            'uom_id' => $request->input('uom_id'),
-            'quantity' => $request->input('quantity'),
-            'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
-            'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-            'created_by' => auth()->user()->id,
-        ]);
-        foreach($details as $item) {
-            $jumlah = Inventory::where('product_id',$request->input('product_id'))->first();
-            $total = $item->quantity * ($request->input('quantity'));
-            $req = $jumlah->closing_amount;
-           
-            if($total >= $req) {
-                $data = ManufactureItem::create([
-                    'manufacture_id' => $mo->id,
-                    'item_id' => $item->material_id,
-                    'quantity' => $total,
-                    'status_id' => 'f8b26119-fb0c-40ff-85c0-8fb85696f220',
-                ]);
-            } else {
-                $data = ManufactureCalculate::create([
-                    'product_id' => $item->product_id,
-                    'material_id' => $item->material_id,
-                    'quantity' => $total,
-                    'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
-                ]);
-            }
-        }
-        $data = Manufacture::where('product_id',$data->product_id)->get();
+        $workItems = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_id')
+                        ->where('manufacture_items.manufacture_id',$id)
+                        ->get();
         
-        return view('apps.input.manufactureProcess',compact('data','details'));
+        $transfers = InternalTransfer::create([
+            'order_ref' => $data->order_ref,
+            'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+            'to_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+            'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+        ]);
+
+        $updateStatus = $data->update([
+            'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
+            'start_production' => Carbon::now(),
+        ]);
+        
+        foreach($workItems as $workItem)
+        {
+            $baseInventory = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
+            $baseMovement = InventoryMovement::where('product_id',$workItem->material_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
+            $newInventory = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+            
+            $totalQty = ($workItem->qty) * ($workItem->quantity);
+            $details = WorkItem::create([
+                'item_id' => $workItem->item_id,
+                'material_id' => $workItem->material_id,
+                'quantity' => $totalQty,
+            ]);
+            
+            $itemTransfers = InternalItems::create([
+                'mutasi_id' => $transfers->id,
+                'product_id' => $workItem->product_id,
+                'quantity' => $totalQty,
+                'uom_id' => $workItem->uom_id,
+            ]);
+
+            $inventoryOut = $baseInventory->update([
+                'closing_amount' => ($baseInventory->closing_amount) - ($totalQty),
+            ]);
+            
+            if($newInventory == null) {
+                $inventoryIn = Inventory::create([
+                    'product_id' => $workItem->material_id,
+                    'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                    'opening_amount' => $totalQty,
+                    'closing_amount' => $totalQty,
+                ]);
+            } else {
+                $inventoryIn = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
+                    'opening_amount' => ($newInventory->closing_amount) + ($totalQty),
+                    'closing_amount' => ($newInventory->closing_amount) + ($totalQty),
+                ]);
+            }
+            $id = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+            $movementOut = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $baseInventory->id,
+                'reference_id' => $data->order_ref,
+                'product_id' => $workItem->material_id,
+                'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                'incoming' => '0',
+                'outgoing' => $totalQty,
+                'remaining' => ($baseMovement->remaining) - ($totalQty),
+            ]);    
+
+            $movementIn = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $id->id,
+                'reference_id' => $data->order_ref,
+                'product_id' => $workItem->material_id,
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'incoming' => $totalQty,
+                'outgoing' => '0',
+                'remaining' => $totalQty,
+            ]);
+        }
+
+        return redirect()->route('manufacture.index');
     }
 
-    public function process(Request $request,$id)
+    public function manufactureShow($id)
     {
         $data = Manufacture::find($id);
-        $updates = [
-            'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
-        ];
-        $process = $data->update($updates);
+        $details = ManufactureItem::where('manufacture_id',$id)->get();
 
-        return redirect()->back();
+        return view('apps.show.manufactureOrder',compact('data','details'));
+    }
 
+    public function manufactureDone($id)
+    {
+        $products = ManufactureItem::where('manufacture_id',$id)->get();
+        $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')
+                            ->join('inventory_movements','inventory_movements.reference_id','manufactures.order_ref')
+                            ->where('inventory_movements.warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
+                            ->where('manufactures.id',$id)
+                            ->groupBy('inventory_movements.product_id')
+                            ->select('inventory_movements.product_id')
+                            ->get();
+       
+        return view('apps.input.manufactureDone',compact('data','products'))->renderSections()['content'];
+    }
+
+    public function process(Request $request)
+    {
+        $orders = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.id',$request->input('id'))->first();
+        $products = $request->product_id;
+        $material = $request->material_id;
+        $usage = $request->usage;
+        $scrap = $request->scrap;
+        $result = $request->result;
+        
+        foreach($products as $index=>$product) {
+            
+            $inventories = Inventory::where('product_id',$material[$index])
+                                        ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
+                                        ->update([
+                                            'closing_amount' => $scrap[$index],
+                                        ]);
+            $finishInventory  =Inventory::updateOrCreate([
+                'product_id' => $product,
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b'],[
+                    'min_stock' => '0',
+                    'opening_amount' => '0',
+                    'closing_amount' => $result[$index],
+            ]);
+            $id = Inventory::where('product_id',$material[$index])
+                            ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
+                            ->orderBy('updated_at','DESC')
+                            ->first();
+            
+            $movementOutScrap = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $id->id,
+                'reference_id' => $orders->order_ref,
+                'product_id' => $material[$index],
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'outgoing' => $scrap[$index],
+                'remaining' => '0',
+            ]);                
+            $movementInScrap = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $id->id,
+                'reference_id' => $orders->order_ref,
+                'product_id' => $material[$index],
+                'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                'incoming' => $scrap[$index],
+                'remaining' => $scrap[$index],
+            ]);
+
+        }
+        
+        $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.id',$request->input('id'))->first();
+        $updates = Manufacture::where('id',$data->manufacture_id)->update([
+            'manufactures.status_id' => '0fb7f4e6-e293-429d-8761-f978dc850a97',
+            'manufactures.end_production' => Carbon::now(),
+        ]);
+        return redirect()->route('manufacture.index');
     }
 
     public function refreshItems(Request $request,$id)

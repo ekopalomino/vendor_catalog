@@ -165,14 +165,14 @@
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form']) }}">
+            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
                     <span class="title">Pembelian</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['purchase.index','request.form']) }}">
+                    <li class="nav-item {{ set_active(['purchase.index','request.form','purchase.show']) }}">
                         <a href="{{ route('purchase.index') }}" class="nav-link">
                             <span class="title">Purchase Orders</span>
                         </a>
@@ -181,7 +181,7 @@
             </li>
             @endcan
             @can('Can Access Inventories')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','transfer.index','receipt.index','delivery.index','inventory.card','add.transfer']) }}">
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','transfer.index','receipt.index','delivery.index','inventory.card','add.transfer','purchase.show']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Persediaan</span>
@@ -198,13 +198,13 @@
                             <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['transfer.index','receipt.index','delivery.index','add.transfer']) }}">
+                    <li class="nav-item {{ set_active(['transfer.index','receipt.index','delivery.index','add.transfer','purchase.show']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Pergerakan Stok</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item {{ set_active(['receipt.index']) }}">
+                            <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
                                 <a href="{{ route('receipt.index') }}" class="nav-link ">
                                     <span class="title">Penerimaan</span>
                                 </a>
@@ -225,7 +225,7 @@
             </li>
             @endcan
             @can('Can Access Manufactures')
-            <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index','manufacture-request.create']) }}">
+            <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index','manufacture-request.create','manufacture.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
                     <span class="title">Manufaktur</span>
@@ -237,7 +237,7 @@
                             <span class="title">Manufacture Request</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['manufacture.index','manufacture.create']) }}">
+                    <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture.show']) }}">
                         <a href="{{ route('manufacture.index') }}" class="nav-link ">
                             <span class="title">Manufacture Orders</span>
                         </a>

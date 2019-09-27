@@ -23,11 +23,10 @@ FiberTekno | Manufactures
                 			<tr>
                                 <th>No</th>
                 				<th>MO Ref</th>
-                                <th>Sales Ref</th>
                                 <th>Deadline</th>
                                 <th>Status</th>
-                				<th>Dibuat</th>
-                				<th>Tgl Dibuat</th>
+                				<th>Mulai Produksi</th>
+                                <th>Selesai Produksi</th>
                 				<th></th>
                 			</tr>
                 		</thead>
@@ -36,12 +35,22 @@ FiberTekno | Manufactures
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->sales_order }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->deadline)) }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    @if(!empty($val->deadline))
+                                    {{date("d F Y H:i",strtotime($val->deadline)) }}
+                                    @endif
+                                </td>
+                                <td><label class="badge badge-info">{{ $val->Statuses->name }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->start_production)) }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->end_production)) }}</td>
+                                <td>
+                                    {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline']) !!}
+                                    {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Mulai']) !!}
+                                    {!! Form::close() !!}                                    
+                                    <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Hasil Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
+                                    <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
+                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Transfer Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-download"></i></a>
+                                </td>
                             </tr>
                             @endforeach
                 		</tbody>

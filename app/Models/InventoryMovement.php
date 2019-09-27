@@ -18,4 +18,8 @@ class InventoryMovement extends Model
         'notes',
     ];
     
+    public function Items()
+    {
+        return $this->belongsTo(Product::class,'product_id');
+    }
 }

@@ -13,7 +13,8 @@ class DashboardController extends Controller
     {
         $sumSales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->sum('total');
         $sumOrders = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->count();
+        $avgSales = Sale::avg('total');
         
-        return view('apps.pages.dashboard',compact('sumSales','sumOrders'));
+        return view('apps.pages.dashboard',compact('sumSales','sumOrders','avgSales'));
     }
 }

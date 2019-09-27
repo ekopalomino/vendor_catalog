@@ -17,6 +17,8 @@ class Manufacture extends Model
         'warehouse_id',
         'created_by',
         'updated_by',
+        'start_production',
+        'end_production',
     ];
 
     public $incrementing = false;

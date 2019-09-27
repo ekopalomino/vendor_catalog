@@ -14,13 +14,13 @@ FiberTekno | Purchase Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Purchase Order Data 
+                        <i class="fa fa-database"></i>Data Purchase Order 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">New Request
+                            <a href="{{ route('request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Permintaan Baru
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -39,13 +39,12 @@ FiberTekno | Purchase Management
                 			<tr>
                                 <th>No</th>
                 				<th>Ref No</th>
-                                <th>Supplier Name</th>
-                                <th>Qty Sale</th>
-                                <th>Total Sale</th>
-                				<th>Request By</th>
-                				<th>Created At</th>
+                                <th>Nama Supplier</th>
+                                <th>Total Harga</th>
+                				<th>Diminta Oleh</th>
+                				<th>Tgl Dibuat</th>
                                 <th>Status</th>
-                				<th>Action</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -54,7 +53,6 @@ FiberTekno | Purchase Management
                 				<td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->Suppliers->name}}</td>
-                                <td>{{ number_format($val->quantity,2,',','.')}}</td>
                                 <td>{{ number_format($val->total,2,',','.')}}</td>
                                 <td>{{ $val->Author->name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>

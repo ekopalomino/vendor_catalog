@@ -69,6 +69,7 @@ class PurchaseManagementController extends Controller
         $items = $request->product_id;
         $quantity = $request->quantity;
         $purchase_price = $request->purchase_price;
+        $uoms = $request->uom_id;
         $purchase_id = $data->id;
         
         foreach($items as $index=>$item) {
@@ -76,6 +77,7 @@ class PurchaseManagementController extends Controller
                 'purchase_id' => $purchase_id,
                 'product_id' => $item,
                 'quantity' => $quantity[$index],
+                'uom_id' => $uoms[$index],
                 'purchase_price' => $purchase_price[$index],
                 'sub_total' => ($purchase_price[$index]) * ($quantity[$index]),
             ]);
@@ -98,9 +100,17 @@ class PurchaseManagementController extends Controller
         return view('apps.edit.purchaseApprove',compact('purchase','data','id'));
     }
 
+    public function purchaseShow($id)
+    {
+        $data = Purchase::find($id);
+        $details = PurchaseItem::where('purchase_id',$id)->get();
+
+        return view('apps.show.purchaseOrder',compact('data','details'));
+    }
+
     public function requestApprove(Request $request)
     {
-        $reference = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->count();
+        $reference = Purchase::where('status','!=','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
         $ref = 'PO/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $details = Contact::where('ref_id',$request->input('supplier_code'))->first();
         $data = [
@@ -124,16 +134,4 @@ class PurchaseManagementController extends Controller
         
         return redirect()->route('purchase.index');
     }
-
-    public function purchaseReceipt()
-    {
-        $data = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
-
-        return view('apps.pages.purchaseReceipt',compact('data'));
-    }
-    
-
-    
-
-    
 }

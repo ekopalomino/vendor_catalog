@@ -31,6 +31,7 @@ FiberTekno | Permintaan Manufaktur
                                 <th>No</th>
                                 <th>MO Ref</th>
                                 <th>Sales Ref</th>
+                                <th>Produk</th>
                                 <th>Deadline</th>
                                 <th>Status</th>
                                 <th>Dibuat</th>
@@ -45,6 +46,11 @@ FiberTekno | Permintaan Manufaktur
                                 <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->sales_order }}</td>
                                 <td>
+                                    @foreach($val->Child as $child)
+                                    {{ $child->Items->name}}
+                                    @endforeach
+                                </td>
+                                <td>
                                     @if(!empty($val->deadline))
                                     {{date("d F Y H:i",strtotime($val->deadline)) }}
                                     @endif
@@ -54,7 +60,7 @@ FiberTekno | Permintaan Manufaktur
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@checkStock',['id'=>$val->id]) }}" title="Cek Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['make.manufacture', $val->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['manufacture-request.approve', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve']) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -76,4 +82,14 @@ FiberTekno | Permintaan Manufaktur
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Permintaan Manufaktur Diterima ?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

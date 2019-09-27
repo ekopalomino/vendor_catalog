@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Sales Order Detail
+FiberTekno | Purchase Order Detail
 @endsection
 @section('header.plugin')
 <link href="{{ asset('apps/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -16,8 +16,8 @@ FiberTekno | Sales Order Detail
 				<div class="portlet-title">
 					<div class="caption">
 						<i class="icon-settings font-dark"></i>
-                        <span class="caption-subject font-dark sbold uppercase"> Order {{$purchase->order_ref}}
-                            <span class="hidden-xs">| {{date("d F Y H:i",strtotime($purchase->created_at)) }} </span>
+                        <span class="caption-subject font-dark sbold uppercase"> Order {{$data->order_ref}}
+                            <span class="hidden-xs">| {{date("d F Y H:i",strtotime($data->created_at)) }} </span>
                         </span>
                     </div>
                 </div>
@@ -28,55 +28,28 @@ FiberTekno | Sales Order Detail
                     			<div class="portlet yellow-crusta box">
                     				<div class="portlet-title">
                                         <div class="caption">
-                                            <i class="fa fa-cogs"></i>Purchase Request Details 
+                                            <i class="fa fa-cogs"></i>Purchase Order Details 
                                         </div>
                                     </div>
                                     <div class="portlet-body">
                                         <div class="row static-info">
                                             <div class="col-md-5 name"> Purchase #: </div>
-                                            <div class="col-md-7 value"> {{$purchase->order_ref}}
+                                            <div class="col-md-7 value"> {{$data->order_ref}}
                                                 
                                             </div>
                                         </div>
                                         <div class="row static-info">
                                             <div class="col-md-5 name"> Request Date & Time: </div>
-                                            <div class="col-md-7 value"> {{date("d F Y H:i",strtotime($purchase->created_at)) }} </div>
+                                            <div class="col-md-7 value"> {{date("d F Y H:i",strtotime($data->created_at)) }} </div>
                                         </div>
                                         <div class="row static-info">
                                             <div class="col-md-5 name"> Grand Total: </div>
-                                            <div class="col-md-7 value"> Rp {{ number_format($purchase->total,2,',','.')}} </div>
+                                            <div class="col-md-7 value"> Rp {{ number_format($data->total,2,',','.')}} </div>
                                         </div>
                                         <div class="row static-info">
                                             <div class="col-md-5 name"> Request By: </div>
-                                            <div class="col-md-7 value"> {{$purchase->Author->name}} </div>
+                                            <div class="col-md-7 value"> {{$data->Author->name}} </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="portlet red-sunglo box">
-                                    <div class="portlet-title">
-                                        <div class="caption">
-                                            <i class="fa fa-cogs"></i>Request Approval 
-                                        </div>
-                                    </div>
-                                    <div class="portlet-body">
-                                        {!! Form::open(array('route' => 'request.approve','method'=>'POST')) !!}
-                                        @csrf
-                                        <div class="row static-info">
-                                            <div class="col-md-5 name"> Approval Status: </div>
-                                            <div class="col-md-7 value">
-                                            {!! Form::select('status', array('458410e7-384d-47bc-bdbe-02115adc4449'=>'Approve','af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8'=>'Rejected'),[], array('class' => 'form-control')) !!}
-                                            {{ Form::hidden('purchase_id', $id->id) }}
-                                            {{ Form::hidden('order_ref', $purchase->order_ref) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-actions right">
-                                                <a button type="button" class="btn default" href="{{ route('purchase.index') }}">Cancel</a>
-                                                <button type="submit" class="btn blue">
-                                                <i class="fa fa-check"></i> Save</button>
-                                            </div>
-                                        {!! Form::close() !!}
                                     </div>
                                 </div>
                             </div>
@@ -102,16 +75,14 @@ FiberTekno | Sales Order Detail
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($data as $key=>$val)
-                                                <tr>
-                                                    
+                                                @foreach($details as $key=>$val)
+                                                <tr>    
                                                     <td>{{ $key+1 }}</td>
                                                     <td>{{ $val->Products->name }}</td>
                                                     <td>{{ $val->quantity }}</td>
                                                     <td>{{ $val->Uoms->name }}</td>
                                                     <td>{{ number_format($val->purchase_price,2,',','.')}}</td>
                                                     <td>{{ number_format($val->sub_total,2,',','.')}}</td>
-                                                   
                                                 </tr>
                                                 @endforeach
                                             </tbody>
