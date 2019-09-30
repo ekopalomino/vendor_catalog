@@ -80,13 +80,13 @@ FiberTekno | Sales Management
                 			<tr>
                                 <th>No</th>
                 				<th>SO Ref</th>
-                                <th>Customer Name</th>
-                                <th>Qty Sale</th>
-                                <th>Total Sale</th>
+                                <th>Customer</th>
+                                <th>Jumlah Brg</th>
+                                <th>Total Harga</th>
                                 <th>Status</th>
-                				<th>Created By</th>
-                				<th>Created At</th>
-                				<th>Action</th>
+                				<th>Dibuat Oleh</th>
+                				<th>Tgl Dibuat</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -101,7 +101,15 @@ FiberTekno | Sales Management
                                 <td>{{ $sale->Author->name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
-                                    <a class="btn btn-xs btn-success" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
+                                    @if($sale->status_id != 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')
+                                    <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['sales.approve', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
+                                    {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Sale']) !!}
+                                    {!! Form::close() !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['sales.rejected', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
+                                    {!! Form::close() !!}
+                                    @endif
                                 </td>
                 			</tr>
                             @endforeach
@@ -121,4 +129,24 @@ FiberTekno | Sales Management
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmAccept()
+    {
+    var x = confirm("Penjualan Akan Diproses?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Penjualan Akan Dibatalkan?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

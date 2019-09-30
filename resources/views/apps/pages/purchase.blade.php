@@ -71,6 +71,9 @@ FiberTekno | Purchase Management
                                     <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-search"></i></a>
                                     @if(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     <a class="btn btn-xs btn-success" title="Approve Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-check"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['request.rejected', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
+                                    {!! Form::close() !!}
                                     @endif
                                 </td>
                 			</tr>
@@ -91,4 +94,14 @@ FiberTekno | Purchase Management
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Pembelian Akan Dibatalkan?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

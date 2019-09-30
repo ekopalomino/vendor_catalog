@@ -140,11 +140,6 @@ class ManufactureManagementController extends Controller
             $newInventory = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
             
             $totalQty = ($workItem->qty) * ($workItem->quantity);
-            $details = WorkItem::create([
-                'item_id' => $workItem->item_id,
-                'material_id' => $workItem->material_id,
-                'quantity' => $totalQty,
-            ]);
             
             $itemTransfers = InternalItems::create([
                 'mutasi_id' => $transfers->id,
@@ -227,14 +222,8 @@ class ManufactureManagementController extends Controller
         $usage = $request->usage;
         $scrap = $request->scrap;
         $result = $request->result;
-        
+       
         foreach($products as $index=>$product) {
-            
-            $inventories = Inventory::where('product_id',$material[$index])
-                                        ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
-                                        ->update([
-                                            'closing_amount' => $scrap[$index],
-                                        ]);
             $finishInventory  =Inventory::updateOrCreate([
                 'product_id' => $product,
                 'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b'],[
@@ -242,6 +231,11 @@ class ManufactureManagementController extends Controller
                     'opening_amount' => '0',
                     'closing_amount' => $result[$index],
             ]);
+            $inventories = Inventory::where('product_id',$material[$index])
+                                        ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
+                                        ->update([
+                                            'closing_amount' => $scrap[$index],
+                                        ]);
             $id = Inventory::where('product_id',$material[$index])
                             ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
                             ->orderBy('updated_at','DESC')
@@ -275,59 +269,4 @@ class ManufactureManagementController extends Controller
         ]);
         return redirect()->route('manufacture.index');
     }
-
-    public function manufactureTransfer($id)
-    {
-        $locations = Warehouse::pluck('name','id')->toArray();
-        $data = Manufacture::find($id);
-
-        return view('apps.input.manufactureTransfer',compact('locations','data'))->renderSections()['content'];
-    }
-
-    public function transferProcess(Request $request,$id)
-    {
-        $details = Inventory::join('manufacture_items','manufacture_items.item_id','inventories.product_id')
-                           ->where('manufacture_items.manufacture_id',$id)
-                           ->where('inventories.warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
-                           ->orderBy('inventories.updated_at','DESC')
-                           ->get();
-        dd($data);
-        foreach($details as $data) {
-            Inventory::updateOrCreate([
-                'product_id' => $data->product_id,
-                'warehouse_id' => $request->input('to_id')],[
-                    'opening_amount' => $details->closing_amount,
-                    'closing_amount' => $details->closing_amount,
-            ]);
-        }
-    }
-
-    public function refreshItems(Request $request,$id)
-    {
-        $items = ManufactureItem::where('manufacture_id',$id)->get();
-        $details = ManufactureItem::join('inventories','inventories.product_id','manufacture_items.item_id')
-                    ->where('manufacture_id',$id)
-                    ->get();
-    
-        foreach($details as $item) {
-            $jumlah = Inventory::where('product_id',$item->material_id)->first();
-            $total = $item->quantity * ($request->input('quantity'));
-            $req = $jumlah->closing_amount;
-           
-            if($total < $req) {
-                $data = ManufactureItem::update([
-                    'status_id' => '533806c2-19dc-4b24-886f-d783a8b448b7',
-                ]);
-            } else {
-                $data = ManufactureCalculate::update([
-                    'status_id' => 'f8b26119-fb0c-40ff-85c0-8fb85696f220',
-                ]);
-            }
-        }
-
-        return redirect()->back();
-
-    }
-
-    
 }

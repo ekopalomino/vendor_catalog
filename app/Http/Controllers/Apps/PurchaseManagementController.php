@@ -35,13 +35,23 @@ class PurchaseManagementController extends Controller
         return view('apps.pages.purchase',compact('data'));
     }
 
+    public function searchProduct(Request $request)
+    {
+        $search = $request->get('product');
+        $result = $products = Product::join('inventories','inventories.product_id','=','products.id')
+                            ->where('name','LIKE','%'.$search. '%')
+                            ->orWhere('product_barcode','LIKE','%'.$search.'%')
+                            ->select('products.id','products.name')
+                            ->get();
+        
+        return response()->json($result);
+    } 
+
     public function requestCreate()
     {
         $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
-        $products = Product::pluck('products.name','products.id')
-                    ->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
-        return view('apps.input.purchase',compact('suppliers','products','uoms'));
+        return view('apps.input.purchase',compact('suppliers','uoms'));
     }
 
     public function requestStore(Request $request)
@@ -66,16 +76,17 @@ class PurchaseManagementController extends Controller
         ];
         
         $data = Purchase::create($input);
-        $items = $request->product_id;
+        $items = $request->product;
         $quantity = $request->quantity;
         $purchase_price = $request->purchase_price;
         $uoms = $request->uom_id;
         $purchase_id = $data->id;
         
         foreach($items as $index=>$item) {
+            $names = Product::where('name',$item)->orWhere('product_barcode',$item)->first();
             $items = PurchaseItem::create([
                 'purchase_id' => $purchase_id,
-                'product_id' => $item,
+                'product_id' => $names->id,
                 'quantity' => $quantity[$index],
                 'uom_id' => $uoms[$index],
                 'purchase_price' => $purchase_price[$index],
@@ -132,6 +143,17 @@ class PurchaseManagementController extends Controller
         
         $update = Purchase::find($request->input('purchase_id'))->update($data);
         
+        return redirect()->route('purchase.index');
+    }
+
+    public function requestRejected($id)
+    {
+        $data = Purchase::find($id);
+        $reject = $data->update([
+            'status' => 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8',
+            'updated_by' => auth()->user()->id,
+        ]);
+
         return redirect()->route('purchase.index');
     }
 }

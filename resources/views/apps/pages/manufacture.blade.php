@@ -52,8 +52,7 @@ FiberTekno | Manufactures
                                     @if($val->status_id == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')                                    
                                     <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Selesai Proses Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
                                     @endif
-                                    <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureTransfer',['id'=>$val->id]) }}" title="Transfer Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-download"></i></a>
+                                    <a class="btn btn-xs btn-info" title="Lihat MO" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
                                 </td>
                             </tr>
                             @endforeach
