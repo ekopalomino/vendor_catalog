@@ -50,15 +50,13 @@ Fiber Tekno | Buat Permintaan Manufaktur
 	            					<th>Produk</th>
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
-	            					<th></th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
 	            				<tr>
-	            					<td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
-                    				<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
+	            					<td>{!! Form::text('product', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::text('quantity', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::select('uom_id', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
 	            				</tr>
 	            			</tbody>
 	            		</table>
@@ -82,17 +80,15 @@ Fiber Tekno | Buat Permintaan Manufaktur
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript"> 
-    $(document).ready(function(){      
-      var i=1;  
-      $('#add').click(function(){  
-           i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
-      });  
-      $(document).on('click', '.btn_remove', function(){  
-           var button_id = $(this).attr("id");   
-           $('#row'+button_id+'').remove();  
-      });   
-    });  
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+<script type="text/javascript">
+    var route = "{{ route('manufacture-request.product') }}";
+    $("input[name^='product']").typeahead({
+        source:  function (product, process) {
+            return $.get(route, { product: product }, function (data) {
+                    return process(data);
+                });
+            }
+      });
+</script>   
 @endsection

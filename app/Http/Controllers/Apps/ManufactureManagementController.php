@@ -37,25 +37,36 @@ class ManufactureManagementController extends Controller
         return view('apps.pages.manufactureRequest',compact('data'));
     }
 
-    public function manufactureRequest()
+    public function manufactureProduct(Request $request)
     {
-        $products = Product::pluck('name','id')->toArray();
-        return view('apps.input.manufactureRequest',compact('products'));
+        $search = $request->get('product');
+        $result = Product::where('is_manufacture','1')
+                            ->where('name','LIKE','%'.$search. '%')
+                            ->orWhere('product_barcode','LIKE','%'.$search.'%')
+                            ->select('id','name')
+                            ->get();
+
+        return response()->json($result);
     }
 
     public function createRequest()
     {
         $orders  = Sale::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->pluck('order_ref','id')->toArray();
-        $products = Product::where('is_manufacture','1')->pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
 
-        return view('apps.input.manufactureRequest',compact('orders','products','uoms'));
+        return view('apps.input.manufactureRequest',compact('orders','uoms'));
     }
 
     public function storeRequest(Request $request)
     {
         $latestOrder = Manufacture::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
         $ref = 'MR/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $bases = UomValue::where('id',$request->input('uom_id'))->first();
+        if($bases->is_parent == null) {
+            $convertion = ($request->input('quantity')) * ($bases->value); 
+        } else {
+            $convertion = $request->input('quantity');
+        }
         $input = [
             'order_ref' => $ref,
             'sales_order' => $request->input('sales_order'),
@@ -64,27 +75,15 @@ class ManufactureManagementController extends Controller
             'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
             'created_by' => auth()->user()->id,
         ];
-
+        $names = Product::where('name',$request->input('product'))->orWhere('product_barcode',$request->input('product'))->first();
         $data = Manufacture::create($input);
-        $items = $request->product_id;
-        $quantity = $request->quantity;
-        $uoms = $request->uom_id;
-
-        foreach($items as $index=>$item) {
-            $bases = UomValue::where('id',$uoms[$index])->first();
-            if($bases->is_parent == null) {
-                $convertion = ($quantity[$index]) * ($bases->value); 
-            } else {
-                $convertion = $quantity[$index];
-            }
-            $details = ManufactureItem::create([
-                'manufacture_id' => $data->id,
-                'item_id' => $item,
-                'qty' => $convertion,
-                'uom_id' => $uoms[$index],
-            ]);
-        }
-
+        $details = ManufactureItem::create([
+            'manufacture_id' => $data->id,
+            'item_id' => $names->id,
+            'qty' => $convertion,
+            'uom_id' => $request->input('uom_id'),
+        ]);
+        
         return redirect()->route('manufacture-request.index');
     }
 
@@ -217,47 +216,115 @@ class ManufactureManagementController extends Controller
     public function process(Request $request)
     {
         $orders = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.id',$request->input('id'))->first();
-        $products = $request->product_id;
-        $material = $request->material_id;
+        $itemInventory = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+        $items = $request->material_id;
         $usage = $request->usage;
         $scrap = $request->scrap;
-        $result = $request->result;
-       
-        foreach($products as $index=>$product) {
-            $finishInventory  =Inventory::updateOrCreate([
-                'product_id' => $product,
-                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b'],[
-                    'min_stock' => '0',
-                    'opening_amount' => '0',
-                    'closing_amount' => $result[$index],
-            ]);
-            $inventories = Inventory::where('product_id',$material[$index])
-                                        ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
-                                        ->update([
-                                            'closing_amount' => $scrap[$index],
-                                        ]);
-            $id = Inventory::where('product_id',$material[$index])
-                            ->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
-                            ->orderBy('updated_at','DESC')
-                            ->first();
-            
-            $movementOutScrap = InventoryMovement::create([
-                'type' => '7',
-                'inventory_id' => $id->id,
-                'reference_id' => $orders->order_ref,
-                'product_id' => $material[$index],
+        
+        if($itemInventory == null) {
+            $finishItems = Inventory::create([
+                'product_id' => $request->input('product_id'),
                 'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                'outgoing' => $scrap[$index],
-                'remaining' => '0',
-            ]);                
-            $movementInScrap = InventoryMovement::create([
+                'min_stock' => '0',
+                'opening_amount' => $request->input('result'),
+                'closing_amount' => $request->input('result'),
+            ]);
+        } else {
+            $finishItems = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
+                'opening_amount' => $itemInventory->opening_amount,
+                'closing_amount' => ($itemInventory->closing_amount) + ($request->input('result')),
+            ]);
+        }
+        $idFinish = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+        $lastMoves = InventoryMovement::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+        if($lastMoves == null) {
+            $finishIn = InventoryMovement::create([
                 'type' => '7',
-                'inventory_id' => $id->id,
+                'inventory_id' => $idFinish->id,
                 'reference_id' => $orders->order_ref,
-                'product_id' => $material[$index],
-                'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
-                'incoming' => $scrap[$index],
-                'remaining' => $scrap[$index],
+                'product_id' => $idFinish->product_id,
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'incoming' => $request->input('result'),
+                'outgoing' => '0',
+                'remaining' => $request->input('result'),
+            ]);
+        } else {
+            $finishIn = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $idFinish->id,
+                'reference_id' => $orders->order_ref,
+                'product_id' => $idFinish->product_id,
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'incoming' => $request->input('result'),
+                'outgoing' => '0',
+                'remaining' => ($lastMoves->remaining) + ($request->input('result')),
+            ]);
+        }
+               
+        foreach($items as $index=>$item) {
+            $scrapInventory = Inventory::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->first();
+            if($scrapInventory == null) {
+                $scrapItems = Inventory::create([
+                    'product_id' => $item,
+                    'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                    'min_stock' => '0',
+                    'opening_amount' => $scrap[$index],
+                    'closing_amount' => $scrap[$index],
+                ]);
+            } else {
+                $scrapItems = Inventory::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->update([
+                    'closing_amount' => ($scrapInventory->closing_amount) + $scrap[$index],
+                ]);
+            }
+            $idScrap = Inventory::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->first();
+            $lastMove = InventoryMovement::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->orderBy('updated_at','DESC')->first();
+            if($lastMove == null) {
+                $scrapIn = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idScrap->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_id' => $item,
+                    'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                    'incoming' => $scrap[$index],
+                    'outgoing' => '0',
+                    'remaining' => $scrap[$index],
+                ]);
+            } else {
+                $scrapIn = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idScrap->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_id' => $item,
+                    'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                    'incoming' => $scrap[$index],
+                    'outgoing' => '0',
+                    'remaining' => ($lastMove->remaining) + ($scrap[$index]),
+                ]);
+            }
+            $idUsage = Inventory::where('product_id',$item)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+            $usageMove = InventoryMovement::where('product_id',$item)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+            $usageOut = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $idUsage->id,
+                'reference_id' => $orders->order_ref,
+                'product_id' => $item,
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'incoming' => '0',
+                'outgoing' => $usage[$index],
+                'remaining' => ($usageMove->remaining) - ($usage[$index]),
+            ]);
+            $scrapOut = InventoryMovement::create([
+                'type' => '7',
+                'inventory_id' => $idUsage->id,
+                'reference_id' => $orders->order_ref,
+                'product_id' => $item,
+                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'incoming' => '0',
+                'outgoing' => $scrap[$index],
+                'remaining' => ($usageOut->remaining) - ($scrap[$index]),
+            ]);
+            $updateInventory = Inventory::where('product_id',$item)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
+                'closing_amount' => '0',
             ]);
 
         }

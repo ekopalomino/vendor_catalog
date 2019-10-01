@@ -23,6 +23,8 @@ FiberTekno | Manufactures
                 			<tr>
                                 <th>No</th>
                 				<th>MO Ref</th>
+                                <th>Produk</th>
+                                <th>Jumlah</th>
                                 <th>Deadline</th>
                                 <th>Status</th>
                 				<th>Mulai Produksi</th>
@@ -35,14 +37,24 @@ FiberTekno | Manufactures
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     @if(!empty($val->deadline))
                                     {{date("d F Y H:i",strtotime($val->deadline)) }}
                                     @endif
                                 </td>
                                 <td><label class="badge badge-info">{{ $val->Statuses->name }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->start_production)) }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->end_production)) }}</td>
+                                <td>
+                                    @if(!empty($val->start_production))
+                                    {{date("d F Y H:i",strtotime($val->start_production)) }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!empty($val->end_production))
+                                    {{date("d F Y H:i",strtotime($val->end_production)) }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline']) !!}

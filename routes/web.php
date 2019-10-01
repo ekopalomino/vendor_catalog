@@ -155,6 +155,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     /*-----------------------Manufacture Management------------------------------------*/
     Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
     Route::get('manufactures/request/create','Apps\ManufactureManagementController@createRequest')->name('manufacture-request.create');
+    Route::get('manufactures/request/product/find','Apps\ManufactureManagementController@manufactureProduct')->name('manufacture-request.product');
     Route::post('manufactures/request/store','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
     Route::get('manufactures/request/store/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture-request.check');
     Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
