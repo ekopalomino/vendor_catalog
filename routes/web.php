@@ -176,4 +176,6 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     /*-----------------------End Reports Management------------------------------------*/
 
     /*-----------------------Finance Management------------------------------------*/
+    Route::get('invoices/index','Apps\InvoiceManagementController@index')->name('invoice.index');
+    Route::post('invoices/create','Apps\InvoiceManagementController@invoiceStore')->name('invoice.store');
 });

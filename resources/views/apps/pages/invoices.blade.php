@@ -20,10 +20,43 @@ FiberTekno | Invoice Management
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('sales.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Sales Order
-                            </button></a>
+                            <tr>
+                                <td>
+                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Invoice Baru </a>
+                                </td>
+                            </tr>
                         </div>
-                        @if (count($errors) > 0) 
+                    </div>
+                    <div class="col-md-6">
+                        <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    {!! Form::open(array('route' => 'invoice.store','method'=>'POST')) !!}
+                                    @csrf
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                        <h4 class="modal-title">Buat Invoice Baru</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Sales Order</label>
+                                                    {!! Form::select('sales_order', [null=>'Please Select'] + $orders,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                                        <button id="register" type="submit" class="btn green">Save changes</button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
                                 <ul>
@@ -32,43 +65,40 @@ FiberTekno | Invoice Management
                                     @endforeach
                                 </ul>
                         </div>
-                        @endif
-                    </div>
+                    @endif
                 	<table class="table table-striped table-bordered table-hover" id="sample_1">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>SO Ref</th>
+                				<th>Sales Order</th>
+                                <th>Invoice Ref</th>
                                 <th>Customer</th>
-                                <th>Jumlah Brg</th>
                                 <th>Total Harga</th>
                                 <th>Status</th>
                 				<th>Dibuat Oleh</th>
                 				<th>Tgl Dibuat</th>
+                                <th>Pembayaran</th>
                 				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
-                            @foreach($sales as $key => $sale)
+                            @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $sale->order_ref }}</td>
-                                <td>{{ $sale->Customers->name}}</td>
-                                <td>{{ number_format($sale->quantity,2,',','.')}}</td>
-                                <td>{{ number_format($sale->total,2,',','.')}}</td>
-                                <td><label class="badge badge-success">{{ $sale->Statuses->name }}</label></td>
+                                <td>{{ $val->Sales->order_ref }}</td>
+                                <td>{{ $val->order_ref }}</td>
+                                <td>{{ $val->Sales->Customers->name}}</td>
+                                <td>{{ number_format($val->Sales->total,2,',','.')}}</td>
+                                <td><label class="badge badge-success">{{ $val->Statuses->name }}</label></td>
                                 <td>{{ $sale->Author->name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
-                                    @if($sale->status_id != 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')
-                                    <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['sales.approve', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
-                                    {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Sale']) !!}
-                                    {!! Form::close() !!}
-                                    {!! Form::open(['method' => 'POST','route' => ['sales.rejected', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
-                                    {!! Form::close() !!}
+                                    @if(!empty($val->payment_received))
+                                    {{date("d F Y H:i",strtotime($val->payment_received)) }}
                                     @endif
+                                </td>
+                                <td>
+                                
                                 </td>
                 			</tr>
                             @endforeach

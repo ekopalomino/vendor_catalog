@@ -49,4 +49,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Status::class,'status_id');
     }
+
+    public function Invoices()
+    {
+        return $this->hasOne(Invoice::class,'sales_order');
+    }
 }
