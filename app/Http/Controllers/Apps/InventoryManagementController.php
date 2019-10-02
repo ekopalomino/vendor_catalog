@@ -207,6 +207,7 @@ class InventoryManagementController extends Controller
             $source = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->first();
             $from = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->from_id)->orderBy('updated_at','DESC')->first();
             $to = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->to_id)->orderBy('updated_at','DESC')->first();
+           
             $items = InternalItems::create([
                 'product_id' => $item,
                 'mutasi_id' => $internal->id,
@@ -260,6 +261,22 @@ class InventoryManagementController extends Controller
                     'remaining' => ($from->remaining) - ($convertion),
                 ]);
 
+                $updateInvent = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->update([
+                    'closing_amount' => ($source->closing_amount) - ($convertion),
+                ]);
+            }
+            if($to == null) {
+                $income = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $base->id,
+                    'reference_id' => $ref,
+                    'product_id' => $base->product_id,
+                    'warehouse_id' => $base->warehouse_id,
+                    'incoming' => $convertion,
+                    'outgoing' => '0',
+                    'remaining' => $convertion,
+                ]);
+            } else {
                 $income = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $base->id,
@@ -270,10 +287,6 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => ($to->remaining) + ($convertion),
                 ]);
-                $updateInvent = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->update([
-                    'closing_amount' => ($source->closing_amount) - ($convertion),
-                ]);
-
             }
         }
         $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';

@@ -19,8 +19,8 @@
 	                	<td>
                             {{ $val->material_id }}     
                         </td>
-	                	<td>{{ $val->quantity * $val->qty }}</td>
-	                	<td>{{ $val->closing_amount }}</td>
+	                	<td>{{ number_format(($val->quantity) * ($val->qty),2,',','.')}}</td>
+	                	<td>{{ number_format($val->closing_amount,2,',','.')}}</td>
                         <td>{{ $val->Uoms->name}}</td>
 	                	<td>
                             @if((($val->quantity) * ($val->qty)) > ($val->closing_amount))

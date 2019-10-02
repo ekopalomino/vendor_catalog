@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Add Sales Order
+Fiber Tekno | Add Sales Order 
 @endsection
 @section('header.plugins')
 <link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
@@ -58,11 +58,11 @@ Fiber Tekno | Add Sales Order
 	            			</thead>
 	            			<tbody>
 	            				<tr>
-	            					<td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control','required')) !!}</td>
+	            					<td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::text('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control','required')) !!}</td>
-                            <td>{!! Form::text('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control','required')) !!}</td>
+                                    <td>{!! Form::text('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control','required')) !!}</td>
                     				<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
 	            				</tr>
 	            			</tbody>
@@ -87,17 +87,33 @@ Fiber Tekno | Add Sales Order
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript"> 
-    $(document).ready(function(){      
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){ 
+    var route = "{{ route('sales.product') }}";
+    $("input[name^='product']").typeahead({
+        source:  function (product, process) {
+            return $.get(route, { product: product }, function (data) {
+                    return process(data);
+                });
+            }
+      });     
       var i=1;  
       $('#add').click(function(){  
            i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td><td>{!! Form::text('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
-      });  
+           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td><td>{!! Form::text('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>').find('input[type=text]').typeahead({
+                source:  function (product, process) {
+                return $.get(route, { product: product }, function (data) {
+                    return process(data);
+                });
+            }
+           });  
+      });
+      
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   
            $('#row'+button_id+'').remove();  
-      });   
+      }); 
     });  
 </script>
 @endsection

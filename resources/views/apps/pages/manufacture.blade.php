@@ -23,6 +23,8 @@ FiberTekno | Manufactures
                 			<tr>
                                 <th>No</th>
                 				<th>MO Ref</th>
+                                <th>Produk</th>
+                                <th>Jumlah</th>
                                 <th>Deadline</th>
                                 <th>Status</th>
                 				<th>Mulai Produksi</th>
@@ -35,14 +37,24 @@ FiberTekno | Manufactures
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                     @if(!empty($val->deadline))
                                     {{date("d F Y H:i",strtotime($val->deadline)) }}
                                     @endif
                                 </td>
                                 <td><label class="badge badge-info">{{ $val->Statuses->name }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->start_production)) }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->end_production)) }}</td>
+                                <td>
+                                    @if(!empty($val->start_production))
+                                    {{date("d F Y H:i",strtotime($val->start_production)) }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!empty($val->end_production))
+                                    {{date("d F Y H:i",strtotime($val->end_production)) }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline']) !!}
@@ -52,8 +64,7 @@ FiberTekno | Manufactures
                                     @if($val->status_id == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')                                    
                                     <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Selesai Proses Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
                                     @endif
-                                    <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureTransfer',['id'=>$val->id]) }}" title="Transfer Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-download"></i></a>
+                                    <a class="btn btn-xs btn-info" title="Lihat MO" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
                                 </td>
                             </tr>
                             @endforeach

@@ -139,7 +139,13 @@ FiberTekno | User Management
                                     @endforeach
                                     @endif            
                                 </td>
-                				<td><label class="badge badge-info">{{ $user->Statuses->name }}</label></td>
+                				<td>
+                                    @if($user->status_id == '2b643e21-a94c-4713-93f1-f1cbde6ad633')
+                                    <label class="badge badge-info">{{ $user->Statuses->name }}</label>
+                                    @else
+                                    <label class="badge badge-danger">{{ $user->Statuses->name }}</label>
+                                    @endif
+                                </td>
                 				<td>
                                     @if(!empty($user->last_login_at)) 
                                     {{date("d F Y H:i",strtotime($user->last_login_at)) }}

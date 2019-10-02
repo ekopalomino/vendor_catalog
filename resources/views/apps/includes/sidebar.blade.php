@@ -245,7 +245,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Finance')
+            @can('Can Access Finances')
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>

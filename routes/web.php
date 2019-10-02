@@ -114,24 +114,23 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     /*-----------------------Sales Management------------------------------------*/
     Route::get('sales','Apps\SalesManagementController@index')->name('sales.index');
     Route::get('sales/orders/create','Apps\SalesManagementController@create')->name('sales.create');
+    Route::get('sales/product/find','Apps\SalesManagementController@searchProduct')->name('sales.product');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
-    Route::get('products/barcode/pdf/{id}','Apps\SalesManagementController@salesPrint')->name('sales.pdf');
-    Route::get('sales/orders/items/create/{id}','Apps\SalesManagementController@createItems')->name('sales.items');
-	Route::post('sales/orders/items/store','Apps\SalesManagementController@storeItems')->name('sales-item.store');
-	Route::get('sales/orders/sum/{id}','Apps\SalesManagementController@updateSo')->name('sales.sum');
+    Route::post('sales/orders/approve/{id}','Apps\SalesManagementController@processSales')->name('sales.approve');
+    Route::post('sales/orders/rejected/{id}','Apps\SalesManagementController@rejectedSale')->name('sales.rejected');
+    Route::get('sales/orders/pdf/{id}','Apps\SalesManagementController@salesPrint')->name('sales.pdf');
 	Route::get('sales/orders/show/{id}','Apps\SalesManagementController@salesShow')->name('sales.show');
-    Route::get('sales/orders/addmore','Apps\SalesManagementController@addMore');
-    Route::post('sales/orders/addmore','Apps\SalesManagementController@addMoreItem');
-    Route::get('sales/orders/getaddress', 'Apps\SalesManagementController@getAddress')->name('get.address');
     /*-----------------------End Sales Management------------------------------------*/
 
     /*-----------------------Purchase Management------------------------------------*/
     Route::get('purchase','Apps\PurchaseManagementController@index')->name('purchase.index');
     Route::get('purchase/request/create','Apps\PurchaseManagementController@requestCreate')->name('request.create');
+    Route::get('purchase/product/find','Apps\PurchaseManagementController@searchProduct')->name('purchase.product');
     Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
     Route::get('purchase/request/edit/{id}','Apps\PurchaseManagementController@requestForm')->name('request.form');
     Route::post('purchase/request/approve','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
     Route::get('purchase/order/show/{id}','Apps\PurchaseManagementController@purchaseShow')->name('purchase.show');
+    Route::post('purchase/orders/rejected/{id}','Apps\PurchaseManagementController@requestRejected')->name('request.rejected');
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/
@@ -156,6 +155,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     /*-----------------------Manufacture Management------------------------------------*/
     Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
     Route::get('manufactures/request/create','Apps\ManufactureManagementController@createRequest')->name('manufacture-request.create');
+    Route::get('manufactures/request/product/find','Apps\ManufactureManagementController@manufactureProduct')->name('manufacture-request.product');
     Route::post('manufactures/request/store','Apps\ManufactureManagementController@storeRequest')->name('manufacture-request.store');
     Route::get('manufactures/request/store/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture-request.check');
     Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
@@ -173,4 +173,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('reports/table/sales/view','Apps\ReportManagementController@reportSales')->name('sale-table.view');
     Route::get('reports/table/inventory','Apps\ReportManagementController@inventoryTable')->name('inventory.table');
     Route::get('reports/table/purchase','Apps\ReportManagementController@purchaseTable')->name('purchase.table');
+    /*-----------------------End Reports Management------------------------------------*/
+
+    /*-----------------------Finance Management------------------------------------*/
 });

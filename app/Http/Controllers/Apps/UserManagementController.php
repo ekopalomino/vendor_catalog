@@ -169,7 +169,7 @@ class UserManagementController extends Controller
 
     public function userDestroy($id)
     {
-        $input = ['status' => 'e1669c7f-182a-48bc-8170-dadcded0310a'];
+        $input = ['status_id' => '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a'];
         $user = User::find($id);
         $user->update($input);
         

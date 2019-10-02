@@ -47,8 +47,8 @@
                     @foreach($products as $key=>$val)
                     <tr>
                         <td>{{ $key+1 }}</td>
-                        <td>{{ $val->Items->name }}{{ Form::hidden('product_id[]', $val->item_id) }}</td>
-                        <td>{!! Form::text('result[]', null, array('placeholder' => 'Hasil Akhir','class' => 'form-control')) !!}</td>
+                        <td>{{ $val->Items->name }}{{ Form::hidden('product_id', $val->item_id) }}</td>
+                        <td>{!! Form::text('result', null, array('placeholder' => 'Hasil Akhir','class' => 'form-control')) !!}</td>
                         {{ Form::hidden('id', $val->id) }}
                     </tr>
                     @endforeach

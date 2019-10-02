@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Purchase Management
+FiberTekno | Invoice Management
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,13 +14,13 @@ FiberTekno | Purchase Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Data Purchase Order 
+                        <i class="fa fa-database"></i>Data Invoice 
                     </div>
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Permintaan Baru
+                            <a href="{{ route('sales.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Sales Order
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 
@@ -38,40 +38,34 @@ FiberTekno | Purchase Management
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Ref No</th>
-                                <th>Nama Supplier</th>
+                				<th>SO Ref</th>
+                                <th>Customer</th>
+                                <th>Jumlah Brg</th>
                                 <th>Total Harga</th>
-                				<th>Diminta Oleh</th>
-                				<th>Tgl Dibuat</th>
                                 <th>Status</th>
+                				<th>Dibuat Oleh</th>
+                				<th>Tgl Dibuat</th>
                 				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
-                            @foreach($data as $key => $val)
+                            @foreach($sales as $key => $sale)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->Suppliers->name}}</td>
-                                <td>{{ number_format($val->total,2,',','.')}}</td>
-                                <td>{{ $val->Author->name }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
+                                <td>{{ $sale->order_ref }}</td>
+                                <td>{{ $sale->Customers->name}}</td>
+                                <td>{{ number_format($sale->quantity,2,',','.')}}</td>
+                                <td>{{ number_format($sale->total,2,',','.')}}</td>
+                                <td><label class="badge badge-success">{{ $sale->Statuses->name }}</label></td>
+                                <td>{{ $sale->Author->name }}</td>
+                                <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
-                                    @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')
-                                    <label class="badge badge-success">{{ $val->Statuses->name }}</label>
-                                    @elseif(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
-                                    <label class="badge badge-warning">{{ $val->Statuses->name }}</label>
-                                    @elseif(($val->status) == '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
-                                    <label class="badge badge-info">{{ $val->Statuses->name }}</label>
-                                    @else
-                                    <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-search"></i></a>
-                                    @if(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
-                                    <a class="btn btn-xs btn-success" title="Approve Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-check"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['request.rejected', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    @if($sale->status_id != 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')
+                                    <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['sales.approve', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
+                                    {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Sale']) !!}
+                                    {!! Form::close() !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['sales.rejected', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
                                     {!! Form::close() !!}
                                     @endif
@@ -95,9 +89,19 @@ FiberTekno | Purchase Management
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
 <script>
+    function ConfirmAccept()
+    {
+    var x = confirm("Penjualan Akan Diproses?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
+<script>
     function ConfirmDelete()
     {
-    var x = confirm("Pembelian Akan Dibatalkan?");
+    var x = confirm("Penjualan Akan Dibatalkan?");
     if (x)
         return true;
     else
