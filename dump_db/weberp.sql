@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2019 at 09:00 PM
+-- Generation Time: Oct 02, 2019 at 04:25 AM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -208,6 +208,13 @@ CREATE TABLE `log_activities` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `log_activities`
+--
+
+INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'User Mirza Rizaldy Berhasil disimpan', 'http://fibertekno.local/apps/users/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-02 02:25:27', '2019-10-02 02:25:27');
+
 -- --------------------------------------------------------
 
 --
@@ -322,7 +329,8 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'Erp\\Models\\User', 'ba757ac6-d4a7-4f8f-8698-8c14c60b8a63'),
-(1, 'Erp\\Models\\User', 'bb536994-ada3-4caa-b97b-e412dc2cc882');
+(1, 'Erp\\Models\\User', 'bb536994-ada3-4caa-b97b-e412dc2cc882'),
+(1, 'Erp\\Models\\User', 'db3562e3-78ac-494f-81c4-794eba0c59eb');
 
 -- --------------------------------------------------------
 
@@ -743,7 +751,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `avatar`, `division_id`, `warehouse_id`, `status_id`, `last_login_at`, `last_login_from`, `remember_token`, `created_at`, `updated_at`) VALUES
 ('ba757ac6-d4a7-4f8f-8698-8c14c60b8a63', 'Heru', 'heru@local.com', NULL, '$2y$10$GLVtZtxqM11RN5X41lHfU.MX04IX7tmXCAhZ2l7ozrxgrQNCR6ESy', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a', '2019-09-15 08:08:35', '127.0.0.1', NULL, '2019-09-15 01:08:21', '2019-09-30 14:49:57'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-02 00:10:08', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-10-01 17:10:08');
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-02 09:24:50', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-10-02 02:24:50'),
+('db3562e3-78ac-494f-81c4-794eba0c59eb', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$OIUggRX9R.7CpymMUeyCXenX3uGPSmYm1aivxJt39St0kkNxowScC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2019-10-02 02:25:27', '2019-10-02 02:25:27');
 
 -- --------------------------------------------------------
 
@@ -986,7 +995,7 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `internal_items`
 --
 ALTER TABLE `internal_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `internal_transfers`
@@ -1016,7 +1025,7 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
@@ -1052,7 +1061,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `product_boms`
 --
 ALTER TABLE `product_boms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
