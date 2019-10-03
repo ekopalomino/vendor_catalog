@@ -328,7 +328,7 @@ class InventoryManagementController extends Controller
     public function deliveryIndex()
     {
         $data = Delivery::get();
-        $sales = Sale::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->pluck('order_ref','id')->toArray();
+        $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
 
         return view('apps.pages.deliveryOrder',compact('data','sales'));
     }
@@ -398,7 +398,7 @@ class InventoryManagementController extends Controller
             'alert-type' => 'success'
         );
     
-        return redirect()->route('delivery.index')->wiht($notification);
+        return redirect()->route('delivery.index')->with($notification);
     }
 
 }

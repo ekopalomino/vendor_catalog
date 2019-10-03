@@ -17,7 +17,7 @@ class Invoice extends Model
 
     public function Sales()
     {
-        return $this->belonsTo(Sale::class,'sales_order');
+        return $this->belongsTo(Sale::class,'sales_order');
     }
 
     public function Statuses()

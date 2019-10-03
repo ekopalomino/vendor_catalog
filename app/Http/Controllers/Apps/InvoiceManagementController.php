@@ -20,11 +20,8 @@ class InvoiceManagementController extends Controller
 
     public function invoiceStore(Request $request)
     {
-        $this->validate($request, [
-            'sales_order' => 'required|unique:sale,order_ref',
-        ]);
         $latestRef = Invoice::count();
-        $getClient = Sale::where('order_ref',$request->input('sales_order'))->first();
+        $getClient = Sale::where('id',$request->input('sales_order'))->first();
         $refs = 'INV/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
         $invoices = Invoice::create([
             'order_ref' => $refs,
@@ -46,5 +43,14 @@ class InvoiceManagementController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    public function salesPrint($id) 
+    {
+        $sales = Sale::find($id);
+        $data = SaleItem::where('sales_id',$id)->get();
+
+        $pdf = PDF::loadview('apps.print.sales',compact('data','sales'));
+        return $pdf->download('SO.pdf');
     }
 }

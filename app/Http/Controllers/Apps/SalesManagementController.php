@@ -139,10 +139,8 @@ class SalesManagementController extends Controller
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
         ]);
-        $movements = InventoryMovement::where('product_id',$request->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-        
-        $stocks = Inventory::where('product_id',$request->product_id)->get();
         $items = SaleItem::where('sales_id',$id)->get();
+        
         foreach($items as $index=>$item) {
             $bases = UomValue::where('id',$item->uom_id)->first();
             if($bases->is_parent == null) {
@@ -150,6 +148,8 @@ class SalesManagementController extends Controller
             } else {
                 $convertion = $item->quantity;
             }
+            $movements = InventoryMovement::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
+            $stocks = Inventory::where('product_id',$item->product_id)->get();
             $moveout = InventoryMovement::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
             $movein = InventoryMovement::where('product_id',$item->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->orderBy('updated_at','DESC')->first();
             $stocks = Inventory::where('product_id',$item->product_id)->first();
@@ -191,7 +191,8 @@ class SalesManagementController extends Controller
                     'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
                 ]);
             } else {
-                $inventories = Inventory::where('product_id',$item->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->update([
+                $inventories = Inventory::where('product_id',$item->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->first();
+                $inventories->update([
                     'opening_amount' =>  $convertion,
                     'closing_amount' =>  ($base->closing_amount) + ($convertion),
                 ]);
@@ -216,13 +217,13 @@ class SalesManagementController extends Controller
                     'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
                 ]);
             }
-            
-            $results =  Inventory::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->update([
+            $results =  Inventory::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->first();
+            $results->update([
                 'closing_amount' => ($movements->closing_amount) - ($convertion),
             ]);
             
         }
-        return redirect()->route('sales.index')->with($notification);
+        return redirect()->route('sales.index');
     }
  
     public function salesShow($id)
