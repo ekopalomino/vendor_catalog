@@ -100,6 +100,7 @@ class SalesManagementController extends Controller
         $sale_price = $request->sale_price;
         $uoms = $request->uom_id;
         $sale_id = $data->id;
+        $discounts = $request->discount;
         foreach($items as $index=>$item) {
             $names = Product::where('name',$item)->orWhere('product_barcode',$item)->first();
             $items = SaleItem::create([
@@ -109,15 +110,17 @@ class SalesManagementController extends Controller
                 'uom_id' => $uoms[$index],
                 'sale_price' => $sale_price[$index],
                 'sub_total' => ($sale_price[$index]) * ($quantity[$index]),
+                'discount' => $discounts[$index],
             ]);
         }
 
         $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
         $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
+        $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
         
         $saleData = DB::table('sales')
                         ->where('id',$sale_id)
-                        ->update(['quantity' => $qty, 'total' => $price]);
+                        ->update(['quantity' => $qty, 'total' => ($price) - ($disc)]);
 
         return redirect()->route('sales.index');
     }
@@ -219,7 +222,7 @@ class SalesManagementController extends Controller
             }
             $results =  Inventory::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->first();
             $results->update([
-                'closing_amount' => ($movements->closing_amount) - ($convertion),
+                'closing_amount' => ($results->closing_amount) - ($convertion),
             ]);
             
         }

@@ -21,11 +21,13 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
+                    @can('disable')
                     <li class="nav-item ">
                         <a href="" class="nav-link">
                             <span class="title">Data Perusahaan</span>
                         </a>
                     </li>
+                    @endcan
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
@@ -206,12 +208,12 @@
                         <ul class="sub-menu">
                             <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
                                 <a href="{{ route('receipt.index') }}" class="nav-link ">
-                                    <span class="title">Penerimaan</span>
+                                    <span class="title">Penerimaan Barang</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['delivery.index']) }}">
                                 <a href="{{ route('delivery.index') }}" class="nav-link ">
-                                    <span class="title">Pengiriman</span>
+                                    <span class="title">Pengiriman Barang</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">

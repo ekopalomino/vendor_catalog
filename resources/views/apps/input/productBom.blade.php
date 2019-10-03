@@ -14,7 +14,7 @@ Fiber Tekno | Bill of Material
             <div class="portlet box red ">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i> Form Bill of Material 
+                        <i class="fa fa-database"></i> Form Bill of Material Produk {{ $id->name}}
                     </div>
                 </div>
                 <div class="portlet-body">
