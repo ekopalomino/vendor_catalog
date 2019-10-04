@@ -268,10 +268,10 @@ class InventoryManagementController extends Controller
             if($to == null) {
                 $income = InventoryMovement::create([
                     'type' => '4',
-                    'inventory_id' => $base->id,
+                    'inventory_id' => $dataInvent->id,
                     'reference_id' => $ref,
-                    'product_id' => $base->product_id,
-                    'warehouse_id' => $base->warehouse_id,
+                    'product_id' => $dataInvent->product_id,
+                    'warehouse_id' => $dataInvent->warehouse_id,
                     'incoming' => $convertion,
                     'outgoing' => '0',
                     'remaining' => $convertion,

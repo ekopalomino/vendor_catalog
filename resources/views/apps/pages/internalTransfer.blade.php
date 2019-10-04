@@ -32,6 +32,7 @@ FiberTekno | Mutasi Barang
                                 <th>Gudang Asal</th>
                                 <th>Gudang Tujuan</th>
                                 <th>Tgl Dibuat</th>
+                                <th>Tgl Diterima</th>
                                 <th>Status</th>
                                 <th>Pengirim</th>
                                 <th>Penerima</th>
@@ -46,6 +47,7 @@ FiberTekno | Mutasi Barang
                                 <td>{{ $val->From->name }}</td>
                                 <td>{{ $val->To->name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
+                                <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
                                 <td>
                                     @if( ($val->status_id) == 'ffa20f52-a023-4333-b945-a46d04de961c')
                                     <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
@@ -61,9 +63,11 @@ FiberTekno | Mutasi Barang
                                 </td>
                                 <td>
                                     <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\InventoryManagementController@transferView',['id'=>$val->id]) }}" title="Detail Mutasi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
+                                    @if(Auth::user()->warehouse_id == $val->to_id)
                                     {!! Form::open(['method' => 'POST','route' => ['transfer.accept', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Mutasi']) !!}
                                     {!! Form::close() !!}
+                                    @endif
                                 </td>    
                             </tr>
                             @endforeach

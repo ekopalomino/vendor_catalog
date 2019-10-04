@@ -174,6 +174,7 @@ return [
         // Erp\Providers\BroadcastServiceProvider::class,
         Erp\Providers\EventServiceProvider::class,
         Erp\Providers\RouteServiceProvider::class,
+        Erp\Providers\NotificationServiceProvider::class,
 
     ],
 

@@ -20,7 +20,7 @@ FiberTekno | Produk
                 <div class="portlet-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah
+                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah Produk
                             </button></a>
                         </div>
                         @if (count($errors) > 0) 

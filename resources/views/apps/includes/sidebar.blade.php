@@ -161,6 +161,7 @@
                 	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
                             <span class="title">Sales Orders</span>
+                            <span class="badge badge-danger">{{$sales}}</span>
                         </a>
                     </li>
                 </ul>
@@ -177,6 +178,7 @@
                     <li class="nav-item {{ set_active(['purchase.index','request.form','purchase.show']) }}">
                         <a href="{{ route('purchase.index') }}" class="nav-link">
                             <span class="title">Purchase Orders</span>
+                            <span class="badge badge-danger">{{$purchases}}</span>
                         </a>
                     </li>
                 </ul>
@@ -214,11 +216,13 @@
                             <li class="nav-item {{ set_active(['delivery.index']) }}">
                                 <a href="{{ route('delivery.index') }}" class="nav-link ">
                                     <span class="title">Pengiriman Barang</span>
+                                    <span class="badge badge-danger">{{$deliveries}}</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
                                 <a href="{{ route('transfer.index') }}" class="nav-link ">
                                     <span class="title">Mutasi Internal</span>
+                                    <span class="badge badge-danger">{{$transfers}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -258,6 +262,7 @@
                     <li class="nav-item {{ set_active(['invoice.index','invoice.store']) }}">
                         <a href="{{ route('invoice.index') }}" class="nav-link nav-toggle">
                             <span class="title">Invoice</span>
+                            <span class="badge badge-danger">{{$invoices}}</span>
                         </a>
                     </li>
                 </ul>

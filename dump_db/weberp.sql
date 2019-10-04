@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2019 at 04:25 AM
+-- Generation Time: Oct 04, 2019 at 05:26 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -181,8 +181,8 @@ CREATE TABLE `inventory_movements` (
 CREATE TABLE `invoices` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sales_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '8083f49e-f0aa-4094-894f-f64cd2e9e4e9',
+  `sales_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_received` date DEFAULT NULL,
@@ -207,13 +207,6 @@ CREATE TABLE `log_activities` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `log_activities`
---
-
-INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'User Mirza Rizaldy Berhasil disimpan', 'http://fibertekno.local/apps/users/create', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-02 02:25:27', '2019-10-02 02:25:27');
 
 -- --------------------------------------------------------
 
@@ -297,7 +290,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2019_09_11_232813_create_manufactures_table', 18),
 (32, '2019_09_11_233120_create_manufacture_items_table', 18),
 (37, '2019_09_24_102135_create_work_items_table', 19),
-(38, '2019_09_30_225904_create_invoices_table', 20);
+(39, '2019_09_30_225904_create_invoices_table', 20);
 
 -- --------------------------------------------------------
 
@@ -656,6 +649,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('0fb7f4e6-e293-429d-8761-f978dc850a97', 'Complete Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
 ('2b643e21-a94c-4713-93f1-f1cbde6ad633', 'Active', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'Received', '2019-09-11 05:20:52', '2019-09-11 05:20:52'),
+('3da32f6e-494f-4b61-b010-7ccc0e006fb3', 'Invoice Created', '2019-10-02 16:05:13', '2019-10-02 16:05:13'),
 ('458410e7-384d-47bc-bdbe-02115adc4449', 'Approve', '2019-09-10 13:07:06', '2019-09-10 13:07:06'),
 ('45e139a2-a423-46ef-8901-d07b25b461a3', 'Pending Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
 ('533806c2-19dc-4b24-886f-d783a8b448b7', 'Normal Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
@@ -667,6 +661,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('c2fdba02-e765-4ee8-8c8c-3073209ddd26', 'On Process', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('c51d7be2-7c72-41a8-93ff-03f780ece42a', 'Unpaid', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('e9395add-e815-4374-8ed3-c0d5f4481ab8', 'Delivered', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('eca81b8f-bfb9-48b9-8e8d-86f4517bc129', 'Payment Received', '2019-10-02 16:00:59', '2019-10-02 16:00:59'),
 ('f8b26119-fb0c-40ff-85c0-8fb85696f220', 'Low on Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('ffa20f52-a023-4333-b945-a46d04de961c', 'Transfered', '2019-09-22 15:04:09', '2019-09-22 15:04:09');
 
@@ -751,8 +746,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `avatar`, `division_id`, `warehouse_id`, `status_id`, `last_login_at`, `last_login_from`, `remember_token`, `created_at`, `updated_at`) VALUES
 ('ba757ac6-d4a7-4f8f-8698-8c14c60b8a63', 'Heru', 'heru@local.com', NULL, '$2y$10$GLVtZtxqM11RN5X41lHfU.MX04IX7tmXCAhZ2l7ozrxgrQNCR6ESy', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a', '2019-09-15 08:08:35', '127.0.0.1', NULL, '2019-09-15 01:08:21', '2019-09-30 14:49:57'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-02 09:24:50', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-10-02 02:24:50'),
-('db3562e3-78ac-494f-81c4-794eba0c59eb', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$OIUggRX9R.7CpymMUeyCXenX3uGPSmYm1aivxJt39St0kkNxowScC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2019-10-02 02:25:27', '2019-10-02 02:25:27');
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-04 22:03:08', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-10-04 15:03:08'),
+('db3562e3-78ac-494f-81c4-794eba0c59eb', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$OIUggRX9R.7CpymMUeyCXenX3uGPSmYm1aivxJt39St0kkNxowScC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-04 22:02:46', '127.0.0.1', NULL, '2019-10-02 02:25:27', '2019-10-04 15:02:46');
 
 -- --------------------------------------------------------
 
@@ -832,8 +827,7 @@ ALTER TABLE `inventory_movements`
 -- Indexes for table `invoices`
 --
 ALTER TABLE `invoices`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `invoices_sales_id_foreign` (`sales_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `log_activities`
@@ -1007,13 +1001,13 @@ ALTER TABLE `internal_transfers`
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
 --
 ALTER TABLE `inventory_movements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -1025,7 +1019,7 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
@@ -1037,7 +1031,7 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -1120,12 +1114,6 @@ ALTER TABLE `inventories`
 --
 ALTER TABLE `inventory_movements`
   ADD CONSTRAINT `inventory_movements_inventory_id_foreign` FOREIGN KEY (`inventory_id`) REFERENCES `inventories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `invoices`
---
-ALTER TABLE `invoices`
-  ADD CONSTRAINT `invoices_sales_id_foreign` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `manufacture_items`
