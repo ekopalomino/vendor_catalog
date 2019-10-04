@@ -18,7 +18,7 @@ FiberTekno | Gudang
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <tr>
                                 <td>
@@ -65,8 +65,8 @@ FiberTekno | Gudang
                                     @endforeach
                                 </ul>
                         </div>
-                    @endif
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                    @endif -->
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
