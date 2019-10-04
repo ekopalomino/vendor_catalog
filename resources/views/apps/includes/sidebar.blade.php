@@ -21,11 +21,13 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
+                    @can('disable')
                     <li class="nav-item ">
                         <a href="" class="nav-link">
                             <span class="title">Data Perusahaan</span>
                         </a>
                     </li>
+                    @endcan
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
@@ -206,12 +208,12 @@
                         <ul class="sub-menu">
                             <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
                                 <a href="{{ route('receipt.index') }}" class="nav-link ">
-                                    <span class="title">Penerimaan</span>
+                                    <span class="title">Penerimaan Barang</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['delivery.index']) }}">
                                 <a href="{{ route('delivery.index') }}" class="nav-link ">
-                                    <span class="title">Pengiriman</span>
+                                    <span class="title">Pengiriman Barang</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
@@ -246,30 +248,17 @@
             </li>
             @endcan
             @can('Can Access Finances')
-            <li class="nav-item  ">
+            <li class="nav-item {{ set_active(['invoice.index','invoice.store']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>
                     <span class="title">Finance</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
+                    <li class="nav-item {{ set_active(['invoice.index','invoice.store']) }}">
+                        <a href="{{ route('invoice.index') }}" class="nav-link nav-toggle">
                             <span class="title">Invoice</span>
-                            <span class="arrow"></span>
                         </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
-                                    <span class="title">Invoice Data</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="" class="nav-link ">
-                                    <span class="title">Invoice Approval</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </li>

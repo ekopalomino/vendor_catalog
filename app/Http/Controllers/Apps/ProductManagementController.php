@@ -334,7 +334,7 @@ class ProductManagementController extends Controller
         $log = 'Produk BOM'.($data->name).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Produk '.($data->name).' Berhasil Disimpan',
+            'message' => 'Produk BOM'.($data->name).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 

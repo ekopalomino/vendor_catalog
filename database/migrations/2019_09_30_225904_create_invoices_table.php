@@ -16,12 +16,11 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_ref');
-            $table->string('sales_id');
-            $table->uuid('status_id')->default('8083f49e-f0aa-4094-894f-f64cd2e9e4e9');
+            $table->string('sales_order');
+            $table->uuid('status_id')->default('3da32f6e-494f-4b61-b010-7ccc0e006fb3');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->date('payment_received')->nullable();
-            $table->foreign('sales_id')->references('id')->on('sales')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

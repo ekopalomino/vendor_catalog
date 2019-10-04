@@ -73,9 +73,9 @@ FiberTekno | Delivery Order
                                 <th>Delivery Order</th>
                                 <th>Sales Order</th>
                 				<th>Status</th>
-                                <th>Created By</th>
-                                <th>Created At</th>
-                                <th>Delivered At</th>
+                                <th>Dibuat Oleh</th>
+                                <th>Tgl Dibuat</th>
+                                <th>Tgl Dikirim</th>
                                 <th></th>
                 			</tr>
                 		</thead>

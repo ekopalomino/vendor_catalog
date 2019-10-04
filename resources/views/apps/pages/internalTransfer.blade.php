@@ -28,7 +28,7 @@ FiberTekno | Mutasi Barang
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Mutasi Ref</th>
+                				<th>No Mutasi</th>
                                 <th>Gudang Asal</th>
                                 <th>Gudang Tujuan</th>
                                 <th>Tgl Dibuat</th>

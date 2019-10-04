@@ -67,4 +67,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductBom::class,'product_id');
     }
+
+    public function Manufactures()
+    {
+        return $this->hasOne(ManufactureItem::class,'item_id');
+    }
 }
