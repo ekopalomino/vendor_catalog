@@ -47,7 +47,11 @@ FiberTekno | Mutasi Barang
                                 <td>{{ $val->From->name }}</td>
                                 <td>{{ $val->To->name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
-                                <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
+                                <td>
+                                    @if($val->updated_at != $val->created_at)
+                                    {{date("d F Y H:i",strtotime($val->updated_at)) }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if( ($val->status_id) == 'ffa20f52-a023-4333-b945-a46d04de961c')
                                     <label class="badge badge-danger">{{ $val->Statuses->name }}</label>

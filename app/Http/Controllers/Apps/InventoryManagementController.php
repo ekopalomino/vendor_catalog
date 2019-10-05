@@ -20,6 +20,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 
 class InventoryManagementController extends Controller
 {
@@ -48,6 +49,16 @@ class InventoryManagementController extends Controller
                                 ->paginate(5);
         
         return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
+    }
+
+    public function stockPrint(Request $request,$id)
+    {
+        $source = Inventory::where('id',$id)->first();
+        $data = InventoryMovement::where('product_id',$source->product_id)
+                                ->where('warehouse_id',$source->warehouse_id)
+                                ->get();
+        $pdf = PDF::loadview('apps.show.stockCardPrint',compact('data'));
+        return $pdf->download('stock-card.pdf');
     }
 
     public function inventoryAdjustIndex()
@@ -301,11 +312,10 @@ class InventoryManagementController extends Controller
 
     public function transferView($id)
     {
-        $data = InternalTransfer::join('inventory_movements','inventory_movements.reference_id','=','internal_transfers.order_ref')
-                                ->where('internal_transfers.id',$id)
-                                ->get();
-        dd($data);
-        return view('apps.show.internalTransfer',compact('data'))->renderSections()['content'];
+        $source = InternalTransfer::find($id);
+        $details = InternalItems::where('mutasi_id',$id)->get();
+        
+        return view('apps.show.internalTransfer',compact('details'))->renderSections()['content'];
     }
 
     public function transferAccept(Request $request,$id)

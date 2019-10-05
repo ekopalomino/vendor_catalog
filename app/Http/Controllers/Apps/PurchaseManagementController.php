@@ -99,8 +99,22 @@ class PurchaseManagementController extends Controller
         $purchaseData = DB::table('purchases')
                         ->where('id',$purchase_id)
                         ->update(['quantity' => $qty, 'total' => $price]);
+        $log = 'Pengajuan '.($data->order_ref).' Berhasil Dibuat';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pengajuan '.($data->order_ref).' Berhasil Dibuat',
+            'alert-type' => 'success'
+        );
 
-        return redirect()->route('purchase.index');
+        return redirect()->route('purchase.index')->with($notification);
+    }
+
+    public function requestShow($id)
+    {
+        $data = Purchase::find($id);
+        $details = PurchaseItem::where('purchase_id',$id)->get();
+
+        return view('apps.show.purchaseRequest',compact('data','details'));
     }
 
     public function requestForm($id)
@@ -119,31 +133,28 @@ class PurchaseManagementController extends Controller
         return view('apps.show.purchaseOrder',compact('data','details'));
     }
 
-    public function requestApprove(Request $request)
+    public function requestApprove(Request $request,$id)
     {
+        $data = Purchase::find($id);
         $reference = Purchase::where('status','!=','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
-        $ref = 'PO/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'PO/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($data->supplier_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $details = Contact::where('ref_id',$request->input('supplier_code'))->first();
-        $data = [
-            'status' => $request->input('status'),
-            'id' => $request->input('purchase_id'),
+        $process = [
+            'status' => '458410e7-384d-47bc-bdbe-02115adc4449',
+            'order_ref' => $ref,
+            'updated_by' => auth()->user()->id,
         ];
 
-        if ($request->input('status') == '458410e7-384d-47bc-bdbe-02115adc4449') {
-            $update = Purchase::find($request->input('purchase_id'))->update([
-                'status' => $request->input('status'),
-                'id' => $request->input('purchase_id'),
-                'order_ref' => $ref,
-            ]);
-        } else {
-            $update = Purchase::find($request->input('purchase_id'))->update([
-                'status' => $request->input('status'),
-            ]);
-        };
-        
-        $update = Purchase::find($request->input('purchase_id'))->update($data);
-        
-        return redirect()->route('purchase.index');
+        $updates = Purchase::find($id);
+        $updates->update($process);
+        $log = 'Pengajuan '.($updates->order_ref).' Berhasil Diproses';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pengajuan '.($updates->order_ref).' Berhasil Diproses',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('purchase.index')->with($notification);
     }
 
     public function requestRejected($id)
@@ -153,7 +164,13 @@ class PurchaseManagementController extends Controller
             'status' => 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8',
             'updated_by' => auth()->user()->id,
         ]);
+        $log = 'Pengajuan '.($data->order_ref).' Berhasil Ditolak';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pengajuan '.($data->order_ref).' Berhasil Ditolak',
+            'alert-type' => 'success'
+        );
 
-        return redirect()->route('purchase.index');
+        return redirect()->route('purchase.index')->with($notification);
     }
 }

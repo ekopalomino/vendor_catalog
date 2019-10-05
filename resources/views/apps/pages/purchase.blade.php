@@ -46,7 +46,7 @@ FiberTekno | Purchase Management
                                 <th>Status</th>
                 				<th></th>
                 			</tr>
-                		</thead>
+                		</thead> 
                 		<tbody>
                             @foreach($data as $key => $val)
                 			<tr>
@@ -68,12 +68,17 @@ FiberTekno | Purchase Management
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-xs btn-info" title="Show Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-search"></i></a>
                                     @if(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
-                                    <a class="btn btn-xs btn-success" title="Approve Data" href="{{ route('request.form',$val->id) }}"><i class="fa fa-check"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['request.rejected', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
+                                    <a class="btn btn-xs btn-info" title="Lihat PR" href="{{ route('request.show',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['request.approve', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
+                                    {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve PR']) !!}
                                     {!! Form::close() !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['request.rejected', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Tolak PR']) !!}
+                                    {!! Form::close() !!}
+                                    @endif
+                                    @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')
+                                    <a class="btn btn-xs btn-info" title="Lihat PO" href="{{ route('purchase.show',$val->id) }}"><i class="fa fa-search"></i></a>
                                     @endif
                                 </td>
                 			</tr>
@@ -97,7 +102,17 @@ FiberTekno | Purchase Management
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Pembelian Akan Dibatalkan?");
+    var x = confirm("Pengajuan Akan Dibatalkan?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
+<script>
+    function ConfirmAccept()
+    {
+    var x = confirm("Pengajuan Akan Diproses?");
     if (x)
         return true;
     else
