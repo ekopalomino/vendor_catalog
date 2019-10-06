@@ -60,8 +60,7 @@ FiberTekno | Customer Management
                 				<td><label class="badge badge-success">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
-                                    <a class="btn btn-xs btn-success" href="{{ route('customer.show',$val->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success" href="{{ route('customer.edit',$val->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-xs btn-success" href="{{ route('customer.edit',$val->id) }}" title="Edit Customer" ><i class="fa fa-edit"></i></a>
                                     {!! Form::open(['method' => 'POST','route' => ['customer.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
                                     {!! Form::close() !!}

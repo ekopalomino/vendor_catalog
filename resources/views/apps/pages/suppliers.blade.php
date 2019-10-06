@@ -58,8 +58,7 @@ FiberTekno | Supplier Management
                 				<td><label class="badge badge-info">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
-                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.show',$val->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Supplier" ><i class="fa fa-edit"></i></a>
                                     {!! Form::open(['method' => 'POST','route' => ['supplier.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
                                     {!! Form::close() !!}
