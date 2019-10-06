@@ -127,8 +127,9 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('purchase/request/create','Apps\PurchaseManagementController@requestCreate')->name('request.create');
     Route::get('purchase/product/find','Apps\PurchaseManagementController@searchProduct')->name('purchase.product');
     Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
+    Route::get('purchase/request/show/{id}','Apps\PurchaseManagementController@requestShow')->name('request.show');
     Route::get('purchase/request/edit/{id}','Apps\PurchaseManagementController@requestForm')->name('request.form');
-    Route::post('purchase/request/approve','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
+    Route::post('purchase/request/approve/{id}','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
     Route::get('purchase/order/show/{id}','Apps\PurchaseManagementController@purchaseShow')->name('purchase.show');
     Route::post('purchase/orders/rejected/{id}','Apps\PurchaseManagementController@requestRejected')->name('request.rejected');
     /*-----------------------End Purchase Management------------------------------------*/
@@ -137,6 +138,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventories','Apps\InventoryManagementController@inventoryIndex')->name('inventory.index');
     Route::post('inventories/initial-stock','Apps\InventoryManagementController@initialStock')->name('initial.stock');
     Route::get('inventories/stockcard/{id}','Apps\InventoryManagementController@stockCard')->name('inventory.card');
+    Route::get('inventories/stockcard/print/{id}','Apps\InventoryManagementController@stockPrint')->name('stock.pdf');
     Route::get('inventory/adjustment','Apps\InventoryManagementController@inventoryAdjustIndex')->name('inventory.adjust');
     Route::get('inventory/adjustment/{id}','Apps\InventoryManagementController@makeAdjust')->name('make.adjust');
     Route::post('inventory/adjustment/store/{id}','Apps\InventoryManagementController@storeAdjust')->name('store.adjust');
@@ -172,6 +174,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('reports/table/sales','Apps\ReportManagementController@saleTable')->name('sale.table');
     Route::post('reports/table/sales/view','Apps\ReportManagementController@reportSales')->name('sale-table.view');
     Route::get('reports/table/inventory','Apps\ReportManagementController@inventoryTable')->name('inventory.table');
+    Route::post('reports/table/inventory/view','Apps\ReportManagementController@reportInventory')->name('inventory-table.view');
     Route::get('reports/table/purchase','Apps\ReportManagementController@purchaseTable')->name('purchase.table');
     /*-----------------------End Reports Management------------------------------------*/
 

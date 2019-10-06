@@ -27,4 +27,9 @@ class ProductBom extends Model
     {
         return $this->belongsTo(UomValue::class,'uom_id');
     }
+
+    public function Manufactures()
+    {
+        return $this->belongsTo(ManufactureItem::class,'product_id');
+    }
 }

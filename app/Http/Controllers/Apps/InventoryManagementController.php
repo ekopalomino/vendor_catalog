@@ -20,6 +20,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 
 class InventoryManagementController extends Controller
 {
@@ -48,6 +49,16 @@ class InventoryManagementController extends Controller
                                 ->paginate(5);
         
         return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
+    }
+
+    public function stockPrint(Request $request,$id)
+    {
+        $source = Inventory::where('id',$id)->first();
+        $data = InventoryMovement::where('product_id',$source->product_id)
+                                ->where('warehouse_id',$source->warehouse_id)
+                                ->get();
+        $pdf = PDF::loadview('apps.show.stockCardPrint',compact('data'));
+        return $pdf->download('stock-card.pdf');
     }
 
     public function inventoryAdjustIndex()
@@ -219,7 +230,7 @@ class InventoryManagementController extends Controller
                     'product_id' => $item,
                     'warehouse_id' => $internal->to_id,
                     'min_stock' => $refProduct->min_stock,
-                    'opening_amount' => $convertion,
+                    'opening_amount' => '0',
                     'closing_amount' => $convertion,
                 ]);
                 $outcome = InventoryMovement::create([
@@ -265,13 +276,13 @@ class InventoryManagementController extends Controller
                     'closing_amount' => ($source->closing_amount) - ($convertion),
                 ]);
             }
-            if($to == null) {
+            /* if($to == null) {
                 $income = InventoryMovement::create([
                     'type' => '4',
-                    'inventory_id' => $base->id,
+                    'inventory_id' => $dataInvent->id,
                     'reference_id' => $ref,
-                    'product_id' => $base->product_id,
-                    'warehouse_id' => $base->warehouse_id,
+                    'product_id' => $dataInvent->product_id,
+                    'warehouse_id' => $dataInvent->warehouse_id,
                     'incoming' => $convertion,
                     'outgoing' => '0',
                     'remaining' => $convertion,
@@ -287,7 +298,7 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => ($to->remaining) + ($convertion),
                 ]);
-            }
+            } */
         }
         $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
          \LogActivity::addToLog($log);
@@ -301,11 +312,10 @@ class InventoryManagementController extends Controller
 
     public function transferView($id)
     {
-        $data = InternalTransfer::join('inventory_movements','inventory_movements.reference_id','=','internal_transfers.order_ref')
-                                ->where('internal_transfers.id',$id)
-                                ->get();
-        dd($data);
-        return view('apps.show.internalTransfer',compact('data'))->renderSections()['content'];
+        $source = InternalTransfer::find($id);
+        $details = InternalItems::where('mutasi_id',$id)->get();
+        
+        return view('apps.show.internalTransfer',compact('details'))->renderSections()['content'];
     }
 
     public function transferAccept(Request $request,$id)

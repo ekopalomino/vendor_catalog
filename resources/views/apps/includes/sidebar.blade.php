@@ -161,22 +161,24 @@
                 	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
                             <span class="title">Sales Orders</span>
+                            <span class="badge badge-danger">{{$sales}}</span>
                         </a>
                     </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show']) }}">
+            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
                     <span class="title">Pembelian</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['purchase.index','request.form','purchase.show']) }}">
+                    <li class="nav-item {{ set_active(['purchase.index','request.create','purchase.show','request.show']) }}">
                         <a href="{{ route('purchase.index') }}" class="nav-link">
                             <span class="title">Purchase Orders</span>
+                            <span class="badge badge-danger">{{$purchases}}</span>
                         </a>
                     </li>
                 </ul>
@@ -209,16 +211,19 @@
                             <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
                                 <a href="{{ route('receipt.index') }}" class="nav-link ">
                                     <span class="title">Penerimaan Barang</span>
+                                    <span class="badge badge-danger">{{$receipts}}</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['delivery.index']) }}">
                                 <a href="{{ route('delivery.index') }}" class="nav-link ">
                                     <span class="title">Pengiriman Barang</span>
+                                    <span class="badge badge-danger">{{$deliveries}}</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
                                 <a href="{{ route('transfer.index') }}" class="nav-link ">
                                     <span class="title">Mutasi Internal</span>
+                                    <span class="badge badge-danger">{{$transfers}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -237,11 +242,13 @@
                     <li class="nav-item {{ set_active(['manufacture-request.index','manufacture-request.create']) }}">
                         <a href="{{ route('manufacture-request.index') }}" class="nav-link ">
                             <span class="title">Manufacture Request</span>
+                            <span class="badge badge-danger">{{$manrequest}}</span>
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture.show']) }}">
                         <a href="{{ route('manufacture.index') }}" class="nav-link ">
                             <span class="title">Manufacture Orders</span>
+                            <span class="badge badge-danger">{{$manorders}}</span>
                         </a>
                     </li>
                 </ul>
@@ -258,6 +265,7 @@
                     <li class="nav-item {{ set_active(['invoice.index','invoice.store']) }}">
                         <a href="{{ route('invoice.index') }}" class="nav-link nav-toggle">
                             <span class="title">Invoice</span>
+                            <span class="badge badge-danger">{{$invoices}}</span>
                         </a>
                     </li>
                 </ul>
@@ -326,58 +334,27 @@
                 </ul>
             </li>
             @endcan
-            <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view']) }}">
+            <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view','inventory-table.view']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Reports</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item  ">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <span class="title">Graphics</span>
-                            <span class="arrow"></span>
+                    <li class="nav-item {{ set_active(['sale.table','sale-table.view']) }}">
+                        <a href="{{ route('sale.table') }}" class="nav-link ">
+                            <span class="title">Penjualan</span>
                         </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Sales</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Inventory</span>
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a href="ui_colors.html" class="nav-link ">
-                                    <span class="title">Purchasing</span>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
-                    <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view']) }}">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <span class="title">Tabel</span>
-                            <span class="arrow"></span>
+                    <li class="nav-item {{ set_active(['inventory.table','inventory-table.view']) }}">
+                        <a href="{{ route('inventory.table') }}" class="nav-link ">
+                            <span class="title">Stok</span>
                         </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item {{ set_active(['sale.table','sale-table.view']) }}">
-                                <a href="{{ route('sale.table') }}" class="nav-link ">
-                                    <span class="title">Penjualan</span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ set_active(['inventory.table']) }}">
-                                <a href="{{ route('inventory.table') }}" class="nav-link ">
-                                    <span class="title">Stok</span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ set_active(['purchase.table']) }}">
-                                <a href="{{ route('purchase.table') }}" class="nav-link ">
-                                    <span class="title">Pembelian</span>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="nav-item {{ set_active(['purchase.table']) }}">
+                        <a href="{{ route('purchase.table') }}" class="nav-link ">
+                            <span class="title">Pembelian</span>
+                        </a>
                     </li>
                 </ul>
             </li>

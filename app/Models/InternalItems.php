@@ -22,4 +22,9 @@ class InternalItems extends Model
     {
         return $this->belongsTo(UomValue::class,'uom_id');
     }
+
+    public function Parent()
+    {
+        return $this->belongsTo(InternalTransfer::class,'mutasi_id');
+    }
 }

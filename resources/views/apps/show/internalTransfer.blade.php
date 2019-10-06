@@ -10,15 +10,19 @@
                 		<th>Produk</th>
                 		<th>Jumlah</th>
                 		<th>Satuan</th>
+                        <th>Gudang Asal</th>
+                        <th>Gudang Tujuan</th>
                 	</tr>
                 </thead>
                 <tbody>
-                	@foreach($data as $key=>$val)
+                	@foreach($details as $key => $val)
                 	<tr>
                         <td>{{ $key+1 }}</td>
-	                	<td>{{ $val->Items->name }}</td>
+	                	<td>{{ $val->Products->name }}</td>
 	                	<td>{{ $val->quantity}}</td>
                         <td>{{ $val->Uoms->name}}</td>
+                        <td>{{ $val->Parent->From->name }}</td>
+                        <td>{{ $val->Parent->To->name }}</td>
 	                </tr>
                 	@endforeach
                 </tbody>

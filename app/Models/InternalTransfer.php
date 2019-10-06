@@ -39,4 +39,9 @@ class InternalTransfer extends Model
     {
         return $this->belongsTo(User::class,'updated_by');
     }
+
+    public function Child()
+    {
+        return $this->hasMany(InternalItems::class,'id');
+    }
 }

@@ -11,7 +11,7 @@ Fiber Tekno | Add Purchase Request
     <div class="portlet box red ">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-database"></i> Purchase Request Form 
+                <i class="fa fa-database"></i> Form Permintaan Pembelian 
             </div>
         </div>
         <div class="portlet-body form">
@@ -37,7 +37,7 @@ Fiber Tekno | Add Purchase Request
             		</div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="control-label">Delivery Date</label>
+                    <label class="control-label">Estimasi Penerimaan</label>
                     {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
                   </div>
                 </div>
@@ -48,20 +48,20 @@ Fiber Tekno | Add Purchase Request
 	            		<table class="table table-striped table-bordered table-hover" id="sample_2">
 	            			<thead>
 	            				<tr>
-	            					<th>Product</th>
-	            					<th>Quantity</th>
-	            					<th>UOM</th>
-	            					<th>Item Price</th>
+	            					<th>Produk</th>
+	            					<th>Jumlah</th>
+	            					<th>Satuan</th>
+	            					<th>Harga Satuan</th>
 	            					<th></th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
 	            				<tr>
 	            					<td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::text('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::text('purchase_price[]', null, array('placeholder' => 'Purchase Price','class' => 'form-control','required')) !!}</td>
-                    				<td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>
+                    				<td>{!! Form::text('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control','required')) !!}</td>
+                    				<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
 	            				</tr>
 	            			</tbody>
 	            		</table>
@@ -99,7 +99,7 @@ Fiber Tekno | Add Purchase Request
       var i=1;  
       $('#add').click(function(){  
            i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('purchase_price[]', null, array('placeholder' => 'Purchase Price','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>').find('input[type=text]').typeahead({
+           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>').find('input[type=text]').typeahead({
                 source:  function (product, process) {
                 return $.get(route, { product: product }, function (data) {
                     return process(data);

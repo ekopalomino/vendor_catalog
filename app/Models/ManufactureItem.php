@@ -27,4 +27,9 @@ class ManufactureItem extends Model
     {
         return $this->belongsTo(UomValue::class,'uom_id');
     }
+
+    public function Boms()
+    {
+        return $this->hasMany(ProductBom::class,'product_id','item_id');
+    }
 }

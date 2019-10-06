@@ -11,6 +11,18 @@ FiberTekno | Laporan Stok - Tabel
 			</div>
 		</div>
 		<div class="portlet-body form">
+			@if (count($errors) > 0)
+			<div class="alert alert-danger">
+				<strong>Whoops!</strong> There were some problems with your input.<br><br>
+				<ul>
+					@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			</div>
+			@endif
+			{!! Form::open(array('route' => 'inventory-table.view','method'=>'POST', 'class' => 'horizontal-form')) !!}
+			@csrf
 			<div class="form-body">
 				<div class="row">
 					<div class="col-md-5">
