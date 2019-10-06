@@ -23,4 +23,9 @@ class Inventory extends Model
     {
         return $this->belongsTo(Warehouse::class,'warehouse_id');
     }
+
+    public function Parent()
+    {
+        return $this->hasMany(InventoryMovement::class);
+    }
 }

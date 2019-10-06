@@ -17,7 +17,9 @@
                 	@foreach($data as $key=>$val)
                 	<tr>
 	                	<td>
-                            {{ $val->material_id }}     
+                            @foreach($val->Boms as $boms)
+                            {{ $boms->Materials->name }}  
+                            @endforeach  
                         </td>
 	                	<td>{{ number_format(($val->quantity) * ($val->qty),2,',','.')}}</td>
 	                	<td>{{ number_format($val->closing_amount,2,',','.')}}</td>

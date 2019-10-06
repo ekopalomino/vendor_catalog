@@ -65,7 +65,7 @@ FiberTekno | Manufactures
                                 </td>
                                 <td>
                                     @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
-                                    {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline']) !!}
+                                    {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmStart()']) !!}
                                     {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Mulai Proses Manufaktur']) !!}
                                     {!! Form::close() !!}
                                     @endif
@@ -92,4 +92,14 @@ FiberTekno | Manufactures
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmStart()
+    {
+    var x = confirm("Manufacture Process Akan Dimulai?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

@@ -174,6 +174,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('reports/table/sales','Apps\ReportManagementController@saleTable')->name('sale.table');
     Route::post('reports/table/sales/view','Apps\ReportManagementController@reportSales')->name('sale-table.view');
     Route::get('reports/table/inventory','Apps\ReportManagementController@inventoryTable')->name('inventory.table');
+    Route::post('reports/table/inventory/view','Apps\ReportManagementController@reportInventory')->name('inventory-table.view');
     Route::get('reports/table/purchase','Apps\ReportManagementController@purchaseTable')->name('purchase.table');
     /*-----------------------End Reports Management------------------------------------*/
 

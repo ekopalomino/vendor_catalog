@@ -230,7 +230,7 @@ class InventoryManagementController extends Controller
                     'product_id' => $item,
                     'warehouse_id' => $internal->to_id,
                     'min_stock' => $refProduct->min_stock,
-                    'opening_amount' => $convertion,
+                    'opening_amount' => '0',
                     'closing_amount' => $convertion,
                 ]);
                 $outcome = InventoryMovement::create([
@@ -276,7 +276,7 @@ class InventoryManagementController extends Controller
                     'closing_amount' => ($source->closing_amount) - ($convertion),
                 ]);
             }
-            if($to == null) {
+            /* if($to == null) {
                 $income = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $dataInvent->id,
@@ -298,7 +298,7 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => ($to->remaining) + ($convertion),
                 ]);
-            }
+            } */
         }
         $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
          \LogActivity::addToLog($log);
