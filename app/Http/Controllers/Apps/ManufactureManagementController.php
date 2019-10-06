@@ -213,8 +213,13 @@ class ManufactureManagementController extends Controller
             
             
         }
-
-        return redirect()->route('manufacture.index');
+        $log = 'Manufacture Order '.($data->order_ref).' Berhasil Dijalankan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Manufacture Order '.($data->order_ref).' Berhasil Dijalankan',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('manufacture.index')->with($notification);
     }
 
     public function manufactureShow($id)

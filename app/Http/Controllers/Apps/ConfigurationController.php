@@ -181,10 +181,10 @@ class ConfigurationController extends Controller
             'created_by' => auth()->user()->id,
         ];
         $data = PaymentTerm::create($input);
-        $log = 'Pembayaran '.($data->name).' Berhasil Disimpan';
+        $log = 'Termin Pembayaran '.($data->name).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembayaran '.($data->name).' Berhasil Disimpan',
+            'message' => 'Termin Pembayaran '.($data->name).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 
@@ -209,10 +209,10 @@ class ConfigurationController extends Controller
             'updated_by' => auth()->user()->id,
         ];
         $data = PaymentTerm::find($id)->update($input);
-        $log = 'Pembayaran '.($data->name).' Berhasil Diubah';
+        $log = 'Termin Pembayaran '.($data->name).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembayaran '.($data->name).' Berhasil Diubah',
+            'message' => 'Termin Pembayaran '.($data->name).' Berhasil Diubah',
             'alert-type' => 'success'
         );
 
@@ -222,10 +222,10 @@ class ConfigurationController extends Controller
     public function termDestroy($id)
     {
         $data = PaymentTerm::find($id);
-        $log = 'Pembayaran '.($data->name).' Berhasil Dihapus';
+        $log = 'Termin Pembayaran '.($data->name).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembayaran '.($data->name).' Berhasil Dihapus',
+            'message' => 'Termin Pembayaran '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
         $data->delete();
@@ -251,10 +251,10 @@ class ConfigurationController extends Controller
             'created_by' => auth()->user()->id,
         ];
         $data = UomCategory::create($input);
-        $log = 'Kategori UOM '.($data->name).' Berhasil Disimpan';
+        $log = 'Kategori Satuan '.($data->name).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Kategori UOM '.($data->name).' Berhasil Disimpan',
+            'message' => 'Kategori Satuan '.($data->name).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 
@@ -279,10 +279,10 @@ class ConfigurationController extends Controller
             'updated_by' => auth()->user()->id,
         ];
         $data = UomCategory::find($id)->update($input);
-        $log = 'Kategori UOM '.($data->name).' Berhasil Diubah';
+        $log = 'Kategori Satuan '.($data->name).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Kategori UOM '.($data->name).' Berhasil Diubah',
+            'message' => 'Kategori Satuan '.($data->name).' Berhasil Diubah',
             'alert-type' => 'success'
         );
 
@@ -295,7 +295,7 @@ class ConfigurationController extends Controller
         $log = 'Kategori UOM '.($data->name).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Kategori UOM '.($data->name).' Berhasil Dihapus',
+            'message' => 'Kategori Satuan '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
         $data->delete();
@@ -329,10 +329,10 @@ class ConfigurationController extends Controller
             'created_by' => auth()->user()->id,
         ];
         $data = UomValue::create($input);
-        $log = 'UOM '.($data->name).' Berhasil Disimpan';
+        $log = 'Satuan '.($data->name).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'UOM '.($data->name).' Berhasil Disimpan',
+            'message' => 'Satuan '.($data->name).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 
@@ -362,10 +362,10 @@ class ConfigurationController extends Controller
             'updated_by' => auth()->user()->id,
         ];
         $data = UomValue::find($id)->update($input);
-        $log = 'UOM '.($data->name).' Berhasil Diubah';
+        $log = 'Satuan '.($data->name).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'UOM '.($data->name).' Berhasil Diubah',
+            'message' => 'Satuan '.($data->name).' Berhasil Diubah',
             'alert-type' => 'success'
         );
 
@@ -375,10 +375,10 @@ class ConfigurationController extends Controller
     public function uomvalDestroy($id)
     {
         $data = UomValue::find($id);
-        $log = 'UOM '.($data->name).' Berhasil Dihapus';
+        $log = 'Satuan '.($data->name).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'UOM '.($data->name).' Berhasil Dihapus',
+            'message' => 'Satuan '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
         $data->delete();
