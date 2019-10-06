@@ -18,6 +18,7 @@
                 	<tr>
                         <th>No</th>
                 		<th>Tgl Transaksi</th>
+                        <th>Tipe</th>
                 		<th>No Ref</th>
                 		<th>Brg Masuk</th>
                 		<th>Brg Keluar</th>
@@ -29,6 +30,23 @@
                 	<tr>
 	                	<td>{{ $key+1 }}</td>
 	                	<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
+                        <td>
+                            @if($val->type == 1)
+                            Adjustment
+                            @elseif($val->type == 2)
+                            Penjualan
+                            @elseif($val->type == 3)
+                            Pembelian
+                            @elseif($val->type == 4)
+                            Internal Transfer
+                            @elseif($val->type == 5)
+                            Pengiriman
+                            @elseif($val->type == 6)
+                            Penerimaan Brg
+                            @elseif($val->type == 7)
+                            Manufaktur
+                            @endif
+                        </td>
 	                	<td>{{ $val->reference_id}}</td>
 	                	<td>{{ number_format($val->incoming,2,',','.')}}</td>
 	                	<td>{{ number_format($val->outgoing,2,',','.')}}</td>
