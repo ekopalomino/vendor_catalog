@@ -160,7 +160,7 @@ class UserManagementController extends Controller
         $log = 'Password User '.($user->name).' Berhasil diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'User '.($user->name).' Berhasil diubah',
+            'message' => 'Password User '.($user->name).' Berhasil diubah',
             'alert-type' => 'success'
         );
         return back()
@@ -290,10 +290,10 @@ class UserManagementController extends Controller
         ];
 
         $data = Division::create($input);
-        $log = 'Work Unit '.($data->name).' Created';
+        $log = 'Unit Kerja '.($data->name).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Work Unit '.($data->name).' Created',
+            'message' => 'Unit Kerja '.($data->name).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 
@@ -316,10 +316,10 @@ class UserManagementController extends Controller
             'updated_by' => auth()->user()->id,
         ];
         $data = Division::find($id);
-        $log = 'Work Unit '.($data->name).' Edited';
+        $log = 'Unit Kerja '.($data->name).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Work Unit '.($data->name).' Edited',
+            'message' => 'Unit Kerja '.($data->name).' Berhasil Diubah',
             'alert-type' => 'success'
         );
         $data->update($input);
@@ -330,10 +330,10 @@ class UserManagementController extends Controller
     public function ukerDestroy($id)
     {
         $data = Division::find($id);
-        $log = 'Work Unit '.($data->name).' Deleted';
+        $log = 'Unit Kerja '.($data->name).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Work Unit '.($data->name).' Deleted',
+            'message' => 'Unit Kerja '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
         $data->delete();

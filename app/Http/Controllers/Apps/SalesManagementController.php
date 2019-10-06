@@ -121,8 +121,13 @@ class SalesManagementController extends Controller
         $saleData = DB::table('sales')
                         ->where('id',$sale_id)
                         ->update(['quantity' => $qty, 'total' => ($price) - ($disc)]);
-
-        return redirect()->route('sales.index');
+        $log = 'Sales Order '.($input->order_ref).' Berhasil Disubmit';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Sales Order '.($input->order_ref).' Berhasil Disubmit',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('sales.index')->with($notification);
     }
 
     public function processSales(Request $request,$id)
@@ -226,7 +231,13 @@ class SalesManagementController extends Controller
             ]);
             
         }
-        return redirect()->route('sales.index');
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Diproses';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Diproses',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('sales.index')->with($notification);
     }
  
     public function salesShow($id)
@@ -253,8 +264,13 @@ class SalesManagementController extends Controller
             'status_id' => 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8',
             'updated_by' => auth()->user()->id,
         ]);
-
-        return redirect()->route('sales.index');
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Ditolak';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Ditolak',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('sales.index')->with($notification);
     }
 
 }

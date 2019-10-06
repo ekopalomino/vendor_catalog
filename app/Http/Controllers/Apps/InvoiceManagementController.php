@@ -31,8 +31,15 @@ class InvoiceManagementController extends Controller
         $process = Sale::where('order_ref',$invoices->sales_order)->update([
             'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
         ]);
+
+        $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+            'alert-type' => 'success'
+        );
         
-        return redirect()->route('invoice.index');
+        return redirect()->route('invoice.index')->with($notification);
     }
 
     public function invoicePayment(Request $request,$id)
@@ -41,8 +48,13 @@ class InvoiceManagementController extends Controller
         $payment = $invoices->update([
             'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
         ]);
-
-        return redirect()->back();
+        $log = 'Invoice '.($invoices->refs).' Berhasil Dibayar';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Invoice '.($invoices->refs).' Berhasil Dibayar',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
     }
 
     public function salesPrint($id) 
