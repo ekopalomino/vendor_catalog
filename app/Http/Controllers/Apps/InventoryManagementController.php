@@ -203,7 +203,7 @@ class InventoryManagementController extends Controller
             'order_ref' => $ref,
             'from_id' => $request->input('from_id'),
             'to_id' => $request->input('to_id'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $internal = InternalTransfer::create($data);
         
@@ -324,7 +324,7 @@ class InventoryManagementController extends Controller
         $data = InternalTransfer::find($id);
         $accept = $data->update([
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ]);
         $log = 'Internal Transfer '.($data->order_ref).' Berhasil Diterima';
          \LogActivity::addToLog($log);
@@ -359,7 +359,7 @@ class InventoryManagementController extends Controller
         $orders = Delivery::create([
             'order_ref' => $refs,
             'sales_ref' => $salesRefs->order_ref,
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ]);
         $moves = SaleItem::where('sales_id',$salesRefs->id)->get();
         $source = InventoryMovement::where('product_id',$moves[0]->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->orderBy('created_at','DESC')->first();
@@ -395,6 +395,7 @@ class InventoryManagementController extends Controller
         $data = Delivery::find($id);
         $data->update([
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+            'updated_by' => auth()->user()->name,
         ]);
 
         $source = Delivery::where('id',$id)->first();

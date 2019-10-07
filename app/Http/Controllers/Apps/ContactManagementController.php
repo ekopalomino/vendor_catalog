@@ -63,7 +63,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'created_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         } else {
@@ -80,7 +80,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'created_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         }
@@ -140,7 +140,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         } else {
@@ -157,7 +157,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         }
@@ -230,7 +230,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'created_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         } else {
@@ -247,7 +247,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'created_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         }
@@ -307,7 +307,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         } else {
@@ -324,7 +324,7 @@ class ContactManagementController extends Controller
                 'payment_terms' => $request->input('payment_term'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
-                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->name,
                 'type_id' => $request->input('type_id'),
             ];
         }

@@ -92,7 +92,7 @@ class SalesManagementController extends Controller
             'billing_address' => $details->billing_address,
             'shipping_address' => $details->shipping_address,
             'delivery_date' => $request->input('delivery_date'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         
         $data = Sale::create($input);
@@ -136,7 +136,7 @@ class SalesManagementController extends Controller
         $data = Sale::find($id);
         $approve = $data->update([
             'status_id' => '458410e7-384d-47bc-bdbe-02115adc4449',
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ]);
         $reference = InternalTransfer::count();
         $refs = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
@@ -145,8 +145,8 @@ class SalesManagementController extends Controller
             'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
             'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
-            'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
+            'updated_by' => auth()->user()->name,
         ]);
         $items = SaleItem::where('sales_id',$id)->get();
         
@@ -263,7 +263,7 @@ class SalesManagementController extends Controller
         $data = Sale::find($id);
         $reject = $data->update([
             'status_id' => 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8',
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ]);
         $log = 'Sales Order '.($data->order_ref).' Berhasil Ditolak';
          \LogActivity::addToLog($log);

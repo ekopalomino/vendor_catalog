@@ -61,9 +61,11 @@ FiberTekno | Customer Management
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success" href="{{ route('customer.edit',$val->id) }}" title="Edit Customer" ><i class="fa fa-edit"></i></a>
+                                    @can('disable')
                                     {!! Form::open(['method' => 'POST','route' => ['customer.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
                 			</tr>
                             @endforeach

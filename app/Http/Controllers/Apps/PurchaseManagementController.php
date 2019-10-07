@@ -72,7 +72,7 @@ class PurchaseManagementController extends Controller
             'billing_address' => $details->billing_address,
             'shipping_address' => $details->shipping_address,
             'delivery_date' => $request->input('delivery_date'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         
         $data = Purchase::create($input);
@@ -142,7 +142,7 @@ class PurchaseManagementController extends Controller
         $process = [
             'status' => '458410e7-384d-47bc-bdbe-02115adc4449',
             'order_ref' => $ref,
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
 
         $updates = Purchase::find($id);
@@ -162,7 +162,7 @@ class PurchaseManagementController extends Controller
         $data = Purchase::find($id);
         $reject = $data->update([
             'status' => 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8',
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ]);
         $log = 'Pengajuan '.($data->order_ref).' Berhasil Ditolak';
          \LogActivity::addToLog($log);

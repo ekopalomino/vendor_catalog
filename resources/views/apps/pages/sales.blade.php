@@ -87,6 +87,7 @@ FiberTekno | Sales Management
                                 <th>Total Harga</th>
                                 <th>Status</th>
                 				<th>Dibuat Oleh</th>
+                                <th>Disetujui Oleh</th>
                 				<th>Tgl Dibuat</th>
                 				<th></th>
                 			</tr>
@@ -100,7 +101,8 @@ FiberTekno | Sales Management
                                 <td>{{ number_format($sale->quantity,2,',','.')}}</td>
                                 <td>{{ number_format($sale->total,2,',','.')}}</td>
                                 <td><label class="badge badge-success">{{ $sale->Statuses->name }}</label></td>
-                                <td>{{ $sale->Author->name }}</td>
+                                <td>{{ $sale->created_by }}</td>
+                                <td>{{ $sale->updated_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
                                     @if($sale->status_id != 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')

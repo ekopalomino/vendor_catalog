@@ -16,7 +16,9 @@ class Manufacture extends Model
         'status_id',
         'warehouse_id',
         'created_by',
-        'updated_by',
+        'approve_by',
+        'process_by',
+        'end_by',
         'start_production',
         'end_production',
     ];

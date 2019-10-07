@@ -67,8 +67,7 @@ Fiber Tekno | Bill of Material
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @if (count($errors) > 0) 
+                        @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
                                 <ul>
@@ -78,6 +77,7 @@ Fiber Tekno | Bill of Material
                                 </ul>
                         </div>
                     @endif
+                    </div>
                     <table class="table table-striped table-bordered table-hover" id="sample_1">
                         <thead>
                             <tr>

@@ -25,6 +25,7 @@ FiberTekno | Manufactures
                 				<th>MO Ref</th>
                                 <th>Produk</th>
                                 <th>Jumlah</th>
+                                <th>Hasil</th>
                                 <th>Deadline</th>
                                 <th>Status</th>
                 				<th>Mulai Produksi</th>
@@ -45,6 +46,11 @@ FiberTekno | Manufactures
                                 <td>
                                     @foreach($val->Child as $child)
                                     {{ $child->qty}}
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($val->Child as $child)
+                                    {{ $child->result}}
                                     @endforeach
                                 </td>
                                 <td>

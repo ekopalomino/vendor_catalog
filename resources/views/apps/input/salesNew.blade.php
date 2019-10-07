@@ -51,7 +51,7 @@ Fiber Tekno | Add Sales Order
 	            					<th>Produk</th>
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
-	            					<th>Harga</th>
+	            					<th>Harga Satuan</th>
                                     <th>Diskon (Rp)</th>
 	            					<th></th>
 	            				</tr>

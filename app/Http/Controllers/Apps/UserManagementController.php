@@ -167,7 +167,7 @@ class UserManagementController extends Controller
             ->with($notification);
     }
 
-    public function userDestroy($id)
+    public function userSuspend($id)
     {
         $input = ['status_id' => '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a'];
         $user = User::find($id);
@@ -179,6 +179,21 @@ class UserManagementController extends Controller
             'message' => 'User '.($user->name).' Suspended',
             'alert-type' => 'success'
         );
+        return redirect()->route('user.index')
+                        ->with($notification);
+    }
+
+    public function userDestroy($id)
+    {
+        $user = User::find($id);
+        
+        $log = 'User '.($user->name).' Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'User '.($user->name).' Dihapus',
+            'alert-type' => 'success'
+        );
+        $user->delete();
         return redirect()->route('user.index')
                         ->with($notification);
     }

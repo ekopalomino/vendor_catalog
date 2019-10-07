@@ -42,6 +42,7 @@ FiberTekno | Purchase Management
                                 <th>Nama Supplier</th>
                                 <th>Total Harga</th>
                 				<th>Diminta Oleh</th>
+                                <th>Disetujui Oleh</th>
                 				<th>Tgl Dibuat</th>
                                 <th>Status</th>
                 				<th></th>
@@ -54,7 +55,8 @@ FiberTekno | Purchase Management
                                 <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->Suppliers->name}}</td>
                                 <td>{{ number_format($val->total,2,',','.')}}</td>
-                                <td>{{ $val->Author->name }}</td>
+                                <td>{{ $val->created_by }}</td>
+                                <td>{{ $val->updated_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')

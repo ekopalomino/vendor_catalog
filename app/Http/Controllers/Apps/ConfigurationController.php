@@ -38,7 +38,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $data = Warehouse::create($input);
         $log = 'Gudang '.($data->name).' Berhasil Disimpan';
@@ -66,7 +66,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
         $data = Warehouse::find($id)->update($input);
         $log = 'Gudang '.($data->name).' Berhasil Diubah';
@@ -108,7 +108,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $data = PaymentMethod::create($input);
         $log = 'Metode Pembayaran '.($data->name).' Berhasil Disimpan';
@@ -136,7 +136,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
         $data = PaymentMethod::find($id)->update($input);
         $log = 'Metode Pembayaran '.($data->name).' Berhasil Diubah';
@@ -178,7 +178,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $data = PaymentTerm::create($input);
         $log = 'Termin Pembayaran '.($data->name).' Berhasil Disimpan';
@@ -206,7 +206,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
         $data = PaymentTerm::find($id)->update($input);
         $log = 'Termin Pembayaran '.($data->name).' Berhasil Diubah';
@@ -248,7 +248,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $data = UomCategory::create($input);
         $log = 'Kategori Satuan '.($data->name).' Berhasil Disimpan';
@@ -276,7 +276,7 @@ class ConfigurationController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
         $data = UomCategory::find($id)->update($input);
         $log = 'Kategori Satuan '.($data->name).' Berhasil Diubah';
@@ -326,7 +326,7 @@ class ConfigurationController extends Controller
             'is_parent' => $request->input('is_parent'),
             'parent_id' => $request->input('parent_id'),
             'value' => $request->input('value'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $data = UomValue::create($input);
         $log = 'Satuan '.($data->name).' Berhasil Disimpan';
@@ -359,7 +359,7 @@ class ConfigurationController extends Controller
             'name' => $request->input('name'),
             'type_id' => $request->input('type_id'),
             'value' => $request->input('value'),
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
         $data = UomValue::find($id)->update($input);
         $log = 'Satuan '.($data->name).' Berhasil Diubah';

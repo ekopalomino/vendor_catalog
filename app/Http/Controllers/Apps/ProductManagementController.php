@@ -41,7 +41,7 @@ class ProductManagementController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $data = ProductCategory::create($input);
         $log = 'Kategori Produk '.($data->name).' Berhasil disimpan';
@@ -69,7 +69,7 @@ class ProductManagementController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'updated_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->name,
         ];
         $data = ProductCategory::find($id)->update($input);
         $log = 'Kategori Produk '.($input->name).' Berhasil Diubah';
@@ -148,7 +148,7 @@ class ProductManagementController extends Controller
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
                 'is_sale' => $request->input('is_sale'),
-                'created_by' => auth()->user()->id,
+                'created_by' => auth()->user()->name,
             ];
         } else {
             $input = [
@@ -162,7 +162,7 @@ class ProductManagementController extends Controller
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
                 'is_sale' => $request->input('is_sale'),
-                'created_by' => auth()->user()->id,
+                'created_by' => auth()->user()->name,
             ];
         }
         
@@ -264,7 +264,7 @@ class ProductManagementController extends Controller
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
                 'is_sale' => $request->input('is_sale'),
-                'updated_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->name,
             ];
         } else {
             $input = [
@@ -278,7 +278,7 @@ class ProductManagementController extends Controller
                 'sale_price' => $request->input('sale_price'),
                 'is_manufacture' => $request->input('is_manufacture'),
                 'is_sale' => $request->input('is_sale'),
-                'updated_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->name,
             ];
         }
         
@@ -328,13 +328,19 @@ class ProductManagementController extends Controller
 
     public function storeBom(Request $request)
     {
+        $this->validate($request, [
+            'material_id' => 'required',
+            'quantity' => 'required|numeric',
+            'uom_id' => 'required',
+        ]);
+
         $input = $request->all();
         
         $data = ProductBom::create($input);
-        $log = 'Produk BOM'.($data->name).' Berhasil Disimpan';
+        $log = 'Bill of Material'.($data->name).' Berhasil Disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Produk BOM'.($data->name).' Berhasil Disimpan',
+            'message' => 'Bill of Material'.($data->name).' Berhasil Disimpan',
             'alert-type' => 'success'
         );
 
@@ -344,9 +350,10 @@ class ProductManagementController extends Controller
     public function editBom($id)
     {
         $data = ProductBom::find($id);
+        $materials = Product::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
 
-        return view('apps.edit.productBom',compact('data','uoms'))->renderSections()['content'];
+        return view('apps.edit.productBom',compact('data','materials','uoms'))->renderSections()['content'];
     }
 
     public function updateBom(Request $request,$id)
@@ -354,10 +361,10 @@ class ProductManagementController extends Controller
         $input = $request->all();
 
         $data = ProductBom::find($id)->update($input);
-        $log = 'Produk BOM'.($data->name).' Berhasil Diubah';
+        $log = 'Bill of Material Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Produk '.($data->name).' Berhasil Diubah',
+            'message' => 'Bill of Material Berhasil Diubah',
             'alert-type' => 'success'
         );
 
@@ -367,10 +374,10 @@ class ProductManagementController extends Controller
     public function destroyBom($id)
     {
         $data = ProductBom::find($id);
-        $log = 'Produk BOM'.($data->name).' Berhasil Dihapus';
+        $log = 'Bill of Material Berhasil Dihapus';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Produk '.($data->name).' Berhasil Dihapus',
+            'message' => 'Bill of Material Berhasil Dihapus',
             'alert-type' => 'success'
         );
         $data->delete();

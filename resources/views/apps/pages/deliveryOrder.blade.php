@@ -92,7 +92,7 @@ FiberTekno | Delivery Order
                                     <label class="badge badge-success">{{ $val->Statuses->name }}</label>
                                     @endif
                                 </td>
-                                <td>{{ $val->Author->name }}</td>
+                                <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
                                 <td>

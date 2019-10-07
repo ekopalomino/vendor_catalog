@@ -10,6 +10,7 @@ class ManufactureItem extends Model
         'manufacture_id',
         'item_id',
         'qty',
+        'result',
         'uom_id',
     ];
 

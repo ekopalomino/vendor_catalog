@@ -73,7 +73,7 @@ class ManufactureManagementController extends Controller
             'deadline' => $request->input('deadline'),
             'status_id' => '5bc79891-e396-4792-a0f3-617ece2a00ce',
             'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ];
         $names = Product::where('name',$request->input('product'))->orWhere('product_barcode',$request->input('product'))->first();
         $data = Manufacture::create($input);
@@ -101,6 +101,7 @@ class ManufactureManagementController extends Controller
         $accept = $data->update([
             'order_ref' => $ref,
             'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
+            'approve_by' => auth()->user()->name,
         ]);
         $log = 'Manufacture Request '.($data->order_ref).' Berhasil Disetujui';
          \LogActivity::addToLog($log);
@@ -135,12 +136,13 @@ class ManufactureManagementController extends Controller
             'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
             'to_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
-            'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
+            'updated_by' => auth()->user()->name,
         ]);
 
         $updateStatus = $data->update([
             'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
+            'process_by' => auth()->user()->name,
             'start_production' => Carbon::now(),
         ]);
         
@@ -251,7 +253,7 @@ class ManufactureManagementController extends Controller
         $items = $request->material_id;
         $usage = $request->usage;
         $scrap = $request->scrap;
-        
+        $updateQty = ManufactureItem::where('id',$request->input('id'))->update(['result'=>$request->input('result')]);
         if($itemInventory == null) {
             $finishItems = Inventory::create([
                 'product_id' => $request->input('product_id'),
@@ -358,12 +360,13 @@ class ManufactureManagementController extends Controller
             $final = $updateInventory->update([
                 'closing_amount' => ($updateInventory->closing_amount) - (($usage[$index])+($scrap[$index])),
             ]);
-
+           
         }
         
         $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.id',$request->input('id'))->first();
         $updates = Manufacture::where('id',$data->manufacture_id)->update([
             'manufactures.status_id' => '0fb7f4e6-e293-429d-8761-f978dc850a97',
+            'manufactures.end_by' => auth()->user()->name,
             'manufactures.end_production' => Carbon::now(),
         ]);
         return redirect()->route('manufacture.index');
