@@ -39,6 +39,7 @@ class SalesManagementController extends Controller
         $sales = Sale::orderBy('updated_at','desc')->get();
         $inventories = Inventory::join('products','products.id','=','inventories.product_id')
                                 ->where('products.is_sale','1')
+                                ->where('inventories.warehouse_id','!=','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')
                                 ->get();
         
         return view('apps.pages.sales',compact('sales','inventories'));
@@ -121,10 +122,10 @@ class SalesManagementController extends Controller
         $saleData = DB::table('sales')
                         ->where('id',$sale_id)
                         ->update(['quantity' => $qty, 'total' => ($price) - ($disc)]);
-        $log = 'Sales Order '.($input->order_ref).' Berhasil Disubmit';
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Sales Order '.($input->order_ref).' Berhasil Disubmit',
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Disubmit',
             'alert-type' => 'success'
         );
         return redirect()->route('sales.index')->with($notification);
@@ -185,7 +186,7 @@ class SalesManagementController extends Controller
                     'product_id' => $item->product_id,
                     'incoming' => '0',
                     'outgoing' => $convertion,
-                    'remaining' => ($moveout->remaining) - ($convertion),
+                    'remaining' => '0',
                     'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
                 ]);
                  $moveins = InventoryMovement::create([

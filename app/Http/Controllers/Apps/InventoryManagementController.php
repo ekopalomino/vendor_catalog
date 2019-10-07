@@ -184,11 +184,12 @@ class InventoryManagementController extends Controller
 
     public function addTransfer()
     {
-        $locations = Warehouse::pluck('name','id')->toArray();
+        $userLocation = auth()->user()->warehouse_id;
+        $locations = Warehouse::where('id','!=',$userLocation)->pluck('name','id')->toArray();
         $products = Product::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
-
-        return view('apps.input.internalTransfer',compact('locations','products','uoms'));
+        
+        return view('apps.input.internalTransfer',compact('locations','products','uoms','userLocation'));
     }
 
     public function internStore(Request $request)
@@ -276,13 +277,13 @@ class InventoryManagementController extends Controller
                     'closing_amount' => ($source->closing_amount) - ($convertion),
                 ]);
             }
-            /* if($to == null) {
+            if($to == null) {
                 $income = InventoryMovement::create([
                     'type' => '4',
-                    'inventory_id' => $dataInvent->id,
+                    'inventory_id' => $base->id,
                     'reference_id' => $ref,
-                    'product_id' => $dataInvent->product_id,
-                    'warehouse_id' => $dataInvent->warehouse_id,
+                    'product_id' => $base->product_id,
+                    'warehouse_id' => $base->warehouse_id,
                     'incoming' => $convertion,
                     'outgoing' => '0',
                     'remaining' => $convertion,
@@ -296,9 +297,9 @@ class InventoryManagementController extends Controller
                     'warehouse_id' => $base->warehouse_id,
                     'incoming' => $convertion,
                     'outgoing' => '0',
-                    'remaining' => ($to->remaining) + ($convertion),
+                    'remaining' => ($base->remaining) + ($convertion),
                 ]);
-            } */
+            }
         }
         $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
          \LogActivity::addToLog($log);

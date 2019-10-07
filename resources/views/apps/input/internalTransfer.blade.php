@@ -29,12 +29,7 @@ Fiber Tekno | Tambah Mutasi Barang
             @csrf
             <div class="form-body">
             	<div class="row">
-            		<div class="col-md-5">
-            			<div class="form-group">
-            				<label class="control-label">Gudang Pengirim</label>
-            				{!! Form::select('from_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
-            			</div>
-            		</div>
+            		{{ Form::hidden('from_id', $userLocation) }}
                 <div class="col-md-5">
                   <div class="form-group">
                     <label class="control-label">Gudang Penerima</label>
