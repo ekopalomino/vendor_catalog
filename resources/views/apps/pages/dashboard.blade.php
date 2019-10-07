@@ -57,7 +57,7 @@ FiberTekno | Dashboard
    			<div class="portlet-title">
    				<div class="caption">
             <i class="icon-graph font-red"></i>
-            <span class="caption-subject font-red bold uppercase">Pendapatan</span>
+            <span class="caption-subject font-red bold uppercase">Sales Income</span>
           </div>
         </div>
         <div class="portlet-body">
@@ -66,39 +66,23 @@ FiberTekno | Dashboard
       </div>
     </div>
     <div class="col-md-6">
-  		<div class="portlet light bordered">
-   			<div class="portlet-title">
-   				<div class="caption">
-            <i class="icon-list font-blue"></i>
-            <span class="caption-subject font-blue bold uppercase">Top 5 Penjualan Produk</span>
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="icon-graph font-red"></i>
+            <span class="caption-subject font-red bold uppercase">Product Sales</span>
           </div>
         </div>
         <div class="portlet-body">
-         	<div class="table-responsive">
-         		<table class="table table-striped table-hover table-bordered">
-         			<thead>
-         				<tr>
-         					<th>Produk</th>
-         					<th>Jumlah Penjualan</th>
-         					<th>Total Penjualan</th>
-         				</tr>
-         			</thead>
-         			<tbody>
-         				<tr>
-         					<td></td>
-     					    <td></td>
-     					    <td></td>
-         				</tr>
-         			</tbody>
-         		</table>
-         	</div>
+          {!!$prodchart->container() !!}
         </div>
       </div>
-    </div>		
+    </div>	
   </div>
 </div>
 @endsection
 @section('footer.scripts')
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
 {!! $chart->script() !!}
+{!! $prodchart->script() !!}
 @endsection
