@@ -24,6 +24,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('users/edit/{id}','Apps\UserManagementController@userEdit')->name('user.edit');
     Route::get('users/show/{id}','Apps\UserManagementController@userShow')->name('user.show');
     Route::post('users/update/{id}','Apps\UserManagementController@userUpdate')->name('user.update');
+    Route::post('users/suspend/{id}','Apps\UserManagementController@userSuspend')->name('user.suspend');
     Route::post('users/delete/{id}','Apps\UserManagementController@userDestroy')->name('user.destroy');
     Route::get('users/profile', 'Apps\UserManagementController@userProfile')->name('user.profile');
     Route::post('users/profile/avatar', 'Apps\UserManagementController@updateAvatar')->name('user.avatar');
@@ -182,4 +183,5 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('invoices/index','Apps\InvoiceManagementController@index')->name('invoice.index');
     Route::post('invoices/create','Apps\InvoiceManagementController@invoiceStore')->name('invoice.store');
     Route::post('invoices/payment-receive/{id}','Apps\InvoiceManagementController@invoicePayment')->name('invoice.payment');
+    Route::get('invoices/show/{id}','Apps\InvoiceManagementController@invoiceShow')->name('invoice.show');
 });

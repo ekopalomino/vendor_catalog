@@ -19,7 +19,7 @@ FiberTekno | Invoice Detail
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a href="{{ route('sales.pdf',$sales->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print INV</button></a>
+                            <a href=""><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print INV</button></a>
                             <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Tutup</button></a>
                         </div>
                     </div>
@@ -47,8 +47,8 @@ FiberTekno | Invoice Detail
                                             </tr>
                                         </thead>
                                     </table>
-                                    <p style="line-height: 1;"><strong>{{$sales->Customers->name}}</strong></p>
-                                    <p style="line-height: 1;">{{$sales->Customers->billing_address}}</p>
+                                    <p style="line-height: 1;"><strong>{{$data->Sales->Customers->name}}</strong></p>
+                                    <p style="line-height: 1;">{{$data->billing_address}}</p>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +70,8 @@ FiberTekno | Invoice Detail
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{$sales->order_ref}}</td>
-                                                <td>{{date("d F Y",strtotime($sales->created_at)) }}</td>
+                                                <td>{{$data->order_ref}}</td>
+                                                <td>{{date("d F Y",strtotime($data->created_at)) }}</td>
                                             </tr>
                                         </tbody>
                                         <thead>
@@ -82,8 +82,8 @@ FiberTekno | Invoice Detail
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{date("d F Y",strtotime($sales->delivery_date)) }}</td>
-                                                <td>{{$sales->Customers->Terms->name}}</td>
+                                                <td>{{date("d F Y",strtotime($data->delivery_date)) }}</td>
+                                                <td>{{$data->Customers->Terms->name}}</td>
                                             </tr>
                                         </tbody>
                                         <thead>
@@ -93,7 +93,7 @@ FiberTekno | Invoice Detail
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td colspan="2">{{$sales->client_code}}</td>
+                                                <td colspan="2">{{$data->client_code}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -104,8 +104,8 @@ FiberTekno | Invoice Detail
                                             </tr>
                                         </thead>
                                     </table>
-                                    <p style="line-height: 1;"><strong>{{$sales->Customers->company}}</strong></p>
-                                    <p style="line-height: 1;">{{$sales->Customers->shipping_address}}</p>
+                                    <p style="line-height: 1;"><strong>{{$data->Customers->company}}</strong></p>
+                                    <p style="line-height: 1;">{{$data->Customers->shipping_address}}</p>
                                 </div>
                             </div>
                         </div>

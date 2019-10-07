@@ -20,7 +20,7 @@ FiberTekno | Sales Order Detail
                     <div class="actions">
                         <div class="btn-group">
                             <a href="{{ route('sales.pdf',$sales->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print SO</button></a>
-                            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Tutup</button></a>
+                            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
                         </div>
                     </div>
                 </div>

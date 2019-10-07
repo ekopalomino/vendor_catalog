@@ -59,10 +59,10 @@ FiberTekno | Mutasi Barang
                                     <label class="badge badge-success">{{ $val->Statuses->name }}</label>
                                     @endif
                                 </td>
-                                <td>{{ $val->Sender->name }}</td>
+                                <td>{{ $val->created_by }}</td>
                                 <td>
                                     @if(!empty($val->updated_by))
-                                    {{ $val->Receiver->name }}
+                                    {{ $val->updated_by }}
                                     @endif
                                 </td>
                                 <td>

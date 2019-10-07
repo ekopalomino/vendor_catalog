@@ -44,7 +44,7 @@ FiberTekno | Supplier Management
                 				<th>Address</th>
                 				<th>Status</th>
                 				<th>Created At</th>
-                				<th>Action</th>
+                				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -59,9 +59,11 @@ FiberTekno | Supplier Management
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Supplier" ><i class="fa fa-edit"></i></a>
+                                    @can('disable')
                                     {!! Form::open(['method' => 'POST','route' => ['supplier.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
                 			</tr>
                             @endforeach

@@ -26,7 +26,7 @@ class InvoiceManagementController extends Controller
         $invoices = Invoice::create([
             'order_ref' => $refs,
             'sales_order' => $request->input('sales_order'),
-            'created_by' => auth()->user()->id,
+            'created_by' => auth()->user()->name,
         ]);
         $process = Sale::where('order_ref',$invoices->sales_order)->update([
             'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
@@ -47,6 +47,8 @@ class InvoiceManagementController extends Controller
         $invoices = Invoice::find($id);
         $payment = $invoices->update([
             'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
+            'updated_by' => auth()->user()->name,
+            'payment_received' => Carbon::now(),
         ]);
         $log = 'Invoice '.($invoices->refs).' Berhasil Dibayar';
          \LogActivity::addToLog($log);
@@ -55,6 +57,16 @@ class InvoiceManagementController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->back()->with($notification);
+    }
+
+    public function invoiceShow($id)
+    {
+        $ids = Invoice::find($id);
+        $data = Invoice::join('sales','sales.id','invoices.sales_order')
+                         ->where('invoices.id',$id)
+                         ->get();
+        
+        return view('apps.show.invoices',compact('data'));
     }
 
     public function salesPrint($id) 

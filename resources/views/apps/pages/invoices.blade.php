@@ -90,7 +90,7 @@ FiberTekno | Invoice Management
                                 <td>{{ $val->Sales->Customers->name}}</td>
                                 <td>{{ number_format($val->Sales->total,2,',','.')}}</td>
                                 <td><label class="badge badge-success">{{ $val->Statuses->name }}</label></td>
-                                <td>{{ $val->Author->name }}</td>
+                                <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     @if(!empty($val->payment_received))
@@ -98,7 +98,7 @@ FiberTekno | Invoice Management
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-xs btn-info" title="Lihat Invoice" href="{{ route('request.form',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-xs btn-info" title="Lihat Invoice" href="{{ route('invoice.show',$val->id) }}"><i class="fa fa-search"></i></a>
                                     @if($val->status_id == '3da32f6e-494f-4b61-b010-7ccc0e006fb3')
                                     {!! Form::open(['method' => 'POST','route' => ['invoice.payment', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-bank"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Bayar']) !!}

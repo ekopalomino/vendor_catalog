@@ -56,7 +56,7 @@ FiberTekno | Permintaan Manufaktur
                                     @endif
                                 </td>
                                 <td><label class="badge badge-info">{{ $val->Statuses->name }}</td>
-                                <td>{{ $val->Author->name }}</td>
+                                <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@checkStock',['id'=>$val->id]) }}" title="Cek Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>

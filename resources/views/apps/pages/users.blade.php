@@ -155,6 +155,9 @@ FiberTekno | User Management
                 				<td>
                                     <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\UserManagementController@userShow',['id'=>$user->id]) }}" title="Lihat User" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
                                     <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\UserManagementController@userEdit',['id'=>$user->id]) }}" title="Edit User" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['user.suspend', $user->id],'style'=>'display:inline','onsubmit' => 'return ConfirmSuspend()']) !!}
+                                    {!! Form::button('<i class="fa fa-close"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Suspend User']) !!}
+                                    {!! Form::close() !!}
                                     {!! Form::open(['method' => 'POST','route' => ['user.destroy', $user->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Suspend User']) !!}
                                     {!! Form::close() !!}
@@ -179,6 +182,16 @@ FiberTekno | User Management
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
 <script>
     function ConfirmDelete()
+    {
+    var x = confirm("User Akan Dihapus?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
+<script>
+    function ConfirmSuspend()
     {
     var x = confirm("User Akan Dinonaktifkan?");
     if (x)

@@ -57,7 +57,7 @@ FiberTekno | Persediaan
                                 </td>
                 				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
                                 <td>
-                                    <a class="btn btn-xs btn-success" title="Edit" href="{{ route('stock.pdf',$product->id) }}"><i class="fa fa-print"></i></a>
+                                    <a class="btn btn-xs btn-success" title="Print Stock Card" href="{{ route('stock.pdf',$product->id) }}"><i class="fa fa-print"></i></a>
                                     <a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Apps\InventoryManagementController@stockCard',['id'=>$product->id]) }}" title="Stock Card Produk {{$product->Products->name }}" data-toggle="modal" data-target="#modalLg"><i class="fa fa-search"></i></a>
                                 </td>
                 			</tr>

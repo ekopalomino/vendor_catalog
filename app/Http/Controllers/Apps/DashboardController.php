@@ -20,7 +20,6 @@ class DashboardController extends Controller
                         ->select(DB::raw('sum(total) as sums'),DB::raw("DATE_FORMAT(updated_at,'%M %Y') as months"))
                         ->groupBy('months')
                         ->get();
-        $label = $sales[0]->months;
         
         if($sales->count()>0) {
             $chart = new DashboardChart;
