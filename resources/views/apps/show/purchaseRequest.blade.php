@@ -19,7 +19,7 @@ FiberTekno | Purchase Request Detail
                     </div>
                     <div class="actions">
                         <div class="btn-group">
-                            <a href=""><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PO</button></a>
+                            <a href="{{ route('request.print',$data->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PR</button></a>
                             <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
                         </div>
                     </div>

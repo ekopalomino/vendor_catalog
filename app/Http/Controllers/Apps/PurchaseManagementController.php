@@ -18,6 +18,7 @@ use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
 use Auth;
 use DB;
+use PDF;
 
 class PurchaseManagementController extends Controller
 {
@@ -172,5 +173,25 @@ class PurchaseManagementController extends Controller
         );
 
         return redirect()->route('purchase.index')->with($notification);
+    }
+
+    public function requestPrint($id)
+    {
+        $data = Purchase::find($id);
+        $details = PurchaseItem::where('purchase_id',$id)->get();
+
+        $pdf = PDF::loadview('apps.print.purchaseRequest',compact('data','details'))
+                    ->setPaper('a4','portrait');
+        return $pdf->download('PR.pdf');
+    }
+
+    public function purchasePrint($id)
+    {
+        $data = Purchase::find($id);
+        $details = PurchaseItem::where('purchase_id',$id)->get();
+
+        $pdf = PDF::loadview('apps.print.purchaseOrder',compact('data','details'))
+                    ->setPaper('a4','portrait');
+        return $pdf->download('PO.pdf');
     }
 }

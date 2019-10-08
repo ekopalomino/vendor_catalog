@@ -57,7 +57,8 @@ class InventoryManagementController extends Controller
         $data = InventoryMovement::where('product_id',$source->product_id)
                                 ->where('warehouse_id',$source->warehouse_id)
                                 ->get();
-        $pdf = PDF::loadview('apps.show.stockCardPrint',compact('data'));
+        
+        $pdf = PDF::loadview('apps.print.stockCard',compact('data','source'));
         return $pdf->download('stock-card.pdf');
     }
 
