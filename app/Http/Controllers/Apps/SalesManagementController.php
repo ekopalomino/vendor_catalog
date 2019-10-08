@@ -186,7 +186,7 @@ class SalesManagementController extends Controller
                     'product_id' => $item->product_id,
                     'incoming' => '0',
                     'outgoing' => $convertion,
-                    'remaining' => '0',
+                    'remaining' => ($moveout->remaining) - ($convertion),
                     'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
                 ]);
                  $moveins = InventoryMovement::create([

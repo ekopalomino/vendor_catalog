@@ -129,10 +129,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('purchase/product/find','Apps\PurchaseManagementController@searchProduct')->name('purchase.product');
     Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
     Route::get('purchase/request/show/{id}','Apps\PurchaseManagementController@requestShow')->name('request.show');
+    Route::get('purchase/request/print/{id}','Apps\PurchaseManagementController@requestPrint')->name('request.print');
     Route::get('purchase/request/edit/{id}','Apps\PurchaseManagementController@requestForm')->name('request.form');
     Route::post('purchase/request/approve/{id}','Apps\PurchaseManagementController@requestApprove')->name('request.approve');
     Route::get('purchase/order/show/{id}','Apps\PurchaseManagementController@purchaseShow')->name('purchase.show');
     Route::post('purchase/orders/rejected/{id}','Apps\PurchaseManagementController@requestRejected')->name('request.rejected');
+    Route::get('purchase/orders/print/{id}','Apps\PurchaseManagementController@purchasePrint')->name('purchase.print');
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/

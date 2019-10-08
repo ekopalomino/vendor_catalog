@@ -356,6 +356,11 @@
                             <span class="title">Pembelian</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ set_active(['purchase.table']) }}">
+                        <a href="{{ route('purchase.table') }}" class="nav-link ">
+                            <span class="title">Manufaktur</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
