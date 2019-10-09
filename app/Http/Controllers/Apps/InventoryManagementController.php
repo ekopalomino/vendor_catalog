@@ -57,9 +57,10 @@ class InventoryManagementController extends Controller
         $data = InventoryMovement::where('product_id',$source->product_id)
                                 ->where('warehouse_id',$source->warehouse_id)
                                 ->get();
+        $filename = Product::where('id',$source->product_id)->first();
         
         $pdf = PDF::loadview('apps.print.stockCard',compact('data','source'));
-        return $pdf->download('stock-card.pdf');
+        return $pdf->download('Stock Card '.$filename->name.'.pdf');
     }
 
     public function inventoryAdjustIndex()
@@ -389,6 +390,19 @@ class InventoryManagementController extends Controller
         );
         
         return redirect()->route('delivery.index')->with($notification);
+    }
+
+    public function deliveryPrint($id)
+    {
+        $source = Delivery::find($id);
+        $data = Sale::where('order_ref',$source->sales_ref)
+                        ->first();
+                        
+        $details = SaleItem::where('sales_id',$data->id)
+                            ->get();
+        
+        $pdf = PDF::loadview('apps.print.deliveryOrder',compact('source','data','details'));
+        return $pdf->download(''.$source->order_ref.'.pdf');                 
     }
 
     public function deliveryDone(Request $request,$id)

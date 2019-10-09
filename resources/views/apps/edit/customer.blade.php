@@ -72,7 +72,7 @@ Fiber Tekno | Edit Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-4">
-                                {!! Form::checkbox('bill_ship','true','false',old('bill_ship')) !!}
+                                {!! Form::checkbox('bill_ship','false',old('bill_ship')) !!}
                                 <span>Check if Shipping Address same as Billing Address</span>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ Fiber Tekno | Edit Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tax Option</label>
                             <div class="col-md-4">
-                                {!! Form::select('tax', array('0'=>'No','2'=>'Yes'),old('tax'), array('class' => 'form-control')) !!}
+                                {!! Form::select('tax', array('0'=>'No','1'=>'Yes'),old('tax'), array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">

@@ -155,6 +155,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
     Route::post('inventories/delivery-order/create','Apps\InventoryManagementController@deliveryOrder')->name('delivery.process');
     Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
+    Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@deliveryPrint')->name('delivery.print');
     /*-----------------------End Inventory Management------------------------------------*/
 
     /*-----------------------Manufacture Management------------------------------------*/
@@ -186,4 +187,5 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('invoices/create','Apps\InvoiceManagementController@invoiceStore')->name('invoice.store');
     Route::post('invoices/payment-receive/{id}','Apps\InvoiceManagementController@invoicePayment')->name('invoice.payment');
     Route::get('invoices/show/{id}','Apps\InvoiceManagementController@invoiceShow')->name('invoice.show');
+    Route::get('invoices/print/{id}','Apps\InvoiceManagementController@invoicePrint')->name('invoice.print');
 });

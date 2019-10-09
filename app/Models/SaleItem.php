@@ -25,4 +25,9 @@ class SaleItem extends Model
     {
         return $this->belongsTo(Product::class,'product_id');
     }
+
+    public function Uoms()
+    {
+        return $this->belongsTo(UomValue::class,'uom_id');
+    }
 }

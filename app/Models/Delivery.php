@@ -39,5 +39,10 @@ class Delivery extends Model
         return $this->belongsTo(Status::class,'status_id');
     }
 
+    public function Sales()
+    {
+        return $this->belongsTo(Sale::class,'sales_ref');
+    }
+
 
 }

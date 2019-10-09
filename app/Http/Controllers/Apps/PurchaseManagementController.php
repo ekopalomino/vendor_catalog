@@ -39,10 +39,9 @@ class PurchaseManagementController extends Controller
     public function searchProduct(Request $request)
     {
         $search = $request->get('product');
-        $result = $products = Product::join('inventories','inventories.product_id','=','products.id')
-                            ->where('name','LIKE','%'.$search. '%')
+        $result = Product::where('name','LIKE','%'.$search. '%')
                             ->orWhere('product_barcode','LIKE','%'.$search.'%')
-                            ->select('products.id','products.name')
+                            ->select('id','name')
                             ->get();
         
         return response()->json($result);
@@ -182,7 +181,7 @@ class PurchaseManagementController extends Controller
 
         $pdf = PDF::loadview('apps.print.purchaseRequest',compact('data','details'))
                     ->setPaper('a4','portrait');
-        return $pdf->download('PR.pdf');
+        return $pdf->download(''.$data->order_ref.'.pdf');
     }
 
     public function purchasePrint($id)
@@ -192,6 +191,6 @@ class PurchaseManagementController extends Controller
 
         $pdf = PDF::loadview('apps.print.purchaseOrder',compact('data','details'))
                     ->setPaper('a4','portrait');
-        return $pdf->download('PO.pdf');
+        return $pdf->download(''.$data->order_ref.'.pdf');
     }
 }

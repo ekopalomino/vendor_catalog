@@ -118,10 +118,22 @@ class SalesManagementController extends Controller
         $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
         $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
         $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
-        
-        $saleData = DB::table('sales')
+        $tax = '10';
+        $subtotal = ($price) - ($disc);
+        if($details->tax == '1') {
+            $saleData = DB::table('sales')
                         ->where('id',$sale_id)
-                        ->update(['quantity' => $qty, 'total' => ($price) - ($disc)]);
+                        ->update([
+                            'quantity' => $qty,
+                            'tax' => ($subtotal) * ($tax/100),
+                            'total' => ($subtotal) + (($subtotal)*($tax/100)), 
+                            ]);
+        } else {
+            $saleData = DB::table('sales')
+                        ->where('id',$sale_id)
+                        ->update(['quantity' => $qty, 'total' => $subtotal]);
+        }
+              
         $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -254,7 +266,7 @@ class SalesManagementController extends Controller
         $sales = Sale::find($id);
         $data = SaleItem::where('sales_id',$id)->get();
 
-        $pdf = PDF::loadview('apps.print.sales',compact('data','sales'));
+        $pdf = PDF::loadview('apps.print.salesOrder',compact('data','sales'));
         return $pdf->download('SO.pdf');
     }
 

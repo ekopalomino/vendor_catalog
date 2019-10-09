@@ -101,7 +101,7 @@ Fiber Tekno | Tambah Customer
                                 <select class="form-control" name="tax">
                                     <option>Select Option</option>
                                     <option value="0">No</option>
-                                    <option value="0">Yes</option>
+                                    <option value="1">Yes</option>
                                 </select>  
                             </div>
                         </div>
