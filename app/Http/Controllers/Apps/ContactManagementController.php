@@ -38,7 +38,7 @@ class ContactManagementController extends Controller
     public function customerStore(Request $request)
     {
         $this->validate($request, [
-            'ref_id' => 'required',
+            'contact_ref' => 'required',
             'name' => 'required|unique:contacts,name',
             'phone' => 'required',
             'mobile' => 'required',
@@ -205,7 +205,7 @@ class ContactManagementController extends Controller
     public function supplierStore(Request $request)
     {
         $this->validate($request, [
-            'ref_id' => 'required',
+            'contact_ref' => 'required',
             'name' => 'required|unique:contacts,name',
             'phone' => 'required',
             'mobile' => 'required',
