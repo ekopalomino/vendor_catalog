@@ -94,7 +94,6 @@ class InventoryManagementController extends Controller
         
         $products = Product::where('id',$request->input('product_id'))->first();
         $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
-            'opening_amount' => $request->input('adjust_amount'),
             'closing_amount' => $request->input('adjust_amount'),
         ]);
         
