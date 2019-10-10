@@ -13,6 +13,7 @@ use Erp\Models\InternalItems;
 use Erp\Models\Purchase;
 use Erp\Models\PurchaseItem;
 use Erp\Models\Delivery;
+use Erp\Models\DeliveryService;
 use Erp\Models\Sale;
 use Erp\Models\SaleItem;
 use Erp\Models\UomValue;
@@ -341,14 +342,17 @@ class InventoryManagementController extends Controller
     {
         $data = Delivery::get();
         $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
+        $services = DeliveryService::pluck('delivery_name','id')->toArray();
 
-        return view('apps.pages.deliveryOrder',compact('data','sales'));
+        return view('apps.pages.deliveryOrder',compact('data','sales','services'));
     }
 
     public function deliveryOrder(Request $request)
     {
         $this->validate($request, [
             'sales_ref' => 'required',
+            'delivery_service' => 'required',
+            'deivery_cost' => 'required',
         ]);
 
         $input = $request->all();
@@ -360,6 +364,8 @@ class InventoryManagementController extends Controller
         $orders = Delivery::create([
             'order_ref' => $refs,
             'sales_ref' => $salesRefs->order_ref,
+            'delivery_service' => $request->input('delivery_service'),
+            'delivery_cost' => $request->input('delivery_cost'),
             'created_by' => auth()->user()->name,
         ]);
         $moves = SaleItem::where('sales_id',$salesRefs->id)->get();

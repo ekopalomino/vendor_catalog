@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Gudang
+FiberTekno | Jasa Pengiriman
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,11 +14,11 @@ FiberTekno | Gudang
 			<div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Data Gudang 
+                        <i class="fa fa-database"></i>Data Jasa Pengiriman
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <!-- <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <tr>
                                 <td>
@@ -31,18 +31,18 @@ FiberTekno | Gudang
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    {!! Form::open(array('route' => 'warehouse.store','method'=>'POST')) !!}
+                                    {!! Form::open(array('route' => 'delivery-service.store','method'=>'POST')) !!}
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Data Gudang Baru</h4>
+                                        <h4 class="modal-title">Jasa Pengiriman Baru</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Nama Gudang</label>
-                                                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                                    <label class="control-label">Nama Jasa Pengiriman</label>
+                                                    {!! Form::text('delivery_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                         </div>  
@@ -65,13 +65,14 @@ FiberTekno | Gudang
                                     @endforeach
                                 </ul>
                         </div>
-                    @endif -->
-                	<table class="table table-striped table-bordered table-hover" id="sample_2">
+                    @endif
+                	<table class="table table-striped table-bordered table-hover" id="sample_1">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Nama Gudang</th>
+                				<th>Jasa Pengiriman</th>
                                 <th>Dibuat</th>
+                                <th>Diubah</th>
                 				<th>Tgl Dibuat</th>
                 				<th></th>
                 			</tr>
@@ -80,12 +81,13 @@ FiberTekno | Gudang
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                				<td>{{ $val->name }}</td>
+                				<td>{{ $val->delivery_name }}</td>
                                 <td>{{ $val->created_by }}</td>
+                                <td>{{ $val->updated_by }}</td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
-                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\ConfigurationController@warehouseEdit',['id'=>$val->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['warehouse.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\ConfigurationController@deliveryServiceEdit',['id'=>$val->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
+                                    {!! Form::open(['method' => 'POST','route' => ['delivery-service.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Data']) !!}
                                     {!! Form::close() !!}
                                 </td>

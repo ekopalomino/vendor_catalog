@@ -9,6 +9,7 @@ use Erp\Models\PaymentMethod;
 use Erp\Models\PaymentTerm;
 use Erp\Models\UomCategory;
 use Erp\Models\UomValue;
+use Erp\Models\DeliveryService;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
@@ -342,6 +343,7 @@ class ConfigurationController extends Controller
     public function uomvalEdit($id)
     {
         $data = UomValue::find($id);
+        
         $categories = UomCategory::pluck('name','id')->toArray();
 
         return view('apps.edit.uomValue',compact('data','categories'))->renderSections()['content'];
@@ -384,5 +386,78 @@ class ConfigurationController extends Controller
         $data->delete();
 
         return redirect()->route('uom-val.index')->with($notification);
+    }
+
+    public function deliveryServiceIndex()
+    {
+        $data = DeliveryService::orderBy('created_at','ASC')->get();
+        
+        return view('apps.pages.deliveryService',compact('data'));
+    }
+
+    public function deliveryServiceStore(Request $request)
+    {
+        $this->validate($request, [
+            'delivery_name' => 'required|unique:delivery_services,delivery_name',
+        ]);
+
+        $input = [
+            'delivery_name' => $request->input('delivery_name'),
+            'created_by' => auth()->user()->name,
+        ];
+
+        $data = DeliveryService::create($input);
+        $log = 'Jasa Pengiriman '.($data->delivery_name).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Jasa Pengiriman '.($data->delivery_name).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('delivery-service.index')->with($notification);
+    }
+
+    public function deliveryServiceEdit($id)
+    {
+        $data = DeliveryService::find($id);
+        
+        return view('apps.edit.deliveryService',compact('data'))->renderSections()['content'];
+    }
+
+    public function deliveryServiceUpdate(Request $request,$id)
+    {
+        $this->validate($request, [
+            'delivery_name' => 'required',
+        ]);
+
+        $data = DeliveryService::find($id);
+        $data->update([
+            'delivery_name' => $request->input('delivery_name'),
+            'updated_by' => auth()->user()->name,
+        ]);
+
+        $log = 'Jasa Pengiriman '.($data->delivery_name).' Berhasil Diubah';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Jasa Pengiriman '.($data->delivery_name).' Berhasil Diubah',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('delivery-service.index')->with($notification);
+    }
+
+    public function deliveryServiceDelete($id)
+    {
+        $data = DeliveryService::find($id);
+        
+        $log = 'Jasa Pengiriman '.($data->delivery_name).' Berhasil Dihapus';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Jasa Pengiriman '.($data->delivery_name).' Berhasil Dihapus',
+            'alert-type' => 'success'
+        );
+        $data->delete();
+
+        return redirect()->route('delivery-service.index')->with($notification);
     }
 }
