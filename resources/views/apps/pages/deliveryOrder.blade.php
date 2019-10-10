@@ -96,6 +96,7 @@ FiberTekno | Delivery Order
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
                                 <td>
+                                    <a class="btn btn-xs btn-info" title="Print DO" href="{{ route('delivery.print',$val->id) }}"><i class="fa fa-print"></i></a>
                                     {!! Form::open(['method' => 'POST','route' => ['delivery.done', $val->id],'style'=>'display:inline']) !!}
                                     {!! Form::button('<i class="fa fa-truck"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Change Status']) !!}
                                     {!! Form::close() !!}

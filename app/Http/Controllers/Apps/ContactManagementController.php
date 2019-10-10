@@ -38,7 +38,7 @@ class ContactManagementController extends Controller
     public function customerStore(Request $request)
     {
         $this->validate($request, [
-            'contact_ref' => 'required',
+            'ref_id' => 'required',
             'name' => 'required|unique:contacts,name',
             'phone' => 'required',
             'mobile' => 'required',
@@ -115,8 +115,8 @@ class ContactManagementController extends Controller
     public function customerUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'contact_ref' => 'required',
-            'name' => 'required|unique:contacts,name',
+            'ref_id' => 'required',
+            'name' => 'required',
             'phone' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',
@@ -128,7 +128,7 @@ class ContactManagementController extends Controller
 
         if($request->input('bill_ship') == true) {
             $input = [
-                'ref_id' => $request->input('contact_ref'),
+                'ref_id' => $request->input('ref_id'),
                 'name' => $request->input('name'),
                 'company' => $request->input('company'),
                 'phone' => $request->input('phone'),
@@ -163,10 +163,10 @@ class ContactManagementController extends Controller
         }
 
         $data  = Contact::find($id)->update($input);
-        $log = 'Customer '.($data->name).' Berhasil Diubah';
+        $log = 'Customer '.($input->name).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Customer '.($data->name).' Berhasil Diubah',
+            'message' => 'Customer '.($input->name).' Berhasil Diubah',
             'alert-type' => 'success'
         );
 
@@ -205,7 +205,7 @@ class ContactManagementController extends Controller
     public function supplierStore(Request $request)
     {
         $this->validate($request, [
-            'contact_ref' => 'required',
+            'ref_id' => 'required',
             'name' => 'required|unique:contacts,name',
             'phone' => 'required',
             'mobile' => 'required',
@@ -282,7 +282,7 @@ class ContactManagementController extends Controller
     public function supplierUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'contact_ref' => 'required',
+            'ref_id' => 'required',
             'name' => 'required|unique:contacts,name',
             'phone' => 'required',
             'mobile' => 'required',
@@ -295,7 +295,7 @@ class ContactManagementController extends Controller
 
         if($request->input('bill_ship') == true) {
             $input = [
-                'ref_id' => $request->input('contact_ref'),
+                'ref_id' => $request->input('ref_id'),
                 'name' => $request->input('name'),
                 'company' => $request->input('company'),
                 'phone' => $request->input('phone'),

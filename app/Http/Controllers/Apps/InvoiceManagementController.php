@@ -5,9 +5,11 @@ namespace Erp\Http\Controllers\Apps;
 use Illuminate\Http\Request;
 use Erp\Http\Controllers\Controller;
 use Erp\Models\Sale;
+use Erp\Models\SaleItem;
 use Erp\Models\Invoice;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 
 class InvoiceManagementController extends Controller
 {
@@ -28,7 +30,7 @@ class InvoiceManagementController extends Controller
             'sales_order' => $request->input('sales_order'),
             'created_by' => auth()->user()->name,
         ]);
-        $process = Sale::where('order_ref',$invoices->sales_order)->update([
+        $process = Sale::where('id',$invoices->sales_order)->update([
             'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
         ]);
 
@@ -50,6 +52,9 @@ class InvoiceManagementController extends Controller
             'updated_by' => auth()->user()->name,
             'payment_received' => Carbon::now(),
         ]);
+        $process = Sale::where('id',$invoices->sales_order)->update([
+            'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
+        ]);
         $log = 'Invoice '.($invoices->refs).' Berhasil Dibayar';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -61,12 +66,25 @@ class InvoiceManagementController extends Controller
 
     public function invoiceShow($id)
     {
-        $ids = Invoice::find($id);
-        $data = Invoice::join('sales','sales.id','invoices.sales_order')
-                         ->where('invoices.id',$id)
-                         ->get();
-        
-        return view('apps.show.invoices',compact('data'));
+        $source = Invoice::find($id);
+        $sales = Sale::where('id',$source->sales_order)
+                        ->first();   
+        $items = SaleItem::where('sales_id',$sales->order_ref)
+                        ->get();
+        return view('apps.print.invoice',compact('source','sales','items'));
+    }
+
+    public function invoicePrint($id)
+    {
+        $source = Invoice::find($id);
+        $sales = Sale::where('id',$source->sales_order)
+                        ->first();   
+        $items = SaleItem::where('sales_id',$sales->id)
+                        ->get();
+        $filename = $source->order_ref;
+        $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items'))
+                    ->setPaper('a4','portrait');
+        return $pdf->download(''.$filename.'.pdf');
     }
 
     public function salesPrint($id) 

@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Tabel Penjualan
+FiberTekno | Laporan Penjualan
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@ FiberTekno | Tabel Penjualan
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Tabel Penjualan 
+                        <i class="fa fa-database"></i>Laporan Penjualan 
                     </div>
                     <div class="tools"> </div>
                 </div>
@@ -43,7 +43,7 @@ FiberTekno | Tabel Penjualan
                                 <td>{{ number_format($val->total,2,',','.')}}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->delivery_date)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
-                                <td>{{ $val->Author->name }}</td>
+                                <td>{{ $val->created_by }}</td>
                                 <td>
                                     
                                 </td>

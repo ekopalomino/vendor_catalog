@@ -98,7 +98,7 @@ FiberTekno | Invoice Management
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-xs btn-info" title="Lihat Invoice" href="{{ route('invoice.show',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    <a class="btn btn-xs btn-info" title="Print Invoice" href="{{ route('invoice.print',$val->id) }}"><i class="fa fa-print"></i></a>
                                     @if($val->status_id == '3da32f6e-494f-4b61-b010-7ccc0e006fb3')
                                     {!! Form::open(['method' => 'POST','route' => ['invoice.payment', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-bank"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Bayar']) !!}

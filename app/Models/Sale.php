@@ -17,6 +17,7 @@ class Sale extends Model
         'shipping_address',
         'delivery_date',
         'quantity',
+        'tax',
         'total',
         'status_id',
         'created_by',
@@ -53,5 +54,10 @@ class Sale extends Model
     public function Invoices()
     {
         return $this->hasOne(Invoice::class,'sales_order');
+    }
+
+    public function Deliveries()
+    {
+        return $this->hasOne(Delivery::class,'sales_ref');
     }
 }

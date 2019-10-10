@@ -134,7 +134,8 @@ FiberTekno | Sales Order Detail
                                     @endforeach
                                     <tr>
                                         <td colspan="2" style="background:#4B77BE;color: #ffffff;" align="center">Thank You For Your Business!</td>
-                                        <td colspan="3"><strong>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->total,0,',','.')}}</strong></td>
+                                        <td colspan="3"><strong>TAX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->tax,0,',','.')}}
+                                            <br>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->total,0,',','.')}}</strong></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
