@@ -14,7 +14,7 @@
                 </a>
             </li>
             @can('Can Access Settings')
-            <li class="nav-item {{ set_active(['warehouse.index','uom-cat.index','uom-val.index','pay-method.index','pay-term.index']) }}">
+            <li class="nav-item {{ set_active(['warehouse.index','uom-cat.index','uom-val.index','pay-method.index','pay-term.index','delivery-service.index']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-settings"></i>
                     <span class="title">Konfigurasi Umum</span>
@@ -31,6 +31,11 @@
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['delivery-service.index']) }}">
+                        <a href="{{ route('delivery-service.index') }}" class="nav-link">
+                            <span class="title">Jasa Pengiriman</span>
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['uom-cat.index','uom-val.index']) }}">
@@ -160,7 +165,7 @@
                 <ul class="sub-menu">
                 	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
-                            <span class="title">Sales Orders</span>
+                            <span class="title">Purchase Orders</span>
                             <span class="badge badge-danger">{{$sales}}</span>
                         </a>
                     </li>
@@ -171,16 +176,22 @@
             <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
-                    <span class="title">Pembelian</span>
+                    <span class="title">Permintaan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item {{ set_active(['purchase.index','request.create','purchase.show','request.show']) }}">
                         <a href="{{ route('purchase.index') }}" class="nav-link">
-                            <span class="title">Purchase Orders</span>
+                            <span class="title">Permintaan Eksternal</span>
                             <span class="badge badge-danger">{{$purchases}}</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
+                                <a href="{{ route('transfer.index') }}" class="nav-link ">
+                                    <span class="title">Permintaan Internal</span>
+                                    <span class="badge badge-danger">{{$transfers}}</span>
+                                </a>
+                            </li>
                 </ul>
             </li>
             @endcan

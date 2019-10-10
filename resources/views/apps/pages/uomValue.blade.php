@@ -109,7 +109,7 @@ FiberTekno | Nilai UOM
                 				<td>{{ $val->name }}</td>
                                 <td>{{ $val->Parent->name }}</td>
                                 <td>{{ number_format($val->value,2,',','.')}}</td>
-                                <td>{{ $val->Author->name }}</td>
+                                <td>{{ $val->created_by }}</td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\ConfigurationController@uomvalEdit',['id'=>$val->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>

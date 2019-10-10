@@ -41,8 +41,20 @@ FiberTekno | Delivery Order
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Sales Order</label>
+                                                    <label class="control-label">Purchase Order</label>
                                                     {!! Form::select('sales_ref', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Jasa Pengiriman</label>
+                                                    {!! Form::select('delivery_service', [null=>'Please Select'] + $services,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Biaya Kirim</label>
+                                                    {!! Form::text('delivery_cost', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                         </div>  

@@ -70,6 +70,12 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('settings/uom-value/edit/{id}','Apps\ConfigurationController@uomvalEdit')->name('uom-val.edit');
     Route::post('settings/uom-value/update/{id}','Apps\ConfigurationController@uomvalUpdate')->name('uom-val.update');
     Route::post('settings/uom-value/delete/{id}','Apps\ConfigurationController@uomvalDestroy')->name('uom-val.destroy');
+    Route::get('settings/delivery-services','Apps\ConfigurationController@deliveryServiceIndex')->name('delivery-service.index');
+    Route::post('settings/delivery-services/create','Apps\ConfigurationController@deliveryServiceStore')->name('delivery-service.store');
+    Route::get('settings/delivery-service/edit/{id}','Apps\ConfigurationController@deliveryServiceEdit')->name('delivery-service.edit');
+    Route::post('settings/delivery-service/update/{id}','Apps\ConfigurationController@deliveryServiceUpdate')->name('delivery-service.update');
+    Route::post('settings/delivery-service/delete/{id}','Apps\ConfigurationController@deliveryServiceDelete')->name('delivery-service.destroy');
+
     /*-----------------------End Config Management-----------------------------*/
 
     /*-----------------------Product Management--------------------------------*/
