@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Console;
+namespace iteos\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

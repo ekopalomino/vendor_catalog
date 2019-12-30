@@ -1,15 +1,15 @@
 <?php
 
-namespace Erp\Providers;
+namespace iteos\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Erp\Models\Sale;
-use Erp\Models\Purchase;
-use Erp\Models\InternalTransfer;
-use Erp\Models\Delivery;
-use Erp\Models\Invoice;
-use Erp\Models\Manufacture;
+use iteos\Models\Sale;
+use iteos\Models\Purchase;
+use iteos\Models\InternalTransfer;
+use iteos\Models\Delivery;
+use iteos\Models\Invoice;
+use iteos\Models\Manufacture;
 use Auth;
 
 class NotificationServiceProvider extends ServiceProvider

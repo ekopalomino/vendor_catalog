@@ -169,12 +169,12 @@ return [
         /*
          * Application Service Providers...
          */
-        Erp\Providers\AppServiceProvider::class,
-        Erp\Providers\AuthServiceProvider::class,
-        // Erp\Providers\BroadcastServiceProvider::class,
-        Erp\Providers\EventServiceProvider::class,
-        Erp\Providers\RouteServiceProvider::class,
-        Erp\Providers\NotificationServiceProvider::class,
+        iteos\Providers\AppServiceProvider::class,
+        iteos\Providers\AuthServiceProvider::class,
+        // iteos\Providers\BroadcastServiceProvider::class,
+        iteos\Providers\EventServiceProvider::class,
+        iteos\Providers\RouteServiceProvider::class,
+        iteos\Providers\NotificationServiceProvider::class,
 
     ],
 
@@ -214,7 +214,7 @@ return [
         'Hash' => Illuminate\Support\Facades\Hash::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
-        'LogActivity' => Erp\Helpers\LogActivity::class,
+        'LogActivity' => iteos\Helpers\LogActivity::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,

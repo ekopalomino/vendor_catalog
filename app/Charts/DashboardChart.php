@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Charts;
+namespace iteos\Charts;
 
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 

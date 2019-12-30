@@ -1,17 +1,17 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Product;
-use Erp\Models\ProductCategory;
-use Erp\Models\ProductBom;
-use Erp\Models\UomValue;
-use Erp\Models\Warehouse;
-use Erp\Models\Contact;
-use Erp\Models\Inventory;
-use Erp\Models\InventoryMovement;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Product;
+use iteos\Models\ProductCategory;
+use iteos\Models\ProductBom;
+use iteos\Models\UomValue;
+use iteos\Models\Warehouse;
+use iteos\Models\Contact;
+use iteos\Models\Inventory;
+use iteos\Models\InventoryMovement;
 use Auth;
 use PDF;
 use File;
@@ -20,10 +20,10 @@ class ProductManagementController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:Can View Data');
-        $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-        $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-        $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+        $this->middleware('permission:Can Access Products');
+        $this->middleware('permission:Can Create Product', ['only' => ['create','store']]);
+        $this->middleware('permission:Can Edit Product', ['only' => ['edit','update']]);
+        $this->middleware('permission:Can Delete Product', ['only' => ['destroy']]);
     }
 
     public function categoryIndex()

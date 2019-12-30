@@ -21,13 +21,6 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    @can('disable')
-                    <li class="nav-item ">
-                        <a href="" class="nav-link">
-                            <span class="title">Data Perusahaan</span>
-                        </a>
-                    </li>
-                    @endcan
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
@@ -78,7 +71,7 @@
             </li>
             @endcan
             @can('Can Access Users')
-            <li class="nav-item {{ set_active(['user.index','user.profile','role.index','uker.index','user.log']) }}">
+            <li class="nav-item {{ set_active(['user.index','user.profile','role.index','uker.index','user.log','role.create','role.edit']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-users"></i>
                     <span class="title">Manajemen User</span>
@@ -90,7 +83,7 @@
                             <span class="title">Daftar User</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['role.index']) }}">
+                    <li class="nav-item {{ set_active(['role.index','role.create','role.edit']) }}">
                         <a href="{{ route('role.index') }}" class="nav-link ">
                             <span class="title">Hak Akses</span>
                         </a>
@@ -269,7 +262,7 @@
             <li class="nav-item {{ set_active(['invoice.index','invoice.store']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>
-                    <span class="title">Finance</span>
+                    <span class="title">Keuangan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -345,10 +338,11 @@
                 </ul>
             </li>
             @endcan
+            @can('Can Access Report')
             <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view','inventory-table.view']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
-                    <span class="title">Reports</span>
+                    <span class="title">Laporan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -374,6 +368,7 @@
                     </li>
                 </ul>
             </li>
+            @endcan
         </ul>
     </div>
 </div>

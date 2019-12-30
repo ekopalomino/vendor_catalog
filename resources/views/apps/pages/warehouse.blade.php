@@ -18,7 +18,17 @@ FiberTekno | Gudang
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <!-- <div class="col-md-6">
+                    @if (count($errors) > 0) 
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    @endif
+                    <div class="col-md-6">
                         <div class="form-group">
                             <tr>
                                 <td>
@@ -45,6 +55,12 @@ FiberTekno | Gudang
                                                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Jenis Gudang</label>
+                                                    {!! Form::select('type', array('0'=>'Please Select','1'=>'Gudang Stok','2'=>'Gudang Penjualan', '3'=>'Gudang Scrap', '4'=>'Gudang Bahan Baku'),[], array('class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
                                         </div>  
                                     </div>
                                     <div class="modal-footer">
@@ -56,16 +72,6 @@ FiberTekno | Gudang
                             </div>
                         </div>
                     </div>
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif -->
                 	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>

@@ -1,22 +1,22 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Product;
-use Erp\Models\Inventory;
-use Erp\Models\InventoryMovement;
-use Erp\Models\Warehouse;
-use Erp\Models\InternalTransfer;
-use Erp\Models\InternalItems;
-use Erp\Models\Purchase;
-use Erp\Models\PurchaseItem;
-use Erp\Models\Delivery;
-use Erp\Models\DeliveryService;
-use Erp\Models\Sale;
-use Erp\Models\SaleItem;
-use Erp\Models\UomValue;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Product;
+use iteos\Models\Inventory;
+use iteos\Models\InventoryMovement;
+use iteos\Models\Warehouse;
+use iteos\Models\InternalTransfer;
+use iteos\Models\InternalItems;
+use iteos\Models\Purchase;
+use iteos\Models\PurchaseItem;
+use iteos\Models\Delivery;
+use iteos\Models\DeliveryService;
+use iteos\Models\Sale;
+use iteos\Models\SaleItem;
+use iteos\Models\UomValue;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -27,10 +27,10 @@ class InventoryManagementController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:Can View Data');
-         $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-         $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-         $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+         $this->middleware('permission:Can Access Inventories');
+         $this->middleware('permission:Can Create Inventory', ['only' => ['create','store']]);
+         $this->middleware('permission:Can Edit Inventory', ['only' => ['edit','update']]);
+         $this->middleware('permission:Can Delete Inventory', ['only' => ['destroy']]);
     }
 
     public function inventoryIndex()

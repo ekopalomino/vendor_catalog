@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Models;
+namespace iteos\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

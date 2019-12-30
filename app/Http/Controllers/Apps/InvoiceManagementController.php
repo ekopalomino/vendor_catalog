@@ -1,18 +1,28 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Sale;
-use Erp\Models\SaleItem;
-use Erp\Models\Invoice;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Sale;
+use iteos\Models\SaleItem;
+use iteos\Models\Invoice;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Auth;
 use PDF;
 
 class InvoiceManagementController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:Can Access Finances');
+         $this->middleware('permission:Can Create Finance', ['only' => ['create','store']]);
+         $this->middleware('permission:Can Edit Finance', ['only' => ['edit','update']]);
+         $this->middleware('permission:Can Delete Finance', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $orders = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->pluck('order_ref','id')->toArray();

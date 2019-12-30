@@ -18,6 +18,17 @@ FiberTekno | Delivery Order
                     </div>
                 </div>
                 <div class="portlet-body">
+                    @if (count($errors) > 0) 
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    @endif
+                    @can('Can Create Inventory')
                     <div class="col-md-6">
                         <div class="form-group">
                             <tr>
@@ -27,6 +38,7 @@ FiberTekno | Delivery Order
                             </tr>
                         </div>
                     </div>
+                    @endcan
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">

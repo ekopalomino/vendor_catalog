@@ -1,5 +1,5 @@
 <?php
-namespace Erp\Traits;
+namespace iteos\Traits;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid as Generator;
 trait Uuid

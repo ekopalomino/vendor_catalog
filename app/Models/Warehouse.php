@@ -1,8 +1,8 @@
 <?php
 
-namespace Erp\Models;
+namespace iteos\Models;
 
-use Erp\Traits\Uuid;
+use iteos\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Warehouse extends Model
@@ -11,6 +11,7 @@ class Warehouse extends Model
     
     protected $fillable = [
         'name',
+        'type',
         'created_by',
         'updated_by',
     ];

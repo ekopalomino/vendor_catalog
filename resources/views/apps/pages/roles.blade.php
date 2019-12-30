@@ -18,15 +18,7 @@ FiberTekno | Role Management
                     <div class="tools"> </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <tr>
-                                <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Tambah Baru </a>
-                                </td>
-                            </tr>
-                        </div>
-                        @if (count($errors) > 0) 
+                    @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
                                 <ul>
@@ -36,53 +28,13 @@ FiberTekno | Role Management
                                 </ul>
                         </div>
                         @endif
-                        <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    {!! Form::open(array('route' => 'role.store','method'=>'POST')) !!}
-                                    @csrf
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Tambah Hak Akses Baru</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Nama</label>
-                                                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                                    <table class="table table-bordered table-striped mb-0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Permission</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @foreach($permission as $value)
-                                                            <tr>
-                                                                <td>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                                                                {{ $value->name }}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Tutup</button>
-                                        <button id="register" type="submit" class="btn green">Simpan</button>
-                                    </div>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <tr>
+                                <td>
+                                    <a class="btn red btn-outline sbold" href="{{ route('role.create') }}"> Tambah Baru </a>
+                                </td>
+                            </tr>
                         </div>
                     </div>
                 	<table class="table table-striped table-bordered table-hover" id="sample_1">
@@ -101,8 +53,7 @@ FiberTekno | Role Management
                 				<td>{{ $role->name }}</td>
                 				<td>{{date("d F Y H:i",strtotime($role->created_at)) }}</td>
                 				<td>
-                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\UserManagementController@roleShow',['id'=>$role->id]) }}" title="Lihat Hak Akses" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
-                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\UserManagementController@roleEdit',['id'=>$role->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-xs btn-info" href="{{ route('role.edit',$role->id)}}" title="Edit Data" ><i class="fa fa-edit"></i></a>
                                     {!! Form::open(['method' => 'POST','route' => ['role.destroy', $role->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Hapus Data']) !!}
                                     {!! Form::close() !!}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Providers;
+namespace iteos\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         'Illuminate\Auth\Events\Login' => [
-            'Erp\Listeners\LogSuccessfulLogin',
+            'iteos\Listeners\LogSuccessfulLogin',
         ],
     ];
 

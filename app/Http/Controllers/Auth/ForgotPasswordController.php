@@ -1,8 +1,8 @@
 <?php
 
-namespace Erp\Http\Controllers\Auth;
+namespace iteos\Http\Controllers\Auth;
 
-use Erp\Http\Controllers\Controller;
+use iteos\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller

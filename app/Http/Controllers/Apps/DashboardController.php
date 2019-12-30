@@ -1,12 +1,12 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Sale;
-use Erp\Models\SaleItem;
-use Erp\Charts\DashboardChart;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Sale;
+use iteos\Models\SaleItem;
+use iteos\Charts\DashboardChart;
 use DB;
 
 class DashboardController extends Controller

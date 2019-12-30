@@ -1,8 +1,8 @@
 <?php
 
-namespace Erp\Models;
+namespace iteos\Models;
 
-use Erp\Traits\Uuid;
+use iteos\Traits\Uuid;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;

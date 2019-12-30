@@ -1,21 +1,21 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Sale;
-use Erp\Models\SaleItem;
-use Erp\Models\Inventory;
-use Erp\Models\InventoryMovement;
-use Erp\Models\Product;
-use Erp\Models\UomValue;
-use Erp\Models\Contact;
-use Erp\Models\PaymentMethod;
-use Erp\Models\PaymentTerm;
-use Erp\Models\Warehouse;
-use Erp\Models\InternalTransfer;
-use Erp\Models\InternalItems;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Sale;
+use iteos\Models\SaleItem;
+use iteos\Models\Inventory;
+use iteos\Models\InventoryMovement;
+use iteos\Models\Product;
+use iteos\Models\UomValue;
+use iteos\Models\Contact;
+use iteos\Models\PaymentMethod;
+use iteos\Models\PaymentTerm;
+use iteos\Models\Warehouse;
+use iteos\Models\InternalTransfer;
+use iteos\Models\InternalItems;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -29,9 +29,9 @@ class SalesManagementController extends Controller
     function __construct()
     {
         $this->middleware('permission:Can Access Sales');
-        $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-        $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-        $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+        $this->middleware('permission:Can Create Sales', ['only' => ['create','store']]);
+        $this->middleware('permission:Can Edit Sales', ['only' => ['edit','update']]);
+        $this->middleware('permission:Can Delete Sales', ['only' => ['destroy']]);
     }
     
     public function index()

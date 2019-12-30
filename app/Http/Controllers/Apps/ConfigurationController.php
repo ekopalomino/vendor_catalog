@@ -1,15 +1,15 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Warehouse;
-use Erp\Models\PaymentMethod;
-use Erp\Models\PaymentTerm;
-use Erp\Models\UomCategory;
-use Erp\Models\UomValue;
-use Erp\Models\DeliveryService;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Warehouse;
+use iteos\Models\PaymentMethod;
+use iteos\Models\PaymentTerm;
+use iteos\Models\UomCategory;
+use iteos\Models\UomValue;
+use iteos\Models\DeliveryService;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
@@ -18,10 +18,10 @@ class ConfigurationController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:Can View Data');
-        $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-        $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-        $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+        $this->middleware('permission:Can Access Settings');
+        $this->middleware('permission:Can Create Setting', ['only' => ['create','store']]);
+        $this->middleware('permission:Can Edit Setting', ['only' => ['edit','update']]);
+        $this->middleware('permission:Can Delete Setting', ['only' => ['destroy']]);
     }
 
     public function warehouseIndex()
@@ -35,10 +35,12 @@ class ConfigurationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:warehouses,name',
+            'type' => 'required',
         ]);
 
         $input = [
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
             'created_by' => auth()->user()->name,
         ];
         $data = Warehouse::create($input);
@@ -63,10 +65,12 @@ class ConfigurationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:warehouses,name',
+            'type' => 'required',
         ]);
 
         $input = [
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
             'updated_by' => auth()->user()->name,
         ];
         $data = Warehouse::find($id)->update($input);

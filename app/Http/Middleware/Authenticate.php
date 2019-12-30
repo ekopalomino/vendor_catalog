@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Http\Middleware;
+namespace iteos\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 

@@ -1,5 +1,5 @@
 <div class="page-footer">
-    <div class="page-footer-inner"> 2019 &copy; EHW
+    <div class="page-footer-inner"> 2019 &copy; iTeOS Tech
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>

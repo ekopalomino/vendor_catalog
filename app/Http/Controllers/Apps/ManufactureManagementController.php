@@ -1,21 +1,21 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Product;
-use Erp\Models\ProductBom;
-use Erp\Models\Inventory;
-use Erp\Models\InventoryMovement;
-use Erp\Models\Warehouse;
-use Erp\Models\InternalTransfer;
-use Erp\Models\InternalItems;
-use Erp\Models\Manufacture;
-use Erp\Models\ManufactureItem;
-use Erp\Models\WorkItem;
-use Erp\Models\UomValue;
-use Erp\Models\Sale;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Product;
+use iteos\Models\ProductBom;
+use iteos\Models\Inventory;
+use iteos\Models\InventoryMovement;
+use iteos\Models\Warehouse;
+use iteos\Models\InternalTransfer;
+use iteos\Models\InternalItems;
+use iteos\Models\Manufacture;
+use iteos\Models\ManufactureItem;
+use iteos\Models\WorkItem;
+use iteos\Models\UomValue;
+use iteos\Models\Sale;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -23,6 +23,14 @@ use Auth;
 
 class ManufactureManagementController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:Can Access Manufactures');
+         $this->middleware('permission:Can Create Manufacture', ['only' => ['create','store']]);
+         $this->middleware('permission:Can Edit Manufacture', ['only' => ['edit','update']]);
+         $this->middleware('permission:Can Delete Manufacture', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $data = Manufacture::where('status_id','!=','5bc79891-e396-4792-a0f3-617ece2a00ce')->get();

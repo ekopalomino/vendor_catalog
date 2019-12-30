@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Providers;
+namespace iteos\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

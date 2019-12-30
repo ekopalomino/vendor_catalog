@@ -1,13 +1,13 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\User;
-use Erp\Models\Warehouse;
-use Erp\Models\Division;
-use Erp\Models\Status;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\User;
+use iteos\Models\Warehouse;
+use iteos\Models\Division;
+use iteos\Models\Status;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Hash;
@@ -18,10 +18,10 @@ class UserManagementController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:Can View Data');
-         $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-         $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-         $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+         $this->middleware('permission:Can Access Users');
+         $this->middleware('permission:Can Create User', ['only' => ['create','store']]);
+         $this->middleware('permission:Can Edit User', ['only' => ['edit','update']]);
+         $this->middleware('permission:Can Delete User', ['only' => ['destroy']]);
     }
 
     public function userIndex()
@@ -205,6 +205,11 @@ class UserManagementController extends Controller
         return view('apps.pages.roles',compact('roles','permission'));
     } 
 
+    public function roleCreate()
+    {
+        return view('apps.input.roles');
+    }
+
     public function roleStore(Request $request)
     {
         $this->validate($request, [
@@ -239,14 +244,16 @@ class UserManagementController extends Controller
 
     public function roleEdit($id)
     {
-        $role = Role::find($id);
+        $data = Role::find($id);
         $permission = Permission::get();
+        $roles = Role::join('role_has_permissions','role_has_permissions.role_id','=','roles.id')
+                       ->where('roles.id',$id)
+                       ->get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
-
-
-        return view('apps.edit.roles',compact('role','permission','rolePermissions'))->renderSections()['content'];
+            /*->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')*/
+            ->get();
+        
+        return view('apps.edit.roles',compact('data','rolePermissions','roles'));
     }
 
     public function roleUpdate(Request $request, $id)

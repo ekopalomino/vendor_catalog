@@ -81,7 +81,7 @@ FiberTekno | Unit Kerja
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $wc->name }}</td>
-                                <td>{{ $wc->Author->name}}</td>
+                                <td>{{ $wc->created_by}}</td>
                 				<td>{{date("d F Y H:i",strtotime($wc->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\UserManagementController@ukerEdit',['id'=>$wc->id]) }}" title="Edit Data" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>

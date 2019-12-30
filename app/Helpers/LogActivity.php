@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Erp\Helpers;
+namespace iteos\Helpers;
 use Request;
-use Erp\Models\LogActivity as LogActivityModel;
+use iteos\Models\LogActivity as LogActivityModel;
 
 
 class LogActivity

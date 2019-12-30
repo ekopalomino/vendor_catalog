@@ -1,14 +1,22 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Sale;
-use Erp\Models\Inventory;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Sale;
+use iteos\Models\Inventory;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class ReportManagementController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:Can Access Report');
+        $this->middleware('permission:Can Create Report', ['only' => ['create','store']]);
+    }
+
     /*----Sales Reports--------------------*/
     public function saleTable()
     {

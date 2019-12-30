@@ -1,8 +1,8 @@
 <?php
 
-namespace Erp\Models;
+namespace iteos\Models;
 
-use Erp\Traits\Uuid;
+use iteos\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model

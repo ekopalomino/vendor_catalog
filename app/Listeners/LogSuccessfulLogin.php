@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Listeners;
+namespace iteos\Listeners;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Queue\InteractsWithQueue;

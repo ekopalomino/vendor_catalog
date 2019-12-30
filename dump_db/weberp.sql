@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2019 at 07:02 PM
+-- Generation Time: Dec 30, 2019 at 07:25 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `weberp`
+-- Database: `fibertekno`
 --
 
 -- --------------------------------------------------------
@@ -50,6 +50,13 @@ CREATE TABLE `contacts` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `ref_id`, `type_id`, `name`, `company`, `phone`, `mobile`, `email`, `billing_address`, `shipping_address`, `payment_method`, `payment_terms`, `tax`, `tax_no`, `created_by`, `updated_by`, `active`, `created_at`, `updated_at`) VALUES
+('86d87879-8a41-4fab-af1b-11359881b277', 'JD', 2, 'John Doe', 'Company Test', '2342', '3252', 'company@test.com', 'Jakarta', 'Jakarta', 1, 1, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-11-05 16:11:46', '2019-11-05 16:11:46');
+
 -- --------------------------------------------------------
 
 --
@@ -60,12 +67,37 @@ CREATE TABLE `deliveries` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sales_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `delivery_service` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `delivery_cost` decimal(50,2) NOT NULL,
   `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_services`
+--
+
+CREATE TABLE `delivery_services` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `delivery_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '2b643e21-a94c-4713-93f1-f1cbde6ad633',
+  `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `delivery_services`
+--
+
+INSERT INTO `delivery_services` (`id`, `delivery_name`, `status_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Wahana', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 'eko', NULL, '2019-10-12 16:00:49', '2019-10-12 16:00:49');
 
 -- --------------------------------------------------------
 
@@ -88,6 +120,47 @@ CREATE TABLE `divisions` (
 
 INSERT INTO `divisions` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 ('413ec199-f1dd-42a7-a346-67a74fb807b0', 'IT', 'eko', NULL, '2019-09-04 16:46:23', '2019-09-04 16:46:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fullname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `posisi` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_positions`
+--
+
+CREATE TABLE `employee_positions` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employee_positions`
+--
+
+INSERT INTO `employee_positions` (`id`, `position`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Staff', 'eko', NULL, '2019-10-31 15:50:44', '2019-10-31 15:50:44');
 
 -- --------------------------------------------------------
 
@@ -116,9 +189,10 @@ CREATE TABLE `internal_transfers` (
   `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `from_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `to_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ffa20f52-a023-4333-b945-a46d04de961c',
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '8083f49e-f0aa-4094-894f-f64cd2e9e4e9',
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `received_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -140,6 +214,13 @@ CREATE TABLE `inventories` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `inventories`
+--
+
+INSERT INTO `inventories` (`id`, `product_id`, `warehouse_id`, `min_stock`, `opening_amount`, `closing_amount`, `created_at`, `updated_at`) VALUES
+(1, '07c1b2ff-060e-4f12-9ca6-e7cd47fe2acd', 'afdcd530-bb5e-462b-8dda-1371b9195903', '100000.00', '0.00', '500000.00', '2019-11-05 16:12:36', '2019-11-05 16:13:36');
+
 -- --------------------------------------------------------
 
 --
@@ -160,6 +241,13 @@ CREATE TABLE `inventory_movements` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `inventory_movements`
+--
+
+INSERT INTO `inventory_movements` (`id`, `type`, `inventory_id`, `reference_id`, `product_id`, `warehouse_id`, `incoming`, `outgoing`, `remaining`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'ADJ/XI/2019', '07c1b2ff-060e-4f12-9ca6-e7cd47fe2acd', 'afdcd530-bb5e-462b-8dda-1371b9195903', '500000.00', '0.00', '500000.00', 'Stok Awal', '2019-11-05 16:13:36', '2019-11-05 16:13:36');
 
 -- --------------------------------------------------------
 
@@ -196,6 +284,67 @@ CREATE TABLE `log_activities` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `log_activities`
+--
+
+INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:34:19', '2019-10-13 15:34:19'),
+(2, 'Produk Kabel Lan UTP 6 berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:34:38', '2019-10-13 15:34:38'),
+(3, 'Produk Konektor 2 mili berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:34:52', '2019-10-13 15:34:52'),
+(4, 'Produk Kabel LAN 10 Meter berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:35:06', '2019-10-13 15:35:06'),
+(5, 'Bill of Material Berhasil Disimpan', 'http://fibertekno.local/apps/products/bom/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:35:17', '2019-10-13 15:35:17'),
+(6, 'Bill of Material Berhasil Disimpan', 'http://fibertekno.local/apps/products/bom/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:35:24', '2019-10-13 15:35:24'),
+(7, 'Bill of Material Berhasil Disimpan', 'http://fibertekno.local/apps/products/bom/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 15:35:36', '2019-10-13 15:35:36'),
+(8, 'Pengajuan PR/0001/JD/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/purchase/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:07:17', '2019-10-13 16:07:17'),
+(9, 'Pengajuan PB/0001/JD/X/2019 Berhasil Diproses', 'http://fibertekno.local/apps/purchase/request/approve/ffc78eac-6590-4456-a7e9-576c3c4b7211', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:07:31', '2019-10-13 16:07:31'),
+(10, 'Pembelian PB/0001/JD/X/2019 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/purchase-receipt/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:07:46', '2019-10-13 16:07:46'),
+(11, 'Sales Order PO/0001/CPT/X/2019 Berhasil Disubmit', 'http://fibertekno.local/apps/sales/orders/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:08:13', '2019-10-13 16:08:13'),
+(12, 'Manufacture Request MR/0001/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/manufactures/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:08:41', '2019-10-13 16:08:41'),
+(13, 'Manufacture Request MR/0001/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/manufactures/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:14:31', '2019-10-13 16:14:31'),
+(14, 'Manufacture Request MO/0001/X/2019 Berhasil Disetujui', 'http://fibertekno.local/apps/manufactures/request/approve/ba11e120-3837-4d5b-a4a1-9390e98cb690', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:15:31', '2019-10-13 16:15:31'),
+(15, 'Manufacture Order MO/0001/X/2019 Berhasil Dijalankan', 'http://fibertekno.local/apps/manufactures/order/process/ba11e120-3837-4d5b-a4a1-9390e98cb690', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:15:37', '2019-10-13 16:15:37'),
+(16, 'Internal Transfer IT/0002/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/inventories/internal-transfer/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'db3562e3-78ac-494f-81c4-794eba0c59eb', '2019-10-13 16:18:05', '2019-10-13 16:18:05'),
+(17, 'Internal Transfer IT/0002/X/2019 Berhasil Diproses', 'http://fibertekno.local/apps/inventories/internal-transfer/approve/2', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'db3562e3-78ac-494f-81c4-794eba0c59eb', '2019-10-13 16:18:13', '2019-10-13 16:18:13'),
+(18, 'Internal Transfer IT/0002/X/2019 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/internal-transfer/accept/2', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:18:37', '2019-10-13 16:18:37'),
+(19, 'Manufacture Request MO/0001/X/2019 Berhasil Disetujui', 'http://fibertekno.local/apps/manufactures/request/approve/283d0e47-70fd-4b43-bf27-a7198fb10bd6', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:18:56', '2019-10-13 16:18:56'),
+(20, 'Manufacture Order MO/0001/X/2019 Berhasil Dijalankan', 'http://fibertekno.local/apps/manufactures/order/process/283d0e47-70fd-4b43-bf27-a7198fb10bd6', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:19:17', '2019-10-13 16:19:17'),
+(21, 'Produk Kabel LAN 10 Meter Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/44a4aa7a-d81e-4253-a7d5-47087a67a670', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:25:36', '2019-10-13 16:25:36'),
+(22, 'Produk Kabel Lan UTP 6 Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/e088766a-8dfc-4833-b224-49cadf74ed31', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:25:39', '2019-10-13 16:25:39'),
+(23, 'Produk Konektor 2 mili Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/3e8d8d4f-281c-4c52-8d25-5a3598854552', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:25:41', '2019-10-13 16:25:41'),
+(24, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/dc0b7a41-363f-4071-9df4-899d5d231b26', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:25:44', '2019-10-13 16:25:44'),
+(25, 'Produk Konektor SMFC AMC (2.00mm) berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:26:35', '2019-10-13 16:26:35'),
+(26, 'Produk Kabel Lan UTP 6 berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:26:49', '2019-10-13 16:26:49'),
+(27, 'Produk Konektor 2 mili berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:27:02', '2019-10-13 16:27:02'),
+(28, 'Produk Kabel LAN 10 Meter berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:27:16', '2019-10-13 16:27:16'),
+(29, 'Bill of Material Berhasil Disimpan', 'http://fibertekno.local/apps/products/bom/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:27:25', '2019-10-13 16:27:25'),
+(30, 'Bill of Material Berhasil Disimpan', 'http://fibertekno.local/apps/products/bom/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:27:30', '2019-10-13 16:27:30'),
+(31, 'Bill of Material Berhasil Disimpan', 'http://fibertekno.local/apps/products/bom/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:27:43', '2019-10-13 16:27:43'),
+(32, 'Stok Kabel Lan UTP 6 Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/10', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:27:57', '2019-10-13 16:27:57'),
+(33, 'Stok Konektor 2 mili Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/11', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:28:07', '2019-10-13 16:28:07'),
+(34, 'Manufacture Request MR/0001/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/manufactures/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:28:18', '2019-10-13 16:28:18'),
+(35, 'Manufacture Request MR/0001/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/manufactures/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:28:34', '2019-10-13 16:28:34'),
+(36, 'Manufacture Request MO/0003/X/2019 Berhasil Disetujui', 'http://fibertekno.local/apps/manufactures/request/approve/7d892eba-933f-4c7b-8dfb-b197a33b1f92', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:29:18', '2019-10-13 16:29:18'),
+(37, 'Manufacture Order MO/0003/X/2019 Berhasil Dijalankan', 'http://fibertekno.local/apps/manufactures/order/process/7d892eba-933f-4c7b-8dfb-b197a33b1f92', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:29:21', '2019-10-13 16:29:21'),
+(38, 'Internal Transfer IT/0002/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/inventories/internal-transfer/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'db3562e3-78ac-494f-81c4-794eba0c59eb', '2019-10-13 16:30:08', '2019-10-13 16:30:08'),
+(39, 'Internal Transfer IT/0002/X/2019 Berhasil Diproses', 'http://fibertekno.local/apps/inventories/internal-transfer/approve/5', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'db3562e3-78ac-494f-81c4-794eba0c59eb', '2019-10-13 16:30:17', '2019-10-13 16:30:17'),
+(40, 'Internal Transfer IT/0002/X/2019 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/internal-transfer/accept/5', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:30:37', '2019-10-13 16:30:37'),
+(41, 'Manufacture Request MO/0003/X/2019 Berhasil Disetujui', 'http://fibertekno.local/apps/manufactures/request/approve/274956d4-9ebf-4d86-84c9-931a8f8ff4c7', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:31:07', '2019-10-13 16:31:07'),
+(42, 'Manufacture Order MO/0003/X/2019 Berhasil Dijalankan', 'http://fibertekno.local/apps/manufactures/order/process/274956d4-9ebf-4d86-84c9-931a8f8ff4c7', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:31:12', '2019-10-13 16:31:12'),
+(43, 'Manufacture Request MR/0001/X/2019 Berhasil Dibuat', 'http://fibertekno.local/apps/manufactures/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:32:34', '2019-10-13 16:32:34'),
+(44, 'Manufacture Request MO/0004/X/2019 Berhasil Disetujui', 'http://fibertekno.local/apps/manufactures/request/approve/bd0f597c-5301-46c1-9017-6bb6a607f9a0', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:32:42', '2019-10-13 16:32:42'),
+(45, 'Manufacture Order MO/0004/X/2019 Berhasil Dijalankan', 'http://fibertekno.local/apps/manufactures/order/process/bd0f597c-5301-46c1-9017-6bb6a607f9a0', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-13 16:32:46', '2019-10-13 16:32:46'),
+(46, 'Jabatan  Berhasil disimpan', 'http://fibertekno.local/apps/hrd/employee-position/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-10-31 15:50:44', '2019-10-31 15:50:44'),
+(47, 'Produk Kabel LAN 10 Meter Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/f237583a-1102-4071-87c6-b2bac718d297', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 06:17:54', '2019-11-05 06:17:54'),
+(48, 'Produk Kabel Lan UTP 6 Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/c99b3c05-f720-4290-8b04-54850a0ef12b', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 06:17:56', '2019-11-05 06:17:56'),
+(49, 'Produk Konektor 2 mili Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/f9757494-feed-4f59-8ce1-902c2f17691b', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 06:17:59', '2019-11-05 06:17:59'),
+(50, 'Produk Konektor SMFC AMC (2.00mm) Berhasil Dihapus', 'http://fibertekno.local/apps/products/delete/a971031e-0dbf-4397-9895-1d90d9246a0a', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 06:18:02', '2019-11-05 06:18:02'),
+(51, 'Supplier John Doe Berhasil Disimpan', 'http://fibertekno.local/apps/suppliers/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 16:11:46', '2019-11-05 16:11:46'),
+(52, 'Produk Kabel Lan UTP 6 berhasil disimpan', 'http://fibertekno.local/apps/products/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 16:12:36', '2019-11-05 16:12:36'),
+(53, 'Stok Kabel Lan UTP 6 Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-11-05 16:13:36', '2019-11-05 16:13:36'),
+(54, 'Hak Akses Administrator berhasil diubah', 'http://fibertekno.local/apps/users/roles/update/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-12-30 18:07:49', '2019-12-30 18:07:49'),
+(55, 'Hak Akses Administrator berhasil diubah', 'http://fibertekno.local/apps/users/roles/update/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2019-12-30 18:24:28', '2019-12-30 18:24:28');
 
 -- --------------------------------------------------------
 
@@ -282,7 +431,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2019_09_11_232813_create_manufactures_table', 18),
 (32, '2019_09_11_233120_create_manufacture_items_table', 18),
 (37, '2019_09_24_102135_create_work_items_table', 19),
-(39, '2019_09_30_225904_create_invoices_table', 20);
+(39, '2019_09_30_225904_create_invoices_table', 20),
+(41, '2019_10_11_000017_create_delivery_services_table', 21),
+(44, '2019_10_12_012542_create_retur_sales_table', 22),
+(45, '2019_10_12_012659_create_retur_items_table', 22),
+(47, '2014_10_00_000000_create_settings_table', 24),
+(48, '2014_10_00_000001_add_group_column_on_settings_table', 24),
+(50, '2019_10_25_224356_create_employees_table', 25),
+(51, '2019_10_31_223614_create_employee_positions_table', 25);
 
 -- --------------------------------------------------------
 
@@ -313,8 +469,8 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'Erp\\Models\\User', 'bb536994-ada3-4caa-b97b-e412dc2cc882'),
-(1, 'Erp\\Models\\User', 'db3562e3-78ac-494f-81c4-794eba0c59eb');
+(1, 'iteos\\Models\\User', 'bb536994-ada3-4caa-b97b-e412dc2cc882'),
+(1, 'iteos\\Models\\User', 'db3562e3-78ac-494f-81c4-794eba0c59eb');
 
 -- --------------------------------------------------------
 
@@ -406,7 +562,40 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (13, 'Can View Data', 'web', '2019-09-04 14:23:15', '2019-09-04 14:23:15'),
 (14, 'Can Create Adjustment', 'web', '2019-09-04 14:23:15', '2019-09-04 14:23:15'),
 (15, 'Can Access Contact', 'web', '2019-09-06 01:24:11', '2019-09-06 01:24:11'),
-(16, 'Can Accept Request', 'web', '2019-09-10 12:56:37', '2019-09-10 12:56:37');
+(16, 'Can Accept Request', 'web', '2019-09-10 12:56:37', '2019-09-10 12:56:37'),
+(17, 'Can Create Setting', 'web', '2019-12-26 18:31:39', '2019-12-26 18:31:39'),
+(18, 'Can Edit Setting', 'web', '2019-12-26 18:31:39', '2019-12-26 18:31:39'),
+(19, 'Can Delete Setting', 'web', '2019-12-26 18:31:39', '2019-12-26 18:31:39'),
+(20, 'Can Create User', 'web', '2019-12-26 18:31:39', '2019-12-26 18:31:39'),
+(21, 'Can Edit User', 'web', '2019-12-26 18:31:39', '2019-12-26 18:31:39'),
+(22, 'Can Delete User', 'web', '2019-12-26 18:31:39', '2019-12-26 18:31:39'),
+(23, 'Can Create Sales', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(24, 'Can Edit Sales', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(25, 'Can Delete Sales', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(26, 'Can Accept Sales', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(27, 'Can Create Purchase', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(28, 'Can Edit Purchase', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(29, 'Can Delete Purchase', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(30, 'Can Approve Purchase', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(31, 'Can Create Product', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(32, 'Can Edit Product', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(33, 'Can Delete Product', 'web', '2019-12-26 18:31:40', '2019-12-26 18:31:40'),
+(34, 'Can Create Inventory', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(35, 'Can Edit Inventory', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(36, 'Can Delete Inventory', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(37, 'Can Approve Inventory', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(38, 'Can Create Manufacture', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(39, 'Can Edit Manufacture', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(40, 'Can Delete Manufacture', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(41, 'Can Approve Manufacture', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(42, 'Can Create Finance', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(43, 'Can Edit Finance', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(44, 'Can Delete Finance', 'web', '2019-12-26 18:31:41', '2019-12-26 18:31:41'),
+(45, 'Can Create Contact', 'web', '2019-12-30 17:43:08', '2019-12-30 17:43:08'),
+(46, 'Can Edit Contact', 'web', '2019-12-30 17:44:01', '2019-12-30 17:44:01'),
+(47, 'Can Delete Contact', 'web', '2019-12-30 17:44:01', '2019-12-30 17:44:01'),
+(48, 'Can Access Report', 'web', '2019-12-30 17:47:18', '2019-12-30 17:47:18'),
+(49, 'Can Create Report', 'web', '2019-12-30 17:47:18', '2019-12-30 17:47:18');
 
 -- --------------------------------------------------------
 
@@ -428,11 +617,19 @@ CREATE TABLE `products` (
   `active` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '2b643e21-a94c-4713-93f1-f1cbde6ad633',
   `is_manufacture` tinyint(1) DEFAULT NULL,
   `is_sale` tinyint(1) DEFAULT NULL,
+  `warehouse` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `product_barcode`, `name`, `category_id`, `uom_id`, `image`, `supplier_id`, `min_stock`, `base_price`, `sale_price`, `active`, `is_manufacture`, `is_sale`, `warehouse`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('07c1b2ff-060e-4f12-9ca6-e7cd47fe2acd', 10001, 'Kabel Lan UTP 6', 2, 2, NULL, '86d87879-8a41-4fab-af1b-11359881b277', '100000.00', '150000.00', '500000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, 'afdcd530-bb5e-462b-8dda-1371b9195903', 'eko', NULL, '2019-11-05 16:12:36', '2019-11-05 16:12:36');
 
 -- --------------------------------------------------------
 
@@ -520,6 +717,37 @@ CREATE TABLE `purchase_items` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `retur_items`
+--
+
+CREATE TABLE `retur_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `retur_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` decimal(50,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `retur_sales`
+--
+
+CREATE TABLE `retur_sales` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sales_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `warehouse_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -563,13 +791,40 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (6, 1),
 (7, 1),
 (8, 1),
-(9, 1),
-(10, 1),
-(11, 1),
-(12, 1),
-(13, 1),
-(14, 1),
 (15, 1),
+(17, 1),
+(18, 1),
+(19, 1),
+(20, 1),
+(21, 1),
+(22, 1),
+(23, 1),
+(24, 1),
+(25, 1),
+(26, 1),
+(27, 1),
+(28, 1),
+(29, 1),
+(30, 1),
+(31, 1),
+(32, 1),
+(33, 1),
+(34, 1),
+(35, 1),
+(36, 1),
+(37, 1),
+(38, 1),
+(39, 1),
+(40, 1),
+(41, 1),
+(42, 1),
+(43, 1),
+(44, 1),
+(45, 1),
+(46, 1),
+(47, 1),
+(48, 1),
+(49, 1),
 (3, 2),
 (6, 2),
 (9, 2),
@@ -592,6 +847,7 @@ CREATE TABLE `sales` (
   `shipping_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `delivery_date` date NOT NULL,
   `quantity` decimal(10,2) DEFAULT NULL,
+  `tax` decimal(50,2) DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
   `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '8083f49e-f0aa-4094-894f-f64cd2e9e4e9',
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -617,6 +873,21 @@ CREATE TABLE `sale_items` (
   `sub_total` decimal(10,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `val` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `group` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'default'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -652,6 +923,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('c2fdba02-e765-4ee8-8c8c-3073209ddd26', 'On Process', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('c51d7be2-7c72-41a8-93ff-03f780ece42a', 'Unpaid', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('e9395add-e815-4374-8ed3-c0d5f4481ab8', 'Delivered', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('e9f870d8-ebe8-462e-a6b6-c03f4f5bd8eb', 'Retur', '2019-10-12 16:26:16', '2019-10-12 16:26:16'),
 ('eca81b8f-bfb9-48b9-8e8d-86f4517bc129', 'Payment Received', '2019-10-02 16:00:59', '2019-10-02 16:00:59'),
 ('f8b26119-fb0c-40ff-85c0-8fb85696f220', 'Low on Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('ffa20f52-a023-4333-b945-a46d04de961c', 'Transfered', '2019-09-22 15:04:09', '2019-09-22 15:04:09');
@@ -736,8 +1008,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `avatar`, `division_id`, `warehouse_id`, `status_id`, `last_login_at`, `last_login_from`, `remember_token`, `created_at`, `updated_at`) VALUES
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-07 22:15:58', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-10-07 15:15:58'),
-('db3562e3-78ac-494f-81c4-794eba0c59eb', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$OIUggRX9R.7CpymMUeyCXenX3uGPSmYm1aivxJt39St0kkNxowScC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-07 22:35:09', '127.0.0.1', NULL, '2019-10-02 02:25:27', '2019-10-07 15:35:09');
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'afdcd530-bb5e-462b-8dda-1371b9195903', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-12-31 01:15:32', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2019-12-30 18:15:32'),
+('db3562e3-78ac-494f-81c4-794eba0c59eb', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$OIUggRX9R.7CpymMUeyCXenX3uGPSmYm1aivxJt39St0kkNxowScC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', 'ce8b061c-b1bb-4627-b80f-6a42a364109b', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2019-10-13 23:29:56', '127.0.0.1', NULL, '2019-10-02 02:25:27', '2019-10-13 16:29:56');
 
 -- --------------------------------------------------------
 
@@ -748,6 +1020,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `av
 CREATE TABLE `warehouses` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` smallint(2) NOT NULL,
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -758,11 +1031,11 @@ CREATE TABLE `warehouses` (
 -- Dumping data for table `warehouses`
 --
 
-INSERT INTO `warehouses` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('34437a64-ca03-47ff-be0c-63da5814484e', 'Gudang Pengiriman', 'eko', NULL, '2019-09-12 15:22:50', '2019-09-12 15:22:50'),
-('afdcd530-bb5e-462b-8dda-1371b9195903', 'Gudang Utama', 'eko', NULL, '2019-09-05 15:47:09', '2019-09-05 15:47:09'),
-('c40f889e-6fa3-43f2-bc2a-5fdded5aafed', 'Gudang Scrap', 'eko', NULL, '2019-09-15 17:02:27', '2019-09-15 17:02:27'),
-('ce8b061c-b1bb-4627-b80f-6a42a364109b', 'Gudang Manufaktur', 'eko', NULL, '2019-09-08 14:36:03', '2019-09-08 14:36:03');
+INSERT INTO `warehouses` (`id`, `name`, `type`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('34437a64-ca03-47ff-be0c-63da5814484e', 'Gudang Pengiriman', 0, 'eko', NULL, '2019-09-12 15:22:50', '2019-09-12 15:22:50'),
+('afdcd530-bb5e-462b-8dda-1371b9195903', 'Gudang Utama', 2, 'eko', NULL, '2019-09-05 15:47:09', '2019-09-05 15:47:09'),
+('c40f889e-6fa3-43f2-bc2a-5fdded5aafed', 'Gudang Scrap', 0, 'eko', NULL, '2019-09-15 17:02:27', '2019-09-15 17:02:27'),
+('ce8b061c-b1bb-4627-b80f-6a42a364109b', 'Gudang Manufaktur', 1, 'eko', NULL, '2019-09-08 14:36:03', '2019-09-08 14:36:03');
 
 --
 -- Indexes for dumped tables
@@ -781,9 +1054,27 @@ ALTER TABLE `deliveries`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `delivery_services`
+--
+ALTER TABLE `delivery_services`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `divisions`
 --
 ALTER TABLE `divisions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employee_positions`
+--
+ALTER TABLE `employee_positions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -915,6 +1206,19 @@ ALTER TABLE `purchase_items`
   ADD KEY `purchase_items_purchase_id_foreign` (`purchase_id`);
 
 --
+-- Indexes for table `retur_items`
+--
+ALTER TABLE `retur_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `retur_items_retur_id_foreign` (`retur_id`);
+
+--
+-- Indexes for table `retur_sales`
+--
+ALTER TABLE `retur_sales`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -939,6 +1243,12 @@ ALTER TABLE `sales`
 ALTER TABLE `sale_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sale_items_sales_id_foreign` (`sales_id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `statuses`
@@ -976,6 +1286,18 @@ ALTER TABLE `warehouses`
 --
 
 --
+-- AUTO_INCREMENT for table `delivery_services`
+--
+ALTER TABLE `delivery_services`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `employee_positions`
+--
+ALTER TABLE `employee_positions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `internal_items`
 --
 ALTER TABLE `internal_items`
@@ -991,13 +1313,13 @@ ALTER TABLE `internal_transfers`
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
 --
 ALTER TABLE `inventory_movements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -1009,7 +1331,7 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
@@ -1021,7 +1343,7 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -1039,7 +1361,7 @@ ALTER TABLE `payment_terms`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `product_boms`
@@ -1060,6 +1382,12 @@ ALTER TABLE `purchase_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `retur_items`
+--
+ALTER TABLE `retur_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
@@ -1070,6 +1398,12 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `sale_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `uom_categories`
@@ -1134,6 +1468,12 @@ ALTER TABLE `product_boms`
 --
 ALTER TABLE `purchase_items`
   ADD CONSTRAINT `purchase_items_purchase_id_foreign` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `retur_items`
+--
+ALTER TABLE `retur_items`
+  ADD CONSTRAINT `retur_items_retur_id_foreign` FOREIGN KEY (`retur_id`) REFERENCES `retur_sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role_has_permissions`

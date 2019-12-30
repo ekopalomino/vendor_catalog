@@ -13,7 +13,8 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'Can Accept Request',
+            'Can Access Report',
+            'Can Create Report',
         ];
 
         foreach($permissions as $permission) {

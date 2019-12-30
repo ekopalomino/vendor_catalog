@@ -1,12 +1,12 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Contact;
-use Erp\Models\PaymentMethod;
-use Erp\Models\PaymentTerm;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Contact;
+use iteos\Models\PaymentMethod;
+use iteos\Models\PaymentTerm;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
@@ -15,10 +15,10 @@ class ContactManagementController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:Can View Data');
-        $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-        $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-        $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+        $this->middleware('permission:Can Access Contact');
+        $this->middleware('permission:Can Create Contact', ['only' => ['create','store']]);
+        $this->middleware('permission:Can Edit Contact', ['only' => ['edit','update']]);
+        $this->middleware('permission:Can Delete Contact', ['only' => ['destroy']]);
     }
 
     public function customerIndex()

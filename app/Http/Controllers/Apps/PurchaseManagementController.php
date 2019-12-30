@@ -1,18 +1,18 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
-use Erp\Models\Contact;
-use Erp\Models\PaymentMethod;
-use Erp\Models\PaymentTerm;
-use Erp\Models\Purchase;
-use Erp\Models\PurchaseItem;
-use Erp\Models\Inventory;
-use Erp\Models\InventoryMovement;
-use Erp\Models\Product;
-use Erp\Models\UomValue;
+use iteos\Http\Controllers\Controller;
+use iteos\Models\Contact;
+use iteos\Models\PaymentMethod;
+use iteos\Models\PaymentTerm;
+use iteos\Models\Purchase;
+use iteos\Models\PurchaseItem;
+use iteos\Models\Inventory;
+use iteos\Models\InventoryMovement;
+use iteos\Models\Product;
+use iteos\Models\UomValue;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -25,9 +25,9 @@ class PurchaseManagementController extends Controller
     function __construct()
     {
         $this->middleware('permission:Can Access Purchasing');
-        $this->middleware('permission:Can Create Data', ['only' => ['create','store']]);
-        $this->middleware('permission:Can Edit Data', ['only' => ['edit','update']]);
-        $this->middleware('permission:Can Delete Data', ['only' => ['destroy']]);
+        $this->middleware('permission:Can Create Purchase', ['only' => ['create','store']]);
+        $this->middleware('permission:Can Edit Purchase', ['only' => ['edit','update']]);
+        $this->middleware('permission:Can Delete Purchase', ['only' => ['destroy']]);
     }
 
     public function index()

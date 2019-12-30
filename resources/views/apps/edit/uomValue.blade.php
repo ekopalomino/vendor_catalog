@@ -18,7 +18,7 @@
             <div class="row">
             	<div class="col-md-12">
                 	<div class="form-group">
-                		<label class="control-label">Name</label>
+                		<label class="control-label">Nama Satuan</label>
                 		{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 	</div>
                 </div>

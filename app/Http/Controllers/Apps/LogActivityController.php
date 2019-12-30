@@ -1,9 +1,9 @@
 <?php
 
-namespace Erp\Http\Controllers\Apps;
+namespace iteos\Http\Controllers\Apps;
 
 use Illuminate\Http\Request;
-use Erp\Http\Controllers\Controller;
+use iteos\Http\Controllers\Controller;
 
 class LogActivityController extends Controller
 {

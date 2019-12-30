@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('apps.pages.login');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::resource('dashboard','Apps\DashboardController');
     /*-----------------------User Management-----------------------------*/
@@ -30,7 +30,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('users/profile/avatar', 'Apps\UserManagementController@updateAvatar')->name('user.avatar');
     Route::post('users/profile/password', 'Apps\UserManagementController@updatePassword')->name('user.password');
     Route::get('users/roles','Apps\UserManagementController@roleIndex')->name('role.index');
-    Route::post('users/roles/create','Apps\UserManagementController@roleStore')->name('role.store');
+    Route::get('users/roles/create','Apps\UserManagementController@roleCreate')->name('role.create');
+    Route::post('users/roles/store','Apps\UserManagementController@roleStore')->name('role.store');
     Route::get('users/roles/edit/{id}','Apps\UserManagementController@roleEdit')->name('role.edit');
     Route::get('users/roles/show/{id}','Apps\UserManagementController@roleShow')->name('role.show');
     Route::post('users/roles/update/{id}','Apps\UserManagementController@roleUpdate')->name('role.update');

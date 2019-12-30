@@ -18,9 +18,13 @@
             <div class="row">
             	<div class="col-md-12">
                 	<div class="form-group">
-                		<label class="control-label">Name</label>
+                		<label class="control-label">Nama Gudang</label>
                 		{!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 	</div>
+                    <div class="form-group">
+                        <label class="control-label">Jenis Gudang</label>
+                        {!! Form::select('type', array('0'=>'Please Select','1'=>'Gudang Stok','2'=>'Gudang Penjualan', '3'=>'Gudang Scrap', '4'=>'Gudang Bahan Baku'),old('type'), array('class' => 'form-control')) !!}
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

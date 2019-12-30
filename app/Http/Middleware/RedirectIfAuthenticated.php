@@ -1,6 +1,6 @@
 <?php
 
-namespace Erp\Http\Middleware;
+namespace iteos\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
