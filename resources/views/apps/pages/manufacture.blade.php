@@ -39,26 +39,20 @@ FiberTekno | Manufactures
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
                                 <td>
-                                    @foreach($val->Child as $child)
-                                    {{ $child->Items->name}}
-                                    @endforeach
+                                    {{ $val->product_name }}
                                 </td>
                                 <td>
-                                    @foreach($val->Child as $child)
-                                    {{ $child->qty}}
-                                    @endforeach
+                                    {{ $val->man_plan }}
                                 </td>
                                 <td>
-                                    @foreach($val->Child as $child)
-                                    {{ $child->result}}
-                                    @endforeach
+                                    {{ $val->man_result }}
                                 </td>
                                 <td>
                                     @if(!empty($val->deadline))
                                     {{date("d F Y",strtotime($val->deadline)) }}
                                     @endif
                                 </td>
-                                <td><label class="badge badge-info">{{ $val->Statuses->name }}</td>
+                                <td><label class="label label-sm label-danger">{{ $val->Statuses->name }}</td>
                                 <td>
                                     @if(!empty($val->start_production))
                                     {{date("d F Y H:i",strtotime($val->start_production)) }}

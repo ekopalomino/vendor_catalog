@@ -141,14 +141,13 @@ class ManufactureManagementController extends Controller
     public function makeManufacture(Request $request,$id)
     {
         $data = Manufacture::find($id);
-        $workItems = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_name')
-                        ->where('manufacture_items.manufacture_id',$id)
+        $workItems = ManufactureItem::where('manufacture_items.manufacture_id',$id)
                         ->get();
         
         $transfers = InternalTransfer::create([
             'order_ref' => $data->order_ref,
-            'from_id' => 'dd027fc6-665e-4537-8df7-1acaacfea6a7',
-            'to_id' => '0912e01e-ba97-4309-ae45-2c60e6369165',
+            'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+            'to_id' => 'Gudang Manufaktur',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
             'created_by' => auth()->user()->name,
             'updated_by' => auth()->user()->name,
@@ -162,57 +161,57 @@ class ManufactureManagementController extends Controller
         
         foreach($workItems as $workItem)
         {
-            $baseInventory = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-            $baseMovement = InventoryMovement::where('product_id',$workItem->material_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-            $newInventory = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+            $baseInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
+            $baseMovement = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
+            $newInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
             
             $totalQty = ($workItem->qty) * ($workItem->quantity);
             
             $itemTransfers = InternalItems::create([
                 'mutasi_id' => $transfers->id,
                 'product_id' => $workItem->product_id,
-                'quantity' => $totalQty,
+                'quantity' => $workItem->qty,
                 'uom_id' => $workItem->uom_id,
             ]);
 
             $inventoryOut = $baseInventory->update([
-                'closing_amount' => ($baseInventory->closing_amount) - ($totalQty),
+                'closing_amount' => ($baseInventory->closing_amount) - ($workItem->qty),
             ]);
             
             if($newInventory == null) {
                 $inventoryIn = Inventory::create([
-                    'product_id' => $workItem->material_id,
+                    'product_id' => $workItem->item_name,
                     'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                    'opening_amount' => $totalQty,
-                    'closing_amount' => $totalQty,
+                    'opening_amount' => $workItem->qty,
+                    'closing_amount' => $workItem->qty,
                 ]);
-                $id = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
                 $movementIn = InventoryMovement::create([
                     'type' => '7',
                     'inventory_id' => $id->id,
                     'reference_id' => $data->order_ref,
-                    'product_id' => $workItem->material_id,
+                    'product_name' => $workItem->item_name,
                     'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                    'incoming' => $totalQty,
+                    'incoming' => $workItem->qty,
                     'outgoing' => '0',
-                    'remaining' => $totalQty,
+                    'remaining' => $workItem->qty,
                 ]);
             } else {
-                $inventoryIn = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
-                    'opening_amount' => ($newInventory->closing_amount) + ($totalQty),
-                    'closing_amount' => ($newInventory->closing_amount) + ($totalQty),
+                $inventoryIn = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
+                    'opening_amount' => ($newInventory->closing_amount) + ($workItem->qty),
+                    'closing_amount' => ($newInventory->closing_amount) + ($workItem->qty),
                 ]);
-                $id = Inventory::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
-                $last = InventoryMovement::where('product_id',$workItem->material_id)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+                $last = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
                 $movementIn = InventoryMovement::create([
                     'type' => '7',
                     'inventory_id' => $id->id,
                     'reference_id' => $data->order_ref,
-                    'product_id' => $workItem->material_id,
+                    'product_name' => $workItem->item_name,
                     'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
-                    'incoming' => $totalQty,
+                    'incoming' => $workItem->qty,
                     'outgoing' => '0',
-                    'remaining' => ($last->remaining) + ($totalQty),
+                    'remaining' => ($last->remaining) + ($workItem->qty),
                 ]);
             }
             
@@ -224,7 +223,7 @@ class ManufactureManagementController extends Controller
                 'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
                 'incoming' => '0',
                 'outgoing' => $totalQty,
-                'remaining' => ($baseMovement->remaining) - ($totalQty),
+                'remaining' => ($baseMovement->remaining) - ($workItem->qty),
             ]);    
             
             

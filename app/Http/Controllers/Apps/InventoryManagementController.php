@@ -188,8 +188,8 @@ class InventoryManagementController extends Controller
     public function addTransfer()
     {
         $userLocation = auth()->user()->warehouse_id;
-        $locations = Warehouse::where('id','!=',$userLocation)->pluck('name','id')->toArray();
-        $products = Product::pluck('name','id')->toArray();
+        $locations = Warehouse::where('id','!=',$userLocation)->pluck('name','name')->toArray();
+        $products = Product::pluck('name','name')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         
         return view('apps.input.internalTransfer',compact('locations','products','uoms','userLocation'));
@@ -197,15 +197,15 @@ class InventoryManagementController extends Controller
 
     public function internStore(Request $request)
     {
-        $items = $request->product_id;
+        $items = $request->product_name;
         $quantity = $request->quantity;
         $uom = $request->uom_id;
         $reference = InternalTransfer::count();
         $ref = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $data = [
             'order_ref' => $ref,
-            'from_id' => $request->input('from_id'),
-            'to_id' => $request->input('to_id'),
+            'from_id' => $request->input('from_wh'),
+            'to_id' => $request->input('to_wh'),
             'created_by' => auth()->user()->name,
         ];
         $internal = InternalTransfer::create($data);

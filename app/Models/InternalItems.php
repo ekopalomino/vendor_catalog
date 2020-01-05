@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class InternalItems extends Model
 {
     protected $fillable = [
-        'product_id',
+        'product_name',
         'mutasi_id',
         'quantity',
         'uom_id',

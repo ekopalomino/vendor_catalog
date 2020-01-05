@@ -8,22 +8,12 @@ class InternalTransfer extends Model
 {
     protected $fillable = [
         'order_ref',
-        'from_id',
-        'to_id',
+        'from_wh',
+        'to_wh',
         'status_id',
         'created_by',
         'updated_by',
     ];
-
-    public function From()
-    {
-        return $this->belongsTo(Warehouse::class,'from_id');
-    }
-
-    public function To()
-    {
-        return $this->belongsTo(Warehouse::class,'to_id');
-    }
 
     public function Statuses()
     {

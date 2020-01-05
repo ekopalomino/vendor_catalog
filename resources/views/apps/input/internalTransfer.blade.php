@@ -29,11 +29,11 @@ Fiber Tekno | Tambah Mutasi Barang
             @csrf
             <div class="form-body">
             	<div class="row">
-            		{{ Form::hidden('from_id', $userLocation) }}
+            		{{ Form::hidden('from_wh', $userLocation) }}
                 <div class="col-md-5">
                   <div class="form-group">
                     <label class="control-label">Gudang Penerima</label>
-                    {!! Form::select('to_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                    {!! Form::select('to_wh', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                   </div>
                 </div>
             		<!--/span-->
@@ -51,10 +51,10 @@ Fiber Tekno | Tambah Mutasi Barang
 	            			</thead>
 	            			<tbody>
 	            				<tr>
-	            					<td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control','required')) !!}</td>
-                    		<td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
-                    		<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
-                    		<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
+	            					<td>{!! Form::select('product_name[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control','required')) !!}</td>
+                    		        <td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
+                    		        <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
+                    		        <td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
 	            				</tr>
 	            			</tbody>
 	            		</table>
@@ -83,7 +83,7 @@ Fiber Tekno | Tambah Mutasi Barang
       var i=1;  
       $('#add').click(function(){  
            i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::select('product_id[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::select('product_name[]', [null=>'Please Select'] + $products,[], array('class' => 'form-control')) !!}</td><td>{!! Form::text('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
       });  
       $(document).on('click', '.btn_remove', function(){  
            var button_id = $(this).attr("id");   
