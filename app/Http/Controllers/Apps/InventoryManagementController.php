@@ -205,7 +205,7 @@ class InventoryManagementController extends Controller
         $data = [
             'order_ref' => $ref,
             'from_id' => $request->input('from_wh'),
-            'to_id' => $request->input('to_wh'),
+            'to_id' => $request->input('to_whD'),
             'created_by' => auth()->user()->name,
         ];
         $internal = InternalTransfer::create($data);
