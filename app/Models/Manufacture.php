@@ -12,6 +12,7 @@ class Manufacture extends Model
     protected $fillable = [
         'sales_order',
         'order_ref',
+        'product_name',
         'deadline',
         'status_id',
         'warehouse_id',
@@ -21,6 +22,8 @@ class Manufacture extends Model
         'end_by',
         'start_production',
         'end_production',
+        'man_plan',
+        'man_result',
     ];
 
     public $incrementing = false;

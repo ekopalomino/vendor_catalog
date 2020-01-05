@@ -51,7 +51,7 @@ Fiber Tekno | Bill of Material
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Nama Barang</label>
-                                                    {!! Form::select('material_id', [null=>'Please Select'] + $materials,[], array('class' => 'form-control')) !!}
+                                                    {!! Form::select('material_name', [null=>'Please Select'] + $materials,[], array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -92,7 +92,7 @@ Fiber Tekno | Bill of Material
                             @foreach($boms as $key=>$data)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $data->Materials->name }}</td>
+                                <td>{{ $data->material_name }}</td>
                                 <td>{{ $data->quantity }}</td>
                                 <td>{{ $data->Uoms->name }}</td>
                                 <td>

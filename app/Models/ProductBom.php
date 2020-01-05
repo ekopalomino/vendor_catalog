@@ -8,7 +8,7 @@ class ProductBom extends Model
 {
     protected $fillable = [
         'product_id',
-        'material_id',
+        'material_name',
         'quantity',
         'uom_id',
     ];

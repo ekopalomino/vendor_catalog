@@ -32,6 +32,7 @@ FiberTekno | Permintaan Manufaktur
                                 <th>MO Ref</th>
                                 <th>Sales Ref</th>
                                 <th>Produk</th>
+                                <th>Jumlah</th>
                                 <th>Deadline</th>
                                 <th>Status</th>
                                 <th>Dibuat</th>
@@ -47,9 +48,10 @@ FiberTekno | Permintaan Manufaktur
                                 <td>{{ $val->sales_order }}</td>
                                 <td>
                                     @foreach($val->Child as $child)
-                                    {{ $child->Items->name}}
+                                    {{ $child->item_name}}
                                     @endforeach
                                 </td>
+                                <td>{{ $val->man_plan }}</td>
                                 <td>
                                     @if(!empty($val->deadline))
                                     {{date("d F Y H:i",strtotime($val->deadline)) }}

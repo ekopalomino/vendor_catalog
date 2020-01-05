@@ -39,8 +39,8 @@ FiberTekno | Persediaan
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $product->Products->name }}</td>
                                 <td>
-                                    @if(!empty($product->warehouse_id))
-                                    {{ $product->Locations->name }}
+                                    @if(!empty($product->warehouse_name))
+                                    {{ $product->warehouse_name }}
                                     @endif
                                 </td>
                                 <td>{{ number_format($product->opening_amount,2,',','.')}}</td>

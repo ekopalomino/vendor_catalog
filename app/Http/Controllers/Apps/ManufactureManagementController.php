@@ -75,21 +75,30 @@ class ManufactureManagementController extends Controller
             $convertion = $request->input('quantity');
         }
         $input = [
-            'order_ref' => $ref,
+            'order_ref' => $ref, 
             'sales_order' => $request->input('sales_order'),
+            'product_name' => $request->input('product'),
             'deadline' => $request->input('deadline'),
             'status_id' => '5bc79891-e396-4792-a0f3-617ece2a00ce',
             'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+            'man_plan' => $convertion,
             'created_by' => auth()->user()->name,
         ];
-        $names = Product::where('name',$request->input('product'))->orWhere('product_barcode',$request->input('product'))->first();
+        $names = Product::join('product_boms','product_boms.product_id','products.id')
+                          ->where('products.name',$request->input('product'))
+                          ->orWhere('products.product_barcode',$request->input('product'))
+                          ->get();
+        
         $data = Manufacture::create($input);
-        $details = ManufactureItem::create([
-            'manufacture_id' => $data->id,
-            'item_id' => $names->id,
-            'qty' => $convertion,
-            'uom_id' => $request->input('uom_id'),
-        ]);
+        foreach($names as $index=>$name) {
+            $details = ManufactureItem::create([
+                'manufacture_id' => $data->id,
+                'item_name' => $names[$index]->material_name,
+                'qty' => ($names[$index]->quantity) * ($data->man_plan),
+                'uom_id' => $names[$index]->uom_id,
+            ]);
+        }
+        
         $log = 'Manufacture Request '.($data->order_ref).' Berhasil Dibuat';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -122,8 +131,7 @@ class ManufactureManagementController extends Controller
 
     public function checkStock($id)
     {
-        $data = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_id')
-                                ->join('inventories','inventories.product_id','=','product_boms.material_id')
+        $data = ManufactureItem::join('inventories','inventories.product_name','=','manufacture_items.item_name')
                                 ->where('manufacture_items.manufacture_id',$id)
                                 ->get();
         
@@ -133,7 +141,7 @@ class ManufactureManagementController extends Controller
     public function makeManufacture(Request $request,$id)
     {
         $data = Manufacture::find($id);
-        $workItems = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_id')
+        $workItems = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_name')
                         ->where('manufacture_items.manufacture_id',$id)
                         ->get();
         

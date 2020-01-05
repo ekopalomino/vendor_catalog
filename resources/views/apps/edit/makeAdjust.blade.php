@@ -26,7 +26,8 @@
                         {!! Form::textarea('notes', null, array('placeholder' => 'Catatan','class' => 'form-control')) !!}
                     </div>
                     {{ Form::hidden('product_id', $data->product_id) }}
-                    {{ Form::hidden('warehouse_id', $data->warehouse_id) }}
+                    {{ Form::hidden('product_name', $data->product_name) }}
+                    {{ Form::hidden('warehouse_name', $data->warehouse_name) }}
                 </div>
             </div>
             <div class="modal-footer">

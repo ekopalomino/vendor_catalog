@@ -45,8 +45,8 @@ class InventoryManagementController extends Controller
     public function stockCard(Request $request,$id)
     {
         $source = Inventory::where('id',$id)->first();
-        $data = InventoryMovement::where('product_id',$source->product_id)
-                                ->where('warehouse_id',$source->warehouse_id)
+        $data = InventoryMovement::where('product_name',$source->product_name)
+                                ->where('warehouse_name',$source->warehouse_name)
                                 ->paginate(5);
         
         return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
@@ -55,8 +55,8 @@ class InventoryManagementController extends Controller
     public function stockPrint(Request $request,$id)
     {
         $source = Inventory::where('id',$id)->first();
-        $data = InventoryMovement::where('product_id',$source->product_id)
-                                ->where('warehouse_id',$source->warehouse_id)
+        $data = InventoryMovement::where('product_name',$source->product_name)
+                                ->where('warehouse_name',$source->warehouse_name)
                                 ->get();
         $filename = Product::where('id',$source->product_id)->first();
         
@@ -86,7 +86,8 @@ class InventoryManagementController extends Controller
             'type' => '1',
             'inventory_id' => $id,
             'product_id' => $request->input('product_id'),
-            'warehouse_id' => $request->input('warehouse_id'),
+            'product_name' => $request->input('product_name'),
+            'warehouse_name' => $request->input('warehouse_name'),
             'incoming' => $request->input('adjust_amount'),
             'outgoing' => '0',
             'remaining' => $request->input('adjust_amount'),
@@ -94,7 +95,7 @@ class InventoryManagementController extends Controller
         ];
         
         $products = Product::where('id',$request->input('product_id'))->first();
-        $source = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id',$request->input('warehouse_id'))->update([
+        $source = Inventory::where('id',$id)->update([
             'closing_amount' => $request->input('adjust_amount'),
         ]);
         

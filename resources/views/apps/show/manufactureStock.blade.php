@@ -18,10 +18,10 @@
                 	@foreach($data as $key=>$val)
                 	<tr>
 	                	<td>                           
-                            {{ $val->material_id }}                           
+                            {{ $val->item_name }}                           
                         </td>
-						<td>{{ $val->warehouse_id }}</td>
-	                	<td>{{ number_format(($val->quantity) * ($val->qty),2,',','.')}}</td>
+						<td>{{ $val->warehouse_name }}</td>
+	                	<td>{{ number_format(($val->qty),2,',','.')}}</td>
 	                	<td>{{ number_format($val->closing_amount,2,',','.')}}</td>
                         <td>{{ $val->Uoms->name}}</td>
 	                	<td>

@@ -63,7 +63,7 @@ Fiber Tekno | Tambah Produk
                     <div class="form-group">
                         <label class="col-md-3 control-label">Gudang Penyimpanan</label>
                         <div class="col-md-4">
-                            {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                            {!! Form::select('warehouse_name', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
                     <div class="form-group">

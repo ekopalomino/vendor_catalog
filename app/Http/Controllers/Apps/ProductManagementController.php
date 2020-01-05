@@ -108,7 +108,7 @@ class ProductManagementController extends Controller
         $categories = ProductCategory::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         $vendors = Contact::where('type_id','2')->pluck('name','id')->toArray();
-        $locations = Warehouse::pluck('name','id')->toArray();
+        $locations = Warehouse::pluck('name','name')->toArray();
         
         return view('apps.input.products',compact('categories','uoms','vendors','locations'));
     }
@@ -170,7 +170,8 @@ class ProductManagementController extends Controller
         $data = Product::create($input);
         $stocks = Inventory::create([
             'product_id' => $data->id,
-            'warehouse_id' => $request->input('warehouse_id'),
+            'product_name' => $data->name,
+            'warehouse_name' => $request->input('warehouse_name'),
             'min_stock' => $data->min_stock,
             'opening_amount' => '0',
             'closing_amount' => '0',
@@ -319,7 +320,7 @@ class ProductManagementController extends Controller
 
     public function createBom(Request $request,$id)
     {
-        $materials = Product::pluck('name','id')->toArray();
+        $materials = Product::pluck('name','name')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         $boms = ProductBom::where('product_id',$id)->get();
         $id = Product::where('id',$id)->first();
@@ -330,7 +331,7 @@ class ProductManagementController extends Controller
     public function storeBom(Request $request)
     {
         $this->validate($request, [
-            'material_id' => 'required',
+            'material_name' => 'required',
             'quantity' => 'required|numeric',
             'uom_id' => 'required',
         ]);
