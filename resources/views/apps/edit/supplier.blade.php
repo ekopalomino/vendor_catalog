@@ -29,7 +29,7 @@ Fiber Tekno | Edit Supplier
                         <div class="form-group">
                             <label class="col-md-3 control-label">Supplier ID</label>
                             <div class="col-md-4">
-                                {!! Form::text('contact_ref', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
+                                {!! Form::text('ref_id', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
@@ -37,7 +37,7 @@ Fiber Tekno | Edit Supplier
                             <div class="col-md-4">
                                 {!! Form::text('name', null, array('placeholder' => 'Supplier Name','class' => 'form-control')) !!} 
                             </div>
-                        </div>
+                        </div> 
                         <div class="form-group">
                             <label class="col-md-3 control-label">Company Name</label>
                             <div class="col-md-4">
@@ -86,29 +86,25 @@ Fiber Tekno | Edit Supplier
                         <div class="form-group">
                             <label class="col-md-3 control-label">Payment Method</label>
                             <div class="col-md-4">
-                                {!! Form::select('payment_method', [null=>'Please Select'] + $methods,[], array('class' => 'form-control')) !!}
+                                {!! Form::select('payment_method', $methods,old('payment_method'), array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Payment Terms</label>
                             <div class="col-md-4">
-                                {!! Form::select('payment_term', [null=>'Please Select'] + $terms,[], array('class' => 'form-control')) !!}
+                                {!! Form::select('payment_term', $terms,old('payment_term'), array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tax Option</label>
                             <div class="col-md-4">
-                                <select class="form-control" name="tax">
-                                    <option>Select Option</option>
-                                    <option value="0">No</option>
-                                    <option value="0">Yes</option>
-                                </select>  
+                                {!! Form::select('tax', array('0'=>'No','1'=>'Yes'),old('tax'), array('class' => 'form-control')) !!} 
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tax No</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Tax No" name="tax_no"> 
+                                {!! Form::text('tax_no', null, array('placeholder' => 'Tax Number','class' => 'form-control')) !!}
                             </div>
                         </div>
                         {{ Form::hidden('type_id', '2') }}

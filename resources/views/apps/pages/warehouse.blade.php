@@ -28,6 +28,7 @@ FiberTekno | Gudang
                                 </ul>
                         </div>
                     @endif
+                    @can('Disable')
                     <div class="col-md-6">
                         <div class="form-group">
                             <tr>
@@ -37,6 +38,7 @@ FiberTekno | Gudang
                             </tr>
                         </div>
                     </div>
+                    @endcan
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
@@ -53,12 +55,6 @@ FiberTekno | Gudang
                                                 <div class="form-group">
                                                     <label class="control-label">Nama Gudang</label>
                                                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Jenis Gudang</label>
-                                                    {!! Form::select('type', array('0'=>'Please Select','1'=>'Gudang Stok','2'=>'Gudang Penjualan', '3'=>'Gudang Scrap', '4'=>'Gudang Bahan Baku'),[], array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                         </div>  

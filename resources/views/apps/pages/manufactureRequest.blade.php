@@ -55,7 +55,7 @@ FiberTekno | Permintaan Manufaktur
                                     {{date("d F Y H:i",strtotime($val->deadline)) }}
                                     @endif
                                 </td>
-                                <td><label class="badge badge-info">{{ $val->Statuses->name }}</td>
+                                <td><label class="label label-sm label-info ">{{ $val->Statuses->name }}</td>
                                 <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>

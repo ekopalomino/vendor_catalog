@@ -50,7 +50,6 @@ class ManufactureManagementController extends Controller
         $search = $request->get('product');
         $result = Product::where('is_manufacture','1')
                             ->where('name','LIKE','%'.$search. '%')
-                            ->orWhere('product_barcode','LIKE','%'.$search.'%')
                             ->select('id','name')
                             ->get();
 
@@ -125,10 +124,9 @@ class ManufactureManagementController extends Controller
     {
         $data = ManufactureItem::join('product_boms','product_boms.product_id','=','manufacture_items.item_id')
                                 ->join('inventories','inventories.product_id','=','product_boms.material_id')
-                                ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
                                 ->where('manufacture_items.manufacture_id',$id)
                                 ->get();
-       
+        
         return view('apps.show.manufactureStock',compact('data'))->renderSections()['content'];
     }
 
@@ -141,8 +139,8 @@ class ManufactureManagementController extends Controller
         
         $transfers = InternalTransfer::create([
             'order_ref' => $data->order_ref,
-            'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-            'to_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+            'from_id' => 'dd027fc6-665e-4537-8df7-1acaacfea6a7',
+            'to_id' => '0912e01e-ba97-4309-ae45-2c60e6369165',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
             'created_by' => auth()->user()->name,
             'updated_by' => auth()->user()->name,

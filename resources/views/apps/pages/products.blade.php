@@ -18,12 +18,7 @@ FiberTekno | Produk
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah Produk
-                            </button></a>
-                        </div>
-                        @if (count($errors) > 0) 
+                    @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
                                 <ul>
@@ -32,9 +27,16 @@ FiberTekno | Produk
                                     @endforeach
                                 </ul>
                         </div>
-                        @endif
+                    @endif
+                    @can('Can Create Product')
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah Produk
+                            </button></a>
+                        </div>
                     </div>
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                    @endcan
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>

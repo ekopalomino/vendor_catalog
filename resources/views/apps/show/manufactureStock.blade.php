@@ -7,6 +7,7 @@
 				<thead>
                 	<tr>
                 		<th>Material</th>
+						<th>Gudang</th>
                 		<th>Kebutuhan</th>
                 		<th>Tersedia</th>
                         <th>Satuan</th>
@@ -19,14 +20,15 @@
 	                	<td>                           
                             {{ $val->material_id }}                           
                         </td>
+						<td>{{ $val->warehouse_id }}</td>
 	                	<td>{{ number_format(($val->quantity) * ($val->qty),2,',','.')}}</td>
 	                	<td>{{ number_format($val->closing_amount,2,',','.')}}</td>
                         <td>{{ $val->Uoms->name}}</td>
 	                	<td>
                             @if((($val->quantity) * ($val->qty)) > ($val->closing_amount))
-                            <label class="badge badge-danger">Stok Tidak Cukup
+                            <label class="label label-sm label-danger">Stok Tidak Cukup
                             @else      
-                            <label class="badge badge-success">Stok Cukup
+                            <label class="label label-sm label-success">Stok Cukup
                             @endif
                         </td>
 	                </tr>

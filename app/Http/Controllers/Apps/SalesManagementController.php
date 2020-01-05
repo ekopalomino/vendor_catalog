@@ -51,7 +51,6 @@ class SalesManagementController extends Controller
         $prod = Product::first();
         $products = Product::join('inventories','inventories.product_id','=','products.id')
                     ->where('products.is_sale','=','1')
-                    ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
                     ->where('inventories.closing_amount','>=',$prod->min_stock)
                     ->pluck('products.name','products.id')
                     ->toArray();
@@ -66,10 +65,8 @@ class SalesManagementController extends Controller
         
         $result = $products = Product::join('inventories','inventories.product_id','=','products.id')
                             ->where('products.is_sale','=','1')
-                            ->where('inventories.warehouse_id','=','afdcd530-bb5e-462b-8dda-1371b9195903')
                             ->where('inventories.closing_amount','>=','products.min_stock')
                             ->where('name','LIKE','%'.$search. '%')
-                            ->orWhere('product_barcode','LIKE','%'.$search.'%')
                             ->select('products.id','products.name')
                             ->get();
         

@@ -61,6 +61,12 @@ Fiber Tekno | Tambah Produk
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-3 control-label">Gudang Penyimpanan</label>
+                        <div class="col-md-4">
+                            {!! Form::select('warehouse_id', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-3 control-label">Harga Modal</label>
                         <div class="col-md-4">
                             {!! Form::text('base_price', null, array('placeholder' => 'Product Cost Price','class' => 'form-control')) !!} 

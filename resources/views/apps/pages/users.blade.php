@@ -19,6 +19,17 @@ FiberTekno | User Management
                     <div class="tools"> </div>
                 </div>
                 <div class="portlet-body">
+                    @if (count($errors) > 0) 
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    @endif
+                    @can('Can Create User')
                     <div class="col-md-6">
                         <div class="form-group">
                             <tr>
@@ -28,6 +39,7 @@ FiberTekno | User Management
                             </tr>
                         </div>
                     </div>
+                    @endcan
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
@@ -103,17 +115,7 @@ FiberTekno | User Management
                             </div>
                         </div>
                     </div>
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
@@ -135,15 +137,15 @@ FiberTekno | User Management
                 				<td>
                                     @if(!empty($user->getRoleNames()))
                                     @foreach($user->getRoleNames() as $v)
-                                    <label class="badge badge-success">{{ $v }}</label>
+                                    <label class="label label-sm label-success">{{ $v }}</label>
                                     @endforeach
                                     @endif            
                                 </td>
                 				<td>
                                     @if($user->status_id == '2b643e21-a94c-4713-93f1-f1cbde6ad633')
-                                    <label class="badge badge-info">{{ $user->Statuses->name }}</label>
+                                    <label class="label label-sm label-info">{{ $user->Statuses->name }}</label>
                                     @else
-                                    <label class="badge badge-danger">{{ $user->Statuses->name }}</label>
+                                    <label class="label label-sm label-danger">{{ $user->Statuses->name }}</label>
                                     @endif
                                 </td>
                 				<td>

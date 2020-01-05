@@ -276,7 +276,7 @@ class ContactManagementController extends Controller
         $suppliers = Contact::find($id);
         $methods = PaymentMethod::pluck('name','id')->toArray();
         $terms = PaymentTerm::pluck('name','id')->toArray();
-        return view('apps.edit.suppliers',compact('suppliers','methods','terms'));
+        return view('apps.edit.supplier',compact('suppliers','methods','terms'));
     }
 
     public function supplierUpdate(Request $request,$id)
@@ -312,7 +312,7 @@ class ContactManagementController extends Controller
             ];
         } else {
             $input = [
-                'ref_id' => $request->input('contact_ref'),
+                'ref_id' => $request->input('ref_id'),
                 'name' => $request->input('name'),
                 'company' => $request->input('company'),
                 'phone' => $request->input('phone'),

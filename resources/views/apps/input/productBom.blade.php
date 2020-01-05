@@ -19,6 +19,16 @@ Fiber Tekno | Bill of Material
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
+                        @if (count($errors) > 0) 
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <tr>
                                 <td>
@@ -67,18 +77,8 @@ Fiber Tekno | Bill of Material
                                 </div>
                             </div>
                         </div>
-                        @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
                     </div>
-                    <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <table class="table table-striped table-bordered table-hover" id="sample_2">
                         <thead>
                             <tr>
                                 <th>No</th>

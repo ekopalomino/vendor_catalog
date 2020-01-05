@@ -108,8 +108,9 @@ class ProductManagementController extends Controller
         $categories = ProductCategory::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         $vendors = Contact::where('type_id','2')->pluck('name','id')->toArray();
+        $locations = Warehouse::pluck('name','id')->toArray();
         
-        return view('apps.input.products',compact('categories','uoms','vendors'));
+        return view('apps.input.products',compact('categories','uoms','vendors','locations'));
     }
 
     public function productStore(Request $request)
@@ -169,7 +170,7 @@ class ProductManagementController extends Controller
         $data = Product::create($input);
         $stocks = Inventory::create([
             'product_id' => $data->id,
-            'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+            'warehouse_id' => $request->input('warehouse_id'),
             'min_stock' => $data->min_stock,
             'opening_amount' => '0',
             'closing_amount' => '0',

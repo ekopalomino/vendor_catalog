@@ -39,11 +39,11 @@ FiberTekno | Sales Management
                                 <td>{{ number_format($val->closing_amount,2,',','.')}}</td>
                                 <td>
                                     @if( ($val->closing_amount) == '0')
-                                        <label class="badge badge-danger">No Stock</label>
+                                        <label class="label label-sm label-danger">No Stock</label>
                                     @elseif(($val->closing_amount) <= ($val->min_stock))
-                                        <label class="badge badge-warning">Low On Stock</label>
+                                        <label class="label label-sm label-warning">Low On Stock</label>
                                     @elseif(($val->closing_amount) >= ($val->min_stock))
-                                        <label class="badge badge-success">Stock Normal</label>
+                                        <label class="label label-sm label-success  ">Stock Normal</label>
                                     @endif
                                 </td>
                             </tr>

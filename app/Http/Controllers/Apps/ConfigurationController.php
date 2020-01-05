@@ -35,12 +35,10 @@ class ConfigurationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:warehouses,name',
-            'type' => 'required',
         ]);
 
         $input = [
             'name' => $request->input('name'),
-            'type' => $request->input('type'),
             'created_by' => auth()->user()->name,
         ];
         $data = Warehouse::create($input);
@@ -65,12 +63,10 @@ class ConfigurationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:warehouses,name',
-            'type' => 'required',
         ]);
 
         $input = [
             'name' => $request->input('name'),
-            'type' => $request->input('type'),
             'updated_by' => auth()->user()->name,
         ];
         $data = Warehouse::find($id)->update($input);

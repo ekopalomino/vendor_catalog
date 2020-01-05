@@ -18,6 +18,17 @@ FiberTekno | Kategori UOM
                     </div>
                 </div>
                 <div class="portlet-body">
+                    @if (count($errors) > 0) 
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                        </div>
+                    @endif
+                    @can('Can Create Setting')
                     <div class="col-md-6">
                         <div class="form-group">
                             <tr>
@@ -27,6 +38,7 @@ FiberTekno | Kategori UOM
                             </tr>
                         </div>
                     </div>
+                    @endcan
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
@@ -56,17 +68,7 @@ FiberTekno | Kategori UOM
                             </div>
                         </div>
                     </div>
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>

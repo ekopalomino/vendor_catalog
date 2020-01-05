@@ -18,12 +18,7 @@ FiberTekno | Supplier Management
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <a href="{{ route('supplier.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Supplier
-                            </button></a>
-                        </div>
-                        @if (count($errors) > 0) 
+                    @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
                                 <ul>
@@ -32,9 +27,16 @@ FiberTekno | Supplier Management
                                     @endforeach
                                 </ul>
                         </div>
-                        @endif
+                    @endif
+                    @can('Can Create Contact')
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a href="{{ route('supplier.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Supplier
+                            </button></a>
+                        </div>
                     </div>
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                    @endcan
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
@@ -55,7 +57,7 @@ FiberTekno | Supplier Management
                 				<td>{{ $val->name }}</td>
                                 <td>{{ $val->email }}</td>
                                 <td>{{ $val->billing_address }}</td>
-                				<td><label class="badge badge-info">{{ $val->Statuses->name }}</label></td>
+                				<td><label class="label label-sm label-info">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
                                     <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Supplier" ><i class="fa fa-edit"></i></a>

@@ -48,11 +48,11 @@ FiberTekno | Persediaan
                                 <td>{{ $product->Products->Uoms->name }}</td>
                                 <td>
                                     @if( ($product->closing_amount) == '0')
-                                        <label class="badge badge-danger">No Stock</label>
+                                        <label class="label label-sm label-danger">No Stock</label>
                                     @elseif(($product->closing_amount) <= ($product->min_stock))
-                                        <label class="badge badge-warning">Low On Stock</label>
+                                        <label class="label label-sm label-warning">Low On Stock</label>
                                     @elseif(($product->closing_amount) >= ($product->min_stock))
-                                        <label class="badge badge-success">Stock Normal</label>
+                                        <label class="label label-sm label-success">Stock Normal</label>
                                     @endif
                                 </td>
                 				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>

@@ -29,13 +29,13 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Customer ID</label>
                             <div class="col-md-4">
-                                {!! Form::text('contact_ref', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
+                                {!! Form::text('contact_ref', null, array('placeholder' => 'Customer ID','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Customer Name</label>
                             <div class="col-md-4">
-                                {!! Form::text('name', null, array('placeholder' => 'Supplier Name','class' => 'form-control')) !!} 
+                                {!! Form::text('name', null, array('placeholder' => 'Customer Name','class' => 'form-control')) !!} 
                             </div>
                         </div>
                         <div class="form-group">
@@ -47,26 +47,26 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Phone</label>
                             <div class="col-md-4">
-                                {!! Form::text('phone', null, array('placeholder' => 'Supplier Phone','class' => 'form-control')) !!} 
+                                {!! Form::text('phone', null, array('placeholder' => 'Customer Phone','class' => 'form-control')) !!} 
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Mobile</label>
                             <div class="col-md-4">
-                                {!! Form::text('mobile', null, array('placeholder' => 'Supplier Mobile','class' => 'form-control')) !!}
+                                {!! Form::text('mobile', null, array('placeholder' => 'Customer Mobile','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Email</label>
                             <div class="col-md-4">
-                                {!! Form::text('email', null, array('placeholder' => 'Supplier Email','class' => 'form-control')) !!} 
+                                {!! Form::text('email', null, array('placeholder' => 'Customer Email','class' => 'form-control')) !!} 
                             </div>
                         </div>
                         <h3 class="form-section">Customer Address</h3>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Billing Address</label>
                             <div class="col-md-4">
-                                {!! Form::textarea('billing_address', null, array('placeholder' => 'Supplier Billing Address','class' => 'form-control')) !!}
+                                {!! Form::textarea('billing_address', null, array('placeholder' => 'Customer Billing Address','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">
@@ -79,7 +79,7 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Shipping Address</label>
                             <div class="col-md-4">
-                                {!! Form::textarea('shipping_address', null, array('placeholder' => 'Supplier Shipping Address','class' => 'form-control')) !!} 
+                                {!! Form::textarea('shipping_address', null, array('placeholder' => 'Customer Shipping Address','class' => 'form-control')) !!} 
                             </div>
                         </div>
                         <h3 class="form-section">Payments & Taxes</h3>
