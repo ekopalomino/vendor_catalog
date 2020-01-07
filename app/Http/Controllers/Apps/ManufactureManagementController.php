@@ -141,13 +141,14 @@ class ManufactureManagementController extends Controller
     public function makeManufacture(Request $request,$id)
     {
         $data = Manufacture::find($id);
-        $workItems = ManufactureItem::where('manufacture_items.manufacture_id',$id)
+        $workItems = ManufactureItem::join('products','products.name','manufacture_items.item_name')
+                        ->where('manufacture_items.manufacture_id',$id)
                         ->get();
         
         $transfers = InternalTransfer::create([
             'order_ref' => $data->order_ref,
-            'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-            'to_id' => 'Gudang Manufaktur',
+            'from_wh' => 'Gudang Utama',
+            'to_wh' => 'Gudang Manufaktur',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
             'created_by' => auth()->user()->name,
             'updated_by' => auth()->user()->name,
@@ -161,15 +162,15 @@ class ManufactureManagementController extends Controller
         
         foreach($workItems as $workItem)
         {
-            $baseInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-            $baseMovement = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-            $newInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+            $baseInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            $baseMovement = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            $newInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->orderBy('updated_at','DESC')->first();
             
             $totalQty = ($workItem->qty) * ($workItem->quantity);
             
             $itemTransfers = InternalItems::create([
                 'mutasi_id' => $transfers->id,
-                'product_id' => $workItem->product_id,
+                'product_name' => $workItem->item_name,
                 'quantity' => $workItem->qty,
                 'uom_id' => $workItem->uom_id,
             ]);
@@ -180,35 +181,37 @@ class ManufactureManagementController extends Controller
             
             if($newInventory == null) {
                 $inventoryIn = Inventory::create([
-                    'product_id' => $workItem->item_name,
-                    'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                    'product_id' => $workItem->id,
+                    'product_name' => $workItem->item_name,
+                    'warehouse_name' => 'Gudang Manufaktur',
+                    'min_stock' => '0',
                     'opening_amount' => $workItem->qty,
                     'closing_amount' => $workItem->qty,
                 ]);
-                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->first();
                 $movementIn = InventoryMovement::create([
                     'type' => '7',
                     'inventory_id' => $id->id,
                     'reference_id' => $data->order_ref,
                     'product_name' => $workItem->item_name,
-                    'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                    'warehouse_name' => 'Gudang Manufaktur',
                     'incoming' => $workItem->qty,
                     'outgoing' => '0',
                     'remaining' => $workItem->qty,
                 ]);
             } else {
-                $inventoryIn = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
+                $inventoryIn = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->update([
                     'opening_amount' => ($newInventory->closing_amount) + ($workItem->qty),
                     'closing_amount' => ($newInventory->closing_amount) + ($workItem->qty),
                 ]);
-                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
-                $last = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->first();
+                $last = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->first();
                 $movementIn = InventoryMovement::create([
                     'type' => '7',
                     'inventory_id' => $id->id,
                     'reference_id' => $data->order_ref,
                     'product_name' => $workItem->item_name,
-                    'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                    'warehouse_name' => 'Gudang Manufaktur',
                     'incoming' => $workItem->qty,
                     'outgoing' => '0',
                     'remaining' => ($last->remaining) + ($workItem->qty),
@@ -219,8 +222,8 @@ class ManufactureManagementController extends Controller
                 'type' => '7',
                 'inventory_id' => $baseInventory->id,
                 'reference_id' => $data->order_ref,
-                'product_id' => $workItem->material_id,
-                'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                'product_name' => $workItem->item_name,
+                'warehouse_name' => 'Gudang Manufaktur',
                 'incoming' => '0',
                 'outgoing' => $totalQty,
                 'remaining' => ($baseMovement->remaining) - ($workItem->qty),

@@ -94,7 +94,7 @@ FiberTekno | Lihat Produk
 								                			@foreach($boms as $key => $item)
 								                			<tr>
 								                				<td>{{ $key+1 }}</td>
-								                				<td>{{ $item->Materials->name }}</td>
+								                				<td>{{ $item->material_name }}</td>
 								                				<td>{{ $item->quantity }}</td>
 								                				<td>{{ $item->Uoms->name }}</td>
 								                			</tr>

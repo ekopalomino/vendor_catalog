@@ -27,6 +27,14 @@
 						<td>{{ $user->Divisions->name}}</td>
 					</tr>
 					<tr>
+						<th>Gudang</th>
+						<td>
+							@foreach($locations as $key=>$val)
+								<li>{{ $val->warehouse_name }}</li>
+							@endforeach
+						</td>
+					</tr>
+					<tr>
 						<th>Tgl Dibuat</th>
 						<td>
 							{{ date("d F Y",strtotime($user->created_at)) }} jam {{date("g:ha",strtotime($user->created_at)) }}

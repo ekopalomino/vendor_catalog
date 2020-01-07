@@ -113,7 +113,7 @@ class InventoryManagementController extends Controller
     public function receiptIndex()
     {
         $data = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
-        $locations = Warehouse::pluck('name','id')->toArray();
+        $locations = Warehouse::pluck('name','name')->toArray();
         $details = Purchase::orderBy('created_at','ASC')->get();
 
         return view('apps.pages.purchaseReceipt',compact('data','locations','details'));
@@ -187,16 +187,21 @@ class InventoryManagementController extends Controller
 
     public function addTransfer()
     {
-        $userLocation = auth()->user()->warehouse_id;
-        $locations = Warehouse::where('id','!=',$userLocation)->pluck('name','name')->toArray();
+        $userLocation = auth()->user()->Warehouses;
+        foreach($userLocation as $filter)
+        {
+            $locations = Warehouse::where('name','!=',$filter->warehouse_name)->pluck('name','name')->toArray();
+        }
+        $adminLocations = Warehouse::pluck('name','name')->toArray();
         $products = Product::pluck('name','name')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         
-        return view('apps.input.internalTransfer',compact('locations','products','uoms','userLocation'));
+        return view('apps.input.internalTransfer',compact('locations','products','uoms','userLocation','adminLocations'));
     }
 
     public function internStore(Request $request)
     {
+        //Get All Data From Submitted Form//
         $items = $request->product_name;
         $quantity = $request->quantity;
         $uom = $request->uom_id;
@@ -204,35 +209,39 @@ class InventoryManagementController extends Controller
         $ref = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $data = [
             'order_ref' => $ref,
-            'from_id' => $request->input('from_wh'),
-            'to_id' => $request->input('to_whD'),
+            'from_wh' => $request->input('from_wh'),
+            'to_wh' => $request->input('to_wh'),
             'created_by' => auth()->user()->name,
         ];
         $internal = InternalTransfer::create($data);
         
         foreach($items as $index=>$item) {
+            //Check UOM Value//
             $bases = UomValue::where('id',$uom[$index])->first();
             if($bases->is_parent == null) {
                 $convertion = ($quantity[$index]) * ($bases->value); 
             } else {
                 $convertion = $quantity[$index];
             }
-            $refProduct = Product::where('id',$item)->first();
-            $base = Inventory::where('product_id',$item)->where('warehouse_id',$internal->to_id)->first();
-            $source = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->first();
-            $from = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->from_id)->orderBy('updated_at','DESC')->first();
-            $to = InventoryMovement::where('product_id',$item)->where('warehouse_id',$internal->to_id)->orderBy('updated_at','DESC')->first();
-           
+            //Get Reference Value From Product//
+            $refProduct = Product::where('name',$item)->first();
+            //Find 
+            $base = Inventory::where('product_name',$item)->where('warehouse_name',$internal->to_wh)->first();
+            $source = Inventory::where('product_name',$item)->where('warehouse_name',$internal->from_wh)->first();
+            $from = InventoryMovement::where('product_name',$item)->where('warehouse_name',$internal->from_wh)->orderBy('updated_at','DESC')->first();
+            $to = InventoryMovement::where('product_name',$item)->where('warehouse_name',$internal->to_wh)->orderBy('updated_at','DESC')->first();
+            
             $items = InternalItems::create([
-                'product_id' => $item,
+                'product_name' => $item,
                 'mutasi_id' => $internal->id,
                 'quantity' => $quantity[$index],
                 'uom_id' => $uom[$index],
             ]);
             if($base == null) {
                 $dataInvent = Inventory::create([
-                    'product_id' => $item,
-                    'warehouse_id' => $internal->to_id,
+                    'product_id' => $source->product_id,
+                    'product_name' => $item,
+                    'warehouse_name' => $internal->to_wh,
                     'min_stock' => $refProduct->min_stock,
                     'opening_amount' => '0',
                     'closing_amount' => $convertion,
@@ -241,8 +250,8 @@ class InventoryManagementController extends Controller
                     'type' => '4',
                     'inventory_id' => $dataInvent->id,
                     'reference_id' => $ref,
-                    'product_id' => $dataInvent->product_id,
-                    'warehouse_id' => $from->warehouse_id,
+                    'product_name' => $dataInvent->product_name,
+                    'warehouse_name' => $from->warehouse_name,
                     'incoming' => '0',
                     'outgoing' => $convertion,
                     'remaining' => ($from->remaining) - ($convertion),
@@ -252,35 +261,46 @@ class InventoryManagementController extends Controller
                     'type' => '4',
                     'inventory_id' => $dataInvent->id,
                     'reference_id' => $ref,
-                    'product_id' => $dataInvent->product_id,
-                    'warehouse_id' => $dataInvent->warehouse_id,
+                    'product_name' => $dataInvent->product_name,
+                    'warehouse_name' => $dataInvent->warehouse_name,
                     'incoming' => $convertion,
                     'outgoing' => '0',
                     'remaining' => $convertion,
                 ]);
-                $updateInvent = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->update([
+                $updateInvent = Inventory::where('product_name',$item)->where('warehouse_name',$internal->from_wh)->update([
                     'closing_amount' => ($source->closing_amount) - ($convertion),
                 ]);
             } else {
                 $dataInvent = $base->update([
                     'closing_amount' => ($base->closing_amount) + ($convertion),
                 ]);
+                $income = InventoryMovement::create([
+                    'type' => '4',
+                    'inventory_id' => $base->id,
+                    'reference_id' => $ref,
+                    'product_name' => $base->product_name,
+                    'warehouse_name' => $base->warehouse_name,
+                    'incoming' => $convertion,
+                    'outgoing' => '0',
+                    'remaining' => ($to->remaining) + ($convertion),
+                ]);
+
                 $outcome = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $base->id,
                     'reference_id' => $ref,
-                    'product_id' => $base->product_id,
-                    'warehouse_id' => $from->warehouse_id,
+                    'product_name' => $base->product_name,
+                    'warehouse_name' => $from->warehouse_name,
                     'incoming' => '0',
                     'outgoing' => $convertion,
                     'remaining' => ($from->remaining) - ($convertion),
                 ]);
 
-                $updateInvent = Inventory::where('product_id',$item)->where('warehouse_id',$internal->from_id)->update([
+                $updateInvent = Inventory::where('product_name',$item)->where('warehouse_name',$internal->from_wh)->update([
                     'closing_amount' => ($source->closing_amount) - ($convertion),
                 ]);
             }
-            if($to == null) {
+            /* if($to == null) {
                 $income = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $base->id,
@@ -302,7 +322,7 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => ($base->remaining) + ($convertion),
                 ]);
-            }
+            }  */
         }
         $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
          \LogActivity::addToLog($log);

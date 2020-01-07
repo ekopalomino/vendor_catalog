@@ -8,6 +8,7 @@ use iteos\Models\User;
 use iteos\Models\Warehouse;
 use iteos\Models\Division;
 use iteos\Models\Status;
+use iteos\Models\UserWarehouse;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Hash;
@@ -29,10 +30,9 @@ class UserManagementController extends Controller
         $users = User::orderBy('name','asc')
                         ->get();
         $ukers = Division::pluck('name','id')->toArray();
-        $warehouses = Warehouse::pluck('name','id')->toArray();
         $roles = Role::pluck('name','name')->all();
         
-        return view('apps.pages.users',compact('users','ukers','warehouses','roles'));
+        return view('apps.pages.users',compact('users','ukers','roles'));
     }
 
     public function userProfile()
@@ -49,13 +49,20 @@ class UserManagementController extends Controller
             'password' => 'required|same:confirm-password',
             'roles' => 'required',
             'division_id' => 'required',
-            'warehouse_id' => 'required',
         ]);
 
         $input = $request->all();
+        $locations = $request->warehouse_name;
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
+        foreach($locations as $index=>$location)
+        {
+            $warehouses = UserWarehouse::create([
+                'user_id' => $user->id,
+                'warehouse_name' => $location,
+            ]);
+        }
         $log = 'User '.($user->name).' Berhasil disimpan';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -69,8 +76,8 @@ class UserManagementController extends Controller
     public function userShow($id)
     {
         $user = User::find($id);
-        
-        return view('apps.show.users',compact('user'))->renderSections()['content'];
+        $locations = User::find($id)->warehouses;
+        return view('apps.show.users',compact('user','locations'))->renderSections()['content'];
     }
 
     public function userEdit($id)

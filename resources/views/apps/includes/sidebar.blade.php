@@ -21,11 +21,13 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
+                    @can('Disable')
                     <li class="nav-item {{ set_active(['warehouse.index']) }}">
                         <a href="{{ route('warehouse.index') }}" class="nav-link">
                             <span class="title">Data Gudang</span>
                         </a>
                     </li>
+                    @endcan
                     <li class="nav-item {{ set_active(['delivery-service.index']) }}">
                         <a href="{{ route('delivery-service.index') }}" class="nav-link">
                             <span class="title">Jasa Pengiriman</span>
@@ -166,10 +168,10 @@
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show']) }}">
+            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show','transfer.index','add.transfer']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
-                    <span class="title">Permintaan</span>
+                    <span class="title">Permintaan Barang</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -180,16 +182,16 @@
                         </a>
                     </li>
                     <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
-                                <a href="{{ route('transfer.index') }}" class="nav-link ">
-                                    <span class="title">Permintaan Internal</span>
-                                    <span class="badge badge-danger">{{$transfers}}</span>
-                                </a>
-                            </li>
+                        <a href="{{ route('transfer.index') }}" class="nav-link ">
+                            <span class="title">Permintaan Internal</span>
+                            <span class="badge badge-danger">{{$transfers}}</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Inventories')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','transfer.index','receipt.index','delivery.index','inventory.card','add.transfer','purchase.show']) }}">
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','delivery.index','inventory.card','purchase.show']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Persediaan</span>
@@ -206,7 +208,7 @@
                             <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['transfer.index','receipt.index','delivery.index','add.transfer','purchase.show']) }}">
+                    <li class="nav-item {{ set_active(['receipt.index','delivery.index','purchase.show']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Pergerakan Stok</span>
                             <span class="arrow"></span>
@@ -222,12 +224,6 @@
                                 <a href="{{ route('delivery.index') }}" class="nav-link ">
                                     <span class="title">Pengiriman Barang</span>
                                     <span class="badge badge-danger">{{$deliveries}}</span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
-                                <a href="{{ route('transfer.index') }}" class="nav-link ">
-                                    <span class="title">Mutasi Internal</span>
-                                    <span class="badge badge-danger">{{$transfers}}</span>
                                 </a>
                             </li>
                         </ul>

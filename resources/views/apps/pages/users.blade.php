@@ -101,7 +101,28 @@ FiberTekno | User Management
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Gudang</label>
-                                                    {!! Form::select('warehouse_id', [null=>'Please Select'] + $warehouses,[], array('class' => 'form-control')) !!}
+                                                    <div class="mt-checkbox-list">
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Utama"> Gudang Utama
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Pengiriman"> Gudang Pengiriman
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Manufaktur"> Gudang Manufaktur
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Scrap"> Gudang Scrap
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="mt-checkbox mt-checkbox-outline">
+                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Retur"> Gudang Retur
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>                                                              
                                         </div>   

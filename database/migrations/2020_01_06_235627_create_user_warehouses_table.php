@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModelsUserWarehousesTable extends Migration
+class CreateUserWarehousesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateModelsUserWarehousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('models_user_warehouses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('user_warehouses', function (Blueprint $table) {
+            $table->increments('id');
+            $table->uuid('user_id');
+            $table->string('warehouse_name');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateModelsUserWarehousesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('models_user_warehouses');
+        Schema::dropIfExists('user_warehouses');
     }
 }

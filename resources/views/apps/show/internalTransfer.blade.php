@@ -18,11 +18,11 @@
                 	@foreach($details as $key => $val)
                 	<tr>
                         <td>{{ $key+1 }}</td>
-	                	<td>{{ $val->Products->name }}</td>
+	                	<td>{{ $val->product_name }}</td>
 	                	<td>{{ $val->quantity}}</td>
                         <td>{{ $val->Uoms->name}}</td>
-                        <td>{{ $val->Parent->From->name }}</td>
-                        <td>{{ $val->Parent->To->name }}</td>
+                        <td>{{ $val->Parent->from_wh }}</td>
+                        <td>{{ $val->Parent->to_wh }}</td>
 	                </tr>
                 	@endforeach
                 </tbody>

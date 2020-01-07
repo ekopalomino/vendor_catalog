@@ -44,19 +44,19 @@ FiberTekno | Mutasi Barang
                             <tr>      
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->From->name }}</td>
-                                <td>{{ $val->To->name }}</td>
+                                <td>{{ $val->from_wh }}</td>
+                                <td>{{ $val->to_wh }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     @if($val->updated_at != $val->created_at)
                                     {{date("d F Y H:i",strtotime($val->updated_at)) }}
                                     @endif
                                 </td>
-                                <td>
+                                <td> 
                                     @if( ($val->status_id) == 'ffa20f52-a023-4333-b945-a46d04de961c')
-                                    <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
+                                    <label class="label label-sm label-danger">{{ $val->Statuses->name }}</label>
                                     @elseif(($val->status_id) == '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
-                                    <label class="badge badge-success">{{ $val->Statuses->name }}</label>
+                                    <label class="label label-sm label-success">{{ $val->Statuses->name }}</label>
                                     @endif
                                 </td>
                                 <td>{{ $val->created_by }}</td>

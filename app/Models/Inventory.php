@@ -13,7 +13,6 @@ class Inventory extends Model
         'min_stock',
         'opening_amount',
         'closing_amount',
-        'status_id',
     ];
 
     public function Products()
