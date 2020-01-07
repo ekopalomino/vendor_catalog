@@ -29,7 +29,7 @@ FiberTekno | Persediaan
                                 <th>Stok Akhir</th>
                                 <th>Satuan</th>
                                 <th>Status Stok</th>
-                				<th>Tgl Dibuat</th>
+                				<th>Tgl Update</th>
                                 <th></th>
                 			</tr>
                 		</thead>
@@ -37,7 +37,7 @@ FiberTekno | Persediaan
                             @foreach($data as $key => $product)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                				<td>{{ $product->Products->name }}</td>
+                				<td>{{ $product->product_name }}</td>
                                 <td>
                                     @if(!empty($product->warehouse_name))
                                     {{ $product->warehouse_name }}
@@ -55,7 +55,7 @@ FiberTekno | Persediaan
                                         <label class="label label-sm label-success">Stock Normal</label>
                                     @endif
                                 </td>
-                				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
+                				<td>{{date("d F Y H:i",strtotime($product->updated_at)) }}</td>
                                 <td>
                                     <a class="btn btn-xs btn-success" title="Print Stock Card" href="{{ route('stock.pdf',$product->id) }}"><i class="fa fa-print"></i></a>
                                     <a class="btn btn-xs btn-info modalLg" href="#" value="{{ action('Apps\InventoryManagementController@stockCard',['id'=>$product->id]) }}" title="Stock Card Produk {{$product->Products->name }}" data-toggle="modal" data-target="#modalLg"><i class="fa fa-search"></i></a>

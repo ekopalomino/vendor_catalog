@@ -23,7 +23,7 @@
                 		<th>Brg Masuk</th>
                 		<th>Brg Keluar</th>
                 		<th>Sisa Brg</th>
-                        <th>Keterangan</th>
+                        <th>Keterangan</th> 
                 	</tr>
                 </thead>
                 <tbody>

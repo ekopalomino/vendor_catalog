@@ -322,7 +322,7 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => ($base->remaining) + ($convertion),
                 ]);
-            }  */
+            } */
         }
         $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
          \LogActivity::addToLog($log);
