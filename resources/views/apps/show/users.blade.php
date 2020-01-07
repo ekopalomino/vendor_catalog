@@ -26,7 +26,7 @@
 						<th>Divisi</th>
 						<td>{{ $user->Divisions->name}}</td>
 					</tr>
-					<tr>
+					<tr> 
 						<th>Gudang</th>
 						<td>
 							@foreach($locations as $key=>$val)

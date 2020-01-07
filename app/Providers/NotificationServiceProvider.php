@@ -35,7 +35,7 @@ class NotificationServiceProvider extends ServiceProvider
             if(Auth::check()) {
                 $views->with('sales',Sale::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count())
                       ->with('purchases',Purchase::where('status','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count())
-                      ->with('transfers',InternalTransfer::where('status_id','ffa20f52-a023-4333-b945-a46d04de961c')->count())
+                      ->with('transfers',InternalTransfer::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count())
                       ->with('deliveries',Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->count())
                       ->with('invoices',Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->count())
                       ->with('receipts',Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->count())

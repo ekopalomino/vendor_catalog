@@ -38,7 +38,8 @@ class UserManagementController extends Controller
     public function userProfile()
     {
         $user = Auth::user();
-        return view('apps.pages.profile',compact('user'));
+        $locations = Auth::user()->warehouses;
+        return view('apps.pages.profile',compact('user','locations'));
     }
 
     public function userStore(Request $request)

@@ -36,7 +36,10 @@
                     @endif
                     </p>
                     <p>Divisi : {{$user->Divisions->name}}</p>
-                    <p>Gudang : {{$user->Warehouses->name}}</p>
+                    <p>Gudang : @foreach($locations as $key=>$val)
+                    <li>{{ $val->warehouse_name }}</li>
+							@endforeach
+                    </p>
                     <p>Created date :  {{ date("d F Y",strtotime($user->created_at)) }} jam {{date("g:ha",strtotime($user->created_at)) }}</p>
                     <p>Login Terakhir : {{ date("d F Y",strtotime($user->last_login_at)) }} jam {{date("g:ha",strtotime($user->last_login_at)) }}</p> 
                 </div>
