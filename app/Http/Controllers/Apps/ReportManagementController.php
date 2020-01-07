@@ -50,14 +50,15 @@ class ReportManagementController extends Controller
             'to_date' => 'required',
         ]);
 
-        $data = Inventory::join('inventory_movements','inventory_movements.inventory_id','inventories.id')
+        $data = Inventory::with('Products')
+                    ->join('inventory_movements','inventory_movements.inventory_id','inventories.id')
                     ->where('inventories.updated_at','>=',$request->input('from_date'))
                     ->where('inventories.updated_at','<=',$request->input('to_date'))
-                    ->groupBy('inventories.product_name','inventories.warehouse_name')
-                    ->selectRaw('sum(inventory_movements.incoming) as open,sum(inventory_movements.outgoing) as close,sum(inventory_movements.incoming) as incoming,sum(inventory_movements.outgoing) as outgoing,
-                    sum(inventory_movements.remaining) as remaning,inventories.product_name,inventories.warehouse_name')
+                    ->groupBy('inventories.product_name')
+                    ->selectRaw('sum(distinct(inventories.opening_amount)) as Awal,sum(distinct(inventories.closing_amount)) as Akhir,sum(distinct(inventory_movements.incoming)) as incoming,sum(inventory_movements.outgoing) as outgoing,
+                    inventories.product_name')
                     ->get();
-        dd($data); 
+         
         return view('apps.show.inventoryTable',compact('data'));
     }
 

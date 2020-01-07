@@ -17,7 +17,7 @@ class Inventory extends Model
 
     public function Products()
     {
-        return $this->belongsTo(Product::class,'product_id');
+        return $this->belongsTo(Product::class);
     }
 
     public function Locations()

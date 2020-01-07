@@ -24,16 +24,10 @@ FiberTekno | Laporan Stok Barang
                 			<tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
-                                <th>Gudang</th>
-                                <th>Kategori</th>
-                                <th>Satuan</th>
-                                <th>Harga Beli</th>
-                                <th>Harga Jual</th>
                                 <th>Stok Awal</th>
                                 <th>Stok Masuk</th>
                                 <th>Stok Keluar</th>
                                 <th>Stok Akhir</th>
-                				<th>Pemakaian</th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -41,17 +35,11 @@ FiberTekno | Laporan Stok Barang
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $val->product_name }}</td>
-                                <td>{{ $val->warehouse_name }}</td>
-                                <td>{{ $val->Products->Categories->name }}</td>
-                                <td>{{ $val->Products->Uoms->name}}</td>
-                                <td>{{ number_format($val->Products->base_price,2,',','.')}}</td>
-                                <td>{{ number_format($val->Products->sale_price,2,',','.')}}</td>
-                                <td>{{ number_format($val->open,2,',','.')}}</td>
+                                <td>{{ number_format($val->Awal,2,',','.')}}</td>
                                 <td>{{ number_format($val->incoming,2,',','.')}}</td>
-                                <td>{{ number_format($val->close,2,',','.')}}</td>
-                                <td>{{ number_format($val->remaining,2,',','.')}}</td>
-                                <td>{{ number_format(($val->remaining),2,',','.')}}</td>
-                			</tr>
+                                <td>{{ number_format($val->outgoing,2,',','.')}}</td>
+                                <td>{{ number_format($val->Akhir,2,',','.')}}</td>
+                            </tr>
                             @endforeach
                 		</tbody>
                 	</table>
