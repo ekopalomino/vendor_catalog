@@ -7,6 +7,7 @@ use iteos\Http\Controllers\Controller;
 use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Models\Invoice;
+use iteos\Models\Delivery;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -81,16 +82,20 @@ class InvoiceManagementController extends Controller
                         ->first();   
         $items = SaleItem::where('sales_id',$sales->order_ref)
                         ->get();
+        
         return view('apps.print.invoice',compact('source','sales','items'));
     }
 
     public function invoicePrint($id)
     {
         $source = Invoice::find($id);
-        $sales = Sale::where('id',$source->sales_order)
+        $sales = Sale::join('deliveries','deliveries.sales_ref','sales.order_ref')
+                        ->where('sales.id',$source->sales_order)
                         ->first();   
-        $items = SaleItem::where('sales_id',$sales->id)
+        
+        $items = SaleItem::where('sales_id',$source->sales_order)
                         ->get();
+        
         $filename = $source->order_ref;
         $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items'))
                     ->setPaper('a4','portrait');

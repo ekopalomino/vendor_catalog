@@ -95,28 +95,29 @@
 		<tbody>
 			<tr>
 				<td style="width: 10px;background:#4B77BE;color:#ffffff;">NO</td>
-				<td style="width: 280px;background:#4B77BE;color:#ffffff;">KETERANGAN NAMA BARANG/JASA</td>
+				<td style="width: 250px;background:#4B77BE;color:#ffffff;">NAMA BARANG/JASA</td>
 				<td style="width: 30px;background:#4B77BE;color:#ffffff;">JML</td>
-				<td style="width: 102px;background:#4B77BE;color:#ffffff;">SATUAN</td>
-				<td style="width: 110px;background:#4B77BE;color:#ffffff;">HARGA PER UNIT</td>
-				<td style="width: 110px;background:#4B77BE;color:#ffffff;">DISC</td>
+				<td style="width: 50px;background:#4B77BE;color:#ffffff;">SATUAN</td>
+				<td style="width: 110px;background:#4B77BE;color:#ffffff;">HARGA UNIT</td>
+				<td style="width: 80px;background:#4B77BE;color:#ffffff;">DISC</td>
 				<td style="width: 102px;background:#4B77BE;color:#ffffff;">JUMLAH(RUPIAH)</td>
 			</tr>
 			@foreach($items as $key=>$val)
 			<tr>
 				<td style="width: 10px;">{{ $key+1 }}</td>
-				<td style="width: 280px;">{{ $val->Products->name }}</td>
+				<td style="width: 250px;">{{ $val->Products->name }}</td>
 				<td style="width: 30px;">{{ number_format($val->quantity,0,',','.')}}</td>
-				<td style="width: 102px;">{{ $val->Uoms->name }}</td>
+				<td style="width: 50px;">{{ $val->Uoms->name }}</td>
 				<td style="width: 110px;">Rp {{ number_format($val->sale_price,0,',','.')}}</td>
-				<td style="width: 110px;">Rp {{ number_format($val->discount,0,',','.')}}</td>
+				<td style="width: 80px;">Rp {{ number_format($val->discount,0,',','.')}}</td>
 				<td style="width: 102px;">Rp {{ number_format($val->sub_total,0,',','.')}}</td>
 			</tr>
 			@endforeach
 			<tr>
-				<td style="width: 101px;" colspan="4">Thank You For Your Business!</td>
+				<td style="width: 150px;" colspan="5">Thank You For Your Business!</td>
 				<td style="width: 102px;" colspan="2">PPN(10%) Rp {{ number_format($sales->tax,0,',','.')}}
 					<br>
+					<strong>DELIVERY COST Rp {{ number_format($sales->delivery_cost,0,',','.')}}</strong>
 					<strong>TOTAL Rp {{ number_format($sales->total,0,',','.')}}</strong>
 				</td>
 			</tr>
