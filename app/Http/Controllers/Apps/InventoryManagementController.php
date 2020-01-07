@@ -123,7 +123,7 @@ class InventoryManagementController extends Controller
         $input = [
             'order_ref' => $request->input('order_ref'),
         ];
-
+ 
         $data = Purchase::where('id',$request->input('order_ref'))->first();
         $items = PurchaseItem::where('purchase_id',$request->input('order_ref'))->get();
         
@@ -137,19 +137,19 @@ class InventoryManagementController extends Controller
             } else {
                 $convertion = $item->quantity;
             }
-            $sources = Inventory::where('product_id',$item->product_id)->orderBy('updated_at','DESC')->get();
-            $moves = InventoryMovement::where('product_id',$item->product_id)->orderBy('updated_at','DESC')->first();
+            $sources = Inventory::where('product_name',$item->product_name)->orderBy('updated_at','DESC')->get();
+            $moves = InventoryMovement::where('product_name',$item->product_name)->orderBy('updated_at','DESC')->first();
             $inventories = Inventory::updateOrCreate([
-                'product_id' => $item->product_id,
-                'warehouse_id' => $request->input('warehouse_id')],[
+                'product_name' => $item->product_name,
+                'warehouse_name' => $request->input('warehouse_name')],[
                 'opening_amount' => $sources[0]->closing_amount,
                 'closing_amount' => ($sources[0]->closing_amount) + $convertion,
             ]);
             
             if($moves === null) {
                 $movements = InventoryMovement::create([
-                    'product_id' => $inventories->product_id,
-                    'warehouse_id' => $inventories->warehouse_id,
+                    'product_name' => $inventories->product_name,
+                    'warehouse_name' => $inventories->warehouse_name,
                     'type' => '3',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
@@ -158,8 +158,8 @@ class InventoryManagementController extends Controller
                 ]);
             } else {
                 $movements = InventoryMovement::create([
-                    'product_id' => $inventories->product_id,
-                    'warehouse_id' => $inventories->warehouse_id,
+                    'product_name' => $inventories->product_name,
+                    'warehouse_name' => $inventories->warehouse_name,
                     'type' => '3',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,

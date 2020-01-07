@@ -41,7 +41,7 @@ class PurchaseManagementController extends Controller
         $search = $request->get('product');
         $result = Product::where('name','LIKE','%'.$search. '%')
                             ->orWhere('product_barcode','LIKE','%'.$search.'%')
-                            ->select('id','name')
+                            ->select('name')
                             ->get();
         
         return response()->json($result);
@@ -86,7 +86,7 @@ class PurchaseManagementController extends Controller
             $names = Product::where('name',$item)->orWhere('product_barcode',$item)->first();
             $items = PurchaseItem::create([
                 'purchase_id' => $purchase_id,
-                'product_id' => $names->id,
+                'product_name' => $names->name,
                 'quantity' => $quantity[$index],
                 'uom_id' => $uoms[$index],
                 'purchase_price' => $purchase_price[$index],

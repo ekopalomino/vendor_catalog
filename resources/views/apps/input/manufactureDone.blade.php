@@ -18,8 +18,8 @@
             <table class="table table-striped table-bordered table-hover" id="sample_2">
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th>Material</th>
+                        <th>Permintaan</th>
                         <th>Pemakaian</th>
                         <th>Jumlah Scrap</th>
                     </tr>
@@ -27,8 +27,8 @@
                 <tbody>
                     @foreach($data as $key=>$val)
                     <tr>
-                        <td>{{ $key+1 }}</td>
-                        <td>{{ $val->Products->name }}{{ Form::hidden('material_id[]', $val->product_id) }}</td>
+                        <td>{{ $val->item_name }}{{ Form::hidden('material_name[]', $val->item_name) }}</td>
+                        <td>{{ $val->qty }}</td>
                         <td>{!! Form::text('usage[]', null, array('placeholder' => 'Pemakaian','class' => 'form-control')) !!}</td>
                         <td>{!! Form::text('scrap[]', null, array('placeholder' => 'Scrap','class' => 'form-control')) !!}</td>
                     </tr>
@@ -38,16 +38,16 @@
             <table class="table table-striped table-bordered table-hover" id="sample_2">
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th>Produk</th>
+                        <th>Rencana</th>
                         <th>Hasil</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($products as $key=>$val)
                     <tr>
-                        <td>{{ $key+1 }}</td>
-                        <td>{{ $val->Items->name }}{{ Form::hidden('product_id', $val->item_id) }}</td>
+                        <td>{{ $val->product_name }}{{ Form::hidden('product_name', $val->product_name) }}</td>
+                        <td>{{ $val->man_plan }}</td>
                         <td>{!! Form::text('result', null, array('placeholder' => 'Hasil Akhir','class' => 'form-control')) !!}</td>
                         {{ Form::hidden('id', $val->id) }}
                     </tr>

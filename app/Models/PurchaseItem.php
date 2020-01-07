@@ -8,18 +8,13 @@ class PurchaseItem extends Model
 {
     protected $fillable = [
         'purchase_id',
-        'product_id',
+        'product_name',
         'quantity',
         'uom_id',
         'discount',
         'purchase_price',
         'sub_total',
     ];
-
-    public function Products()
-    {
-        return $this->belongsTo(Product::class,'product_id');
-    }
 
     public function Uoms()
     {

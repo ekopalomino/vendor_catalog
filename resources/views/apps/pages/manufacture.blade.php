@@ -73,7 +73,7 @@ FiberTekno | Manufactures
                                     <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Selesai Proses Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
                                     @endif
                                     <a class="btn btn-xs btn-info" title="Lihat MO" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
-                                </td>
+                                </td> 
                             </tr>
                             @endforeach
                 		</tbody>

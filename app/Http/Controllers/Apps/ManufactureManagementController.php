@@ -145,14 +145,14 @@ class ManufactureManagementController extends Controller
                         ->where('manufacture_items.manufacture_id',$id)
                         ->get();
         
-        $transfers = InternalTransfer::create([
+        /* $transfers = InternalTransfer::create([
             'order_ref' => $data->order_ref,
             'from_wh' => 'Gudang Utama',
             'to_wh' => 'Gudang Manufaktur',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
             'created_by' => auth()->user()->name,
             'updated_by' => auth()->user()->name,
-        ]);
+        ]); */
 
         $updateStatus = $data->update([
             'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
@@ -160,7 +160,7 @@ class ManufactureManagementController extends Controller
             'start_production' => Carbon::now(),
         ]);
         
-        foreach($workItems as $workItem)
+        /* foreach($workItems as $workItem)
         {
             $baseInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
             $baseMovement = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
@@ -230,7 +230,7 @@ class ManufactureManagementController extends Controller
             ]);    
             
             
-        }
+        } */
         $log = 'Manufacture Order '.($data->order_ref).' Berhasil Dijalankan';
          \LogActivity::addToLog($log);
         $notification = array (
@@ -250,49 +250,48 @@ class ManufactureManagementController extends Controller
 
     public function manufactureDone($id)
     {
-        $products = ManufactureItem::where('manufacture_id',$id)->get();
+        $products = Manufacture::where('id',$id)->get();
         $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')
-                            ->join('inventory_movements','inventory_movements.reference_id','manufactures.order_ref')
-                            ->where('inventory_movements.warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')
                             ->where('manufactures.id',$id)
-                            ->groupBy('inventory_movements.product_id')
-                            ->select('inventory_movements.product_id')
+                            ->groupBy('manufacture_items.item_name','manufacture_items.qty')
+                            ->select('manufacture_items.item_name','manufacture_items.qty')
                             ->get();
-       
         return view('apps.input.manufactureDone',compact('data','products'))->renderSections()['content'];
     }
 
     public function process(Request $request)
     {
-        $orders = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.id',$request->input('id'))->first();
-        $itemInventory = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
-        $items = $request->material_id;
+        $orders = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.manufacture_id',$request->input('id'))->first();
+        $itemInventory = Inventory::where('product_name',$request->input('product_name'))->where('warehouse_name','Gudang Manufaktur')->first();
+        $items = $request->material_name;
         $usage = $request->usage;
         $scrap = $request->scrap;
         $updateQty = ManufactureItem::where('id',$request->input('id'))->update(['result'=>$request->input('result')]);
         if($itemInventory == null) {
+            $refProduct = Product::where('name',$request->input('product_name'))->first();
             $finishItems = Inventory::create([
-                'product_id' => $request->input('product_id'),
-                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'product_id' => $refProduct->id,
+                'product_name' => $request->input('product_name'),
+                'warehouse_name' => 'Gudang Manufaktur',
                 'min_stock' => '0',
                 'opening_amount' => $request->input('result'),
                 'closing_amount' => $request->input('result'),
             ]);
         } else {
-            $finishItems = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->update([
+            $finishItems = Inventory::where('product_name',$request->input('product_name'))->where('warehouse_name','Gudang Manufaktur')->update([
                 'opening_amount' => $itemInventory->opening_amount,
                 'closing_amount' => ($itemInventory->closing_amount) + ($request->input('result')),
             ]);
         }
-        $idFinish = Inventory::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
-        $lastMoves = InventoryMovement::where('product_id',$request->input('product_id'))->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+        $idFinish = Inventory::where('product_name',$request->input('product_name'))->where('warehouse_name','Gudang Manufaktur')->first();
+        $lastMoves = InventoryMovement::where('product_name',$request->input('product_name'))->where('warehouse_name','Gudang Manufaktur')->orderBy('updated_at','DESC')->first();
         if($lastMoves == null) {
             $finishIn = InventoryMovement::create([
                 'type' => '7',
                 'inventory_id' => $idFinish->id,
                 'reference_id' => $orders->order_ref,
-                'product_id' => $idFinish->product_id,
-                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'product_name' => $idFinish->product_name,
+                'warehouse_name' => 'Gudang Manufaktur',
                 'incoming' => $request->input('result'),
                 'outgoing' => '0',
                 'remaining' => $request->input('result'),
@@ -302,8 +301,8 @@ class ManufactureManagementController extends Controller
                 'type' => '7',
                 'inventory_id' => $idFinish->id,
                 'reference_id' => $orders->order_ref,
-                'product_id' => $idFinish->product_id,
-                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'product_name' => $idFinish->product_name,
+                'warehouse_name' => 'Gudang Manufaktur',
                 'incoming' => $request->input('result'),
                 'outgoing' => '0',
                 'remaining' => ($lastMoves->remaining) + ($request->input('result')),
@@ -311,29 +310,31 @@ class ManufactureManagementController extends Controller
         }
                
         foreach($items as $index=>$item) {
-            $scrapInventory = Inventory::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->first();
+            $refProduct = Product::where('name',$item)->first();
+            $scrapInventory = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->first();
             if($scrapInventory == null) {
                 $scrapItems = Inventory::create([
-                    'product_id' => $item,
-                    'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                    'product_id' => $refProduct->id,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Scrap',
                     'min_stock' => '0',
                     'opening_amount' => $scrap[$index],
                     'closing_amount' => $scrap[$index],
                 ]);
             } else {
-                $scrapItems = Inventory::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->update([
+                $scrapItems = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->update([
                     'closing_amount' => ($scrapInventory->closing_amount) + $scrap[$index],
                 ]);
             }
-            $idScrap = Inventory::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->first();
-            $lastMove = InventoryMovement::where('product_id',$item)->where('warehouse_id','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')->orderBy('updated_at','DESC')->first();
+            $idScrap = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->first();
+            $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->orderBy('updated_at','DESC')->first();
             if($lastMove == null) {
                 $scrapIn = InventoryMovement::create([
                     'type' => '7',
                     'inventory_id' => $idScrap->id,
                     'reference_id' => $orders->order_ref,
-                    'product_id' => $item,
-                    'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Scrap',
                     'incoming' => $scrap[$index],
                     'outgoing' => '0',
                     'remaining' => $scrap[$index],
@@ -343,21 +344,21 @@ class ManufactureManagementController extends Controller
                     'type' => '7',
                     'inventory_id' => $idScrap->id,
                     'reference_id' => $orders->order_ref,
-                    'product_id' => $item,
-                    'warehouse_id' => 'c40f889e-6fa3-43f2-bc2a-5fdded5aafed',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Scrap',
                     'incoming' => $scrap[$index],
                     'outgoing' => '0',
                     'remaining' => ($lastMove->remaining) + ($scrap[$index]),
                 ]);
             }
-            $idUsage = Inventory::where('product_id',$item)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
-            $usageMove = InventoryMovement::where('product_id',$item)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->orderBy('updated_at','DESC')->first();
+            $idUsage = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Manufaktur')->first();
+            $usageMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Manufaktur')->orderBy('updated_at','DESC')->first();
             $usageOut = InventoryMovement::create([
                 'type' => '7',
                 'inventory_id' => $idUsage->id,
                 'reference_id' => $orders->order_ref,
-                'product_id' => $item,
-                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'product_name' => $item,
+                'warehouse_name' => 'Gudang Manufaktur',
                 'incoming' => '0',
                 'outgoing' => $usage[$index],
                 'remaining' => ($usageMove->remaining) - ($usage[$index]),
@@ -366,22 +367,23 @@ class ManufactureManagementController extends Controller
                 'type' => '7',
                 'inventory_id' => $idUsage->id,
                 'reference_id' => $orders->order_ref,
-                'product_id' => $item,
-                'warehouse_id' => 'ce8b061c-b1bb-4627-b80f-6a42a364109b',
+                'product_name' => $item,
+                'warehouse_name' => 'Gudang Manufaktur',
                 'incoming' => '0',
                 'outgoing' => $scrap[$index],
                 'remaining' => ($usageOut->remaining) - ($scrap[$index]),
             ]);
-            $updateInventory = Inventory::where('product_id',$item)->where('warehouse_id','ce8b061c-b1bb-4627-b80f-6a42a364109b')->first();
+            $updateInventory = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Manufaktur')->first();
             $final = $updateInventory->update([
                 'closing_amount' => ($updateInventory->closing_amount) - (($usage[$index])+($scrap[$index])),
             ]);
            
         }
         
-        $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.id',$request->input('id'))->first();
+        $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.manufacture_id',$request->input('id'))->first();
         $updates = Manufacture::where('id',$data->manufacture_id)->update([
             'manufactures.status_id' => '0fb7f4e6-e293-429d-8761-f978dc850a97',
+            'manufactures.man_result' => $request->input('result'),
             'manufactures.end_by' => auth()->user()->name,
             'manufactures.end_production' => Carbon::now(),
         ]);
