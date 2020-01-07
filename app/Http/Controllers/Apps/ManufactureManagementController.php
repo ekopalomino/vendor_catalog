@@ -244,7 +244,7 @@ class ManufactureManagementController extends Controller
     {
         $data = Manufacture::find($id);
         $details = ManufactureItem::where('manufacture_id',$id)->get();
-
+        
         return view('apps.show.manufactureOrder',compact('data','details'));
     }
 

@@ -89,7 +89,7 @@ class InvoiceManagementController extends Controller
     public function invoicePrint($id)
     {
         $source = Invoice::find($id);
-        $sales = Sale::join('deliveries','deliveries.sales_ref','sales.order_ref')
+        $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
                         ->where('sales.id',$source->sales_order)
                         ->first();   
         

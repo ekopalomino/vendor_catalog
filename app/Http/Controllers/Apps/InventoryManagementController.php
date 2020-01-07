@@ -137,31 +137,41 @@ class InventoryManagementController extends Controller
             } else {
                 $convertion = $item->quantity;
             }
-            $sources = Inventory::where('product_name',$item->product_name)->orderBy('updated_at','DESC')->get();
-            $moves = InventoryMovement::where('product_name',$item->product_name)->orderBy('updated_at','DESC')->first();
-            $inventories = Inventory::updateOrCreate([
-                'product_name' => $item->product_name,
-                'warehouse_name' => $request->input('warehouse_name')],[
-                'opening_amount' => $sources[0]->closing_amount,
-                'closing_amount' => ($sources[0]->closing_amount) + $convertion,
-            ]);
+            $sources = Inventory::where('product_name',$item->product_name)->where('warehouse_name',$request->input('warehouse_name'))->orderBy('updated_at','DESC')->first();
+            $moves = InventoryMovement::where('product_name',$item->product_name)->where('warehouse_name',$request->input('warehouse_name'))->orderBy('updated_at','DESC')->first();
+            if($sources === null) {
+                $getProduct = Product::where('name',$item->product_name)->first();
+                $inventories = Inventory::create([
+                    'product_id' => $getProduct->id,
+                    'product_name' => $item->product_name,
+                    'min_stock' => '0',
+                    'warehouse_name' => $request->input('warehouse_name'),
+                    'opening_amount' => $convertion,
+                    'closing_amount' => $convertion,
+                ]);
+            } else {
+                $inventories = $sources->update([
+                    'closing_amount' => ($sources->closing_amount) + $convertion,
+                ]);
+            }
+            $getId = Inventory::orderBy('updated_at','DESC')->first();
             
             if($moves === null) {
                 $movements = InventoryMovement::create([
-                    'product_name' => $inventories->product_name,
-                    'warehouse_name' => $inventories->warehouse_name,
+                    'product_name' => $getId->product_name,
+                    'warehouse_name' => $getId->warehouse_name,
                     'type' => '3',
-                    'inventory_id' => $inventories->id,
+                    'inventory_id' => $getId->id,
                     'reference_id' => $data->order_ref,
                     'incoming' => $convertion,
                     'remaining' => $convertion,
                 ]);
             } else {
                 $movements = InventoryMovement::create([
-                    'product_name' => $inventories->product_name,
-                    'warehouse_name' => $inventories->warehouse_name,
+                    'product_name' => $getId->product_name,
+                    'warehouse_name' => $getId->warehouse_name,
                     'type' => '3',
-                    'inventory_id' => $inventories->id,
+                    'inventory_id' => $getId->id,
                     'reference_id' => $data->order_ref,
                     'incoming' => $convertion,
                     'remaining' => ($moves->remaining) + $convertion,
@@ -274,27 +284,51 @@ class InventoryManagementController extends Controller
                 $dataInvent = $base->update([
                     'closing_amount' => ($base->closing_amount) + ($convertion),
                 ]);
-                $income = InventoryMovement::create([
-                    'type' => '4',
-                    'inventory_id' => $base->id,
-                    'reference_id' => $ref,
-                    'product_name' => $base->product_name,
-                    'warehouse_name' => $base->warehouse_name,
-                    'incoming' => $convertion,
-                    'outgoing' => '0',
-                    'remaining' => ($to->remaining) + ($convertion),
-                ]);
+                if($to === null) {
+                    $income = InventoryMovement::create([
+                        'type' => '4',
+                        'inventory_id' => $base->id,
+                        'reference_id' => $ref,
+                        'product_name' => $base->product_name,
+                        'warehouse_name' => $base->warehouse_name,
+                        'incoming' => $convertion,
+                        'outgoing' => '0',
+                        'remaining' => $convertion,
+                    ]);
 
-                $outcome = InventoryMovement::create([
-                    'type' => '4',
-                    'inventory_id' => $base->id,
-                    'reference_id' => $ref,
-                    'product_name' => $base->product_name,
-                    'warehouse_name' => $from->warehouse_name,
-                    'incoming' => '0',
-                    'outgoing' => $convertion,
-                    'remaining' => ($from->remaining) - ($convertion),
-                ]);
+                    $outcome = InventoryMovement::create([
+                        'type' => '4',
+                        'inventory_id' => $base->id,
+                        'reference_id' => $ref,
+                        'product_name' => $base->product_name,
+                        'warehouse_name' => $from->warehouse_name,
+                        'incoming' => '0',
+                        'outgoing' => $convertion,
+                        'remaining' => ($from->remaining) - ($convertion),
+                    ]);
+                } else {
+                    $income = InventoryMovement::create([
+                        'type' => '4',
+                        'inventory_id' => $base->id,
+                        'reference_id' => $ref,
+                        'product_name' => $base->product_name,
+                        'warehouse_name' => $base->warehouse_name,
+                        'incoming' => $convertion,
+                        'outgoing' => '0',
+                        'remaining' => ($to->remaining) + ($convertion),
+                    ]);
+    
+                    $outcome = InventoryMovement::create([
+                        'type' => '4',
+                        'inventory_id' => $base->id,
+                        'reference_id' => $ref,
+                        'product_name' => $base->product_name,
+                        'warehouse_name' => $from->warehouse_name,
+                        'incoming' => '0',
+                        'outgoing' => $convertion,
+                        'remaining' => ($from->remaining) - ($convertion),
+                    ]);
+                }
 
                 $updateInvent = Inventory::where('product_name',$item)->where('warehouse_name',$internal->from_wh)->update([
                     'closing_amount' => ($source->closing_amount) - ($convertion),
@@ -383,9 +417,9 @@ class InventoryManagementController extends Controller
         $salesRefs = Sale::where('id',($request->input('sales_ref')))->first();
 
         $orders = Delivery::create([
-            'order_ref' => $refs,
-            'sales_ref' => $salesRefs->order_ref,
-            'delivery_service' => $request->input('delivery_service'),
+            'do_ref' => $refs,
+            'order_ref' => $salesRefs->order_ref,
+            'delivery_id' => $request->input('delivery_service'),
             'delivery_cost' => $request->input('delivery_cost'),
             'created_by' => auth()->user()->name,
         ]);
@@ -448,7 +482,7 @@ class InventoryManagementController extends Controller
         ]);
 
         $source = Delivery::where('id',$id)->first();
-        $sales = Sale::where('order_ref',$source->sales_ref)->update([
+        $sales = Sale::where('order_ref',$source->order_ref)->update([
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
         ]);
 

@@ -81,22 +81,15 @@ FiberTekno | Manufacture Order Detail
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
                                         <th>KETERANGAN NAMA BARANG/JASA</th>
                                         <th>JML</th>
-                                        <th>SATUAN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($details as $key=>$val)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
-                                        <td>{{ $val->Items->name }}</td>
-                                        <td>{{ number_format($val->qty,0,',','.')}}</td>
-                                        <td>{{ $val->Uoms->name }}</td>
+                                        <td>{{ $data->product_name }}</td>
+                                        <td>{{ number_format($data->man_plan,0,',','.')}}</td>
                                     </tr>
-                                    @endforeach
-                                    
                                     <tr>
                                         <td colspan="2">
                                             

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2020 at 08:56 PM
+-- Generation Time: Jan 07, 2020 at 10:05 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -49,14 +49,6 @@ CREATE TABLE `contacts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `contacts`
---
-
-INSERT INTO `contacts` (`id`, `ref_id`, `type_id`, `name`, `company`, `phone`, `mobile`, `email`, `billing_address`, `shipping_address`, `payment_method`, `payment_terms`, `tax`, `tax_no`, `created_by`, `updated_by`, `active`, `created_at`, `updated_at`) VALUES
-('d3ff2a76-2025-4270-adf9-bc1877180d56', 'JD', 2, 'John Doe', 'Public', '81906416670', '6643643', 'example@company.com', 'Jakarta', 'Jakarta', 1, 2, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-05 19:44:00', '2020-01-05 19:44:00'),
-('d5cadaed-f44c-4671-b783-1834d62f291d', 'OLS', 1, 'Online Shop', 'Private', '2342', '415656', 'online@local.com', 'Jakarta', 'Jakarta', 1, 1, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-07 15:34:18', '2020-01-07 15:34:18');
 
 -- --------------------------------------------------------
 
@@ -898,7 +890,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `avatar`, `division_id`, `status_id`, `last_login_at`, `last_login_from`, `remember_token`, `created_at`, `updated_at`) VALUES
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-07 19:08:35', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-07 12:08:35'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 03:44:10', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-07 20:44:10'),
 ('c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$.PRqNO0.eckPAk032EBdC.1YHqtXS.lLmZo8l/AtN5Ymr1OmDyCEC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-07 00:46:35', '127.0.0.1', NULL, '2020-01-06 17:46:22', '2020-01-06 17:46:35');
 
 -- --------------------------------------------------------
