@@ -85,7 +85,7 @@ class ReportManagementController extends Controller
 
     public function manufactureTable()
     {
-        return view('apps.pages.purchaseTable');
+        return view('apps.pages.manufactureTable');
     }
 
     public function reportManufacture(Request $request)
@@ -94,11 +94,11 @@ class ReportManagementController extends Controller
             'from_date' => 'required',
             'to_date' => 'required',
         ]);
-
-        $data = Purchase::where('updated_at','>=',$request->input('from_date'))
+        
+        $data = Manufacture::where('updated_at','>=',$request->input('from_date'))
                       ->where('updated_at','<=',$request->input('to_date'))
                       ->get();
-        
+        dd($data);
         return view('apps.show.purchaseTable',compact('data'));
     }
 }

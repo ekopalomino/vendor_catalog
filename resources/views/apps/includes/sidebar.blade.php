@@ -335,7 +335,8 @@
             </li>
             @endcan
             @can('Can Access Report')
-            <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view','inventory-table.view','manufacture.table','purchase-table.view']) }}">
+            <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view','inventory-table.view','manufacture.table','purchase-table.view',
+                'manufacture-table.view']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Laporan</span>
@@ -357,7 +358,7 @@
                             <span class="title">Pembelian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['manufacture.table']) }}">
+                    <li class="nav-item {{ set_active(['manufacture.table','manufacture-table.view']) }}">
                         <a href="{{ route('manufacture.table') }}" class="nav-link ">
                             <span class="title">Manufaktur</span>
                         </a>
