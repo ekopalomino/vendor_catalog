@@ -33,7 +33,7 @@ FiberTekno | Sales Management
                             @foreach($inventories as $key => $val)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $val->Products->name }}</td>
+                                <td>{{ $val->product_name }}</td>
                                 <td>Rp {{ number_format($val->sale_price,2,',','.')}}</td>
                                 <td>{{ $val->warehouse_name }}</td>
                                 <td>{{ number_format($val->closing_amount,2,',','.')}}</td>

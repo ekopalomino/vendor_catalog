@@ -11,6 +11,18 @@ FiberTekno | Laporan Pembelian - Tabel
 			</div>
 		</div>
 		<div class="portlet-body form">
+			@if (count($errors) > 0)
+			<div class="alert alert-danger">
+				<strong>Whoops!</strong> There were some problems with your input.<br><br>
+				<ul>
+					@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			</div>
+			@endif
+			{!! Form::open(array('route' => 'purchase-table.view','method'=>'POST', 'class' => 'horizontal-form')) !!}
+			@csrf
 			<div class="form-body">
 				<div class="row">
 					<div class="col-md-5">
@@ -26,8 +38,8 @@ FiberTekno | Laporan Pembelian - Tabel
 						</div>
 					</div>
 				</div>
-				<div class="form-actions left">
-					<a button type="button" class="btn default" href="{{ route('sales.index') }}">Cancel</a>
+				<div class="form-actions left"> 
+					<a button type="button" class="btn default" href="{{ route('purchase.table') }}">Cancel</a>
 					<button type="submit" class="btn blue">
 						<i class="fa fa-check"></i> Save
 					</button>

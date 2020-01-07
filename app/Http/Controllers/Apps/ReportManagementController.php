@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use iteos\Http\Controllers\Controller;
 use iteos\Models\Sale;
 use iteos\Models\Inventory;
+use iteos\Models\Purchase;
+use iteos\Models\Manufacture;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -65,5 +67,38 @@ class ReportManagementController extends Controller
     public function purchaseTable()
     {
         return view('apps.pages.purchaseTable');
+    }
+
+    public function reportPurchase(Request $request)
+    {
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+
+        $data = Purchase::where('updated_at','>=',$request->input('from_date'))
+                      ->where('updated_at','<=',$request->input('to_date'))
+                      ->get();
+        
+        return view('apps.show.purchaseTable',compact('data'));
+    }
+
+    public function manufactureTable()
+    {
+        return view('apps.pages.purchaseTable');
+    }
+
+    public function reportManufacture(Request $request)
+    {
+        $this->validate($request, [
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ]);
+
+        $data = Purchase::where('updated_at','>=',$request->input('from_date'))
+                      ->where('updated_at','<=',$request->input('to_date'))
+                      ->get();
+        
+        return view('apps.show.purchaseTable',compact('data'));
     }
 }
