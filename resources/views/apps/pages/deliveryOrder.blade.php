@@ -99,8 +99,8 @@ FiberTekno | Delivery Order
                             @foreach($data as $key=>$val)
                             <tr>
                                 <td>{{ $key+1 }}</td>
+                                <td>{{ $val->do_ref }}</td>
                                 <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->sales_ref }}</td>
                                 <td>
                                     @if(($val->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
                                     <label class="label label-sm label-danger">{{ $val->Statuses->name }}</label>

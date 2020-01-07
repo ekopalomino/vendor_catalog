@@ -30,9 +30,10 @@ class ReportManagementController extends Controller
             'to_date' => 'required',
         ]);
 
-        $data = Sale::where('updated_at','>=',$request->input('from_date'))
-                        ->where('updated_at','<=',$request->input('to_date'))
-                        ->get();
+        $data = Sale::with('Deliveries')
+                      ->where('updated_at','>=',$request->input('from_date'))
+                      ->where('updated_at','<=',$request->input('to_date'))
+                      ->get();
         
         return view('apps.show.saleTable',compact('data'));
     }
@@ -52,11 +53,11 @@ class ReportManagementController extends Controller
         $data = Inventory::join('inventory_movements','inventory_movements.inventory_id','inventories.id')
                     ->where('inventories.updated_at','>=',$request->input('from_date'))
                     ->where('inventories.updated_at','<=',$request->input('to_date'))
-                    ->groupBy('inventories.product_id','inventories.warehouse_id')
+                    ->groupBy('inventories.product_name','inventories.warehouse_name')
                     ->selectRaw('sum(inventory_movements.incoming) as open,sum(inventory_movements.outgoing) as close,sum(inventory_movements.incoming) as incoming,sum(inventory_movements.outgoing) as outgoing,
-                    sum(inventory_movements.remaining) as remaning,inventories.product_id,inventories.warehouse_id')
+                    sum(inventory_movements.remaining) as remaning,inventories.product_name,inventories.warehouse_name')
                     ->get();
-        
+        dd($data); 
         return view('apps.show.inventoryTable',compact('data'));
     }
 

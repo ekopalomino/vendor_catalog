@@ -23,8 +23,7 @@ FiberTekno | Laporan Stok Barang
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                                <th>Barcode</th>
-                				<th>Nama Barang</th>
+                                <th>Nama Barang</th>
                                 <th>Gudang</th>
                                 <th>Kategori</th>
                                 <th>Satuan</th>
@@ -41,9 +40,8 @@ FiberTekno | Laporan Stok Barang
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                				<td>{{ $val->Products->product_barcode }}</td>
-                                <td>{{ $val->Products->name }}</td>
-                                <td>{{ $val->Locations->name }}</td>
+                				<td>{{ $val->product_name }}</td>
+                                <td>{{ $val->warehouse_name }}</td>
                                 <td>{{ $val->Products->Categories->name }}</td>
                                 <td>{{ $val->Products->Uoms->name}}</td>
                                 <td>{{ number_format($val->Products->base_price,2,',','.')}}</td>

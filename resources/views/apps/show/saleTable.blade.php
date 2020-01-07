@@ -29,8 +29,10 @@ FiberTekno | Laporan Penjualan
                                 <th>Total Pembelian</th>
                                 <th>Estimasi Dikirim</th>
                                 <th>Aktual Dikirim</th>
+                                <th>Kurir</th>
+                                <th>No Resi</th>
+                                <th>Biaya Kirim</th>
                 				<th>Sales</th>
-                                <th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
@@ -43,10 +45,10 @@ FiberTekno | Laporan Penjualan
                                 <td>{{ number_format($val->total,2,',','.')}}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->delivery_date)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
+                                <td>{{ $val->Deliveries->Courier->delivery_name }}</td>
+                                <td>{{ $val->Deliveries->receipt }}</td>
+                                <td>{{ number_format($val->Deliveries->delivery_cost,2,',','.')}}</td>
                                 <td>{{ $val->created_by }}</td>
-                                <td>
-                                    
-                                </td>
                 			</tr>
                             @endforeach
                 		</tbody>

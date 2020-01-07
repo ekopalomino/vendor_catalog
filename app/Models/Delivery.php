@@ -10,9 +10,9 @@ class Delivery extends Model
     use Uuid;
 
     protected $fillable = [
+        'do_ref',
         'order_ref',
-        'sales_ref',
-        'delivery_service',
+        'delivery_id',
         'delivery_cost',
         'receipt',
         'status_id',
@@ -32,11 +32,6 @@ class Delivery extends Model
         return $this->belongsTo(User::class,'updated_by');
     }
 
-    public function SalesItem()
-    {
-        return $this->hasOne(SalesItem::class,'sales_ref');
-    }
-
     public function Statuses()
     {
         return $this->belongsTo(Status::class,'status_id');
@@ -44,12 +39,12 @@ class Delivery extends Model
 
     public function Sales()
     {
-        return $this->belongsTo(Sale::class,'sales_ref');
+        return $this->belongsTo(Sale::class,'order_ref');
     }
 
     public function Courier()
     {
-        return $this->belongsTo(DeliveryService::class,'delivery_service');
+        return $this->belongsTo(DeliveryService::class,'delivery_id');
     }
 
 

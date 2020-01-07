@@ -59,6 +59,6 @@ class Sale extends Model
 
     public function Deliveries()
     {
-        return $this->hasOne(Delivery::class,'sales_ref');
+        return $this->hasOne(Delivery::class,'order_ref','order_ref');
     }
 }
