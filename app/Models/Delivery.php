@@ -12,6 +12,9 @@ class Delivery extends Model
     protected $fillable = [
         'order_ref',
         'sales_ref',
+        'delivery_service',
+        'delivery_cost',
+        'receipt',
         'status_id',
         'created_by',
         'updated_by',
@@ -42,6 +45,11 @@ class Delivery extends Model
     public function Sales()
     {
         return $this->belongsTo(Sale::class,'sales_ref');
+    }
+
+    public function Courier()
+    {
+        return $this->belongsTo(DeliveryService::class,'delivery_service');
     }
 
 

@@ -66,7 +66,7 @@ FiberTekno | Delivery Order
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Biaya Kirim</label>
-                                                    {!! Form::text('delivery_cost', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                                    {!! Form::text('delivery_cost', null, array('placeholder' => 'Delivery Cost','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
                                         </div>  
@@ -80,16 +80,6 @@ FiberTekno | Delivery Order
                             </div>
                         </div>
                     </div>
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
                 	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
@@ -97,6 +87,8 @@ FiberTekno | Delivery Order
                                 <th>Delivery Order</th>
                                 <th>Sales Order</th>
                 				<th>Status</th>
+                                <th>Kurir</th>
+                                <th>No Resi</th>
                                 <th>Dibuat Oleh</th>
                                 <th>Tgl Dibuat</th>
                                 <th>Tgl Dikirim</th>
@@ -111,19 +103,19 @@ FiberTekno | Delivery Order
                                 <td>{{ $val->sales_ref }}</td>
                                 <td>
                                     @if(($val->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
-                                    <label class="badge badge-danger">{{ $val->Statuses->name }}</label>
+                                    <label class="label label-sm label-danger">{{ $val->Statuses->name }}</label>
                                     @else
-                                    <label class="badge badge-success">{{ $val->Statuses->name }}</label>
+                                    <label class="label label-sm label-success">{{ $val->Statuses->name }}</label>
                                     @endif
                                 </td>
+                                <td>{{ $val->Courier->delivery_name }}</td>
+                                <td>{{ $val->receipt }}</td>
                                 <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
                                 <td>
                                     <a class="btn btn-xs btn-info" title="Print DO" href="{{ route('delivery.print',$val->id) }}"><i class="fa fa-print"></i></a>
-                                    {!! Form::open(['method' => 'POST','route' => ['delivery.done', $val->id],'style'=>'display:inline']) !!}
-                                    {!! Form::button('<i class="fa fa-truck"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Change Status']) !!}
-                                    {!! Form::close() !!}
+                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\InventoryManagementController@deliveryReceipt',['id'=>$val->id]) }}" title="Input Resi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
                                 </td>
                             </tr>
                             @endforeach

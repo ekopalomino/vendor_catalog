@@ -18,6 +18,7 @@ class Sale extends Model
         'delivery_date',
         'quantity',
         'tax',
+        'discount',
         'total',
         'status_id',
         'created_by',

@@ -373,7 +373,7 @@ class InventoryManagementController extends Controller
         $this->validate($request, [
             'sales_ref' => 'required',
             'delivery_service' => 'required',
-            'deivery_cost' => 'required',
+            'delivery_cost' => 'required',
         ]);
 
         $input = $request->all();
@@ -390,20 +390,21 @@ class InventoryManagementController extends Controller
             'created_by' => auth()->user()->name,
         ]);
         $moves = SaleItem::where('sales_id',$salesRefs->id)->get();
-        $source = InventoryMovement::where('product_id',$moves[0]->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->orderBy('created_at','DESC')->first();
+        
         foreach($moves as $index=>$val) {
+            $source = InventoryMovement::where('product_name',$val->product_name)->where('warehouse_name','Gudang Pengiriman')->orderBy('created_at','DESC')->first();
             $movements = InventoryMovement::create([
                 'type' => '5',
                 'inventory_id' => $source->inventory_id,
                 'reference_id' => $refs,
-                'product_id' => $val->product_id,
+                'product_name' => $val->product_name,
                 'outgoing' => $val->quantity,
                 'remaining' => ($source->remaining) - ($val->quantity),
-                'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                'warehouse_name' => 'Gudang Pengiriman',
             ]);
         };
         foreach($moves as $index=>$val) {
-            Inventory::where('product_id',$val->product_id)->where('warehouse_id',$movements->warehouse_id)->update([
+            Inventory::where('product_name',$val->product_name)->where('warehouse_name',$movements->warehouse_name)->update([
                 'closing_amount' => $movements->remaining,
             ]);
         }
@@ -431,10 +432,17 @@ class InventoryManagementController extends Controller
         return $pdf->download(''.$source->order_ref.'.pdf');                 
     }
 
+    public function deliveryReceipt($id)
+    {
+        $data = Delivery::find($id);
+
+        return view('apps.edit.deliveryReceipt',compact('data'))->renderSections()['content'];
+    }
     public function deliveryDone(Request $request,$id)
     {
         $data = Delivery::find($id);
         $data->update([
+            'receipt' => $request->input('receipt'),
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
             'updated_by' => auth()->user()->name,
         ]);

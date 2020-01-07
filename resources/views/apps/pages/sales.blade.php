@@ -35,7 +35,7 @@ FiberTekno | Sales Management
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->Products->name }}</td>
                                 <td>Rp {{ number_format($val->sale_price,2,',','.')}}</td>
-                                <td>{{ $val->Locations->name }}</td>
+                                <td>{{ $val->warehouse_name }}</td>
                                 <td>{{ number_format($val->closing_amount,2,',','.')}}</td>
                                 <td>
                                     @if( ($val->closing_amount) == '0')
@@ -100,7 +100,7 @@ FiberTekno | Sales Management
                                 <td>{{ $sale->Customers->name}}</td>
                                 <td>{{ number_format($sale->quantity,2,',','.')}}</td>
                                 <td>{{ number_format($sale->total,2,',','.')}}</td>
-                                <td><label class="badge badge-success">{{ $sale->Statuses->name }}</label></td>
+                                <td><label class="label label-sm label-success">{{ $sale->Statuses->name }}</label></td>
                                 <td>{{ $sale->created_by }}</td>
                                 <td>{{ $sale->updated_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>

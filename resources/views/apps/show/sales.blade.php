@@ -119,6 +119,7 @@ FiberTekno | Sales Order Detail
                                         <th>KETERANGAN NAMA BARANG/JASA</th>
                                         <th>JML</th>
                                         <th>HARGA PER UNIT</th>
+                                        <th>DISC TOTAL</th>
                                         <th>JUMLAH(RUPIAH)</th>
                                     </tr>
                                 </thead>
@@ -129,12 +130,13 @@ FiberTekno | Sales Order Detail
                                         <td>{{ $val->Products->name }}</td>
                                         <td>{{ number_format($val->quantity,0,',','.')}}</td>
                                         <td>Rp {{ number_format($val->sale_price,0,',','.')}}</td>
+                                        <td>Rp {{ number_format($val->discount,0,',','.')}}</td>
                                         <td>Rp {{ number_format($val->sub_total,0,',','.')}}</td>
                                     </tr>
                                     @endforeach
                                     <tr>
                                         <td colspan="2" style="background:#4B77BE;color: #ffffff;" align="center">Thank You For Your Business!</td>
-                                        <td colspan="3"><strong>TAX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->tax,0,',','.')}}
+                                        <td colspan="4"><strong>TAX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->tax,0,',','.')}}
                                             <br>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($sales->total,0,',','.')}}</strong></td>
                                     </tr>
                                     <tr>
@@ -147,7 +149,7 @@ FiberTekno | Sales Order Detail
                                             <p style="line-height: 1;"><strong>No Rek : 7660146878</strong></p>
                                             <p style="line-height: 1;"><strong>a.n. DIAN</strong></p>
                                         </td>
-                                        <td colspan="3">
+                                        <td colspan="4">
                                             <p style="line-height: 1;" align="center">PT. FIBER TEKNOLOGI INOVASI</p>
                                             <p align="center">
                                                 <br>

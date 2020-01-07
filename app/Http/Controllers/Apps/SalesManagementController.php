@@ -39,7 +39,7 @@ class SalesManagementController extends Controller
         $sales = Sale::orderBy('updated_at','desc')->get();
         $inventories = Inventory::join('products','products.id','=','inventories.product_id')
                                 ->where('products.is_sale','1')
-                                ->where('inventories.warehouse_id','!=','c40f889e-6fa3-43f2-bc2a-5fdded5aafed')
+                                ->where('inventories.warehouse_name','Gudang Utama')
                                 ->get();
         
         return view('apps.pages.sales',compact('sales','inventories'));
@@ -67,7 +67,7 @@ class SalesManagementController extends Controller
                             ->where('products.is_sale','=','1')
                             ->where('inventories.closing_amount','>=','products.min_stock')
                             ->where('name','LIKE','%'.$search. '%')
-                            ->select('products.id','products.name')
+                            ->select('products.name','products.name')
                             ->get();
         
         return response()->json($result);
@@ -104,10 +104,11 @@ class SalesManagementController extends Controller
             $items = SaleItem::create([
                 'sales_id' => $sale_id,
                 'product_id' => $names->id,
+                'product_name' => $item,
                 'quantity' => $quantity[$index],
                 'uom_id' => $uoms[$index],
                 'sale_price' => $sale_price[$index],
-                'sub_total' => ($sale_price[$index]) * ($quantity[$index]),
+                'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - ($discounts[$index]),
                 'discount' => $discounts[$index],
             ]);
         }
@@ -128,7 +129,7 @@ class SalesManagementController extends Controller
         } else {
             $saleData = DB::table('sales')
                         ->where('id',$sale_id)
-                        ->update(['quantity' => $qty, 'total' => $subtotal]);
+                        ->update(['quantity' => $qty, 'total' => $price]);
         }
               
         $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
@@ -151,8 +152,8 @@ class SalesManagementController extends Controller
         $refs = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $transfers = InternalTransfer::create([
             'order_ref' => $refs,
-            'from_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
-            'to_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+            'from_wh' => 'Gudang Utama',
+            'to_wh' => 'Gudang Pengiriman',
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
             'created_by' => auth()->user()->name,
             'updated_by' => auth()->user()->name,
@@ -166,16 +167,16 @@ class SalesManagementController extends Controller
             } else {
                 $convertion = $item->quantity;
             }
-            $movements = InventoryMovement::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-            $stocks = Inventory::where('product_id',$item->product_id)->get();
-            $moveout = InventoryMovement::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->orderBy('updated_at','DESC')->first();
-            $movein = InventoryMovement::where('product_id',$item->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->orderBy('updated_at','DESC')->first();
-            $stocks = Inventory::where('product_id',$item->product_id)->first();
-            $base = Inventory::where('product_id',$item->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->first();
+            $movements = InventoryMovement::where('product_name',$item->product_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            $stocks = Inventory::where('product_name',$item->product_name)->get();
+            $moveout = InventoryMovement::where('product_name',$item->product_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            $movein = InventoryMovement::where('product_name',$item->product_name)->where('warehouse_name','Gudang Pengiriman')->orderBy('updated_at','DESC')->first();
+            $stocks = Inventory::where('product_name',$item->product_name)->first();
+            $base = Inventory::where('product_name',$item->product_name)->where('warehouse_name','Gudang Pengiriman')->orderBy('updated_at','DESC')->first();
 
             $itemTransfer = InternalItems::create([
                 'mutasi_id' => $transfers->id,
-                'product_id' => $item->product_id,
+                'product_name' => $item->product_name,
                 'quantity' => $convertion,
                 'uom_id' => $item->uom_id,
             ]);
@@ -183,7 +184,8 @@ class SalesManagementController extends Controller
             if($base == null) {
                 $inventories = Inventory::create([
                     'product_id' => $item->product_id,
-                    'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                    'product_name' => $item->product_name,
+                    'warehouse_name' => 'Gudang Pengiriman',
                     'min_stock' => '0',
                     'opening_amount' =>  $convertion,
                     'closing_amount' =>  $convertion,
@@ -192,24 +194,24 @@ class SalesManagementController extends Controller
                     'type' => '4',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
-                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
                     'incoming' => '0',
                     'outgoing' => $convertion,
                     'remaining' => ($moveout->remaining) - ($convertion),
-                    'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                    'warehouse_name' => 'Gudang Utama',
                 ]);
                  $moveins = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
-                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
                     'incoming' => $convertion,
                     'outgoing' => '0', 
                     'remaining' => $convertion,
-                    'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                    'warehouse_name' => 'Gudang Pengiriman',
                 ]);
             } else {
-                $inventories = Inventory::where('product_id',$item->product_id)->where('warehouse_id','34437a64-ca03-47ff-be0c-63da5814484e')->first();
+                $inventories = Inventory::where('product_name',$item->product_name)->where('warehouse_id','Gudang Pengiriman')->orderBy('updated_at','DESC')->first();
                 $inventories->update([
                     'opening_amount' =>  $convertion,
                     'closing_amount' =>  ($base->closing_amount) + ($convertion),
@@ -218,24 +220,24 @@ class SalesManagementController extends Controller
                     'type' => '4',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
-                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
                     'incoming' => '0',
                     'outgoing' => $convertion,
                     'remaining' => ($moveout->remaining) - ($convertion),
-                    'warehouse_id' => 'afdcd530-bb5e-462b-8dda-1371b9195903',
+                    'warehouse_name' => 'Gudang Utama',
                 ]);
                  $moveins = InventoryMovement::create([
                     'type' => '4',
                     'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
-                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
                     'incoming' => $convertion,
                     'outgoing' => '0', 
                     'remaining' => ($movein->remaining) + ($convertion),
-                    'warehouse_id' => '34437a64-ca03-47ff-be0c-63da5814484e',
+                    'warehouse_name' => 'Gudang Pengiriman',
                 ]);
             }
-            $results =  Inventory::where('product_id',$item->product_id)->where('warehouse_id','afdcd530-bb5e-462b-8dda-1371b9195903')->first();
+            $results =  Inventory::where('product_name',$item->product_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
             $results->update([
                 'closing_amount' => ($results->closing_amount) - ($convertion),
             ]);
