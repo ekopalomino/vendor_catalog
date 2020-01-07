@@ -151,7 +151,7 @@
             </li>
             @endcan
             @can('Can Access Sales')
-            <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
+            <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.barcode']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-present"></i>
             		<span class="title">Penjualan</span>
@@ -162,6 +162,11 @@
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
                             <span class="title">Purchase Orders</span>
                             <span class="badge badge-danger">{{$sales}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['sales.barcode']) }}">
+                		<a href="{{ route('sales.barcode') }}" class="nav-link ">
+                            <span class="title">Cetak Barcode</span>
                         </a>
                     </li>
                 </ul>

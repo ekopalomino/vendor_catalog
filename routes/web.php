@@ -127,7 +127,9 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('sales/orders/approve/{id}','Apps\SalesManagementController@processSales')->name('sales.approve');
     Route::post('sales/orders/rejected/{id}','Apps\SalesManagementController@rejectedSale')->name('sales.rejected');
     Route::get('sales/orders/pdf/{id}','Apps\SalesManagementController@salesPrint')->name('sales.pdf');
-	Route::get('sales/orders/show/{id}','Apps\SalesManagementController@salesShow')->name('sales.show');
+    Route::get('sales/orders/show/{id}','Apps\SalesManagementController@salesShow')->name('sales.show');
+    Route::get('sales/barcode','Apps\SalesManagementController@salesBarcode')->name('sales.barcode');
+    Route::get('sales/barcode/pdf','Apps\SalesManagementController@barcodePdf')->name('salesbarcode.pdf');
     /*-----------------------End Sales Management------------------------------------*/
 
     /*-----------------------Purchase Management------------------------------------*/

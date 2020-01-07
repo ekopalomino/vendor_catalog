@@ -201,14 +201,14 @@ class ProductManagementController extends Controller
         $pdf = PDF::loadview('apps.show.products',compact('product','boms'));
         return $pdf->download('product-detail.pdf');
     }
-
+ 
     public function productBarcode() 
     {
         $data = Product::where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')->get();
         
         return view('apps.pages.productBarcode',compact('data'));
     }
-
+ 
     public function barcodePdf()
     {
         $data = Product::where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')->orderBy('name','ASC')->get();

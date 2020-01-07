@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Schema;
 use Auth;
 use DB;
 use PDF;
+use File;
 
 class SalesManagementController extends Controller
 {
@@ -267,6 +268,21 @@ class SalesManagementController extends Controller
 
         $pdf = PDF::loadview('apps.print.salesOrder',compact('data','sales'));
         return $pdf->download('SO.pdf');
+    }
+
+    public function salesBarcode() 
+    {
+        $data = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->get();
+        
+        return view('apps.pages.salesBarcode',compact('data'));
+    }
+
+    public function salesBarcodePdf()
+    {
+        $data = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->get();
+
+        $pdf = PDF::loadview('apps.print.salesBarcode',compact('data'));
+        return $pdf->download('sales-barcode.pdf');
     }
 
     public function rejectedSale($id)
