@@ -45,9 +45,13 @@ class InventoryManagementController extends Controller
     public function stockCard(Request $request,$id)
     {
         $source = Inventory::where('id',$id)->first();
-        $data = InventoryMovement::where('product_name',$source->product_name)
+        $data = InventoryMovement::join('internal_transfers','internal_transfers.order_ref','inventory_movements.reference_id')
+                                   ->where('inventory_movements.product_name',$source->product_name)
+                                   ->where('inventory_movements.warehouse_name',$source->warehouse_name)
+                                   ->get();
+        /* $data = InventoryMovement::where('product_name',$source->product_name)
                                 ->where('warehouse_name',$source->warehouse_name)
-                                ->paginate(5);
+                                ->get(); */
         
         return view('apps.show.stockCard',compact('data'));
     }

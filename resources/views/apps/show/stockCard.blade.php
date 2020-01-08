@@ -8,23 +8,13 @@ FiberTekno | Stock Card
 <link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
-<!-- <script type="text/javascript">
-    $(document).on('ajaxComplete ajaxReady ready', function () {
-        $('ul.pagination li a').off('click').on('click', function (e) {
-            $("#modalMd").modal('show');
-            $('#modalMdContent').load($(this).attr('href'));
-            $('#modalMdTitle').html($(this).attr('title'));
-            e.preventDefault();
-        });
-    });
-</script> -->
 <div class="page-content">
 	<div class="row">
 		<div class="col-md-12">
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Stock Card 
+                        <i class="fa fa-database"></i>Stock Card
                     </div>
                     <div class="tools"> </div>
                 </div>
@@ -33,7 +23,7 @@ FiberTekno | Stock Card
 						<div class="form-group">
 		                	<tr>
 					            <td>
-					                <a button type="close" class="btn green btn-outline sbold" href="{{ url()->previous() }}">Close</a>
+					                <a button type="close" class="btn red btn-outline sbold" href="{{ url()->previous() }}">Close</a>
 					            </td>
 					        </tr>
 	                    </div>
@@ -42,9 +32,12 @@ FiberTekno | Stock Card
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Nama Barang</th>
                                 <th>Tgl Transaksi</th>
                                 <th>Tipe</th>
                                 <th>No Ref</th>
+                                <th>Gudang Asal</th>
+                                <th>Gudang Tujuan</th>
                                 <th>Brg Masuk</th>
                                 <th>Brg Keluar</th>
                                 <th>Sisa Brg</th>
@@ -55,6 +48,7 @@ FiberTekno | Stock Card
                             @foreach($data as $key=>$val)
                             <tr>
                                 <td>{{ $key+1 }}</td>
+                                <td>{{ $val->product_name }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     @if($val->type == 1)
@@ -74,6 +68,8 @@ FiberTekno | Stock Card
                                     @endif
                                 </td>
                                 <td>{{ $val->reference_id}}</td>
+                                <td>{{ $val->from_wh }}</td>
+                                <td>{{ $val->to_wh }}</td>
                                 <td>{{ number_format($val->incoming,2,',','.')}}</td>
                                 <td>{{ number_format($val->outgoing,2,',','.')}}</td>
                                 <td>{{ number_format($val->remaining,2,',','.')}}</td>
