@@ -220,9 +220,9 @@ class InventoryManagementController extends Controller
                                    ->where('warehouse_name',$request->input('from_wh'))
                                    ->orderBy('updated_at','DESC')
                                    ->first();
-            if($getStock == null) {
+            if ($getStock == null) {
                 $notification = array (
-                    'message' => 'Stok Produk '.($item).' Tidak Ada Di '.($request->input('from_wh')).' ',
+                    'message' => 'Stok Produk '.($item).' Di '.($request->input('from_wh')).' Tidak Ada',
                     'alert-type' => 'error'
                 );
 
@@ -234,7 +234,7 @@ class InventoryManagementController extends Controller
                 );
 
                 return redirect()->back()->with($notification);
-            } elseif ($getStock->closing_amount >= $quantity[$index]) {
+            } else {
                 $reference = InternalTransfer::count();
                 $ref = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
                 $data = [
@@ -378,7 +378,11 @@ class InventoryManagementController extends Controller
                         ]);
                     } */
                 
-                $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
+                
+            }
+
+        }
+        $log = 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat';
                 \LogActivity::addToLog($log);
                 $notification = array (
                     'message' => 'Internal Transfer '.($internal->order_ref).' Berhasil Dibuat',
@@ -386,9 +390,6 @@ class InventoryManagementController extends Controller
                 );
                 
                 return redirect()->route('transfer.index')->with($notification);
-            }
-
-        }
         
     }
 
