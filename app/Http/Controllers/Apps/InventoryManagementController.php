@@ -49,7 +49,7 @@ class InventoryManagementController extends Controller
                                 ->where('warehouse_name',$source->warehouse_name)
                                 ->paginate(5);
         
-        return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
+        return view('apps.show.stockCard',compact('data'));
     }
 
     public function stockPrint(Request $request,$id)
