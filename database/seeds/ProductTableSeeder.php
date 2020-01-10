@@ -8,7 +8,7 @@ class ProductTableSeeder extends SpreadsheetSeeder
 {
     public function __construct()
     {
-        $this->file = '/dump_db/product.xls'; // specify relative to Laravel project base path
+        $this->file = '/dump_db/products.xls'; // specify relative to Laravel project base path
     }
     /**
      * Run the database seeds.
