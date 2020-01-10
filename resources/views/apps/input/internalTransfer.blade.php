@@ -29,20 +29,16 @@ Fiber Tekno | Tambah Mutasi Barang
             @csrf
             <div class="form-body">
             	<div class="row">
-            		@role('Administrator')
-                    <div class="col-md-5">
+            		<div class="col-md-5">
                         <div class="form-group">
                             <label class="control-label">Gudang Pengirim</label>
-                            {!! Form::select('from_wh', [null=>'Please Select'] + $adminLocations,[], array('class' => 'form-control')) !!}
+                            {!! Form::select('from_wh', [null=>'Please Select'] + $userLocation,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
-                    @else
-                    {{ Form::hidden('from_wh', $userLocation) }}
-                    @endrole
                     <div class="col-md-5">
                         <div class="form-group">
                             <label class="control-label">Gudang Penerima</label>
-                            {!! Form::select('to_wh', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
+                            {!! Form::select('to_wh', [null=>'Please Select'] + $userLocation,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
             		<!--/span-->

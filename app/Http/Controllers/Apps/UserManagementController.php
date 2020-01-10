@@ -87,9 +87,9 @@ class UserManagementController extends Controller
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
         $ukers = Division::pluck('name','id')->toArray();
-        $warehouses = Warehouse::pluck('name','id')->toArray();
+        $userLocations = UserWarehouse::where('user_id',$id)->get();
         
-        return view('apps.edit.users',compact('user','roles','userRole','ukers','warehouses'))->renderSections()['content'];
+        return view('apps.edit.users',compact('user','roles','userRole','ukers','userLocations'))->renderSections()['content'];
     }
 
     public function userUpdate(Request $request, $id)
@@ -100,10 +100,21 @@ class UserManagementController extends Controller
             'password' => 'same:confirm-password',
             'roles' => 'required',
             'division_id' => 'required',
-            'warehouse_id' => 'required',
+            'warehouse_name' => 'required',
         ]);
 
-        $input = $request->all();       
+        $input = $request->all(); 
+        $locations = $request->warehouse_name;
+        foreach($locations as $index=>$location)
+        {
+            $userLoc = UserWarehouse::updateOrCreate([
+                'user_id' => $id,
+                'warehouse_name' => $location,
+            ],[
+                'warehouse_name' => $location,
+            ]);
+            
+        }
         if(!empty($input['password'])){ 
             $input['password'] = Hash::make($input['password']);
         }else{
@@ -111,9 +122,10 @@ class UserManagementController extends Controller
         }
         $user = User::find($id);
         $user->update($input);
+        
         DB::table('model_has_roles')->where('model_id',$id)->delete();        
         $user->assignRole($request->input('roles'));
-
+        
         $log = 'User '.($user->name).' Berhasil diubah';
          \LogActivity::addToLog($log);
         $notification = array (

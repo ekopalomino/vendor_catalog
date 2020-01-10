@@ -8,6 +8,7 @@ use iteos\Models\Product;
 use iteos\Models\Inventory;
 use iteos\Models\InventoryMovement;
 use iteos\Models\Warehouse;
+use iteos\Models\UserWarehouse;
 use iteos\Models\InternalTransfer;
 use iteos\Models\InternalItems;
 use iteos\Models\Purchase;
@@ -200,20 +201,15 @@ class InventoryManagementController extends Controller
 
     public function addTransfer()
     {
-        $userLocation = auth()->user()->Warehouses;
-        foreach($userLocation as $filter)
-        {
-            $locations = Warehouse::where('name','!=',$filter->warehouse_name)->pluck('name','name')->toArray();
-        }
-        $adminLocations = Warehouse::pluck('name','name')->toArray();
+        $userLocation = UserWarehouse::where('user_id',auth()->user()->id)->pluck('warehouse_name','warehouse_name')->toArray();
         $products = Product::pluck('name','name')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         
-        return view('apps.input.internalTransfer',compact('locations','products','uoms','userLocation','adminLocations'));
+        return view('apps.input.internalTransfer',compact('products','uoms','userLocation'));
     }
 
     public function internStore(Request $request)
-    {
+    { 
         //Get All Data From Submitted Form//
         $items = $request->product_name;
         $quantity = $request->quantity;

@@ -60,14 +60,61 @@
                         {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control')) !!}
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Gudang</label>
-                        {!! Form::select('warehouse_id', $warehouses,old('warehouse_id'), array('class' => 'form-control')) !!}
+                            <div class="mt-checkbox-list">
+                                <label class="mt-checkbox mt-checkbox-outline">
+                                    <input type="checkbox" name="warehouse_name[]" value="Gudang Utama"
+                                    @foreach($userLocations as $warehouse)
+                                        @if($warehouse->warehouse_name == 'Gudang Utama')checked
+                                        @endif
+                                    @endforeach
+                                    > 
+                                    Gudang Utama
+                                    <span></span>
+                                </label>
+                                <label class="mt-checkbox mt-checkbox-outline">
+                                    <input type="checkbox" name="warehouse_name[]" value="Gudang Pengiriman"
+                                    @foreach($userLocations as $warehouse)
+                                        @if($warehouse->warehouse_name == 'Gudang Pengiriman')checked
+                                        @endif
+                                    @endforeach
+                                    > Gudang Pengiriman
+                                    <span></span>
+                                </label>
+                                <label class="mt-checkbox mt-checkbox-outline">
+                                    <input type="checkbox" name="warehouse_name[]" value="Gudang Produksi"
+                                    @foreach($userLocations as $warehouse)
+                                        @if($warehouse->warehouse_name == 'Gudang Produksi')checked
+                                        @endif
+                                    @endforeach
+                                    > Gudang Produksi
+                                    <span></span>
+                                </label>
+                                <label class="mt-checkbox mt-checkbox-outline">
+                                    <input type="checkbox" name="warehouse_name[]" value="Gudang Scrap"
+                                    @foreach($userLocations as $warehouse)
+                                        @if($warehouse->warehouse_name == 'Gudang Scrap')checked
+                                        @endif
+                                    @endforeach
+                                    > Gudang Scrap
+                                    <span></span>
+                                </label>
+                                <label class="mt-checkbox mt-checkbox-outline">
+                                    <input type="checkbox" name="warehouse_name[]" value="Gudang Retur"
+                                    @foreach($userLocations as $warehouse)
+                                        @if($warehouse->warehouse_name == 'Gudang Retur')checked
+                                        @endif
+                                    @endforeach
+                                    > Gudang Retur
+                                    <span></span>
+                                </label>
+                            </div>
                     </div>
-                </div>
+                </div>                                                              
             </div>
             <div class="row">
                 <div class="col-md-6">
