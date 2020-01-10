@@ -3,7 +3,6 @@
 use Illuminate\Database\Seeder;
 use bfinlay\SpreadsheetSeeder\SpreadsheetSeeder;
 use iteos\Models\Product;
-use DB;
 
 class ProductTableSeeder extends SpreadsheetSeeder
 {
