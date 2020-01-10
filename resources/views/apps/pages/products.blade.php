@@ -60,7 +60,7 @@ FiberTekno | Produk
                                     @endif 
                                 </td>
                                 <td>{{ $product->Uoms->name }}</td>
-                                <td><img src="/public/apps/products/{{$product->image}}" width="75" height="100" ></td>
+                                <td><img src="/public/products/{{$product->image}}" width="75" height="100" ></td>
                                 <td>{{ $product->created_by }}</td>
                 				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($product->updated_at)) }}</td>
