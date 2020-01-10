@@ -6,15 +6,16 @@ use iteos\Models\Product;
 
 class ProductTableSeeder extends Seeder
 {
+    public function __construct()
+    {
+        $this->file = '/dump_db/product.xls'; // specify relative to Laravel project base path
+    }
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->file = '/dump_db/product.xls'; // specify relative to Laravel project base path
-    }
+    
     
     public function run()
     {
