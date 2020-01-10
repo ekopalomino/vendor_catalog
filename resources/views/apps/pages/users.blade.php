@@ -111,7 +111,7 @@ FiberTekno | User Management
                                                             <span></span>
                                                         </label>
                                                         <label class="mt-checkbox mt-checkbox-outline">
-                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Manufaktur"> Gudang Manufaktur
+                                                            <input type="checkbox" name="warehouse_name[]" value="Gudang Manufaktur"> Gudang Produksi
                                                             <span></span>
                                                         </label>
                                                         <label class="mt-checkbox mt-checkbox-outline">
