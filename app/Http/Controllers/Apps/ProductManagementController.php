@@ -130,7 +130,7 @@ class ProductManagementController extends Controller
             $file_name = $file->getClientOriginalName();
             $size = $file->getSize();
             $ext = $file->getClientOriginalExtension();
-            $destinationPath = 'public/products';
+            $destinationPath = 'products';
             $extension = $file->getClientOriginalExtension();
             $filename=$file_name.'product.'.$extension;
             $uploadSuccess = $request->file('image')
@@ -246,7 +246,7 @@ class ProductManagementController extends Controller
             $file_name = $file->getClientOriginalName();
             $size = $file->getSize();
             $ext = $file->getClientOriginalExtension();
-            $destinationPath = 'public/products';
+            $destinationPath = 'products';
             $extension = $file->getClientOriginalExtension();
             $filename=$file_name.'product.'.$extension;
             $uploadSuccess = $request->file('image')
