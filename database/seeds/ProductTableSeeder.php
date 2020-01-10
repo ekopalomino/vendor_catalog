@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use bfinlay\SpreadsheetSeeder\SpreadsheetSeeder;
 use iteos\Models\Product;
+use bfinlay\SpreadsheetSeeder\SpreadsheetSeeder;
 
 class ProductTableSeeder extends SpreadsheetSeeder
 {
