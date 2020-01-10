@@ -296,6 +296,7 @@ class ProductManagementController extends Controller
     public function productDestroy($id)
     {
         $data = Product::find($id);
+        $invent = Inventory::where('product_id',$id)->first();
         $file = $data->image;
         $log = 'Produk '.($data->name).' Berhasil Dihapus';
          \LogActivity::addToLog($log);
@@ -303,8 +304,9 @@ class ProductManagementController extends Controller
             'message' => 'Produk '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
+        $invent->delete();
         $data->delete();
-        \File::delete(\public_path('public/products'. $file));
+        \File::delete(\public_path('products'. $file));
 
         return redirect()->route('product.index')->with($notification);
     }

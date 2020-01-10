@@ -21,8 +21,6 @@ class CreateInventoriesTable extends Migration
             $table->decimal('min_stock',10,2);
             $table->decimal('opening_amount',50,2);
             $table->decimal('closing_amount',50,2);
-            $table->uuid('status_id');
-            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
