@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace iteos\Http\Controllers\Apps;
 
@@ -57,6 +57,7 @@ class SalesManagementController extends Controller
                     ->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         $locations = Warehouse::pluck('name','id')->toArray();
+
         return view('apps.input.salesNew',compact('customers','products','uoms','locations'));
     }
 

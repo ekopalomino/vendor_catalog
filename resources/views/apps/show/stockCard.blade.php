@@ -36,8 +36,6 @@ FiberTekno | Stock Card
                                 <th>Tgl Transaksi</th>
                                 <th>Tipe</th>
                                 <th>No Ref</th>
-                                <th>Gudang Asal</th>
-                                <th>Gudang Tujuan</th>
                                 <th>Brg Masuk</th>
                                 <th>Brg Keluar</th>
                                 <th>Sisa Brg</th>
@@ -68,8 +66,6 @@ FiberTekno | Stock Card
                                     @endif
                                 </td>
                                 <td>{{ $val->reference_id}}</td>
-                                <td>{{ $val->from_wh }}</td>
-                                <td>{{ $val->to_wh }}</td>
                                 <td>{{ number_format($val->incoming,2,',','.')}}</td>
                                 <td>{{ number_format($val->outgoing,2,',','.')}}</td>
                                 <td>{{ number_format($val->remaining,2,',','.')}}</td>

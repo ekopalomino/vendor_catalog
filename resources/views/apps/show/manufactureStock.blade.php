@@ -25,7 +25,7 @@
 	                	<td>{{ number_format($val->closing_amount,2,',','.')}}</td>
                         <td>{{ $val->Uoms->name}}</td>
 	                	<td>
-                            @if((($val->quantity) * ($val->qty)) > ($val->closing_amount))
+                            @if(($val->qty) > ($val->closing_amount))
                             <label class="label label-sm label-danger">Stok Tidak Cukup
                             @else      
                             <label class="label label-sm label-success">Stok Cukup

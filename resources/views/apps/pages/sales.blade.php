@@ -62,10 +62,12 @@ FiberTekno | Sales Management
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
+                        @if(!$inventories->isEmpty())
                         <div class="form-group">
                             <a href="{{ route('sales.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> New Sales Order
                             </button></a>
                         </div>
+                        @endif
                         @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>

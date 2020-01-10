@@ -45,9 +45,8 @@ class InventoryManagementController extends Controller
     public function stockCard(Request $request,$id)
     {
         $source = Inventory::where('id',$id)->first();
-        $data = InventoryMovement::join('internal_transfers','internal_transfers.order_ref','inventory_movements.reference_id')
-                                   ->where('inventory_movements.product_name',$source->product_name)
-                                   ->where('inventory_movements.warehouse_name',$source->warehouse_name)
+        $data = InventoryMovement::where('product_name',$source->product_name)
+                                   ->where('warehouse_name',$source->warehouse_name)
                                    ->get();
         /* $data = InventoryMovement::where('product_name',$source->product_name)
                                 ->where('warehouse_name',$source->warehouse_name)
@@ -87,7 +86,7 @@ class InventoryManagementController extends Controller
         $ref = 'ADJ/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $input = [
             'reference_id' => $ref,
-            'type' => '1',
+            'type' => '1', 
             'inventory_id' => $id,
             'product_id' => $request->input('product_id'),
             'product_name' => $request->input('product_name'),

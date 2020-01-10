@@ -134,7 +134,7 @@ class ManufactureManagementController extends Controller
         $data = ManufactureItem::join('inventories','inventories.product_name','=','manufacture_items.item_name')
                                 ->where('manufacture_items.manufacture_id',$id)
                                 ->get();
-        
+       
         return view('apps.show.manufactureStock',compact('data'))->renderSections()['content'];
     }
 
