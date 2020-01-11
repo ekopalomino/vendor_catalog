@@ -19,10 +19,6 @@ FiberTekno | Purchase Management
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <a href="{{ route('request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Permintaan Baru
-                            </button></a>
-                        </div>
                         @if (count($errors) > 0) 
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -33,6 +29,12 @@ FiberTekno | Purchase Management
                                 </ul>
                         </div>
                         @endif
+                        @can('Can Create Purchase')
+                        <div class="form-group">
+                            <a href="{{ route('request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Permintaan Baru
+                            </button></a>
+                        </div>
+                        @endcan
                     </div>
                 	<table class="table table-striped table-bordered table-hover" id="sample_1">
                 		<thead>
@@ -72,12 +74,14 @@ FiberTekno | Purchase Management
                                 <td>
                                     @if(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     <a class="btn btn-xs btn-info" title="Lihat PR" href="{{ route('request.show',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    @can('Can Approve Purchase')
                                     {!! Form::open(['method' => 'POST','route' => ['request.approve', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve PR']) !!}
                                     {!! Form::close() !!}
                                     {!! Form::open(['method' => 'POST','route' => ['request.rejected', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Tolak PR']) !!}
+                                    {!! Form::button('<i class="fa fa-remove"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Tolak PR']) !!}
                                     {!! Form::close() !!}
+                                    @endcan
                                     @endif
                                     @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')
                                     <a class="btn btn-xs btn-info" title="Lihat PO" href="{{ route('purchase.show',$val->id) }}"><i class="fa fa-search"></i></a>

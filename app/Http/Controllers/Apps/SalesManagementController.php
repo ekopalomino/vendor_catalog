@@ -49,26 +49,19 @@ class SalesManagementController extends Controller
     public function create()
     {
         $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
-        $prod = Product::first();
-        $products = Product::join('inventories','inventories.product_id','=','products.id')
-                    ->where('products.is_sale','=','1')
-                    ->where('inventories.closing_amount','>=',$prod->min_stock)
-                    ->pluck('products.name','products.id')
-                    ->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
-        $locations = Warehouse::pluck('name','id')->toArray();
-
-        return view('apps.input.salesNew',compact('customers','products','uoms','locations'));
+        
+        return view('apps.input.sales',compact('customers','uoms'));
     }
 
     public function searchProduct(Request $request)
     {
         $search = $request->get('product');
         
-        $result = $products = Product::join('inventories','inventories.product_id','=','products.id')
+        $result = Product::join('inventories','inventories.product_id','=','products.id')
+                            ->where('inventories.closing_amount','>','products.min_stock')
                             ->where('products.is_sale','=','1')
-                            ->where('inventories.closing_amount','>=','products.min_stock')
-                            ->where('name','LIKE','%'.$search. '%')
+                            ->where('products.name','LIKE','%'.$search.'%')
                             ->select('products.name','products.name')
                             ->get();
         
@@ -81,7 +74,6 @@ class SalesManagementController extends Controller
         $ref = 'SO/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('client_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
 
         $details = Contact::where('ref_id',$request->input('client_code'))->first();
-
         $input = [
             'order_ref' => $ref,
             'client_code' => $request->input('client_code'),
@@ -102,7 +94,7 @@ class SalesManagementController extends Controller
         $sale_id = $data->id;
         $discounts = $request->discount;
         foreach($items as $index=>$item) {
-            $names = Product::where('name',$item)->orWhere('product_barcode',$item)->first();
+            $names = Product::where('name',$item)->first();
             $items = SaleItem::create([
                 'sales_id' => $sale_id,
                 'product_id' => $names->id,

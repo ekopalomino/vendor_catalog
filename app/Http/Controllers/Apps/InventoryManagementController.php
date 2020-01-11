@@ -114,7 +114,7 @@ class InventoryManagementController extends Controller
         return redirect()->route('inventory.adjust')->with($notification);
     }
 
-    public function receiptIndex()
+    public function receiptIndex() 
     {
         $data = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
         $locations = Warehouse::pluck('name','name')->toArray();

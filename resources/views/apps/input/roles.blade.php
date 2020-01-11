@@ -155,10 +155,6 @@ FiberTekno | Create Role
 												</label>
 											</td>
 											<td>
-												<label class="mt-checkbox mt-checkbox-outline">
-													<input type="checkbox" value="47" name="permission[]" />
-													<span></span>
-												</label>
 											</td>
 											<td>
 											</td>

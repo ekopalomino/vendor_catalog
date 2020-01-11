@@ -230,15 +230,7 @@ FiberTekno | Edit Role
                                                 </label>
                                             </td>
                                             <td>
-                                                <label class="mt-checkbox mt-checkbox-outline">
-                                                    <input type="checkbox" value="47" name="permission[]" 
-                                                    @foreach($roles as $rolePermissions)
-                                                        @if($rolePermissions->permission_id == '47')checked
-                                                        @endif
-                                                    @endforeach
-                                                    />
-                                                    <span></span>
-                                                </label>
+                                                
                                             </td>
                                             <td>
                                             </td>

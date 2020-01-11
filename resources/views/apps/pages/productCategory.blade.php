@@ -18,6 +18,7 @@ FiberTekno | Kategori Produk
                     </div>
                 </div>
                 <div class="portlet-body">
+                    @can('Can Create Product')
                     <div class="col-md-6">
                         <div class="form-group">
                             <tr>
@@ -27,6 +28,7 @@ FiberTekno | Kategori Produk
                             </tr>
                         </div>
                     </div>
+                    @endcan
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">

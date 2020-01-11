@@ -17,8 +17,8 @@ class CreateInventoryMovementsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('inventory_id')->unsigned();
             $table->uuid('reference_id');
-            $table->uuid('product_name');
-            $table->uuid('warehouse_id');
+            $table->string('product_name');
+            $table->string('warehouse_name');
             $table->decimal('incoming',10,2)->nullable();
             $table->decimal('outgoing',10,2)->nullable();
             $table->decimal('remaining',10,2);

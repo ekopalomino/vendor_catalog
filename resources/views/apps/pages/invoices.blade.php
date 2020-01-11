@@ -18,6 +18,7 @@ FiberTekno | Invoice Management
                     </div>
                 </div>
                 <div class="portlet-body">
+                    @can('Can Create Finance')
                     <div class="col-md-6">
                         <div class="form-group">
                             <tr>
@@ -27,6 +28,7 @@ FiberTekno | Invoice Management
                             </tr>
                         </div>
                     </div>
+                    @endcan
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
@@ -99,11 +101,13 @@ FiberTekno | Invoice Management
                                 </td>
                                 <td>
                                     <a class="btn btn-xs btn-info" title="Print Invoice" href="{{ route('invoice.print',$val->id) }}"><i class="fa fa-print"></i></a>
+                                    @can('Can Edit Finance')
                                     @if($val->status_id == '3da32f6e-494f-4b61-b010-7ccc0e006fb3')
                                     {!! Form::open(['method' => 'POST','route' => ['invoice.payment', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-bank"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Bayar']) !!}
                                     {!! Form::close() !!}
                                     @endif
+                                    @endcan
                                 </td>
                 			</tr>
                             @endforeach

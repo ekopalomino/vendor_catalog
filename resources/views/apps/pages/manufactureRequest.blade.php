@@ -18,6 +18,7 @@ FiberTekno | Permintaan Manufaktur
                     </div>
                 </div>
                 <div class="portlet-body">
+                    @can('Can Create Manufacture')
                     <div class="col-md-6">
                         <div class="form-group">
                             <a href="{{ route('manufacture-request.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Buat Permintaan
@@ -25,6 +26,7 @@ FiberTekno | Permintaan Manufaktur
                             </a>
                         </div> 
                     </div>
+                    @endcan
                 	<table class="table table-striped table-bordered table-hover" id="sample_1">
                 		<thead>
                 			<tr>
@@ -61,10 +63,12 @@ FiberTekno | Permintaan Manufaktur
                                 <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
+                                    @can('Can Edit Manufacture')
                                     <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@checkStock',['id'=>$val->id]) }}" title="Cek Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture-request.approve', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve']) !!}
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

@@ -46,12 +46,12 @@ FiberTekno | Penyesuaian Persediaan
                                 <td>{{ number_format($product->closing_amount,2,',','.')}}</td>
                 				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
                                 <td>
-                                    @can('Can Create Inventory')
+                                    @can('Can Approve Inventory')
                                     <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\InventoryManagementController@makeAdjust',['id'=>$product->id]) }}" title="Make Adjustment" data-toggle="modal" data-target="#modalMd"><i class="fa fa-edit"></i></a>
                                     @endcan
                                 </td>
                 			</tr>
-                            @endforeach
+                            @endforeach 
                 		</tbody>
                 	</table>
                 </div>

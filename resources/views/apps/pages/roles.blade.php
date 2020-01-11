@@ -29,6 +29,7 @@ FiberTekno | Role Management
                         </div>
                         @endif
                     <div class="col-md-6">
+                        @can('Can Create User')
                         <div class="form-group">
                             <tr>
                                 <td>
@@ -36,6 +37,7 @@ FiberTekno | Role Management
                                 </td>
                             </tr>
                         </div>
+                        @endcan
                     </div>
                 	<table class="table table-striped table-bordered table-hover" id="sample_1">
                 		<thead>

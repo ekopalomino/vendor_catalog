@@ -18,12 +18,14 @@ FiberTekno | Mutasi Barang
                     </div>
                 </div>
                 <div class="portlet-body">
+                    @can('Can Create Inventory')
                     <div class="col-md-6">
                         <div class="form-group">
                             <a href="{{ route('add.transfer') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Buat Mutasi
                             </button></a>
                         </div>
                     </div>
+                    @endcan
                 	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
@@ -67,11 +69,11 @@ FiberTekno | Mutasi Barang
                                 </td>
                                 <td>
                                     <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\InventoryManagementController@transferView',['id'=>$val->id]) }}" title="Detail Mutasi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
-                                    @if(Auth::user()->warehouse_id == $val->to_id)
+                                    @can('Can Edit Inventory')
                                     {!! Form::open(['method' => 'POST','route' => ['transfer.accept', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Mutasi']) !!}
                                     {!! Form::close() !!}
-                                    @endif
+                                    @endcan
                                 </td>    
                             </tr>
                             @endforeach

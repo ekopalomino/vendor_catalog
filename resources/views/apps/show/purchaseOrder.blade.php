@@ -125,7 +125,7 @@ FiberTekno | Purchase Order Detail
                                     @foreach($details as $key=>$val)
                                     <tr>
                                         <td>{{ $key+1 }}</td>
-                                        <td>{{ $val->Products->name }}</td>
+                                        <td>{{ $val->product_name }}</td>
                                         <td>{{ number_format($val->quantity,0,',','.')}}</td>
                                         <td>{{ $val->Uoms->name }}</td>
                                         <td>Rp {{ number_format($val->purchase_price,0,',','.')}}</td>

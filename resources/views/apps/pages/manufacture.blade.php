@@ -64,6 +64,7 @@ FiberTekno | Manufactures
                                     @endif
                                 </td>
                                 <td>
+                                    @can('Can Edit Manufacture')
                                     @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmStart()']) !!}
                                     {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Mulai Proses Manufaktur']) !!}
@@ -73,6 +74,7 @@ FiberTekno | Manufactures
                                     <a class="btn btn-xs btn-danger modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@manufactureDone',['id'=>$val->id]) }}" title="Selesai Proses Manufaktur" data-toggle="modal" data-target="#modalMd"><i class="fa fa-stop"></i></a>
                                     @endif
                                     <a class="btn btn-xs btn-info" title="Lihat MO" href="{{ route('manufacture.show',$val->id) }}"><i class="fa fa-print"></i></a>
+                                    @endcan
                                 </td> 
                             </tr>
                             @endforeach

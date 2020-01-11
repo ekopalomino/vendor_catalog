@@ -19,6 +19,7 @@ FiberTekno | Purchase Receipt
                 </div>
                 <div class="portlet-body">
                     <div class="col-md-6">
+                        @can('Can Create Inventory')
                         <div class="form-group">
                             <tr>
                                 <td>
@@ -26,6 +27,7 @@ FiberTekno | Purchase Receipt
                                 </td>
                             </tr>
                         </div>
+                        @endcan
                     </div>
                     <div class="col-md-6">
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
