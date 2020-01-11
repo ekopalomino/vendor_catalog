@@ -84,7 +84,7 @@ class InventoryManagementController extends Controller
 
     public function storeAdjust(Request $request,$id)
     {
-        $ref = 'ADJ/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'ADJ/FTI/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $input = [
             'reference_id' => $ref,
             'type' => '1', 
@@ -235,7 +235,7 @@ class InventoryManagementController extends Controller
                 return redirect()->back()->with($notification);
             } else {
                 $reference = InternalTransfer::count();
-                $ref = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+                $ref = 'MI/FTI'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
                 $data = [
                     'order_ref' => $ref,
                     'from_wh' => $request->input('from_wh'),
@@ -437,7 +437,7 @@ class InventoryManagementController extends Controller
         $input = $request->all();
         
         $lastOrder = Delivery::count();
-        $refs = 'DO/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $refs = 'DO/FTI/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $salesRefs = Sale::where('id',($request->input('sales_ref')))->first();
 
         $orders = Delivery::create([

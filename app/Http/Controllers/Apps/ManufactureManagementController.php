@@ -67,7 +67,7 @@ class ManufactureManagementController extends Controller
     public function storeRequest(Request $request)
     {
         $latestOrder = Manufacture::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
-        $ref = 'MR/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'MR/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $bases = UomValue::where('id',$request->input('uom_id'))->first();
         if($bases->is_parent == null) {
             $convertion = ($request->input('quantity')) * ($bases->value); 
@@ -112,7 +112,7 @@ class ManufactureManagementController extends Controller
     public function approveRequest($id)
     {
         $latestOrder = Manufacture::where('status_id','45e139a2-a423-46ef-8901-d07b25b461a3')->count();
-        $ref = 'MO/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'MO/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $data = Manufacture::find($id);
         $accept = $data->update([
             'order_ref' => $ref,

@@ -35,7 +35,7 @@ class InvoiceManagementController extends Controller
     {
         $latestRef = Invoice::count();
         $getClient = Sale::where('id',$request->input('sales_order'))->first();
-        $refs = 'INV/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
+        $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
         $invoices = Invoice::create([
             'order_ref' => $refs,
             'sales_order' => $request->input('sales_order'),

@@ -61,7 +61,7 @@ class PurchaseManagementController extends Controller
             'delivery_date' => 'required',
         ]);
         $reference = Purchase::where('status','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
-        $ref = 'PR/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'PR/FTI/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $details = Contact::where('ref_id',$request->input('supplier_code'))->first();
 
         $input = [
@@ -137,7 +137,7 @@ class PurchaseManagementController extends Controller
     {
         $data = Purchase::find($id);
         $reference = Purchase::where('status','!=','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
-        $ref = 'PO/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($data->supplier_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'PO/FTI/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($data->supplier_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $details = Contact::where('ref_id',$request->input('supplier_code'))->first();
         $process = [
             'status' => '458410e7-384d-47bc-bdbe-02115adc4449',
