@@ -36,7 +36,9 @@ class InventoryManagementController extends Controller
 
     public function inventoryIndex()
     {
-        $data = Inventory::orderBy('id','asc')->get();
+        $data = Inventory::where('warehouse_name','!=','Gudang Pengiriman')
+                           ->orderBy('id','asc')
+                           ->get();
         
         return view('apps.pages.inventories',compact('data'));
     }
@@ -45,9 +47,8 @@ class InventoryManagementController extends Controller
     {
         $source = Inventory::where('id',$id)->first();
         $data = InventoryMovement::where('product_name',$source->product_name)
-                                   ->where('warehouse_name',$source->warehouse_name)
                                    ->paginate(10);
-        
+    
         return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
     }
 
@@ -148,33 +149,40 @@ class InventoryManagementController extends Controller
                     'opening_amount' => $convertion,
                     'closing_amount' => $convertion,
                 ]);
-            } else {
-                $inventories = $sources->update([
-                    'closing_amount' => ($sources->closing_amount) + $convertion,
-                ]);
-            }
-            $getId = Inventory::orderBy('updated_at','DESC')->first();
-            
-            if($moves === null) {
                 $movements = InventoryMovement::create([
-                    'product_name' => $getId->product_name,
-                    'warehouse_name' => $getId->warehouse_name,
+                    'product_name' => $inventories->product_name,
+                    'warehouse_name' => $inventories->warehouse_name,
                     'type' => '3',
-                    'inventory_id' => $getId->id,
+                    'inventory_id' => $inventories->id,
                     'reference_id' => $data->order_ref,
                     'incoming' => $convertion,
                     'remaining' => $convertion,
                 ]);
             } else {
-                $movements = InventoryMovement::create([
-                    'product_name' => $getId->product_name,
-                    'warehouse_name' => $getId->warehouse_name,
-                    'type' => '3',
-                    'inventory_id' => $getId->id,
-                    'reference_id' => $data->order_ref,
-                    'incoming' => $convertion,
-                    'remaining' => ($moves->remaining) + $convertion,
+                $inventories = $sources->update([
+                    'closing_amount' => ($sources->closing_amount) + $convertion,
                 ]);
+                if($moves === null) {
+                    $movements = InventoryMovement::create([
+                        'product_name' => $sources->product_name,
+                        'warehouse_name' => $sources->warehouse_name,
+                        'type' => '3',
+                        'inventory_id' => $sources->id,
+                        'reference_id' => $data->order_ref,
+                        'incoming' => $convertion,
+                        'remaining' => $convertion,
+                    ]);
+                } else {
+                    $movements = InventoryMovement::create([
+                        'product_name' => $sources->product_name,
+                        'warehouse_name' => $sources->warehouse_name,
+                        'type' => '3',
+                        'inventory_id' => $sources->id,
+                        'reference_id' => $data->order_ref,
+                        'incoming' => $convertion,
+                        'remaining' => ($moves->remaining) + $convertion,
+                    ]);
+                }
             }
         }
         $log = 'Pembelian '.($data->order_ref).' Berhasil Diterima';
@@ -417,7 +425,7 @@ class InventoryManagementController extends Controller
         $data = Delivery::get();
         $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
         $services = DeliveryService::pluck('delivery_name','id')->toArray();
-
+        
         return view('apps.pages.deliveryOrder',compact('data','sales','services'));
     }
 
@@ -475,9 +483,8 @@ class InventoryManagementController extends Controller
     public function deliveryPrint($id)
     {
         $source = Delivery::find($id);
-        $data = Sale::where('order_ref',$source->sales_ref)
-                        ->first();
-                        
+        $data = Sale::where('order_ref',$source->order_ref)
+                        ->first();             
         $details = SaleItem::where('sales_id',$data->id)
                             ->get();
         
@@ -486,7 +493,7 @@ class InventoryManagementController extends Controller
     }
 
     public function deliveryReceipt($id)
-    {
+    { 
         $data = Delivery::find($id);
 
         return view('apps.edit.deliveryReceipt',compact('data'))->renderSections()['content'];

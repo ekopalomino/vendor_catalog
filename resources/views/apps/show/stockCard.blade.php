@@ -9,7 +9,8 @@
                         <th>No</th>
                 		<th>Tgl Transaksi</th>
                         <th>Tipe</th>
-                		<th>No Ref</th>
+                        <th>No Ref</th>
+                        <th>Gudang</th>
                 		<th>Brg Masuk</th>
                 		<th>Brg Keluar</th>
                 		<th>Sisa Brg</th>
@@ -38,7 +39,8 @@
                             Manufaktur
                             @endif
                         </td>
-	                	<td>{{ $val->reference_id}}</td>
+                        <td>{{ $val->reference_id}}</td>
+                        <td>{{ $val->warehouse_name}}</td>
 	                	<td>{{ number_format($val->incoming,2,',','.')}}</td>
 	                	<td>{{ number_format($val->outgoing,2,',','.')}}</td>
 	                	<td>{{ number_format($val->remaining,2,',','.')}}</td>

@@ -116,7 +116,7 @@ FiberTekno | Delivery Order
                                 <td>
                                     <a class="btn btn-xs btn-info" title="Print DO" href="{{ route('delivery.print',$val->id) }}"><i class="fa fa-print"></i></a>
                                     @can('Can Edit Inventory')
-                                    @if(($val->status_id) == '458410e7-384d-47bc-bdbe-02115adc4449')
+                                    @if(($val->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
                                     <a class="btn btn-xs btn-warning modalMd" href="#" value="{{ action('Apps\InventoryManagementController@deliveryReceipt',['id'=>$val->id]) }}" title="Input Resi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-truck"></i></a>
                                     @endif
                                     @endcan
