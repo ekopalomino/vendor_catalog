@@ -37,10 +37,8 @@ class InventoryManagementController extends Controller
     public function inventoryIndex()
     {
         $data = Inventory::orderBy('id','asc')->get();
-        $products = Product::pluck('name','id')->toArray();
-        $locations = Warehouse::pluck('name','id')->toArray();
-
-        return view('apps.pages.inventories',compact('data','products','locations'));
+        
+        return view('apps.pages.inventories',compact('data'));
     }
 
     public function stockCard(Request $request,$id)
@@ -48,12 +46,9 @@ class InventoryManagementController extends Controller
         $source = Inventory::where('id',$id)->first();
         $data = InventoryMovement::where('product_name',$source->product_name)
                                    ->where('warehouse_name',$source->warehouse_name)
-                                   ->get();
-        /* $data = InventoryMovement::where('product_name',$source->product_name)
-                                ->where('warehouse_name',$source->warehouse_name)
-                                ->get(); */
+                                   ->paginate(10);
         
-        return view('apps.show.stockCard',compact('data'));
+        return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
     }
 
     public function stockPrint(Request $request,$id)
