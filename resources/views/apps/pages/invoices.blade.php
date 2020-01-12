@@ -91,8 +91,8 @@ FiberTekno | Invoice Management
                                 <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->Sales->Customers->name}}</td>
                                 <td>{{ number_format($val->Sales->total,2,',','.')}}</td>
-                                <td><label class="badge badge-success">{{ $val->Statuses->name }}</label></td>
-                                <td>{{ $val->created_by }}</td>
+                                <td><label class="label label-sm label-success">{{ $val->Statuses->name }}</label></td>
+                                <td>{{ $val->created_by }}</td> 
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
                                     @if(!empty($val->payment_received))

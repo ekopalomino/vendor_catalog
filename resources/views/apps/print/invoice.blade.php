@@ -118,7 +118,7 @@
 				<td style="width: 102px;" colspan="2">PPN(10%) Rp {{ number_format($sales->tax,0,',','.')}}
 					<br>
 					<strong>DELIVERY COST Rp {{ number_format($sales->delivery_cost,0,',','.')}}</strong>
-					<strong>TOTAL Rp {{ number_format($sales->total,0,',','.')}}</strong>
+					<strong>TOTAL Rp {{ number_format(($sales->total) + ($sales->delivery_cost),0,',','.')}}</strong>
 				</td>
 			</tr>
 		</tbody>

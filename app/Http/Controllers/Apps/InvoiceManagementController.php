@@ -26,7 +26,7 @@ class InvoiceManagementController extends Controller
 
     public function index()
     {
-        $orders = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->pluck('order_ref','id')->toArray();
+        $orders = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
         $data = Invoice::get(); 
         return view('apps.pages.invoices',compact('data','orders'));
     }
