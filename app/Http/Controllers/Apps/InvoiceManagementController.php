@@ -8,6 +8,7 @@ use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Models\Invoice;
 use iteos\Models\Delivery;
+use iteos\Models\Purchase;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -109,5 +110,13 @@ class InvoiceManagementController extends Controller
 
         $pdf = PDF::loadview('apps.print.sales',compact('data','sales'));
         return $pdf->download('SO.pdf');
+    }
+
+    public function receiptIndex()
+    {
+        $data = Invoice::where()->get();
+        $orders = Purchase::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
+
+        return view('apps.pages.receiptIndex',compact('data','orders'));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Erp\Models\Status;
+use iteos\Models\Status;
 
 class StatusTableSeeder extends Seeder
 {
@@ -13,7 +13,8 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            'Invoice Created',
+            'Receipt Created',
+            'Payment Made',
         ];
 
         foreach($statuses as $status) {

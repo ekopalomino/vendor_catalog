@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 11, 2020 at 05:59 AM
+-- Generation Time: Jan 12, 2020 at 11:22 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -55,9 +55,9 @@ CREATE TABLE `contacts` (
 --
 
 INSERT INTO `contacts` (`id`, `ref_id`, `type_id`, `name`, `company`, `phone`, `mobile`, `email`, `billing_address`, `shipping_address`, `payment_method`, `payment_terms`, `tax`, `tax_no`, `created_by`, `updated_by`, `active`, `created_at`, `updated_at`) VALUES
-('4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '0000001', 2, 'Pak Iban', 'PT Pak Iban', '021 800000001', '08111435076', 'mirza.rizaldy@gmail.com', 'Di Rumah', 'Di Rumah', 1, 3, 0, '0101010', 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 11:51:49', '2020-01-08 11:51:49'),
-('8894faf4-281a-4c22-b2c2-1aff6f67b346', '00000002', 2, 'Pak Ibos', 'PT Ibos Makmur', '021 989665', '0811199181918', 'ibosjaya@gmail.com', 'Samping Kanan', 'Samping Kanan', 1, 3, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 15:39:22', '2020-01-08 15:39:22'),
-('b675bf76-b74c-4bf0-99a1-ebf8f9669fae', '0000001', 1, 'Data Comm', 'Data Comm', '021 861868686', '0817777777', 'admin@com.com', 'Seberang Kali', 'Seberang Kali', 1, 3, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 15:11:24', '2020-01-08 15:11:24');
+('4e8b0f0e-e718-4150-a7fb-9dd619e413c1', 'FTI-S-0000001', 2, 'Pak Iban', 'PT Pak Iban', '021 800000001', '08111435076', 'mirza.rizaldy@gmail.com', 'Di Rumah', 'Di Rumah', 1, 3, 0, '0101010', 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 11:51:49', '2020-01-08 11:51:49'),
+('8894faf4-281a-4c22-b2c2-1aff6f67b346', 'FTI-S-0000002', 2, 'Pak Ibos', 'PT Ibos Makmur', '021 989665', '0811199181918', 'ibosjaya@gmail.com', 'Samping Kanan', 'Samping Kanan', 1, 3, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 15:39:22', '2020-01-08 15:39:22'),
+('b675bf76-b74c-4bf0-99a1-ebf8f9669fae', 'FTI-C-0000001', 1, 'Data Comm', 'Data Comm', '021 861868686', '0817777777', 'admin@com.com', 'Seberang Kali', 'Seberang Kali', 1, 3, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 15:11:24', '2020-01-08 15:11:24');
 
 -- --------------------------------------------------------
 
@@ -626,8 +626,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (431, '5d9f506e-33c0-11ea-aec2-2e728ce88125', 'Visual Fault Locator JW 3105A', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (432, '5d9f5262-33c0-11ea-aec2-2e728ce88125', 'Wall Mount Rack ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (433, '5d9f53ca-33c0-11ea-aec2-2e728ce88125', 'Wire Tracker', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(434, '5d9f550a-33c0-11ea-aec2-2e728ce88125', 'Young Jin ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(435, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Pengiriman', '5000.00', '0.00', '50.00', '2020-01-11 03:23:23', '2020-01-11 03:23:23');
+(434, '5d9f550a-33c0-11ea-aec2-2e728ce88125', 'Young Jin ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11');
 
 -- --------------------------------------------------------
 
@@ -653,24 +652,6 @@ CREATE TABLE `inventory_movements` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `invoices`
---
-
-CREATE TABLE `invoices` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sales_order` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-  `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_received` date DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `log_activities`
 --
 
@@ -685,6 +666,20 @@ CREATE TABLE `log_activities` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `log_activities`
+--
+
+INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'User manajemen Berhasil disimpan', 'http://fibertekno.iteos.tech/public/apps/users/create', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 17:52:23', '2020-01-11 17:52:23'),
+(2, 'User adminsales1 Berhasil diubah', 'http://fibertekno.iteos.tech/public/apps/users/update/74718047-dc5d-4f47-87fc-8db9e4fdb527', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 18:07:41', '2020-01-11 18:07:41'),
+(3, 'User adminsales2 Berhasil disimpan', 'http://fibertekno.iteos.tech/public/apps/users/create', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 18:09:34', '2020-01-11 18:09:34'),
+(4, 'User manajemen Berhasil diubah', 'http://fibertekno.iteos.tech/public/apps/users/update/24d21373-b462-4888-8d27-d365c33fbf6a', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 18:10:30', '2020-01-11 18:10:30'),
+(5, 'User sysadmin Berhasil disimpan', 'http://fibertekno.iteos.tech/public/apps/users/create', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 19:25:36', '2020-01-11 19:25:36'),
+(6, 'Hak Akses Sysadmin berhasil disimpan', 'http://fibertekno.iteos.tech/public/apps/users/roles/store', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 19:26:34', '2020-01-11 19:26:34'),
+(7, 'User sysadmin Berhasil diubah', 'http://fibertekno.iteos.tech/public/apps/users/update/45e3cf2e-1b27-43ff-b3e8-32d3695b6434', 'POST', '36.77.192.232', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-11 19:26:54', '2020-01-11 19:26:54'),
+(8, 'User Rizky ITEOS Berhasil disimpan', 'http://fibertekno.iteos.tech/public/apps/users/create', 'POST', '140.213.8.189', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-12 18:56:45', '2020-01-12 18:56:45');
 
 -- --------------------------------------------------------
 
@@ -772,7 +767,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2019_09_11_232813_create_manufactures_table', 18),
 (32, '2019_09_11_233120_create_manufacture_items_table', 18),
 (37, '2019_09_24_102135_create_work_items_table', 19),
-(39, '2019_09_30_225904_create_invoices_table', 20),
 (41, '2019_10_11_000017_create_delivery_services_table', 21),
 (44, '2019_10_12_012542_create_retur_sales_table', 22),
 (45, '2019_10_12_012659_create_retur_items_table', 22),
@@ -780,7 +774,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (54, '2020_01_06_235627_create_user_warehouses_table', 27),
 (58, '2019_09_07_211518_create_inventories_table', 29),
 (61, '2019_09_07_211754_create_inventory_movements_table', 30),
-(62, '2019_09_07_212548_create_product_boms_table', 30);
+(62, '2019_09_07_212548_create_product_boms_table', 30),
+(63, '2020_01_13_041442_create_payments_table', 31);
 
 -- --------------------------------------------------------
 
@@ -812,13 +807,17 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (8, 'iteos\\Models\\User', '071ea324-a8d2-4f79-8f8a-23c90bc191ff'),
+(3, 'iteos\\Models\\User', '24d21373-b462-4888-8d27-d365c33fbf6a'),
+(9, 'iteos\\Models\\User', '45e3cf2e-1b27-43ff-b3e8-32d3695b6434'),
 (1, 'iteos\\Models\\User', '589f13c5-f185-4bb2-95d8-c62b12c8271d'),
 (4, 'iteos\\Models\\User', '74718047-dc5d-4f47-87fc-8db9e4fdb527'),
+(1, 'iteos\\Models\\User', '820cbe25-baf5-4d2b-b877-9ce7fdffdc21'),
 (6, 'iteos\\Models\\User', '994a52f5-285e-4401-95b2-166cc353bb65'),
 (7, 'iteos\\Models\\User', 'a7acf627-9108-44c0-a028-2d9bf7829108'),
 (1, 'iteos\\Models\\User', 'bb536994-ada3-4caa-b97b-e412dc2cc882'),
 (3, 'iteos\\Models\\User', 'c7e50632-3efc-4cff-99fd-2a39dee275b2'),
-(5, 'iteos\\Models\\User', 'cb512697-44d9-4683-9bae-0a8e28a3252b');
+(5, 'iteos\\Models\\User', 'cb512697-44d9-4683-9bae-0a8e28a3252b'),
+(4, 'iteos\\Models\\User', 'f68f2a18-623f-4c1a-bfde-7f029c603a17');
 
 -- --------------------------------------------------------
 
@@ -830,6 +829,29 @@ CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `reference_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type_id` smallint(6) NOT NULL,
+  `sales_order` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `purchase_order` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `purchase_amount` decimal(50,2) DEFAULT NULL,
+  `purchase_invoice` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+  `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_received` datetime DEFAULT NULL,
+  `payment_made` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1557,7 +1579,8 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 (5, 'Pembelian', 'web', '2020-01-08 13:41:30', '2020-01-08 13:41:30'),
 (6, 'Finance', 'web', '2020-01-09 13:06:46', '2020-01-09 13:06:46'),
 (7, 'Produksi/Manufaktur', 'web', '2020-01-10 14:21:32', '2020-01-10 14:21:32'),
-(8, 'Gudang', 'web', '2020-01-10 19:02:59', '2020-01-10 19:02:59');
+(8, 'Gudang', 'web', '2020-01-10 19:02:59', '2020-01-10 19:02:59'),
+(9, 'Sysadmin', 'web', '2020-01-11 19:26:34', '2020-01-11 19:26:34');
 
 -- --------------------------------------------------------
 
@@ -1703,7 +1726,24 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (34, 8),
 (35, 8),
 (45, 8),
-(46, 8);
+(46, 8),
+(1, 9),
+(2, 9),
+(3, 9),
+(4, 9),
+(5, 9),
+(6, 9),
+(7, 9),
+(8, 9),
+(15, 9),
+(17, 9),
+(18, 9),
+(19, 9),
+(20, 9),
+(21, 9),
+(22, 9),
+(48, 9),
+(49, 9);
 
 -- --------------------------------------------------------
 
@@ -1769,6 +1809,7 @@ CREATE TABLE `statuses` (
 
 INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('0fb7f4e6-e293-429d-8761-f978dc850a97', 'Complete Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
+('106da5a6-2c71-4a08-9342-db3fd8ebf71e', 'Receipt Created', '2020-01-12 22:21:22', '2020-01-12 22:21:22'),
 ('2b643e21-a94c-4713-93f1-f1cbde6ad633', 'Active', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43', 'Received', '2019-09-11 05:20:52', '2019-09-11 05:20:52'),
 ('3da32f6e-494f-4b61-b010-7ccc0e006fb3', 'Invoice Created', '2019-10-02 16:05:13', '2019-10-02 16:05:13'),
@@ -1782,6 +1823,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8', 'Rejected', '2019-09-10 16:28:27', '2019-09-10 16:28:27'),
 ('c2fdba02-e765-4ee8-8c8c-3073209ddd26', 'On Process', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('c51d7be2-7c72-41a8-93ff-03f780ece42a', 'Unpaid', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('d6c23804-3b9b-40ca-b050-146af5594f5d', 'Payment Made', '2020-01-12 22:21:22', '2020-01-12 22:21:22'),
 ('e9395add-e815-4374-8ed3-c0d5f4481ab8', 'Delivered', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('e9f870d8-ebe8-462e-a6b6-c03f4f5bd8eb', 'Retur', '2019-10-12 16:26:16', '2019-10-12 16:26:16'),
 ('eca81b8f-bfb9-48b9-8e8d-86f4517bc129', 'Payment Received', '2019-10-02 16:00:59', '2019-10-02 16:00:59'),
@@ -1868,12 +1910,16 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `avatar`, `division_id`, `status_id`, `last_login_at`, `last_login_from`, `remember_token`, `created_at`, `updated_at`) VALUES
 ('071ea324-a8d2-4f79-8f8a-23c90bc191ff', 'adminwh', 'adminwh@local.com', NULL, '$2y$10$.4fkn42g.yTr.YhcnEpuCe.aBZtS/x8A6CmlLKd4p03ak.2Kdd/0G', 'user.jpg', '9f94e00b-5fdc-4dc9-8057-fd21ded69869', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-10 19:14:55', '114.124.161.169', NULL, '2020-01-08 11:18:02', '2020-01-10 19:14:55'),
-('74718047-dc5d-4f47-87fc-8db9e4fdb527', 'adminsales', 'adminsales@local.com', NULL, '$2y$10$/pL1rhg.vHYiMX42fVIYde6VH/UMv4ml9mr30g548GHMI/HEroL2m', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-10 19:16:57', '114.124.161.169', NULL, '2020-01-08 13:42:19', '2020-01-10 19:16:57'),
-('994a52f5-285e-4401-95b2-166cc353bb65', 'adminfinance', 'adminfinance@local.com', NULL, '$2y$10$henHL4LyBKhui8HoC0wCKexpe8P9a4mwOzgR4rGMQGKA3YzBRC/dy', 'user.jpg', '1886a2b3-2fb7-4f40-b577-dad076a5d3b1', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-09 13:07:34', '2020-01-09 13:07:34'),
+('24d21373-b462-4888-8d27-d365c33fbf6a', 'manajemen', 'mgt@local.com', NULL, '$2y$10$8Whd9sXETS2AO0P6vMO4Gev5kuJv91g.2y/1wom3yahWY8PqOE.9m', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-11 17:52:23', '2020-01-11 17:52:23'),
+('45e3cf2e-1b27-43ff-b3e8-32d3695b6434', 'sysadmin', 'sysadmin@local.com', NULL, '$2y$10$cf/z9Nh/9iSO9SCkvgRoZ.IE4SsWysBoQUP/mNjaFQ.zDi.ToULw6', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-11 19:25:36', '2020-01-11 19:25:36'),
+('74718047-dc5d-4f47-87fc-8db9e4fdb527', 'adminsales1', 'adminsales1@local.com', NULL, '$2y$10$/pL1rhg.vHYiMX42fVIYde6VH/UMv4ml9mr30g548GHMI/HEroL2m', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 17:37:09', '36.77.192.232', NULL, '2020-01-08 13:42:19', '2020-01-11 18:07:41'),
+('820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Rizky ITEOS', 'rizky@local.com', NULL, '$2y$10$b89DIndoVlEjvOv3yYlreOyBZXgeC02QlF5fkR6l9WlHrgcWMsHKW', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
+('994a52f5-285e-4401-95b2-166cc353bb65', 'adminfinance', 'adminfinance@local.com', NULL, '$2y$10$henHL4LyBKhui8HoC0wCKexpe8P9a4mwOzgR4rGMQGKA3YzBRC/dy', 'user.jpg', '1886a2b3-2fb7-4f40-b577-dad076a5d3b1', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 17:31:55', '36.77.192.232', NULL, '2020-01-09 13:07:34', '2020-01-11 17:31:55'),
 ('a7acf627-9108-44c0-a028-2d9bf7829108', 'adminproduksi', 'adminproduksi@local.com', NULL, '$2y$10$qwIfq0pGNYkn.Tmhp1dbh.AYcunz7fQTj9a4MkARaln5a6IkSA9kS', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-10 15:41:34', '114.124.161.169', NULL, '2020-01-08 11:21:49', '2020-01-10 15:41:34'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 09:55:15', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-11 02:55:15'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-13 04:56:25', '140.213.8.195', NULL, '2019-09-04 06:31:44', '2020-01-13 04:56:25'),
 ('c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$.PRqNO0.eckPAk032EBdC.1YHqtXS.lLmZo8l/AtN5Ymr1OmDyCEC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 00:06:00', '127.0.0.1', NULL, '2020-01-06 17:46:22', '2020-01-10 17:06:00'),
-('cb512697-44d9-4683-9bae-0a8e28a3252b', 'pembelian', 'pembelian@local.com', NULL, '$2y$10$nVmVLQvo9BNmFbWJ63qABuoWtHv9cGOjihoTNfp1VQUm9VdExMBO6', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 13:53:25', '180.243.44.60', NULL, '2020-01-08 13:42:59', '2020-01-08 13:53:25');
+('cb512697-44d9-4683-9bae-0a8e28a3252b', 'pembelian', 'pembelian@local.com', NULL, '$2y$10$nVmVLQvo9BNmFbWJ63qABuoWtHv9cGOjihoTNfp1VQUm9VdExMBO6', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 13:53:25', '180.243.44.60', NULL, '2020-01-08 13:42:59', '2020-01-08 13:53:25'),
+('f68f2a18-623f-4c1a-bfde-7f029c603a17', 'adminsales2', 'adminsales2@local.com', NULL, '$2y$10$OFHrs.J9ITASIoVP5mOD5uZ0XTkKzKdpobMjf6NSV/LwA4G8vlTpS', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-11 18:09:34', '2020-01-11 18:09:34');
 
 -- --------------------------------------------------------
 
@@ -1916,7 +1962,22 @@ INSERT INTO `user_warehouses` (`id`, `user_id`, `warehouse_name`, `created_at`, 
 (35, '994a52f5-285e-4401-95b2-166cc353bb65', 'Gudang Produksi', '2020-01-09 13:07:34', '2020-01-09 13:07:34'),
 (36, '994a52f5-285e-4401-95b2-166cc353bb65', 'Gudang Scrap', '2020-01-09 13:07:34', '2020-01-09 13:07:34'),
 (37, 'c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Gudang Utama', '2020-01-10 17:05:41', '2020-01-10 17:05:41'),
-(38, 'c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Gudang Produksi', '2020-01-10 17:05:41', '2020-01-10 17:05:41');
+(38, 'c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Gudang Produksi', '2020-01-10 17:05:41', '2020-01-10 17:05:41'),
+(39, '24d21373-b462-4888-8d27-d365c33fbf6a', 'Gudang Utama', '2020-01-11 17:52:23', '2020-01-11 17:52:23'),
+(40, '24d21373-b462-4888-8d27-d365c33fbf6a', 'Gudang Manufaktur', '2020-01-11 17:52:23', '2020-01-11 17:52:23'),
+(41, '24d21373-b462-4888-8d27-d365c33fbf6a', 'Gudang Scrap', '2020-01-11 17:52:23', '2020-01-11 17:52:23'),
+(42, 'f68f2a18-623f-4c1a-bfde-7f029c603a17', 'Gudang Utama', '2020-01-11 18:09:34', '2020-01-11 18:09:34'),
+(43, 'f68f2a18-623f-4c1a-bfde-7f029c603a17', 'Gudang Manufaktur', '2020-01-11 18:09:34', '2020-01-11 18:09:34'),
+(44, 'f68f2a18-623f-4c1a-bfde-7f029c603a17', 'Gudang Scrap', '2020-01-11 18:09:34', '2020-01-11 18:09:34'),
+(45, '45e3cf2e-1b27-43ff-b3e8-32d3695b6434', 'Gudang Utama', '2020-01-11 19:25:36', '2020-01-11 19:25:36'),
+(46, '45e3cf2e-1b27-43ff-b3e8-32d3695b6434', 'Gudang Manufaktur', '2020-01-11 19:25:36', '2020-01-11 19:25:36'),
+(47, '45e3cf2e-1b27-43ff-b3e8-32d3695b6434', 'Gudang Scrap', '2020-01-11 19:25:36', '2020-01-11 19:25:36'),
+(48, '45e3cf2e-1b27-43ff-b3e8-32d3695b6434', 'Gudang Produksi', '2020-01-11 19:26:54', '2020-01-11 19:26:54'),
+(49, '820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Gudang Utama', '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
+(50, '820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Gudang Pengiriman', '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
+(51, '820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Gudang Manufaktur', '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
+(52, '820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Gudang Scrap', '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
+(53, '820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Gudang Retur', '2020-01-12 18:56:45', '2020-01-12 18:56:45');
 
 -- --------------------------------------------------------
 
@@ -1999,12 +2060,6 @@ ALTER TABLE `inventory_movements`
   ADD KEY `inventory_movements_inventory_id_foreign` (`inventory_id`);
 
 --
--- Indexes for table `invoices`
---
-ALTER TABLE `invoices`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `log_activities`
 --
 ALTER TABLE `log_activities`
@@ -2048,6 +2103,12 @@ ALTER TABLE `model_has_roles`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `payment_methods`
@@ -2211,16 +2272,10 @@ ALTER TABLE `inventory_movements`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `invoices`
---
-ALTER TABLE `invoices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
@@ -2232,7 +2287,13 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -2280,7 +2341,7 @@ ALTER TABLE `retur_items`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
@@ -2304,7 +2365,7 @@ ALTER TABLE `uom_values`
 -- AUTO_INCREMENT for table `user_warehouses`
 --
 ALTER TABLE `user_warehouses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Constraints for dumped tables

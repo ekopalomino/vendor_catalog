@@ -196,9 +196,14 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     /*-----------------------End Reports Management------------------------------------*/
 
     /*-----------------------Finance Management------------------------------------*/
-    Route::get('invoices/index','Apps\InvoiceManagementController@index')->name('invoice.index');
-    Route::post('invoices/create','Apps\InvoiceManagementController@invoiceStore')->name('invoice.store');
-    Route::post('invoices/payment-receive/{id}','Apps\InvoiceManagementController@invoicePayment')->name('invoice.payment');
-    Route::get('invoices/show/{id}','Apps\InvoiceManagementController@invoiceShow')->name('invoice.show');
-    Route::get('invoices/print/{id}','Apps\InvoiceManagementController@invoicePrint')->name('invoice.print');
+    Route::get('finance/invoices/index','Apps\PaymentManagementController@invoiceIndex')->name('invoice.index');
+    Route::post('finance/invoices/create','Apps\PaymentManagementController@invoiceStore')->name('invoice.store');
+    Route::post('finance/invoices/payment-receive/{id}','Apps\PaymentManagementController@invoicePayment')->name('invoice.payment');
+    Route::get('finance/invoices/show/{id}','Apps\PaymentManagementController@invoiceShow')->name('invoice.show');
+    Route::get('finance/invoices/print/{id}','Apps\PaymentManagementController@invoicePrint')->name('invoice.print');
+    Route::get('finance/purchase-receipt/index','Apps\PaymentManagementController@receiptIndex')->name('purchaseReceipt.index');
+    Route::post('finance/purchase-receipt/create','Apps\PaymentManagementController@receiptStore')->name('purchaseReceipt.store');
+    Route::post('finance/purchase-receipt/payment-made/{id}','Apps\PaymentManagementController@receiptPayment')->name('purchaseReceipt.payment');
+    Route::get('finance/purchase-receipt/show/{id}','Apps\PaymentManagementController@receiptShow')->name('purchaseReceipt.show');
+    Route::get('finance/purchase-receipt/print/{id}','Apps\PaymentManagementController@receiptPrint')->name('purchaseReceipt.print');
 });
