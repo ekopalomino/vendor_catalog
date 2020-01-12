@@ -38,7 +38,7 @@ FiberTekno | Sales Barcode
                     	<div class="tile double bg-white-madison">
                             <div class="tile-body">
                                 <h4 style="color:#000000;">{{ $val->order_ref }}</h4>
-                                <p> <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($val->barcode, 'UPCA')}}" alt="barcode" /> </p>   
+                                <p> <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($val->id, 'C39+')}}" alt="barcode" /> </p>   
                             </div>
                         </div>
                         @endforeach
