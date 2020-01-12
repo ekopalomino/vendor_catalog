@@ -37,7 +37,7 @@ FiberTekno | Buat Manufaktur Order
                     <div class="form-group">
                         <label class="col-md-3 control-label">Jumlah</label>
                         <div class="col-md-4">
-                            {!! Form::text('quantity', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
+                            {!! Form::number('quantity', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
                         </div>
                     </div>
                     <!-- <table class="table table-striped table-bordered table-hover" id="sample_2">

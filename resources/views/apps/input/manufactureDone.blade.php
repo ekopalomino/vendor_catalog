@@ -29,8 +29,8 @@
                     <tr>
                         <td>{{ $val->item_name }}{{ Form::hidden('material_name[]', $val->item_name) }}</td>
                         <td>{{ $val->qty }}</td>
-                        <td>{!! Form::text('usage[]', null, array('placeholder' => 'Pemakaian','class' => 'form-control')) !!}</td>
-                        <td>{!! Form::text('scrap[]', null, array('placeholder' => 'Scrap','class' => 'form-control')) !!}</td>
+                        <td>{!! Form::number('usage[]', null, array('placeholder' => 'Pemakaian','class' => 'form-control')) !!}</td>
+                        <td>{!! Form::number('scrap[]', null, array('placeholder' => 'Scrap','class' => 'form-control')) !!}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -48,7 +48,7 @@
                     <tr>
                         <td>{{ $val->product_name }}{{ Form::hidden('product_name', $val->product_name) }}</td>
                         <td>{{ $val->man_plan }}</td>
-                        <td>{!! Form::text('result', null, array('placeholder' => 'Hasil Akhir','class' => 'form-control')) !!}</td>
+                        <td>{!! Form::number('result', null, array('placeholder' => 'Hasil Akhir','class' => 'form-control')) !!}</td>
                         {{ Form::hidden('id', $val->id) }}
                     </tr>
                     @endforeach

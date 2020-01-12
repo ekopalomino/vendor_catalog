@@ -55,7 +55,7 @@ Fiber Tekno | Buat Permintaan Manufaktur
 	            			<tbody>
 	            				<tr>
 	            					<td>{!! Form::text('product', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::text('quantity', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::number('quantity', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
 	            				</tr>
 	            			</tbody>

@@ -19,7 +19,7 @@
             	<div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Penyesuaian Stok</label>
-                        {!! Form::text('adjust_amount', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
+                        {!! Form::number('adjust_amount', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
                     </div>
                     <div class="form-group">
                         <label class="control-label">Catatan</label>

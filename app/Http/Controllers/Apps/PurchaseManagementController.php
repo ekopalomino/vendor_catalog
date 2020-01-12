@@ -40,7 +40,6 @@ class PurchaseManagementController extends Controller
     {
         $search = $request->get('product');
         $result = Product::where('name','LIKE','%'.$search. '%')
-                            ->orWhere('product_barcode','LIKE','%'.$search.'%')
                             ->select('name')
                             ->get();
         
