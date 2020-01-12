@@ -39,7 +39,7 @@ FiberTekno | Laporan Penjualan - Tabel
 					</div>
 				</div>
 				<div class="form-actions left">
-					<a button type="button" class="btn default" href="{{ route('sales.index') }}">Cancel</a>
+					<a button type="button" class="btn default" href="{{ route('sale.table') }}">Cancel</a> 
 					<button type="submit" class="btn blue">
 						<i class="fa fa-check"></i> Save
 					</button>
