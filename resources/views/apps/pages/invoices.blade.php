@@ -88,7 +88,7 @@ FiberTekno | Invoice Management
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                                 <td>{{ $val->Sales->order_ref }}</td>
-                                <td>{{ $val->order_ref }}</td>
+                                <td>{{ $val->reference_id }}</td>
                                 <td>{{ $val->Sales->Customers->name}}</td>
                                 <td>{{ number_format($val->Sales->total,2,',','.')}}</td>
                                 <td><label class="label label-sm label-success">{{ $val->Statuses->name }}</label></td>
@@ -100,7 +100,7 @@ FiberTekno | Invoice Management
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-xs btn-info" title="Print Invoice" href="{{ route('invoice.print',$val->id) }}"><i class="fa fa-print"></i></a>
+                                    <a class="btn btn-xs btn-info" title="PDF Invoice" href="{{ route('invoice.print',$val->id) }}"><i class="fa fa-file-pdf-o"></i></a>
                                     @can('Can Edit Finance')
                                     @if($val->status_id == '3da32f6e-494f-4b61-b010-7ccc0e006fb3')
                                     {!! Form::open(['method' => 'POST','route' => ['invoice.payment', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
