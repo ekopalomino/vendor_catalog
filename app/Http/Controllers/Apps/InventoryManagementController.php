@@ -48,7 +48,7 @@ class InventoryManagementController extends Controller
         $source = Inventory::where('id',$id)->first();
         $data = InventoryMovement::where('product_name',$source->product_name)
                                    ->paginate(10);
-    
+        
         return view('apps.show.stockCard',compact('data'))->renderSections()['content'];
     }
 
