@@ -23,7 +23,9 @@ class ContactManagementController extends Controller
 
     public function customerIndex()
     {
-    	$data = Contact::where('type_id','1')->get();
+        $data = Contact::where('type_id','1')
+                         ->where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')
+                         ->get();
 
     	return view('apps.pages.customers',compact('data'));
     }
@@ -183,14 +185,18 @@ class ContactManagementController extends Controller
             'message' => 'Customer '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
-        $data->delete();
+        $data->update([
+            'active' => '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a',
+        ]);
 
         return redirect()->route('customer.index')->with($notification);
     }
 
     public function supplierIndex()
     {
-    	$data = Contact::where('type_id','2')->get();
+        $data = Contact::where('type_id','2')
+                         ->where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')
+                         ->get();
 
     	return view('apps.pages.suppliers',compact('data'));
     }
@@ -349,7 +355,9 @@ class ContactManagementController extends Controller
             'message' => 'Supplier '.($data->name).' Berhasil Dihapus',
             'alert-type' => 'success'
         );
-        $data->delete();
+        $data->update([
+            'active' => '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a',
+        ]);
 
         return redirect()->route('supplier.index')->with($notification);
     }

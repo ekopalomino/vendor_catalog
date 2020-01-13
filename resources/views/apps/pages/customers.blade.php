@@ -59,13 +59,13 @@ FiberTekno | Customer Management
                                 <td>{{ $val->company }}</td>
                                 <td>{{ $val->email }}</td>
                                 <td>{{ $val->billing_address }}</td>
-                				<td><label class="badge badge-success">{{ $val->Statuses->name }}</label></td>
+                				<td><label class="label label-sm label-info">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
-                				<td>
+                				<td> 
                                     @can('Can Edit Contact')
                                     <a class="btn btn-xs btn-success" href="{{ route('customer.edit',$val->id) }}" title="Edit Customer" ><i class="fa fa-edit"></i></a>
                                     @endcan
-                                    @can('disable')
+                                    @can('Can Delete Contact')
                                     {!! Form::open(['method' => 'POST','route' => ['customer.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
                                     {!! Form::close() !!}
@@ -92,7 +92,7 @@ FiberTekno | Customer Management
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to delete?");
+    var x = confirm("Customer Akan Dihapus?");
     if (x)
         return true;
     else

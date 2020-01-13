@@ -60,8 +60,9 @@ FiberTekno | Supplier Management
                 				<td><label class="label label-sm label-info">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>
+                                    @can('Can Edit Contact')
                                     <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Supplier" ><i class="fa fa-edit"></i></a>
-                                    @can('disable')
+                                    @can('Can Delete Contact')
                                     {!! Form::open(['method' => 'POST','route' => ['supplier.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}
                                     {!! Form::close() !!}
@@ -85,4 +86,14 @@ FiberTekno | Supplier Management
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Supplier Akan Dihapus?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection
