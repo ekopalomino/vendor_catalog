@@ -25,7 +25,7 @@
 								<td style="width: 148px;background:#4B77BE;color:#ffffff;">Tanggal Invoice</td>
 								</tr>
 								<tr>
-								<td style="width: 148px;">{{$source->order_ref}}</td>
+								<td style="width: 148px;">{{$source->reference_id}}</td>
 								<td style="width: 148px;">{{date("d F Y",strtotime($source->created_at)) }}</td>
 								</tr>
 								<tr>
@@ -33,7 +33,7 @@
 								<td style="width: 148px;background:#4B77BE;color:#ffffff;">Termin Pembayaran</td>
 								</tr>
 								<tr>
-								<td style="width: 148px;">{{$sales->order_ref}}</td>
+								<td style="width: 148px;">{{$sales->sales_order}}</td>
 								<td style="width: 148px;">{{ $sales->Customers->Terms->name }}</td>
 								</tr>
 								<tr>

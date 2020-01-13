@@ -33,7 +33,7 @@ class PaymentManagementController extends Controller
         return view('apps.pages.invoices',compact('data','orders'));
     }
 
-    public function invoiceStore(Request $request)
+    public function invoiceStore(Request $request) 
     {
         $latestRef = Payment::where('type_id','1')->count();
         $getClient = Sale::where('id',$request->input('sales_order'))->first();
@@ -99,7 +99,7 @@ class PaymentManagementController extends Controller
         $items = SaleItem::where('sales_id',$source->sales_order)
                         ->get();
         
-        $filename = $source->order_ref;
+        $filename = $source->reference_id;
         $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
