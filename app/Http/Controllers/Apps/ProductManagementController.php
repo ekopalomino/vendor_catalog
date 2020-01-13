@@ -283,10 +283,10 @@ class ProductManagementController extends Controller
         }
         
         $data = Product::find($id)->update($input);
-        $log = 'Produk '.($data->name).' Berhasil Diubah';
+        $log = 'Produk '.($request->input('name')).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Produk '.($data->name).' Berhasil Diubah',
+            'message' => 'Produk '.($request->input('name')).' Berhasil Diubah',
             'alert-type' => 'success'
         );
 
