@@ -109,15 +109,16 @@ FiberTekno | Sales Management
                                 <td>{{ $sale->updated_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
-                                    @if($sale->status_id != 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')
                                     <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
                                     @can('Can Accept Sales')
+                                    @if(($sale->status_id) === '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     {!! Form::open(['method' => 'POST','route' => ['sales.approve', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Sale']) !!}
                                     {!! Form::close() !!}
                                     {!! Form::open(['method' => 'POST','route' => ['sales.rejected', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-remove"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
                                     {!! Form::close() !!}
+                                    @else
                                     @endif
                                     @endcan
                                 </td>
