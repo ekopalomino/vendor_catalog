@@ -135,6 +135,80 @@ class SalesManagementController extends Controller
         return redirect()->route('sales.index')->with($notification);
     }
 
+    public function editSales($id)
+    {
+        $data = Sale::find($id);
+        $items = SaleItem::where('sales_id',$id)->get();
+        $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
+        $uoms = UomValue::pluck('name','id')->toArray();
+        
+        return view('apps.edit.sales',compact('data','uoms','items','customers'));
+    }
+
+    public function updateSales(Request $request,$id)
+    {
+        $input = [
+            'delivery_date' => $request->input('delivery_date'),
+            'updated_by' => auth()->user()->name,
+        ];
+        $sales = Sale::find($id)->update($input);
+        
+        $items = $request->product_name;
+        $quantity = $request->quantity;
+        $sale_price = $request->sale_price;
+        $uoms = $request->uom_id;
+        $sale_id = $id;
+        $discounts = $request->discount;
+        
+        foreach($items as $index=>$item) {
+            $names = Product::where('name',$item)->first();
+            $data = SaleItem::updateOrCreate([
+                'sales_id' => $id],[
+                'product_id' => $names->id,
+                'product_name' => $item,
+                'quantity' => $quantity[$index],
+                'uom_id' => $uoms[$index],
+                'sale_price' => $sale_price[$index],
+                'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - ($discounts[$index]),
+                'discount' => $discounts[$index],
+            ]);
+            
+        }
+
+        /* $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
+        $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
+        $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
+        $tax = '10';
+        $subtotal = ($price) - ($disc);
+        if($details->tax == '1') {
+            $saleData = DB::table('sales')
+                        ->where('id',$sale_id)
+                        ->update([
+                            'quantity' => $qty,
+                            'tax' => ($subtotal) * ($tax/100),
+                            'total' => ($subtotal) + (($subtotal)*($tax/100)), 
+                            ]);
+        } else {
+            $saleData = DB::table('sales')
+                        ->where('id',$sale_id)
+                        ->update(['quantity' => $qty, 'total' => $price]);
+        } */
+              
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Disubmit',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('sales.index')->with($notification);
+    }
+
+    public function deleteSingle(Request $request,$id)
+    {
+        $data = SaleItem::find($id);
+        dd($data);
+    }
+
     public function processSales(Request $request,$id)
     {
         $data = Sale::find($id);

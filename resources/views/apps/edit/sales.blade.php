@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Fiber Tekno | Add Sales Order 
+Fiber Tekno | Edit Sales Order 
 @endsection
 @section('header.plugins')
 <link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
@@ -11,7 +11,7 @@ Fiber Tekno | Add Sales Order
     <div class="portlet box red ">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-database"></i> Form Sales Order 
+                <i class="fa fa-database"></i> Form Edit Sales Order 
             </div>
         </div>
         <div class="portlet-body form">
@@ -24,23 +24,23 @@ Fiber Tekno | Add Sales Order
                 @endforeach
                 </ul>
             </div>
-            @endif 
-            {!! Form::open(array('route' => 'sales.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
+            @endif
+            {!! Form::model($data, ['method' => 'POST','route' => ['sales.update', $data->id],'class' => 'horizontal-form']) !!}
             @csrf
             <div class="form-body">
             	<div class="row">
             		<div class="col-md-5">
             			<div class="form-group">
-            				<label class="control-label">Customer</label>
-            				{!! Form::select('client_code', [null=>'Please Select'] + $customers,[], array('class' => 'form-control')) !!}
-            			</div>
+            				<label class="control-label">Customer Code</label>
+                            {!! Form::select('client_code', $customers,old('client_code'), array('class' => 'form-control','disabled')) !!}
+                        </div>
             		</div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label class="control-label">Tgl Pengiriman</label>
-                    {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
-                  </div>
-                </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Tgl Pengiriman</label>
+                            {!! Form::date('delivery_date', old('delivery_date'), array('id' => 'datepicker','class' => 'form-control')) !!}
+                        </div>
+                    </div>
             		<!--/span-->
             	</div>            		
             	<div class="row">
@@ -48,23 +48,33 @@ Fiber Tekno | Add Sales Order
 	            		<table class="table table-striped table-bordered table-hover" id="sample_2">
 	            			<thead>
 	            				<tr>
-	            					<th>Produk</th>
+                                    <th>Produk</th>
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
 	            					<th>Harga Satuan</th>
                                     <th>Diskon (Rp)</th>
-	            					<th></th>
-	            				</tr>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                </tr>
 	            			</thead>
 	            			<tbody>
+                                @foreach($items as $key=>$item)
 	            				<tr>
-	            					<td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control','required')) !!}</td>
-                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control','required')) !!}</td>
-                    				<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
-	            				</tr>
+                                    <td>{!! Form::text('product_name[]',$item->product_name, array('placeholder' => 'Produk','id' => '$index','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::number('quantity[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', $uoms,old('uom_id'), array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', $item->sale_price, array('placeholder' => 'Harga','class' => 'form-control','required')) !!}</td>
+                                    <td>{!! Form::number('discount[]', $item->discount, array('placeholder' => 'Diskon','class' => 'form-control','required')) !!}</td>
+                                    <td>
+                                        <button type="button" name="remove" id="{{$key+1}}" class="btn btn-danger btn_remove">Hapus</button>
+                                    </td>
+                    			</tr>
+                                @endforeach
+                                <tr>
+                                    <td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
+                                </tr>
 	            			</tbody>
 	            		</table>
 	            	</div>

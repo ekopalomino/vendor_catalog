@@ -109,7 +109,10 @@ FiberTekno | Sales Management
                                 <td>{{ $sale->updated_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
-                                    <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
+                                    @can('disable')
+                                    <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.edit',$sale->id) }}"><i class="fa fa-edit"></i></a>
+                                    @endcan
+                                    <a class="btn btn-xs btn-info" title="Show PO" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
                                     @can('Can Accept Sales')
                                     @if(($sale->status_id) === '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     {!! Form::open(['method' => 'POST','route' => ['sales.approve', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}

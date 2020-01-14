@@ -126,7 +126,7 @@ class ContactManagementController extends Controller
             'payment_method' => 'required',
             'payment_term' => 'required',
             'tax' => 'required',
-        ]);
+        ]); 
 
         if($request->input('bill_ship') == true) {
             $input = [
@@ -147,7 +147,7 @@ class ContactManagementController extends Controller
             ];
         } else {
             $input = [
-                'ref_id' => $request->input('contact_ref'),
+                'ref_id' => $request->input('ref_id'),
                 'name' => $request->input('name'),
                 'company' => $request->input('company'),
                 'phone' => $request->input('phone'),
@@ -165,10 +165,10 @@ class ContactManagementController extends Controller
         }
 
         $data  = Contact::find($id)->update($input);
-        $log = 'Customer '.($input->name).' Berhasil Diubah';
+        $log = 'Customer '.($request->input('name')).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Customer '.($input->name).' Berhasil Diubah',
+            'message' => 'Customer '.($request->input('name')).' Berhasil Diubah',
             'alert-type' => 'success'
         );
 
