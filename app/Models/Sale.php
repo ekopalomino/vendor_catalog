@@ -23,6 +23,7 @@ class Sale extends Model
         'status_id',
         'created_by',
         'updated_by',
+        'closing_date',
     ];
 
     public $incrementing = false;
