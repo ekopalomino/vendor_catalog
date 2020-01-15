@@ -205,7 +205,7 @@ class SalesManagementController extends Controller
             'status_id' => '458410e7-384d-47bc-bdbe-02115adc4449',
             'updated_by' => auth()->user()->name,
         ]);
-        $reference = InternalTransfer::count();
+        /* $reference = InternalTransfer::count();
         $refs = 'IT/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $transfers = InternalTransfer::create([
             'order_ref' => $refs,
@@ -256,7 +256,7 @@ class SalesManagementController extends Controller
                 'remaining' => $convertion,
                 'warehouse_name' => 'Gudang Pengiriman',
             ]);
-            /* if($base == null) {
+            if($base == null) {
                 $inventories = Inventory::create([
                     'product_id' => $item->product_id,
                     'product_name' => $item->product_name,
@@ -311,13 +311,13 @@ class SalesManagementController extends Controller
                     'remaining' => ($movein->remaining) + ($convertion),
                     'warehouse_name' => 'Gudang Pengiriman',
                 ]);
-            } */
+            }
             $results =  Inventory::where('product_name',$item->product_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
             $results->update([
                 'closing_amount' => ($results->closing_amount) - ($convertion),
-            ]);
+            ]); 
             
-        }
+        }*/
         $log = 'Sales Order '.($data->order_ref).' Berhasil Diproses';
          \LogActivity::addToLog($log);
         $notification = array (
