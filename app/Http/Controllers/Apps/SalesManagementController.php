@@ -101,8 +101,8 @@ class SalesManagementController extends Controller
                 'quantity' => $quantity[$index],
                 'uom_id' => $uoms[$index],
                 'sale_price' => $sale_price[$index],
-                'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - ($discounts[$index]),
-                'discount' => (($discounts[$index]) * ($quantity[$index])),
+                'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
+                'discount' => $discounts[$index],
             ]);
         }
 
@@ -173,12 +173,6 @@ class SalesManagementController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('sales.index')->with($notification);
-    }
-
-    public function deleteSingle(Request $request,$id)
-    {
-        $data = SaleItem::find($id);
-        dd($data);
     }
 
     public function processSales(Request $request,$id)
