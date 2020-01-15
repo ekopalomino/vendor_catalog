@@ -127,7 +127,7 @@ FiberTekno | Sales Order Detail
                                     @foreach($data as $key=>$val)
                                     <tr>
                                         <td>{{ $key+1 }}</td>
-                                        <td>{{ $val->Products->name }}</td>
+                                        <td>{{ $val->product_name }}</td>
                                         <td>{{ number_format($val->quantity,0,',','.')}}</td>
                                         <td>Rp {{ number_format($val->sale_price,0,',','.')}}</td>
                                         <td>Rp {{ number_format($val->discount,0,',','.')}}</td>

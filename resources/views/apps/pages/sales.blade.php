@@ -109,19 +109,7 @@ FiberTekno | Sales Management
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-xs red dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
-                                            <i class="fa fa-angle-down"></i>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right" role="menu">
-                                            <li>
-                                                <a href="{{ route('sales.edit',$sale->id) }}">
-                                                    <i class="fa fa-edit"></i> Edit 
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    @can('disable')
+                                    @can('Can Edit Sales')
                                     <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.edit',$sale->id) }}"><i class="fa fa-edit"></i></a>
                                     
                                     <a class="btn btn-xs btn-info" title="Show PO" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
@@ -131,7 +119,7 @@ FiberTekno | Sales Management
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Sale']) !!}
                                     {!! Form::close() !!}
                                     {!! Form::open(['method' => 'POST','route' => ['sales.rejected', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-remove"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Reject Sale']) !!}
+                                    {!! Form::button('<i class="fa fa-remove"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Cancel Sale']) !!}
                                     {!! Form::close() !!}
                                     @else
                                     @endif
