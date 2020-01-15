@@ -31,14 +31,20 @@ Fiber Tekno | Edit Sales Order
             	<div class="row">
             		<div class="col-md-5">
             			<div class="form-group">
-            				<label class="control-label">Customer Code</label>
-                            {!! Form::select('client_code', $customers,old('client_code'), array('class' => 'form-control','disabled')) !!}
+            				<label class="control-label">ID Pelanggan</label>
+                            {!! Form::text('client_code', null, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
             		</div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Ubah Tgl Pengiriman</label>
                             {!! Form::date('delivery_date', old('delivery_date'), array('id' => 'datepicker','class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Catatan</label>
+                            {!! Form::textarea('notes', null, array('id' => 'datepicker','class' => 'form-control')) !!}
                         </div>
                     </div>
             		<!--/span-->
