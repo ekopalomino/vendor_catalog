@@ -125,8 +125,6 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('sales/product/find','Apps\SalesManagementController@searchProduct')->name('sales.product');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
     Route::get('sales/orders/edit/{id}','Apps\SalesManagementController@editSales')->name('sales.edit');
-    Route::get('sales/orders/add-item/{id}','Apps\SalesManagementController@addItems')->name('sales.item');
-    Route::get('sales/orders/add-item/store/{id}','Apps\SalesManagementController@updateItems')->name('salesItem.store');
     Route::post('sales/orders/update/{id}','Apps\SalesManagementController@updateSales')->name('sales.update');
     Route::post('sales/orders/approve/{id}','Apps\SalesManagementController@processSales')->name('sales.approve');
     Route::post('sales/orders/rejected/{id}','Apps\SalesManagementController@rejectedSale')->name('sales.rejected');

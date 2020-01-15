@@ -144,19 +144,6 @@ class SalesManagementController extends Controller
         return view('apps.edit.sales',compact('data','uoms','items','customers'));
     }
 
-    public function addItems(Request $request,$id)
-    {
-        $items = Sale::find($id);
-        $uoms = UomValue::pluck('name','id')->toArray();
-
-        return view('apps.edit.addSaleItem',compact('uoms','items'))->renderSections()['content'];
-
-    }
-
-    public function updateItems()
-    {
-
-    }
     public function updateSales(Request $request,$id)
     {
         $data  = Sale::find($id);
