@@ -12,7 +12,7 @@ class Delivery extends Model
     protected $fillable = [
         'do_ref',
         'order_ref',
-        'delivery_id',
+        'del_service_id',
         'delivery_cost',
         'receipt',
         'status_id',
@@ -44,7 +44,7 @@ class Delivery extends Model
 
     public function Courier()
     {
-        return $this->belongsTo(DeliveryService::class,'delivery_id');
+        return $this->belongsTo(DeliveryService::class,'del_service_id');
     }
 
 

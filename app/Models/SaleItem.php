@@ -15,6 +15,7 @@ class SaleItem extends Model
         'discount',
         'sale_price',
         'sub_total',
+        'shipping',
     ];
 
     public function Sales()

@@ -25,9 +25,9 @@ Fiber Tekno | Edit Sales Order
                 </ul>
             </div>
             @endif
-            {!! Form::model($data, ['method' => 'POST','route' => ['sales.update', $data->id],'class' => 'horizontal-form']) !!}
-            @csrf
             <div class="form-body">
+                {!! Form::model($data, ['method' => 'POST','route' => ['sales.update', $data->id],'class' => 'horizontal-form']) !!}
+                @csrf
             	<div class="row">
             		<div class="col-md-5">
             			<div class="form-group">
@@ -37,13 +37,13 @@ Fiber Tekno | Edit Sales Order
             		</div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Tgl Pengiriman</label>
+                            <label class="control-label">Ubah Tgl Pengiriman</label>
                             {!! Form::date('delivery_date', old('delivery_date'), array('id' => 'datepicker','class' => 'form-control')) !!}
                         </div>
                     </div>
             		<!--/span-->
-            	</div>            		
-            	<div class="row">
+            	</div>
+                <div class="row">
             		<div class="col-md-12">
 	            		<table class="table table-striped table-bordered table-hover" id="sample_2">
 	            			<thead>
@@ -58,23 +58,111 @@ Fiber Tekno | Edit Sales Order
                                 <tr>
                                     <th></th>
                                 </tr>
-	            			</thead>
+	            			</thead> 
 	            			<tbody>
                                 @foreach($items as $key=>$item)
 	            				<tr>
-                                    <td>{!! Form::text('product_name[]',$item->product_name, array('placeholder' => 'Produk','id' => '$index','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::number('quantity[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
+                                    <td>{!! Form::text('product_name[]',$item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', $uoms,old('uom_id'), array('class' => 'form-control')) !!}</td>
-                    				<td>{!! Form::number('sale_price[]', $item->sale_price, array('placeholder' => 'Harga','class' => 'form-control','required')) !!}</td>
-                                    <td>{!! Form::number('discount[]', $item->discount, array('placeholder' => 'Diskon','class' => 'form-control','required')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', $item->sale_price, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', $item->discount, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
                                     <td>
-                                        <button type="button" name="remove" id="{{$key+1}}" class="btn btn-danger btn_remove">Hapus</button>
+                                        {{ Form::hidden('id', $key+1) }}
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
                                     </td>
                     			</tr>
                                 @endforeach
                                 <tr>
-                                    <td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
-                                </tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
+                                <tr>
+                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                    				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
+                                    </td>
+                    			</tr>
 	            			</tbody>
 	            		</table>
 	            	</div>
@@ -84,8 +172,7 @@ Fiber Tekno | Edit Sales Order
                     <button type="submit" class="btn blue">
                     <i class="fa fa-check"></i> Save</button>
                 </div>
-            </div>
-            {!! Form::close() !!}
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -108,22 +195,12 @@ Fiber Tekno | Edit Sales Order
                 });
             }
       });     
-      var i=1;  
-      $('#add').click(function(){  
-           i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td><td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td><td>{!! Form::number('discount[]', null, array('placeholder' => 'Diskon','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>').find('input[type=text]').typeahead({
-                source:  function (product, process) {
-                return $.get(route, { product: product }, function (data) {
-                    return process(data);
-                });
-            }
-           });  
-      });
-      
-      $(document).on('click', '.btn_remove', function(){  
-           var button_id = $(this).attr("id");   
-           $('#row'+button_id+'').remove();  
-      }); 
     });  
+</script>
+<script>
+function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("sample_2").deleteRow(i);
+}
 </script>
 @endsection

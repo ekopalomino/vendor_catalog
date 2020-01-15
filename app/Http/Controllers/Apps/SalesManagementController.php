@@ -59,7 +59,6 @@ class SalesManagementController extends Controller
         $search = $request->get('product');
         
         $result = Product::join('inventories','inventories.product_id','=','products.id')
-                            ->where('inventories.closing_amount','>','products.min_stock')
                             ->where('products.is_sale','=','1')
                             ->where('products.name','LIKE','%'.$search.'%')
                             ->select('products.name','products.name')
@@ -103,7 +102,7 @@ class SalesManagementController extends Controller
                 'uom_id' => $uoms[$index],
                 'sale_price' => $sale_price[$index],
                 'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - ($discounts[$index]),
-                'discount' => $discounts[$index],
+                'discount' => (($discounts[$index]) * ($quantity[$index])),
             ]);
         }
 
@@ -145,59 +144,45 @@ class SalesManagementController extends Controller
         return view('apps.edit.sales',compact('data','uoms','items','customers'));
     }
 
+    public function addItems(Request $request,$id)
+    {
+        $items = Sale::find($id);
+        $uoms = UomValue::pluck('name','id')->toArray();
+
+        return view('apps.edit.addSaleItem',compact('uoms','items'))->renderSections()['content'];
+
+    }
+
+    public function updateItems()
+    {
+
+    }
     public function updateSales(Request $request,$id)
     {
-        $input = [
-            'delivery_date' => $request->input('delivery_date'),
-            'updated_by' => auth()->user()->name,
-        ];
-        $sales = Sale::find($id)->update($input);
-        
+        $data  = Sale::find($id);
+        $products = SaleItem::where('sales_id',$id)->delete();
         $items = $request->product_name;
-        $quantity = $request->quantity;
+        $quantity = $request->kuantitas;
         $sale_price = $request->sale_price;
         $uoms = $request->uom_id;
-        $sale_id = $id;
+        $sale_id = $data->id;
         $discounts = $request->discount;
-        
         foreach($items as $index=>$item) {
-            $names = Product::where('name',$item)->first();
-            $data = SaleItem::updateOrCreate([
-                'sales_id' => $id],[
-                'product_id' => $names->id,
+            $products = SaleItem::create([
+                'sales_id' => $id,
                 'product_name' => $item,
                 'quantity' => $quantity[$index],
                 'uom_id' => $uoms[$index],
                 'sale_price' => $sale_price[$index],
                 'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - ($discounts[$index]),
-                'discount' => $discounts[$index],
-            ]);
-            
+                'discount' => (($discounts[$index]) * ($quantity[$index])),
+                ]);
         }
-
-        /* $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
-        $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
-        $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
-        $tax = '10';
-        $subtotal = ($price) - ($disc);
-        if($details->tax == '1') {
-            $saleData = DB::table('sales')
-                        ->where('id',$sale_id)
-                        ->update([
-                            'quantity' => $qty,
-                            'tax' => ($subtotal) * ($tax/100),
-                            'total' => ($subtotal) + (($subtotal)*($tax/100)), 
-                            ]);
-        } else {
-            $saleData = DB::table('sales')
-                        ->where('id',$sale_id)
-                        ->update(['quantity' => $qty, 'total' => $price]);
-        } */
-              
-        $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
+     
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Diubah';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Sales Order '.($data->order_ref).' Berhasil Disubmit',
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Diubah',
             'alert-type' => 'success'
         );
         return redirect()->route('sales.index')->with($notification);

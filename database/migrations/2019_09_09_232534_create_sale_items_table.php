@@ -17,10 +17,11 @@ class CreateSaleItemsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('sales_id');
             $table->uuid('product_id');
-            $table->decimal('quantity',10,2);
-            $table->decimal('discount',10,2)->nullable();
-            $table->decimal('sale_price',10,2);
-            $table->decimal('sub_total',10,2);
+            $table->decimal('quantity',50,2);
+            $table->decimal('discount',50,2)->nullable();
+            $table->decimal('sale_price',50,2);
+            $table->decimal('sub_total',50,2);
+            $table->decimal('shipping',50,2);
             $table->foreign('sales_id')->references('id')->on('sales')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

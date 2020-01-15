@@ -42,7 +42,6 @@ class ContactManagementController extends Controller
         $this->validate($request, [
             'contact_ref' => 'required',
             'name' => 'required|unique:contacts,name',
-            'phone' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',
             'billing_address' => 'required',
@@ -119,7 +118,6 @@ class ContactManagementController extends Controller
         $this->validate($request, [
             'ref_id' => 'required',
             'name' => 'required',
-            'phone' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',
             'billing_address' => 'required',
@@ -213,7 +211,6 @@ class ContactManagementController extends Controller
         $this->validate($request, [
             'contact_ref' => 'required',
             'name' => 'required|unique:contacts,name',
-            'phone' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',
             'billing_address' => 'required',
@@ -290,7 +287,6 @@ class ContactManagementController extends Controller
         $this->validate($request, [
             'ref_id' => 'required',
             'name' => 'required|unique:contacts,name',
-            'phone' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',
             'billing_address' => 'required',

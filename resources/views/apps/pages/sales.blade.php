@@ -90,9 +90,9 @@ FiberTekno | Sales Management
                                 <th>Jumlah Brg</th>
                                 <th>Total Harga</th>
                                 <th>Status</th>
-                				<th>Dibuat Oleh</th>
-                                <th>Disetujui Oleh</th>
-                				<th>Tgl Dibuat</th>
+                				<th>Jumlah Dikirim</th>
+                                <th>Tgl Dibuat</th>
+                                <th>Tgl Selesai</th>
                 				<th></th>
                 			</tr>
                 		</thead>
@@ -105,13 +105,25 @@ FiberTekno | Sales Management
                                 <td>{{ number_format($sale->quantity,2,',','.')}}</td>
                                 <td>{{ number_format($sale->total,2,',','.')}}</td>
                                 <td><label class="label label-sm label-success">{{ $sale->Statuses->name }}</label></td>
-                                <td>{{ $sale->created_by }}</td>
-                                <td>{{ $sale->updated_by }}</td>
+                                <td>{{ $sale->shipping}}</td>
+                                <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-xs red dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li>
+                                                <a href="{{ route('sales.edit',$sale->id) }}">
+                                                    <i class="fa fa-edit"></i> Edit 
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     @can('disable')
                                     <a class="btn btn-xs btn-info" title="Edit" href="{{ route('sales.edit',$sale->id) }}"><i class="fa fa-edit"></i></a>
-                                    @endcan
+                                    
                                     <a class="btn btn-xs btn-info" title="Show PO" href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-search"></i></a>
                                     @can('Can Accept Sales')
                                     @if(($sale->status_id) === '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
@@ -123,6 +135,7 @@ FiberTekno | Sales Management
                                     {!! Form::close() !!}
                                     @else
                                     @endif
+                                    @endcan
                                     @endcan
                                 </td>
                 			</tr>

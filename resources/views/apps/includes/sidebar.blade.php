@@ -151,14 +151,14 @@
             </li>
             @endcan
             @can('Can Access Sales')
-            <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.barcode']) }}">
+            <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.barcode','sales.edit']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-present"></i>
             		<span class="title">Penjualan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show']) }}">
+                	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.edit']) }}">
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
                             <span class="title">Purchase Orders</span>
                             <span class="badge badge-danger">{{$sales}}</span>

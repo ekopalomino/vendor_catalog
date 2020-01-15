@@ -18,8 +18,8 @@ class CreateContactsTable extends Migration
             $table->string('ref_id');
             $table->integer('type_id');
             $table->string('name');
-            $table->string('company');
-            $table->string('phone');
+            $table->string('company')->nullable();
+            $table->string('phone')->nullable();
             $table->string('mobile');
             $table->string('email');
             $table->text('billing_address');

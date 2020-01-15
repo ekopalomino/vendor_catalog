@@ -125,7 +125,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('sales/product/find','Apps\SalesManagementController@searchProduct')->name('sales.product');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
     Route::get('sales/orders/edit/{id}','Apps\SalesManagementController@editSales')->name('sales.edit');
-    Route::post('sales/items/delete/{id}','Apps\SalesManagementController@deleteSingle')->name('salesItems.delete');
+    Route::get('sales/orders/add-item/{id}','Apps\SalesManagementController@addItems')->name('sales.item');
+    Route::get('sales/orders/add-item/store/{id}','Apps\SalesManagementController@updateItems')->name('salesItem.store');
     Route::post('sales/orders/update/{id}','Apps\SalesManagementController@updateSales')->name('sales.update');
     Route::post('sales/orders/approve/{id}','Apps\SalesManagementController@processSales')->name('sales.approve');
     Route::post('sales/orders/rejected/{id}','Apps\SalesManagementController@rejectedSale')->name('sales.rejected');
@@ -164,8 +165,14 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('inventories/internal-transfer/view/{id}','Apps\InventoryManagementController@transferView')->name('transfer.view');
     Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
     Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
-    Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
+    /* Route::get('inventories/delivery-order','Apps\InventoryManagementController@deliveryIndex')->name('delivery.index');
     Route::post('inventories/delivery-order/create','Apps\InventoryManagementController@deliveryOrder')->name('delivery.process');
+    Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@deliveryReceipt')->name('delivery.receipt');
+    Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
+    Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@deliveryPrint')->name('delivery.print'); */
+    Route::get('inventories/delivery-order','Apps\InventoryManagementController@doIndex')->name('delivery.index');
+    Route::get('inventories/delivery-order/create','Apps\InventoryManagementController@doMake')->name('delivery.create');
+    Route::post('inventories/delivery-order/store','Apps\InventoryManagementController@doStore')->name('delivery.store');
     Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@deliveryReceipt')->name('delivery.receipt');
     Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
     Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@deliveryPrint')->name('delivery.print');

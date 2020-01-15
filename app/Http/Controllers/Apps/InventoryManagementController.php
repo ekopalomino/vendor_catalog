@@ -18,6 +18,7 @@ use iteos\Models\DeliveryService;
 use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Models\UomValue;
+use iteos\Models\Contact;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -521,5 +522,28 @@ class InventoryManagementController extends Controller
     
         return redirect()->route('delivery.index')->with($notification);
     }
+
+    public function doIndex()
+    {
+        $data = Delivery::orderBy('created_at','DESC')->get();
+
+        return view('apps.pages.deliveryOrder',compact('data'));
+    }
+
+    public function doMake()
+    {
+        $services = DeliveryService::pluck('delivery_name','id')->toArray();
+        $customers = Contact::pluck('name','id')->toArray();
+        $uoms = UomValue::pluck('name','id')->toArray();
+
+        return view('apps.input.deliveryOrder',compact('services','customers','uoms'));
+    }
+
+    public function doStore(Request $request)
+    {
+
+    }
+
+    
 
 }

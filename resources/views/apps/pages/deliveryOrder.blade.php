@@ -31,55 +31,11 @@ FiberTekno | Delivery Order
                     @can('Can Create Inventory')
                     <div class="col-md-6">
                         <div class="form-group">
-                            <tr>
-                                <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Proses SO </a>
-                                </td>
-                            </tr>
+                            <a href="{{ route('delivery.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> DO Baru
+                            </button></a>
                         </div>
                     </div>
                     @endcan
-                    <div class="col-md-6">
-                        <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    {!! Form::open(array('route' => 'delivery.process','method'=>'POST')) !!}
-                                    @csrf
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Add Delivery Order</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Purchase Order</label>
-                                                    {!! Form::select('sales_ref', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Jasa Pengiriman</label>
-                                                    {!! Form::select('delivery_service', [null=>'Please Select'] + $services,[], array('class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Biaya Kirim</label>
-                                                    {!! Form::text('delivery_cost', null, array('placeholder' => 'Delivery Cost','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>  
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Save changes</button>
-                                    </div>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
