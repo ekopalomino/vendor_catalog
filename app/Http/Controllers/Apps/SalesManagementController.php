@@ -380,6 +380,7 @@ class SalesManagementController extends Controller
         $data = Sale::find($id);
         $closing = $data->update([
             'status_id' => '6d32841b-2606-43a5-8cf7-b77291ddbfbb',
+            'closing_date' => Carbon::now()
         ]);
 
         $log = 'Sales Order '.($data->order_ref).' Berhasil Ditutup';
