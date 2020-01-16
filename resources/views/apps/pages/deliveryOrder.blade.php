@@ -31,12 +31,12 @@ FiberTekno | Delivery Order
                     @can('Can Create Inventory')
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('delivery.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> DO Baru
+                            <a href="{{ route('delivery.search') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Proses PO
                             </button></a>
                         </div>
                     </div>
                     @endcan
-                	<table class="table table-striped table-bordered table-hover" id="sample_2">
+                    <table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>

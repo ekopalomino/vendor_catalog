@@ -154,7 +154,7 @@
             <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.barcode','sales.edit']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-present"></i>
-            		<span class="title">Penjualan</span>
+            		<span class="title">Sales</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -176,7 +176,7 @@
             <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show','transfer.index','add.transfer']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
-                    <span class="title">Permintaan Barang</span>
+                    <span class="title">Purchasing</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -188,7 +188,7 @@
                     </li>
                     <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
                         <a href="{{ route('transfer.index') }}" class="nav-link ">
-                            <span class="title">Permintaan Internal</span>
+                            <span class="title">Transfer Gudang</span>
                             <span class="badge badge-danger">{{$transfers}}</span>
                         </a>
                     </li>
@@ -199,7 +199,7 @@
             <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','delivery.index','inventory.card','purchase.show']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
-            		<span class="title">Persediaan</span>
+            		<span class="title">Gudang</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -240,7 +240,7 @@
             <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index','manufacture-request.create','manufacture.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
-                    <span class="title">Manufaktur</span>
+                    <span class="title">Produksi</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
@@ -263,7 +263,7 @@
             <li class="nav-item {{ set_active(['invoice.index','invoice.store','purchaseReceipt.index','purchaseReceipt.store']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>
-                    <span class="title">Keuangan</span>
+                    <span class="title">Finance</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">

@@ -169,6 +169,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
     Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@deliveryPrint')->name('delivery.print'); */
     Route::get('inventories/delivery-order','Apps\InventoryManagementController@doIndex')->name('delivery.index');
+    Route::get('inventories/delivery-order/search/purchase-order','Apps\InventoryManagementController@doSearch')->name('delivery.search');
+    Route::post('inventories/delivery-order/get/purchase-order','Apps\InventoryManagementController@doGet')->name('delivery.get');
     Route::get('inventories/delivery-order/create','Apps\InventoryManagementController@doMake')->name('delivery.create');
     Route::post('inventories/delivery-order/store','Apps\InventoryManagementController@doStore')->name('delivery.store');
     Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@deliveryReceipt')->name('delivery.receipt');

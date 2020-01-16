@@ -25,34 +25,34 @@ Fiber Tekno | Add Delivery Order
                 </ul>
             </div>
             @endif 
-            {!! Form::open(array('route' => 'delivery.search','method'=>'POST', 'class' => 'horizontal-form')) !!}
+            {!! Form::open(array('route' => 'delivery.get','method'=>'POST', 'class' => 'horizontal-form')) !!}
             @csrf
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
                             <label class="control-label">Cari PO</label>
-                            {!! Form::text('order_ref', $sales->order_ref, array('class' => 'form-control','readonly'=>'true')) !!}
+                            {!! Form::select('order_ref', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
                 </div>
             	<div class="row">
             		<div class="col-md-5">
             			<div class="form-group">
-            				<label class="control-label">ID Customer</label>
-            				{!! Form::text('customer', $sales->client_code, array('placeholder' => 'ID Pelanggan','class' => 'form-control','readonly'=>'true')) !!}
+            				<label class="control-label">Customer</label>
+            				{!! Form::text('customer', null, array('placeholder' => 'ID Pelanggan','class' => 'form-control','disabled')) !!}
             			</div>
             		</div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Jasa Pengiriman</label>
-                            {!! Form::select('delivery_service', [null=>'Please Select'] + $services,[], array('class' => 'form-control')) !!}
+                            {!! Form::select('delivery_service', [null=>'Please Select'] + $services,[], array('class' => 'form-control','disabled')) !!}
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Biaya Pengiriman</label>
-                            {!! Form::text('delivery_cost', null, array('placeholder' => 'Biaya Kirim','class' => 'form-control')) !!}
+                            {!! Form::text('delivery_cost', null, array('placeholder' => 'Customer ID','class' => 'form-control','disabled')) !!}
                         </div>
                     </div>
             		<!--/span-->
@@ -63,22 +63,20 @@ Fiber Tekno | Add Delivery Order
 	            			<thead>
 	            				<tr>
 	            					<th>Produk</th>
-	            					<th>Jumlah Pesanan</th>
+	            					<th>Jumlah Tersedia</th>
                                     <th>Jumlah Dikirim</th>
 	            					<th>Satuan</th>
 	            					<th>Proses</th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
-                                @foreach($details as $key=>$item)
 	            				<tr>
-	            					<td>{!! Form::text('product[]', $item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
-                    				<td>{!! Form::number('pesanan[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}</td>
-                    				<td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
+	            					<td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','disabled')) !!}</td>
+                    				<td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','disabled')) !!}</td>
+                    				<td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','disabled')) !!}</td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','disabled')) !!}</td>
                     				<td><input type="checkbox" value="1" name="proses[]" /></td>
 	            				</tr>
-                                @endforeach
 	            			</tbody>
 	            		</table>
 	            	</div>
@@ -86,7 +84,7 @@ Fiber Tekno | Add Delivery Order
             	<div class="form-actions right">
                     <a button type="button" class="btn default" href="{{ route('delivery.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">
-                    <i class="fa fa-check"></i> Save</button>
+                    <i class="fa fa-check"></i> Search</button>
                 </div>
             </div>
             {!! Form::close() !!}

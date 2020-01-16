@@ -525,18 +525,34 @@ class InventoryManagementController extends Controller
 
     public function doIndex()
     {
-        $data = Delivery::orderBy('created_at','DESC')->get();
+        $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','order_ref')->toArray();
 
-        return view('apps.pages.deliveryOrder',compact('data'));
+        $data = Sale::join('sale_items','sale_items.sales_id','sales.id')
+                      ->join('deliveries','deliveries.order_ref','sales.order_ref')
+                      ->where('sales.status_id','458410e7-384d-47bc-bdbe-02115adc4449')
+                      ->orderBy('sales.updated_at','DESC')
+                      ->get();
+        
+
+        return view('apps.pages.deliveryOrder',compact('data','sales'));
     }
 
-    public function doMake()
+    public function doSearch()
     {
+        $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','order_ref')->toArray();
         $services = DeliveryService::pluck('delivery_name','id')->toArray();
-        $customers = Contact::pluck('name','id')->toArray();
+
+        return view('apps.input.deliveryOrderSearch',compact('sales','services'));
+    }
+
+    public function doGet(Request $request)
+    {
+        $sales = Sale::where('order_ref',$request->input('order_ref'))->first();
+        $details = SaleItem::where('sales_id',$sales->id)->get();
+        $services = DeliveryService::pluck('delivery_name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
 
-        return view('apps.input.deliveryOrder',compact('services','customers','uoms'));
+        return view('apps.input.deliveryOrder',compact('sales','details','services','uoms'));
     }
 
     public function doStore(Request $request)
