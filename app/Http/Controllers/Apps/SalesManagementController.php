@@ -157,14 +157,16 @@ class SalesManagementController extends Controller
         $discounts = $request->discount;
         foreach($items as $index=>$item) {
             if($item != null) {
-            $products = SaleItem::create([
-                'sales_id' => $id,
-                'product_name' => $item,
-                'quantity' => $quantity[$index],
-                'uom_id' => $uoms[$index],
-                'sale_price' => $sale_price[$index],
-                'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
-                'discount' => $discounts[$index],
+                $names = Product::where('name',$item)->first();
+                $products = SaleItem::create([
+                    'sales_id' => $id,
+                    'product_id' => $names->id,
+                    'product_name' => $item,
+                    'quantity' => $quantity[$index],
+                    'uom_id' => $uoms[$index],
+                    'sale_price' => $sale_price[$index],
+                    'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
+                    'discount' => $discounts[$index],
                 ]);
             }
         }
