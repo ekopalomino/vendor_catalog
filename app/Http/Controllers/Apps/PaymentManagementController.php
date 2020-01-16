@@ -124,10 +124,10 @@ class PaymentManagementController extends Controller
     {
         $source = Payment::find($id);
         $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
-                        ->where('sales.id',$source->sales_order)
+                        ->where('sales.order_ref',$source->sales_order)
                         ->first();   
         
-        $items = SaleItem::where('sales_id',$source->sales_order)
+        $items = SaleItem::where('sales_id',$sales->id)
                         ->get();
         
         $filename = $source->reference_id;
