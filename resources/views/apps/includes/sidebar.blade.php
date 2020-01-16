@@ -196,7 +196,8 @@
             </li>
             @endcan
             @can('Can Access Inventories')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','delivery.index','inventory.card','purchase.show']) }}">
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','delivery.index','inventory.card','purchase.show'
+            ,'delivery.search','delivery.get']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Gudang</span>
@@ -213,7 +214,7 @@
                             <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['receipt.index','delivery.index','purchase.show']) }}">
+                    <li class="nav-item {{ set_active(['receipt.index','delivery.index','purchase.show','delivery.search','delivery.get']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Pergerakan Stok</span>
                             <span class="arrow"></span>
@@ -225,7 +226,7 @@
                                     <span class="badge badge-danger">{{$receipts}}</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ set_active(['delivery.index']) }}">
+                            <li class="nav-item {{ set_active(['delivery.index','delivery.search','delivery.get']) }}">
                                 <a href="{{ route('delivery.index') }}" class="nav-link ">
                                     <span class="title">Pengiriman Barang</span>
                                     <span class="badge badge-danger">{{$deliveries}}</span>

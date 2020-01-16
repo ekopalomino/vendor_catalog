@@ -87,37 +87,124 @@ class InventoryManagementController extends Controller
         ]);
 
         $ref = 'ADJ/FTI/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $checkInv = Inventory::where('product_name',$request->input('product_name'))
+                               ->where('warehouse_name',$request->input('warehouse_name'))
+                               ->orderBy('updated_at','DESC')
+                               ->first();
         $checkMove = InventoryMovement::where('product_name',$request->input('product_name'))
                                         ->where('warehouse_name',$request->input('warehouse_name'))
                                         ->orderBy('updated_at','DESC')
                                         ->first();
-        $input = [
-            'reference_id' => $ref,
-            'type' => '1', 
-            'inventory_id' => $id,
-            'product_id' => $request->input('product_id'),
-            'product_name' => $request->input('product_name'),
-            'warehouse_name' => $request->input('warehouse_name'),
-            'incoming' => $request->input('plus_amount'),
-            'outgoing' => $request->input('min_amount'),
-            'remaining' => $request->input('adjust_amount'),
-            'notes' => $request->input('notes'),
-        ];
+        if(($checkMove) == null) {
+            if(($request->input('plus_amount')) == null) {
+                $input = [
+                    'reference_id' => $ref,
+                    'type' => '1', 
+                    'inventory_id' => $id,
+                    'product_id' => $request->input('product_id'),
+                    'product_name' => $request->input('product_name'),
+                    'warehouse_name' => $request->input('warehouse_name'),
+                    'incoming' => '0',
+                    'outgoing' => $request->input('min_amount'),
+                    'remaining' => $request->input('min_amount'),
+                    'notes' => $request->input('notes'),
+                ];
+                $movements = InventoryMovement::create($input);
+                $source = Inventory::where('id',$id)->update([
+                    'closing_amount' => ($checkInv->closing_amount) - ($movements->remaining),
+                ]);
+                
+                $log = 'Stok '.($movements->product_name).' Berhasil Disesuaikan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Stok '.($movements->product_name).' Berhasil Disesuaikan',
+                    'alert-type' => 'success'
+                );
+    
+                return redirect()->route('inventory.adjust')->with($notification);
+            } elseif (($request->input('min_amount')) == null) {
+                $input = [
+                    'reference_id' => $ref,
+                    'type' => '1', 
+                    'inventory_id' => $id,
+                    'product_id' => $request->input('product_id'),
+                    'product_name' => $request->input('product_name'),
+                    'warehouse_name' => $request->input('warehouse_name'),
+                    'incoming' => $request->input('plus_amount'),
+                    'outgoing' => '0',
+                    'remaining' => $request->input('plus_amount'),
+                    'notes' => $request->input('notes'),
+                ];
+                $movements = InventoryMovement::create($input);
+                $source = Inventory::where('id',$id)->update([
+                    'closing_amount' => ($checkInv->closing_amount) + ($movements->remaining),
+                ]);
+                
+                $log = 'Stok '.($movements->product_name).' Berhasil Disesuaikan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Stok '.($movements->product_name).' Berhasil Disesuaikan',
+                    'alert-type' => 'success'
+                );
+    
+                return redirect()->route('inventory.adjust')->with($notification);
+            }
+        } else {
+            if(($request->input('plus_amount')) == null) {
+                $input = [
+                    'reference_id' => $ref,
+                    'type' => '1', 
+                    'inventory_id' => $id,
+                    'product_id' => $request->input('product_id'),
+                    'product_name' => $request->input('product_name'),
+                    'warehouse_name' => $request->input('warehouse_name'),
+                    'incoming' => '0',
+                    'outgoing' => $request->input('min_amount'),
+                    'remaining' => ($checkMove->remaining) - ($request->input('min_amount')),
+                    'notes' => $request->input('notes'),
+                ];
+                $movements = InventoryMovement::create($input);
+                $source = Inventory::where('id',$id)->update([
+                    'closing_amount' => ($checkInv->closing_amount) - ($movements->outgoing),
+                ]);
+                
+                $log = 'Stok '.($movements->product_name).' Berhasil Disesuaikan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Stok '.($movements->product_name).' Berhasil Disesuaikan',
+                    'alert-type' => 'success'
+                );
+    
+                return redirect()->route('inventory.adjust')->with($notification);
+            } elseif (($request->input('min_amount')) == null) {
+                $input = [
+                    'reference_id' => $ref,
+                    'type' => '1', 
+                    'inventory_id' => $id,
+                    'product_id' => $request->input('product_id'),
+                    'product_name' => $request->input('product_name'),
+                    'warehouse_name' => $request->input('warehouse_name'),
+                    'incoming' => $request->input('plus_amount'),
+                    'outgoing' => '0',
+                    'remaining' => ($checkMove->remaining) + ($request->input('plus_amount')),
+                    'notes' => $request->input('notes'),
+                ];
+                $movements = InventoryMovement::create($input);
+                $source = Inventory::where('id',$id)->update([
+                    'closing_amount' => ($checkInv->closing_amount) + ($movements->incoming),
+                ]);
+                
+                $log = 'Stok '.($movements->product_name).' Berhasil Disesuaikan';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Stok '.($movements->product_name).' Berhasil Disesuaikan',
+                    'alert-type' => 'success'
+                );
+    
+                return redirect()->route('inventory.adjust')->with($notification);
+            }
+        }
         
-        $products = Product::where('id',$request->input('product_id'))->first();
-        $source = Inventory::where('id',$id)->update([
-            'closing_amount' => $request->input('adjust_amount'),
-        ]);
-        
-        $movements = InventoryMovement::create($input);
-        $log = 'Stok '.($products->name).' Berhasil Disesuaikan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Stok '.($products->name).' Berhasil Disesuaikan',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('inventory.adjust')->with($notification);
     }
 
     public function receiptIndex() 
@@ -239,13 +326,6 @@ class InventoryManagementController extends Controller
                 );
 
                 return redirect()->back()->with($notification);
-            } elseif ($getStock->closing_amount <= $quantity[$index]) {
-                $notification = array (
-                    'message' => 'Stok Produk '.($item).' Di '.($request->input('from_wh')).' Tidak Cukup',
-                    'alert-type' => 'error'
-                );
-
-                return redirect()->back()->with($notification);
             } else {
                 $reference = InternalTransfer::count();
                 $ref = 'MI/FTI'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
@@ -256,8 +336,6 @@ class InventoryManagementController extends Controller
                     'created_by' => auth()->user()->name,
                 ];
                 $internal = InternalTransfer::create($data);
-                
-                
                     //Check UOM Value//
                     $bases = UomValue::where('id',$uom[$index])->first();
                     if($bases->is_parent == null) {
@@ -542,7 +620,9 @@ class InventoryManagementController extends Controller
 
     public function doSearch()
     {
-        $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','order_ref')->toArray();
+        $sales = Sale::where('status_id','!=','6d32841b-2606-43a5-8cf7-b77291ddbfbb')
+                       ->where('status_id','!=','ad5335ed-fc6e-42a1-a0e4-8b802acd6caa')           
+                       ->pluck('order_ref','order_ref')->toArray();
         $services = DeliveryService::pluck('delivery_name','id')->toArray();
 
         return view('apps.input.deliveryOrderSearch',compact('sales','services'));
@@ -551,10 +631,12 @@ class InventoryManagementController extends Controller
     public function doGet(Request $request)
     {
         $sales = Sale::where('order_ref',$request->input('order_ref'))->first();
-        $details = SaleItem::where('sales_id',$sales->id)->get();
+        $details = SaleItem::join('inventories','inventories.product_id','sale_items.product_id')
+                             ->where('sale_items.sales_id',$sales->id)
+                             ->get();
         $services = DeliveryService::pluck('delivery_name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
-
+        
         return view('apps.input.deliveryOrder',compact('sales','details','services','uoms'));
     }
 
@@ -613,7 +695,7 @@ class InventoryManagementController extends Controller
             ]);
             $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
             $movements = InventoryMovement::create([
-                'inventory_id' => $inventories,
+                'inventory_id' => $inventories->id,
                 'reference_id' => $request->input('order_ref'),
                 'type' => '4',
                 'product_name' => $item,
@@ -672,6 +754,25 @@ class InventoryManagementController extends Controller
         );
     
         return redirect()->route('delivery.index')->with($notification);
+    }
+
+    public function doCancel(Request $request,$id)
+    {
+        $data = Delivery::find($id);
+        $sales = Sale::where('order_ref',$data->order_ref)->update([
+            'status_id' => '8447cd63-c7e7-4b26-81fc-d2eb3aceec97'
+        ]);
+        $log = 'Delivery Order '.($data->order_ref).' Berhasil Dibatalkan';
+         \LogActivity::addToLog($log);
+        $data->delete();
+        
+        $notification = array (
+            'message' => 'Delivery Order '.($data->order_ref).' Berhasil Dibatalkan',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('delivery.index')->with($notification);
+
     }
 
     public function doShow($id)

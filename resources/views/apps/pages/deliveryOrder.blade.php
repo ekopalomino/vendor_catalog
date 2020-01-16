@@ -89,6 +89,9 @@ FiberTekno | Delivery Order
                                     </a>
                                     @endif
                                     @endcan
+                                    {!! Form::open(['method' => 'POST','route' => ['delivery.cancel', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
+                                    {!! Form::button('<i class="fa fa-close"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Cancel DO']) !!}
+                                    {!! Form::close() !!}
                                 </td>
                             </tr>
                             @endforeach
@@ -108,4 +111,14 @@ FiberTekno | Delivery Order
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmDelete()
+    {
+    var x = confirm("Pengiriman Akan Dibatalkan?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 @endsection

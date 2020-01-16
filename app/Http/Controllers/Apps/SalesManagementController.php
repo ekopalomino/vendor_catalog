@@ -375,4 +375,20 @@ class SalesManagementController extends Controller
         return redirect()->route('sales.index')->with($notification);
     }
 
+    public function closeSale(Request $request,$id)
+    {
+        $data = Sale::find($id);
+        $closing = $data->update([
+            'status_id' => '6d32841b-2606-43a5-8cf7-b77291ddbfbb',
+        ]);
+
+        $log = 'Sales Order '.($data->order_ref).' Berhasil Ditutup';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Sales Order '.($data->order_ref).' Berhasil Ditutup',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('sales.index')->with($notification);
+    }
+
 }

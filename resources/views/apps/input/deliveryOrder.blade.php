@@ -60,6 +60,7 @@ Fiber Tekno | Add Delivery Order
 	            				<tr>
 	            					<th>Produk</th>
 	            					<th>Jumlah Pesanan</th>
+                                    <th>Jumlah Tersedia</th>
                                     <th>Jumlah Dikirim</th>
 	            					<th>Satuan</th>
 	            					<th>Proses</th>
@@ -70,6 +71,10 @@ Fiber Tekno | Add Delivery Order
 	            				<tr>
 	            					<td>{!! Form::text('product[]', $item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
                     				<td>{!! Form::number('pesanan[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}</td>
+                                    <td>
+                                        <label class="label label-sm label-danger">{{ number_format(($item->closing_amount),2,',','.')}}
+                                        </label>
+                                    </td>
                     				<td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
                     				<td>

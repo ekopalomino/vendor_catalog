@@ -119,7 +119,7 @@ FiberTekno | Sales Order Detail
                                         <th>KETERANGAN NAMA BARANG/JASA</th>
                                         <th>JML</th>
                                         <th>HARGA PER UNIT</th>
-                                        <th>DISC TOTAL</th>
+                                        <th>DISC PER UNIT</th>
                                         <th>JUMLAH(RUPIAH)</th>
                                     </tr>
                                 </thead>
