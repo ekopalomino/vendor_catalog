@@ -97,7 +97,7 @@ class PaymentManagementController extends Controller
             'updated_by' => auth()->user()->name,
             'payment_received' => Carbon::now(),
         ]);
-        $process = Sale::where('id',$invoices->sales_order)->update([
+        $process = Sale::where('order_ref',$invoices->sales_order)->update([
             'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
         ]);
         $log = 'Invoice '.($invoices->refs).' Berhasil Dibayar';
@@ -126,8 +126,8 @@ class PaymentManagementController extends Controller
         $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
                         ->where('sales.order_ref',$source->sales_order)
                         ->first();   
-        
-        $items = SaleItem::where('sales_id',$sales->id)
+        $parent = Sale::where('order_ref',$source->sales_order)->first();
+        $items = SaleItem::where('sales_id',$parent->id)
                         ->get();
         
         $filename = $source->reference_id;
