@@ -31,7 +31,8 @@ class PaymentManagementController extends Controller
         $data = Payment::where('type_id','1')->get();
         $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
                        ->pluck('order_ref','order_ref')->toArray();
-        $deliveries = Delivery::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
+        $deliveries = Delivery::join('sales','sales.order_ref','deliveries.order_ref')
+                                ->where('sales.status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
                                 ->pluck('do_ref','do_ref')
                                 ->toArray();
 
