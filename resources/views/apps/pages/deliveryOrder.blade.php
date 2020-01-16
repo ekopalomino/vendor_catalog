@@ -43,6 +43,7 @@ FiberTekno | Delivery Order
                                 <th>Delivery Order</th>
                                 <th>Sales Order</th>
                 				<th>Status</th>
+                                <th>Barang Parsial</th>
                                 <th>Kurir</th>
                                 <th>No Resi</th>
                                 <th>Dibuat Oleh</th>
@@ -64,16 +65,28 @@ FiberTekno | Delivery Order
                                     <label class="label label-sm label-success">{{ $val->Statuses->name }}</label>
                                     @endif
                                 </td>
+                                <td>
+                                    @foreach($val->Child as $child)
+                                        @if(($child['is_partial']) == '1') <label class="label label-sm label-danger">Ya</label>
+                                        @else <label class="label label-sm label-success">Tidak</label>
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{ $val->Courier->delivery_name }}</td>
                                 <td>{{ $val->receipt }}</td>
                                 <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
                                 <td>
+                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\InventoryManagementController@doShow',
+                                        ['id'=>$val->id]) }}" title="Lihat Item {{$val->do_ref}}" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i>
+                                    </a>
                                     <a class="btn btn-xs btn-info" title="Print DO" href="{{ route('delivery.print',$val->id) }}"><i class="fa fa-print"></i></a>
                                     @can('Can Edit Inventory')
                                     @if(($val->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
-                                    <a class="btn btn-xs btn-warning modalMd" href="#" value="{{ action('Apps\InventoryManagementController@deliveryReceipt',['id'=>$val->id]) }}" title="Input Resi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-truck"></i></a>
+                                    <a class="btn btn-xs btn-warning modalMd" href="#" value="{{ action('Apps\InventoryManagementController@doReceipt',
+                                        ['id'=>$val->id]) }}" title="Input Resi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-truck"></i>
+                                    </a>
                                     @endif
                                     @endcan
                                 </td>

@@ -173,9 +173,10 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('inventories/delivery-order/get/purchase-order','Apps\InventoryManagementController@doGet')->name('delivery.get');
     Route::get('inventories/delivery-order/create','Apps\InventoryManagementController@doMake')->name('delivery.create');
     Route::post('inventories/delivery-order/store','Apps\InventoryManagementController@doStore')->name('delivery.store');
-    Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@deliveryReceipt')->name('delivery.receipt');
-    Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@deliveryDone')->name('delivery.done');
-    Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@deliveryPrint')->name('delivery.print');
+    Route::get('inventories/delivery-order/show-items/{id}','Apps\InventoryManagementController@doShow')->name('delivery.show');
+    Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@doReceipt')->name('delivery.receipt');
+    Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@doDone')->name('delivery.done');
+    Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@doPrint')->name('delivery.print');
     /*-----------------------End Inventory Management------------------------------------*/
 
     /*-----------------------Manufacture Management------------------------------------*/

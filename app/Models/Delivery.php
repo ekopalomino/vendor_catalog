@@ -47,5 +47,10 @@ class Delivery extends Model
         return $this->belongsTo(DeliveryService::class,'del_service_id');
     }
 
+    public function Child()
+    {
+        return $this->hasMany(DeliveryItem::class,'delivery_id');
+    }
+
 
 }

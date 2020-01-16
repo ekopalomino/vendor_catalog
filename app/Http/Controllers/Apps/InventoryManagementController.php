@@ -15,6 +15,7 @@ use iteos\Models\Purchase;
 use iteos\Models\PurchaseItem;
 use iteos\Models\Delivery;
 use iteos\Models\DeliveryService;
+use iteos\Models\DeliveryItem;
 use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Models\UomValue;
@@ -75,13 +76,21 @@ class InventoryManagementController extends Controller
     public function makeAdjust($id)
     {
         $data = Inventory::find($id);
-
+ 
         return view('apps.edit.makeAdjust',compact('data'))->renderSections()['content'];
     }
 
     public function storeAdjust(Request $request,$id)
     {
+        $this->validate($request, [
+            'notes' => 'required',
+        ]);
+
         $ref = 'ADJ/FTI/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $checkMove = InventoryMovement::where('product_name',$request->input('product_name'))
+                                        ->where('warehouse_name',$request->input('warehouse_name'))
+                                        ->orderBy('updated_at','DESC')
+                                        ->first();
         $input = [
             'reference_id' => $ref,
             'type' => '1', 
@@ -89,8 +98,8 @@ class InventoryManagementController extends Controller
             'product_id' => $request->input('product_id'),
             'product_name' => $request->input('product_name'),
             'warehouse_name' => $request->input('warehouse_name'),
-            'incoming' => $request->input('adjust_amount'),
-            'outgoing' => '0',
+            'incoming' => $request->input('plus_amount'),
+            'outgoing' => $request->input('min_amount'),
             'remaining' => $request->input('adjust_amount'),
             'notes' => $request->input('notes'),
         ];
@@ -525,16 +534,10 @@ class InventoryManagementController extends Controller
 
     public function doIndex()
     {
-        $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','order_ref')->toArray();
-
-        $data = Sale::join('sale_items','sale_items.sales_id','sales.id')
-                      ->join('deliveries','deliveries.order_ref','sales.order_ref')
-                      ->where('sales.status_id','458410e7-384d-47bc-bdbe-02115adc4449')
-                      ->orderBy('sales.updated_at','DESC')
-                      ->get();
+        $data = Delivery::orderBy('created_at','DESC')->get();
         
 
-        return view('apps.pages.deliveryOrder',compact('data','sales'));
+        return view('apps.pages.deliveryOrder',compact('data'));
     }
 
     public function doSearch()
@@ -557,7 +560,167 @@ class InventoryManagementController extends Controller
 
     public function doStore(Request $request)
     {
+        $lastOrder = Delivery::count();
+        $refs = 'DO/FTI/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        
+        $orders = Delivery::create([
+            'do_ref' => $refs,
+            'order_ref' => $request->input('order_ref'),
+            'del_service_id' => $request->input('delivery_service'),
+            'delivery_cost' => $request->input('delivery_cost'),
+            'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
+            'created_by' => auth()->user()->name,
+        ]);
+        $tg = InternalTransfer::create([
+            'order_ref' => $request->input('order_ref'),
+            'from_wh' => 'Gudang Utama',
+            'to_wh' => 'Gudang Pengiriman',
+            'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
+            'created_by' => auth()->user()->name,
+            'updated_by' => auth()->user()->name,
+            'received_by' => auth()->user()->name
+        ]);
 
+        $items = $request->product;
+        $quantity_order = $request->pesanan;
+        $quantity_shipment = $request->pengiriman;
+        $uoms = $request->uom_id;
+        $shipments = $request->is_shipment;
+        $partials = $request->is_partial;
+        foreach($items as $index=>$item) {
+            $tgItems = InternalItems::create([
+                'mutasi_id' => $tg->id,
+                'product_name' => $item,
+                'quantity' => $quantity_shipment[$index],
+                'uom_id' => $uoms[$index],
+            ]);
+
+            $is_deliver = isset($shipments[$index]) ? 1:0;
+            $is_part = isset($partials[$index]) ? 1:0;
+            $orderItems = DeliveryItem::create([
+                'delivery_id' => $orders->id,
+                'product_name' => $item,
+                'product_quantity' => $quantity_order[$index],
+                'product_shipment' => $quantity_shipment[$index],
+                'is_shipment' => $is_deliver,
+                'is_partial' => $is_part,
+                'uom_id' => $uoms[$index],
+            ]);
+            
+            $inventories = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->first();
+            $updateInv = $inventories->update([
+                'closing_amount' => ($inventories->closing_amount) - ($quantity_shipment[$index]),
+            ]);
+            $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            $movements = InventoryMovement::create([
+                'inventory_id' => $inventories,
+                'reference_id' => $request->input('order_ref'),
+                'type' => '4',
+                'product_name' => $item,
+                'warehouse_name' => 'Gudang Utama',
+                'incoming' => '0',
+                'outgoing' => $quantity_shipment[$index],
+                'remaining' => ($lastMove->remaining) - ($quantity_shipment[$index])
+            ]);
+            
+            $incoming = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Pengiriman')->first();
+            if(($incoming) == null) {
+                $makeInv = Inventory::create([
+                    'product_id' => '',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Pengiriman',
+                    'min_stock' => '0',
+                    'opening_amount' => '0',
+                    'closing_amount' => $quantity_shipment[$index],
+                ]);
+                $makeMove = InventoryMovement::create([
+                    'inventory_id' => $makeInv->id,
+                    'reference_id' => $request->input('order_ref'),
+                    'type' => '4',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Pengiriman',
+                    'incoming' => $quantity_shipment[$index],
+                    'outgoing' => '0',
+                    'remaining' => $quantity_shipment[$index]
+                ]);
+            } else {
+                $updateInv = $incoming->update([
+                    'closing_amount' => ($incoming->closing_amount) + ($quantity_shipment[$index])
+                ]);
+                $makeMove = InventoryMovement::create([
+                    'inventory_id' => $makeInv->id,
+                    'reference_id' => $request->input('order_ref'),
+                    'type' => '4',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Pengiriman',
+                    'incoming' => $quantity_shipment[$index],
+                    'outgoing' => '0',
+                    'remaining' => $quantity_shipment[$index]
+                ]);
+            }
+        }
+
+        $salesUpdate = Sale::where('order_ref',$request->input('order_ref'))->update([
+            'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
+        ]);
+
+        $log = 'Delivery Order '.($orders->do_ref).' Sedang Diproses';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Delivery Order '.($orders->do_ref).' Sedang Diproses',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('delivery.index')->with($notification);
+    }
+
+    public function doShow($id)
+    {
+        $data = Delivery::find($id);
+        $items = DeliveryItem::where('delivery_id',$id)->get();
+        
+        return view('apps.show.deliveryOrder',compact('items'))->renderSections()['content'];
+    }
+
+    public function doPrint($id)
+    {
+        $source = Delivery::find($id);
+        $data = Sale::where('order_ref',$source->order_ref)
+                        ->first();             
+        $details = DeliveryItem::where('delivery_id',$id)->get();
+        
+        $pdf = PDF::loadview('apps.print.deliveryOrder',compact('source','data','details'));
+        return $pdf->download(''.$source->do_ref.'.pdf');                 
+    }
+
+    public function doReceipt($id)
+    { 
+        $data = Delivery::find($id);
+
+        return view('apps.edit.deliveryReceipt',compact('data'))->renderSections()['content'];
+    }
+    public function doDone(Request $request,$id)
+    {
+        $data = Delivery::find($id);
+        $data->update([
+            'receipt' => $request->input('receipt'),
+            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+            'updated_by' => auth()->user()->name,
+        ]);
+
+        $source = Delivery::where('id',$id)->first();
+        $sales = Sale::where('order_ref',$source->order_ref)->update([
+            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+        ]);
+
+        $log = 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('delivery.index')->with($notification);
     }
 
     

@@ -18,8 +18,12 @@
             <div class="row">
             	<div class="col-md-12">
                     <div class="form-group">
-                        <label class="control-label">Penyesuaian Stok</label>
-                        {!! Form::number('adjust_amount', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
+                        <label class="control-label">Stok Tambah</label>
+                        {!! Form::number('plus_amount', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Stok Kurang</label>
+                        {!! Form::number('min_amount', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}
                     </div>
                     <div class="form-group">
                         <label class="control-label">Catatan</label>

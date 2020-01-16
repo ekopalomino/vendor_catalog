@@ -45,29 +45,28 @@
 </tr>
 <tr>
 <td style="width: 68px;">No Surat Jalan</td>
-<td style="width: 68px;">{{ $source->order_ref }}</td>
+<td style="width: 68px;">{{ $source->do_ref }}</td>
 </tr>
 </tbody>
 </table>
 </td>
 </tr>
-</tbody>
+</tbody> 
 </table>
 <p align="center"><strong>Surat Jalan</strong></p>
 <table style="height: 41px; border-color: #000000;" border="1" width="540">
 <tbody>
-	@foreach($details as $key=>$val)
+	
 <tr>
 <td style="width: 10px;">No</td>
-<td style="width: 20px;">Kode Barang</td>
 <td style="width: 128px;">Nama Barang</td>
 <td style="width: 20px;">Jumlah</td>
 </tr>
+@foreach($details as $key=>$val)
 <tr>
 <td style="width: 10px;">{{ $key+1 }}</td>
-<td style="width: 20px;">{{ $val->Products->product_barcode }}</td>
-<td style="width: 128px;">{{ $val->Products->name }}</td>
-<td style="width: 20px;">{{ $val->quantity }}</td>
+<td style="width: 128px;">{{ $val->product_name }}</td>
+<td style="width: 20px;">{{ number_format(($val->product_shipment),2,',','.')}}</td>
 </tr>
 @endforeach
 </tbody>

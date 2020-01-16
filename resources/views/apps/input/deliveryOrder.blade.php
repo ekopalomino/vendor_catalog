@@ -2,10 +2,6 @@
 @section('header.title')
 Fiber Tekno | Add Delivery Order 
 @endsection
-@section('header.plugins')
-<link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
 @section('content')
 <div class="page-content">
     <div class="portlet box red ">
@@ -25,13 +21,13 @@ Fiber Tekno | Add Delivery Order
                 </ul>
             </div>
             @endif 
-            {!! Form::open(array('route' => 'delivery.search','method'=>'POST', 'class' => 'horizontal-form')) !!}
+            {!! Form::open(array('route' => 'delivery.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
             @csrf
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label class="control-label">Cari PO</label>
+                            <label class="control-label">Nomor PO</label>
                             {!! Form::text('order_ref', $sales->order_ref, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
@@ -76,7 +72,18 @@ Fiber Tekno | Add Delivery Order
                     				<td>{!! Form::number('pesanan[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}</td>
                     				<td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
-                    				<td><input type="checkbox" value="1" name="proses[]" /></td>
+                    				<td>
+                                        <div class="mt-checkbox-inline">
+                                            <label class="mt-checkbox">
+                                                {!! Form::checkbox('is_shipment[]','1') !!} Kirim
+                                                <span></span>
+                                            </label>
+                                            <label class="mt-checkbox">
+                                                {!! Form::checkbox('is_partial[]','1') !!} Parsial
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </td>
 	            				</tr>
                                 @endforeach
 	            			</tbody>
@@ -95,11 +102,6 @@ Fiber Tekno | Add Delivery Order
     </div>
 </div>
 @endsection
-@section('footer.plugins')
-<script src="{{ asset('assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-@endsection
 @section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 @endsection
