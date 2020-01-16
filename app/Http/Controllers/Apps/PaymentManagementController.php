@@ -28,20 +28,51 @@ class PaymentManagementController extends Controller
 
     public function invoiceIndex()
     {
-        $orders = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
-        $data = Payment::where('type_id','1')->get(); 
-        return view('apps.pages.invoices',compact('data','orders'));
+        $data = Payment::where('type_id','1')->get();
+        $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
+                       ->pluck('order_ref','order_ref')->toArray();
+        $deliveries = Delivery::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
+                                ->pluck('do_ref','do_ref')
+                                ->toArray();
+
+        return view('apps.pages.invoices',compact('data','sales','deliveries'));
     }
 
-    public function invoiceStore(Request $request) 
+    public function invoicePoStore(Request $request) 
     {
         $latestRef = Payment::where('type_id','1')->count();
-        $getClient = Sale::where('id',$request->input('sales_order'))->first();
+        $getClient = Sale::where('order_ref',$request->input('order_ref'))->first();
         $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
         $invoices = Payment::create([
             'reference_id' => $refs,
             'type_id' => '1',
-            'sales_order' => $request->input('sales_order'),
+            'sales_order' => $request->input('order_ref'),
+            'created_by' => auth()->user()->name,
+        ]);
+        $process = Sale::where('order_ref',$invoices->order_ref)->update([
+            'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+        ]);
+
+        $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+            'alert-type' => 'success'
+        );
+        
+        return redirect()->route('invoice.index')->with($notification);
+    }
+
+    public function invoiceDoStore(Request $request) 
+    {
+        $latestRef = Payment::where('type_id','1')->count();
+        $getDelivery = Delivery::where('id',$request->input('do_ref'))->first();
+        $getClient = Sale::where('order_ref',$getDelivery->order_ref)->first();
+        $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
+        $invoices = Payment::create([
+            'reference_id' => $refs,
+            'type_id' => '1',
+            'sales_order' => $request->input('do_ref'),
             'created_by' => auth()->user()->name,
         ]);
         $process = Sale::where('id',$invoices->sales_order)->update([

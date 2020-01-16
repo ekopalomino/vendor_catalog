@@ -22,7 +22,7 @@ class Payment extends Model
 
     public function Sales()
     {
-        return $this->belongsTo(Sale::class,'sales_order');
+        return $this->belongsTo(Sale::class,'sales_order','order_ref');
     }
 
     public function Purchases()

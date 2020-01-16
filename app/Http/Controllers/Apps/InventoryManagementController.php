@@ -69,7 +69,7 @@ class InventoryManagementController extends Controller
     public function inventoryAdjustIndex()
     {
         $data = Inventory::orderBy('id','asc')->get();
-        
+       
         return view('apps.pages.inventoryAdjustment',compact('data'));
     }
 
@@ -614,7 +614,6 @@ class InventoryManagementController extends Controller
     {
         $data = Delivery::orderBy('created_at','DESC')->get();
         
-
         return view('apps.pages.deliveryOrder',compact('data'));
     }
 
@@ -730,7 +729,7 @@ class InventoryManagementController extends Controller
                     'closing_amount' => ($incoming->closing_amount) + ($quantity_shipment[$index])
                 ]);
                 $makeMove = InventoryMovement::create([
-                    'inventory_id' => $makeInv->id,
+                    'inventory_id' => $incoming->id,
                     'reference_id' => $request->input('order_ref'),
                     'type' => '4',
                     'product_name' => $item,
@@ -803,14 +802,37 @@ class InventoryManagementController extends Controller
     public function doDone(Request $request,$id)
     {
         $data = Delivery::find($id);
-        $data->update([
+        $items = DeliveryItem::where('delivery_id',$id)->get();
+        $done = $data->update([
             'receipt' => $request->input('receipt'),
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
             'updated_by' => auth()->user()->name,
         ]);
+        foreach($items as $item) {
+            $inventories = Inventory::where('product_name',$item->product_name)
+                                      ->where('warehouse_name','Gudang Pengiriman')
+                                      ->orderBy('updated_at','DESC')
+                                      ->first();
+            $movements = InventoryMovement::where('product_name',$item->product_name)
+                                            ->where('warehouse_name','Gudang Pengiriman')
+                                            ->orderBy('updated_at','DESC')
+                                            ->first();
+            $upInv = $inventories->update([
+                'closing_amount' => ($inventories->closing_amount) - ($item->product_shipment),
+            ]);
+            $upMove = InventoryMovement::create([
+                'inventory_id' => $inventories->id,
+                'reference_id' => $data->do_ref,
+                'type' => '5',
+                'product_name' => $item->product_name,
+                'warehouse_name' => 'Gudang Pengiriman',
+                'incoming' => '0',
+                'outgoing' => $item->product_shipment,
+                'remaining' => ($movements->remaning) - ($item->product_shipment),
+            ]);
+        }
 
-        $source = Delivery::where('id',$id)->first();
-        $sales = Sale::where('order_ref',$source->order_ref)->update([
+        $sales = Sale::where('order_ref',$data->order_ref)->update([
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
         ]);
 
