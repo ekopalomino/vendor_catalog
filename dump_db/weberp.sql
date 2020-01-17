@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2020 at 01:11 AM
+-- Generation Time: Jan 17, 2020 at 01:37 AM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -646,9 +646,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (431, '5d9f506e-33c0-11ea-aec2-2e728ce88125', 'Visual Fault Locator JW 3105A', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (432, '5d9f5262-33c0-11ea-aec2-2e728ce88125', 'Wall Mount Rack ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (433, '5d9f53ca-33c0-11ea-aec2-2e728ce88125', 'Wire Tracker', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(434, '5d9f550a-33c0-11ea-aec2-2e728ce88125', 'Young Jin ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(441, '', 'Adapter Dustcaps Black', 'Gudang Pengiriman', '0.00', '0.00', '0.00', '2020-01-16 22:18:00', '2020-01-16 22:19:11'),
-(442, '', 'Adapter Dustcaps Blue', 'Gudang Pengiriman', '0.00', '0.00', '0.00', '2020-01-16 22:18:00', '2020-01-16 22:19:11');
+(434, '5d9f550a-33c0-11ea-aec2-2e728ce88125', 'Young Jin ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11');
 
 -- --------------------------------------------------------
 
@@ -1957,7 +1955,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `av
 ('820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Rizky ITEOS', 'rizky@local.com', NULL, '$2y$10$b89DIndoVlEjvOv3yYlreOyBZXgeC02QlF5fkR6l9WlHrgcWMsHKW', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
 ('994a52f5-285e-4401-95b2-166cc353bb65', 'adminfinance', 'adminfinance@local.com', NULL, '$2y$10$henHL4LyBKhui8HoC0wCKexpe8P9a4mwOzgR4rGMQGKA3YzBRC/dy', 'user.jpg', '1886a2b3-2fb7-4f40-b577-dad076a5d3b1', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 17:31:55', '36.77.192.232', NULL, '2020-01-09 13:07:34', '2020-01-11 17:31:55'),
 ('a7acf627-9108-44c0-a028-2d9bf7829108', 'adminproduksi', 'adminproduksi@local.com', NULL, '$2y$10$qwIfq0pGNYkn.Tmhp1dbh.AYcunz7fQTj9a4MkARaln5a6IkSA9kS', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-10 15:41:34', '114.124.161.169', NULL, '2020-01-08 11:21:49', '2020-01-10 15:41:34'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-17 06:57:53', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-16 23:57:53'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-17 07:34:52', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-17 00:34:52'),
 ('c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$.PRqNO0.eckPAk032EBdC.1YHqtXS.lLmZo8l/AtN5Ymr1OmDyCEC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 00:06:00', '127.0.0.1', NULL, '2020-01-06 17:46:22', '2020-01-10 17:06:00'),
 ('cb512697-44d9-4683-9bae-0a8e28a3252b', 'pembelian', 'pembelian@local.com', NULL, '$2y$10$nVmVLQvo9BNmFbWJ63qABuoWtHv9cGOjihoTNfp1VQUm9VdExMBO6', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 13:53:25', '180.243.44.60', NULL, '2020-01-08 13:42:59', '2020-01-08 13:53:25'),
 ('f68f2a18-623f-4c1a-bfde-7f029c603a17', 'adminsales2', 'adminsales2@local.com', NULL, '$2y$10$OFHrs.J9ITASIoVP5mOD5uZ0XTkKzKdpobMjf6NSV/LwA4G8vlTpS', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-11 18:09:34', '2020-01-11 18:09:34');
