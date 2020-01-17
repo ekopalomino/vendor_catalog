@@ -33,7 +33,7 @@ class PurchaseManagementController extends Controller
 
     public function index()
     {
-        $data = Purchase::orderBy('created_at','ASC')->get();
+        $data = Purchase::orderBy('created_at','DESC')->get();
         return view('apps.pages.purchase',compact('data'));
     }
 

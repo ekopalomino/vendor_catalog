@@ -189,8 +189,8 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Inventories')
-            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','delivery.index','inventory.card','purchase.show'
+            @can('Can Access Inventories') 
+            <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','receipt.search','receipt.get','receipt.edit','delivery.index','inventory.card','purchase.show'
             ,'delivery.search','delivery.get','transfer.index','add.transfer']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
@@ -208,7 +208,7 @@
                             <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
+                    <li class="nav-item {{ set_active(['receipt.index','receipt.search','receipt.get','receipt.edit']) }}">
                         <a href="{{ route('receipt.index') }}" class="nav-link ">
                             <span class="title">Penerimaan Barang</span>
                             <span class="badge badge-danger">{{$ex_receipt}}</span>

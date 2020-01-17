@@ -13,6 +13,8 @@ use iteos\Models\InternalTransfer;
 use iteos\Models\InternalItems;
 use iteos\Models\Purchase;
 use iteos\Models\PurchaseItem;
+use iteos\Models\ReceivePurchase;
+use iteos\Models\ReceivePurchaseItem;
 use iteos\Models\Delivery;
 use iteos\Models\DeliveryService;
 use iteos\Models\DeliveryItem;
@@ -87,8 +89,13 @@ class InventoryManagementController extends Controller
             'notes' => 'required',
         ]);
         
-        $lastestOrder = Reference::where('type','2')->count();
+        $latestOrder = Reference::where('type','2')->count();
         $ref = 'ADJ/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $refs = Reference::create([
+            'type' => '2',
+            'ref_no' => $ref,
+        ]);
+        
         $checkInv = Inventory::where('product_name',$request->input('product_name'))
                                ->where('warehouse_name',$request->input('warehouse_name'))
                                ->orderBy('updated_at','DESC')
@@ -97,10 +104,7 @@ class InventoryManagementController extends Controller
                                         ->where('warehouse_name',$request->input('warehouse_name'))
                                         ->orderBy('updated_at','DESC')
                                         ->first();
-        $refs = Reference::create([
-                    'type' => '2',
-                    'ref_no' => $ref,
-                ]);
+        
         if(($checkMove) == null) {
             if(($request->input('plus_amount')) == null) {
                 $input = [
@@ -210,88 +214,231 @@ class InventoryManagementController extends Controller
                 return redirect()->route('inventory.adjust')->with($notification);
             }
         }
-        
     }
 
     public function receiptIndex() 
     {
-        $data = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
-        $locations = Warehouse::pluck('name','name')->toArray();
-        $details = Purchase::orderBy('created_at','ASC')->get();
+        $data = ReceivePurchase::orderBy('updated_at','DESC')->get();
 
-        return view('apps.pages.purchaseReceipt',compact('data','locations','details'));
+        return view('apps.pages.purchaseReceipt',compact('data'));
     }
-    public function purchaseReceipt(Request $request)
+
+    public function receiptSearch()
     {
-        $input = [
-            'order_ref' => $request->input('order_ref'),
-        ];
- 
-        $data = Purchase::where('id',$request->input('order_ref'))->first();
-        $items = PurchaseItem::where('purchase_id',$request->input('order_ref'))->get();
+        $purchases = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','order_ref')->toArray();
         
-        $in = Purchase::where('id',$request->input('order_ref'))->update([
-            'status' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
+        return view('apps.input.receiptOrderSearch',compact('purchases'));
+    }
+
+    public function receiptGet(Request $request)
+    {
+        $purchases = Purchase::where('order_ref',$request->input('order_ref'))->first();
+        $details = PurchaseItem::join('inventories','inventories.product_name','purchase_items.product_name')
+                             ->where('purchase_items.purchase_id',$purchases->id)
+                             ->get();
+        $locations = Warehouse::pluck('name','name')->toArray();
+        $uoms = UomValue::pluck('name','id')->toArray();
+        
+        return view('apps.input.receiptOrder',compact('purchases','details','locations','uoms'));
+    }
+
+    public function receiptStore(Request $request)
+    {
+        $lastOrder = Reference::where('type','11')->count();
+        $refs = 'RP/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        
+        $received = ReceivePurchase::create([
+            'ref_no' => $refs,
+            'order_ref' => $request->input('order_ref'),
+            'warehouse' => $request->input('warehouse_name'),
+            'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
         ]);
+
+        $updatePurchase = Purchase::where('order_ref',$request->input('order_ref'))->update([
+            'status' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43'
+        ]);
+
+        $refs = Reference::create([
+            'type' => '11',
+            'ref_no' => $refs,
+        ]);
+        $items = $request->product;
+        $orders = $request->pesanan;
+        $delivered = $request->pengiriman;
+        $damaged = $request->rusak;
+        $uom = $request->uom_id;
+
         foreach($items as $index=>$item) {
-            $bases = UomValue::where('id',$item->uom_id)->first();
+            $bases = UomValue::where('id',$uom[$index])->first();
             if($bases->is_parent == null) {
-                $convertion = ($item->quantity) * ($bases->value); 
+                $convertion = ($delivered[$index]) * ($bases->value);
+                $destroyed = ($damaged) * ($bases->value); 
             } else {
-                $convertion = $item->quantity;
+                $convertion = $delivered[$index];
+                $destroyed = $damaged[$index];
             }
-            $sources = Inventory::where('product_name',$item->product_name)->where('warehouse_name',$request->input('warehouse_name'))->orderBy('updated_at','DESC')->first();
-            $moves = InventoryMovement::where('product_name',$item->product_name)->where('warehouse_name',$request->input('warehouse_name'))->orderBy('updated_at','DESC')->first();
-            if($sources === null) {
-                $getProduct = Product::where('name',$item->product_name)->first();
-                $inventories = Inventory::create([
-                    'product_id' => $getProduct->id,
-                    'product_name' => $item->product_name,
-                    'min_stock' => '0',
+            $productInventory = Inventory::where('product_name',$item)
+                                           ->where('warehouse_name',$request->input('warehouse_name'))
+                                           ->orderBy('updated_at','DESC')
+                                           ->first();
+            $productMovement = InventoryMovement::where('product_name',$item)
+                                                  ->where('warehouse_name',$request->input('warehouse_name'))
+                                                  ->orderBy('updated_at','DESC')
+                                                  ->first();
+            $getProductId = Product::where('name',$item)->first();
+
+            $receiveItem = ReceivePurchaseItem::create([
+                'receive_id' => $received->id,
+                'product_name' => $item,
+                'orders' => $orders[$index],
+                'received' => $convertion,
+                'damaged' => $destroyed,
+                'uom_id' => $uom[$index],
+            ]); 
+            
+            if(($productInventory) == null) {
+                $receiveInventory = Inventory::create([
+                    'product_id' => $getProductId->id,
+                    'product_name' => $item,
                     'warehouse_name' => $request->input('warehouse_name'),
-                    'opening_amount' => $convertion,
+                    'min_stock' => '0',
+                    'opening_amount' => '0',
                     'closing_amount' => $convertion,
                 ]);
-                $movements = InventoryMovement::create([
-                    'product_name' => $inventories->product_name,
-                    'warehouse_name' => $inventories->warehouse_name,
+
+                $receiveMovement = InventoryMovement::create([
+                    'inventory_id' => $receiveInventory->id,
+                    'reference_id' => $request->input('order_ref'),
                     'type' => '3',
-                    'inventory_id' => $inventories->id,
-                    'reference_id' => $data->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => $request->input('warehouse_name'),
                     'incoming' => $convertion,
-                    'remaining' => $convertion,
+                    'outgoing' => '0',
+                    'remaining' => $convertion
                 ]);
+
             } else {
-                $inventories = $sources->update([
-                    'closing_amount' => ($sources->closing_amount) + $convertion,
+                $receiveInventory = $productInventory->update([
+                    'closing_amount' => ($productInventory->closing_amount) + ($convertion)
                 ]);
-                if($moves === null) {
-                    $movements = InventoryMovement::create([
-                        'product_name' => $sources->product_name,
-                        'warehouse_name' => $sources->warehouse_name,
+
+                if(($productMovement) == null) {
+                    $receiveMovement = InventoryMovement::create([
+                        'inventory_id' => $productInventory->id,
+                        'reference_id' => $request->input('order_ref'),
                         'type' => '3',
-                        'inventory_id' => $sources->id,
-                        'reference_id' => $data->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => $request->input('warehouse_name'),
                         'incoming' => $convertion,
-                        'remaining' => $convertion,
-                    ]);
+                        'outgoing' => '0',
+                        'remaining' => $convertion
+                    ]); 
                 } else {
-                    $movements = InventoryMovement::create([
-                        'product_name' => $sources->product_name,
-                        'warehouse_name' => $sources->warehouse_name,
+                    $receiveMovement = InventoryMovement::create([
+                        'inventory_id' => $productInventory->id,
+                        'reference_id' => $request->input('order_ref'),
                         'type' => '3',
-                        'inventory_id' => $sources->id,
-                        'reference_id' => $data->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => $request->input('warehouse_name'),
                         'incoming' => $convertion,
-                        'remaining' => ($moves->remaining) + $convertion,
+                        'outgoing' => '0',
+                        'remaining' => ($productMovement->remaining) + ($convertion)
                     ]);
                 }
-            }
+            }                                       
         }
-        $log = 'Pembelian '.($data->order_ref).' Berhasil Diterima';
-         \LogActivity::addToLog($log);
+        $log = 'Pembelian '.($received->order_ref).' Berhasil Diterima';
+        \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembelian '.($data->order_ref).' Berhasil Diterima',
+            'message' => 'Pembelian '.($received->order_ref).' Berhasil Diterima',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('receipt.index')->with($notification);
+    }
+
+    public function receiptEdit($id)
+    {
+        $data = ReceivePurchase::find($id);
+        $details = ReceivePurchaseItem::where('receive_id',$id)->get();
+        $uoms = UomValue::pluck('name','id')->toArray();
+
+        return view('apps.edit.receivedOrder',compact('data','details','uoms'));
+    }
+
+    public function receiptUpdate(Request $request,$id)
+    {
+        $data = ReceivePurchase::find($id);
+        $items = $request->product;
+        $deliveries = $request->parsial;
+        $damaged = $request->rusak;
+        $uoms = $request->uom_id;
+
+        foreach($items as $index=>$item) {
+            $bases = UomValue::where('id',$uoms[$index])->first();
+            if($bases->is_parent == null) {
+                $convertion = ($deliveries[$index]) * ($bases->value);
+                $destroyed = ($damaged) * ($bases->value); 
+            } else {
+                $convertion = $deliveries[$index];
+                $destroyed = $damaged[$index];
+            }
+            $details = ReceivePurchaseItem::where('receive_id',$id)->where('product_name',$item)->first();
+            $productInventory = Inventory::where('product_name',$item)
+                                           ->where('warehouse_name',$request->input('warehouse_name'))
+                                           ->orderBy('updated_at','DESC')
+                                           ->first();
+            $productMovement = InventoryMovement::where('product_name',$item)
+                                                  ->where('warehouse_name',$request->input('warehouse_name'))
+                                                  ->orderBy('updated_at','DESC')
+                                                  ->first();
+            
+            $updateDetail = $details->update([
+                'received' => ($details->received) + ($convertion),
+                'damaged' => $destroyed,
+                'uom_id' => $uoms[$index],
+            ]);
+
+            $updateInventory = $productInventory->update([
+                'closing_amount' => ($productInventory->closing_amount) + ($convertion)
+            ]);
+            $receiveMovement = InventoryMovement::create([
+                'inventory_id' => $productInventory->id,
+                'reference_id' => $request->input('order_ref'),
+                'type' => '3',
+                'product_name' => $item,
+                'warehouse_name' => $request->input('warehouse_name'),
+                'incoming' => $convertion,
+                'outgoing' => '0',
+                'remaining' => ($productMovement->remaining) + ($convertion)
+            ]);
+        }
+        $log = 'Pembelian '.($data->order_ref).' Berhasil Diupdate';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pembelian '.($data->order_ref).' Berhasil Diupdate',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('receipt.index')->with($notification);
+    }
+
+    public function receiptClose(Request $request,$id)
+    {
+        $data = ReceivePurchase::find($id);
+        $purchases = Purchase::where('order_ref',$data->order_ref)->first();
+
+        $updateData = $data->update([
+            'status_id' => '596ae55c-c0fb-4880-8e06-56725b21f6dc'
+        ]);
+        $updatePurchase = $purchases->update([
+            'status' => '596ae55c-c0fb-4880-8e06-56725b21f6dc'
+        ]);
+
+        $log = 'Pembelian '.($data->order_ref).' Selesai Diproses';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pembelian '.($data->order_ref).' Selesai Diproses',
             'alert-type' => 'success'
         );
 

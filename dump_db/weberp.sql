@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2020 at 02:03 PM
+-- Generation Time: Jan 17, 2020 at 07:32 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -687,13 +687,6 @@ CREATE TABLE `log_activities` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `log_activities`
---
-
-INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Hak Akses Administrator berhasil diubah', 'http://fibertekno.local/apps/users/roles/update/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-17 00:10:14', '2020-01-17 00:10:14');
-
 -- --------------------------------------------------------
 
 --
@@ -791,7 +784,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (63, '2020_01_13_041442_create_payments_table', 31),
 (64, '2019_09_30_225904_create_invoices_table', 32),
 (65, '2020_01_15_235803_create_delivery_items_table', 32),
-(66, '2020_01_17_200048_create_references_table', 33);
+(66, '2020_01_17_200048_create_references_table', 33),
+(67, '2020_01_17_230338_create_receive_purchases_table', 34),
+(68, '2020_01_17_230354_create_receive_purchase_items_table', 34);
 
 -- --------------------------------------------------------
 
@@ -1543,6 +1538,40 @@ CREATE TABLE `purchase_items` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `receive_purchases`
+--
+
+CREATE TABLE `receive_purchases` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ref_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `warehouse` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receive_purchase_items`
+--
+
+CREATE TABLE `receive_purchase_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `receive_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `orders` decimal(50,2) NOT NULL,
+  `received` decimal(50,2) NOT NULL,
+  `damaged` decimal(50,2) NOT NULL,
+  `uom_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `references`
 --
 
@@ -1866,6 +1895,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('458410e7-384d-47bc-bdbe-02115adc4449', 'Approve', '2019-09-10 13:07:06', '2019-09-10 13:07:06'),
 ('45e139a2-a423-46ef-8901-d07b25b461a3', 'Pending Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
 ('533806c2-19dc-4b24-886f-d783a8b448b7', 'Normal Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('596ae55c-c0fb-4880-8e06-56725b21f6dc', 'Purchase Close', '2020-01-17 18:27:39', '2020-01-17 18:27:39'),
 ('5bc79891-e396-4792-a0f3-617ece2a00ce', 'Requested', '2019-09-20 16:14:02', '2019-09-20 16:14:02'),
 ('6d32841b-2606-43a5-8cf7-b77291ddbfbb', 'Sales Close', '2020-01-16 19:59:06', '2020-01-16 19:59:06'),
 ('72ceba35-758d-4bc2-9295-fd9f9f393c56', 'Empty Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
@@ -2225,6 +2255,19 @@ ALTER TABLE `purchase_items`
   ADD KEY `purchase_items_purchase_id_foreign` (`purchase_id`);
 
 --
+-- Indexes for table `receive_purchases`
+--
+ALTER TABLE `receive_purchases`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `receive_purchase_items`
+--
+ALTER TABLE `receive_purchase_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `receive_purchase_items_receive_id_foreign` (`receive_id`);
+
+--
 -- Indexes for table `references`
 --
 ALTER TABLE `references`
@@ -2351,7 +2394,7 @@ ALTER TABLE `inventory_movements`
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
@@ -2363,7 +2406,7 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -2405,6 +2448,12 @@ ALTER TABLE `product_categories`
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `receive_purchase_items`
+--
+ALTER TABLE `receive_purchase_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -2500,6 +2549,12 @@ ALTER TABLE `product_boms`
 --
 ALTER TABLE `purchase_items`
   ADD CONSTRAINT `purchase_items_purchase_id_foreign` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `receive_purchase_items`
+--
+ALTER TABLE `receive_purchase_items`
+  ADD CONSTRAINT `receive_purchase_items_receive_id_foreign` FOREIGN KEY (`receive_id`) REFERENCES `receive_purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `retur_items`

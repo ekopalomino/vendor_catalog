@@ -163,10 +163,15 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('inventories/internal-transfer/accept/{id}','Apps\InventoryManagementController@transferAccept')->name('transfer.accept');
     Route::get('inventories/internal-transfer/view/{id}','Apps\InventoryManagementController@transferView')->name('transfer.view');
     Route::get('inventories/purchase-receipt','Apps\InventoryManagementController@receiptIndex')->name('receipt.index');
-    Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@purchaseReceipt')->name('receipt.store');
+    Route::get('inventories/purchase-receipt/search/purchase-order','Apps\InventoryManagementController@receiptSearch')->name('receipt.search');
+    Route::post('inventories/purchase-receipt/get/purchase-order','Apps\InventoryManagementController@receiptGet')->name('receipt.get');
+    Route::post('inventories/purchase-receipt/store','Apps\InventoryManagementController@receiptStore')->name('receipt.store');
+    Route::get('inventories/purchase-receipt/edit/{id}','Apps\InventoryManagementController@receiptEdit')->name('receipt.edit');
+    Route::post('inventories/purchase-receipt/update/{id}','Apps\InventoryManagementController@receiptUpdate')->name('receipt.update');
+    Route::post('inventories/purchase-receipt/close/{id}','Apps\InventoryManagementController@receiptClose')->name('receipt.close');
     Route::get('inventories/delivery-order','Apps\InventoryManagementController@doIndex')->name('delivery.index');
-    Route::get('inventories/delivery-order/search/purchase-order','Apps\InventoryManagementController@doSearch')->name('delivery.search');
-    Route::post('inventories/delivery-order/get/purchase-order','Apps\InventoryManagementController@doGet')->name('delivery.get');
+    Route::get('inventories/delivery-order/search/sales-order','Apps\InventoryManagementController@doSearch')->name('delivery.search');
+    Route::post('inventories/delivery-order/get/sales-order','Apps\InventoryManagementController@doGet')->name('delivery.get');
     Route::get('inventories/delivery-order/create','Apps\InventoryManagementController@doMake')->name('delivery.create');
     Route::post('inventories/delivery-order/store','Apps\InventoryManagementController@doStore')->name('delivery.store');
     Route::post('inventories/delivery-order/cancel/{id}','Apps\InventoryManagementController@doCancel')->name('delivery.cancel');
