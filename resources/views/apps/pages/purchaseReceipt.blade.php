@@ -78,7 +78,6 @@ FiberTekno | Purchase Receipt
                                 <th>No</th>
                                 <th>Ref No</th>
                                 <th>Nama Supplier</th>
-                                <th>Total Harga</th>
                                 <th>Diminta Oleh</th>
                                 <th>Disetujui Oleh</th>
                                 <th>Tgl Dibuat</th>
@@ -92,7 +91,6 @@ FiberTekno | Purchase Receipt
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->Suppliers->name}}</td>
-                                <td>{{ number_format($val->total,2,',','.')}}</td>
                                 <td>{{ $val->created_by }}</td>
                                 <td>{{ $val->updated_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>

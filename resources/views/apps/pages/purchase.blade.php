@@ -42,7 +42,7 @@ FiberTekno | Purchase Management
                                 <th>No</th>
                 				<th>Ref No</th>
                                 <th>Nama Supplier</th>
-                                <th>Total Harga</th>
+                                <th>Total Barang</th>
                 				<th>Diminta Oleh</th>
                                 <th>Disetujui Oleh</th>
                 				<th>Tgl Dibuat</th>

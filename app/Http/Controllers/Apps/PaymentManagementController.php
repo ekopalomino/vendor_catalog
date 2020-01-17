@@ -149,7 +149,7 @@ class PaymentManagementController extends Controller
     public function receiptIndex()
     {
         $data = Payment::where('type_id','2')->get();
-        $orders = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
+        $orders = Purchase::where('status','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')->pluck('order_ref','order_ref')->toArray();
 
         return view('apps.pages.purchasePayment',compact('data','orders'));
     }
@@ -193,6 +193,9 @@ class PaymentManagementController extends Controller
             'status_id' => 'd6c23804-3b9b-40ca-b050-146af5594f5d',
             'updated_by' => auth()->user()->name,
             'payment_made' => Carbon::now(),
+        ]);
+        $upPurchase = Purchase::where('order_ref',$invoices->sales_order)->update([
+            'status_id' => 'd6c23804-3b9b-40ca-b050-146af5594f5d'
         ]);
         
         $log = 'Pembayaran '.($invoices->refs).' Berhasil Dibayar';
