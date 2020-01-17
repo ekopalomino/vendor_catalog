@@ -173,7 +173,7 @@
             </li>
             @endcan
             @can('Can Access Purchasing')
-            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show','transfer.index','add.transfer']) }}">
+            <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-basket-loaded"></i>
                     <span class="title">Purchasing</span>
@@ -186,18 +186,12 @@
                             <span class="badge badge-danger">{{$purchases}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
-                        <a href="{{ route('transfer.index') }}" class="nav-link ">
-                            <span class="title">Transfer Gudang</span>
-                            <span class="badge badge-danger">{{$transfers}}</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
             @endcan
             @can('Can Access Inventories')
             <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','delivery.index','inventory.card','purchase.show'
-            ,'delivery.search','delivery.get']) }}">
+            ,'delivery.search','delivery.get','transfer.index','add.transfer']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Gudang</span>
@@ -233,6 +227,12 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
+                        <a href="{{ route('transfer.index') }}" class="nav-link ">
+                            <span class="title">Transfer Gudang</span>
+                            <span class="badge badge-danger">{{$transfers}}</span>
+                        </a>
                     </li>
                 </ul>
             </li>
