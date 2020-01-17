@@ -82,7 +82,7 @@ FiberTekno | Delivery Order
                                         ['id'=>$val->id]) }}" title="Lihat Item {{$val->do_ref}}" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i>
                                     </a>
                                     <a class="btn btn-xs btn-info" title="Print DO" href="{{ route('delivery.print',$val->id) }}"><i class="fa fa-print"></i></a>
-                                    @can('Can Edit Inventory')
+                                    @can('Can Create Receipt')
                                     @if(($val->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
                                     <a class="btn btn-xs btn-warning modalMd" href="#" value="{{ action('Apps\InventoryManagementController@doReceipt',
                                         ['id'=>$val->id]) }}" title="Input Resi" data-toggle="modal" data-target="#modalMd"><i class="fa fa-truck"></i>

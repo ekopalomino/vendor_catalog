@@ -40,6 +40,7 @@ FiberTekno | Edit Role
                                             <th>Edit Data</th>
                                             <th>Hapus Data</th>
                                             <th>Accept/Reject Data</th>
+                                            <th>Input Resi Pengiriman</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,6 +90,8 @@ FiberTekno | Edit Role
                                                     />
                                                     <span></span>
                                                 </label>
+                                            </td>
+                                            <td>
                                             </td>
                                             <td>
                                             </td>
@@ -142,6 +145,8 @@ FiberTekno | Edit Role
                                             </td>
                                             <td>
                                             </td>
+                                            <td>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
@@ -192,6 +197,8 @@ FiberTekno | Edit Role
                                             </td>
                                             <td>
                                             </td>
+                                            <td>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>4</td>
@@ -230,14 +237,24 @@ FiberTekno | Edit Role
                                                 </label>
                                             </td>
                                             <td>
-                                                
+                                                <label class="mt-checkbox mt-checkbox-outline">
+                                                    <input type="checkbox" value="47" name="permission[]" 
+                                                    @foreach($roles as $rolePermissions)
+                                                        @if($rolePermissions->permission_id == '47')checked
+                                                        @endif
+                                                    @endforeach
+                                                    />
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                            <td>
                                             </td>
                                             <td>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>5</td>
-                                            <td>Penjualan</td>
+                                            <td>Sales</td>
                                             <td>
                                                 <label class="mt-checkbox mt-checkbox-outline">
                                                     <input type="checkbox" value="3" name="permission[]" 
@@ -293,10 +310,12 @@ FiberTekno | Edit Role
                                                     <span></span>
                                                 </label>
                                             </td>
+                                            <td>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>6</td>
-                                            <td>Permintaan</td>
+                                            <td>Purchasing</td>
                                             <td>
                                                 <label class="mt-checkbox mt-checkbox-outline">
                                                     <input type="checkbox" value="4" name="permission[]" 
@@ -352,10 +371,12 @@ FiberTekno | Edit Role
                                                     <span></span>
                                                 </label>
                                             </td>
+                                            <td>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>7</td>
-                                            <td>Persediaan</td>
+                                            <td>Gudang</td>
                                             <td>
                                                 <label class="mt-checkbox mt-checkbox-outline">
                                                     <input type="checkbox" value="6" name="permission[]" 
@@ -411,10 +432,21 @@ FiberTekno | Edit Role
                                                     <span></span>
                                                 </label>
                                             </td>
+                                            <td>
+                                                <label class="mt-checkbox mt-checkbox-outline">
+                                                    <input type="checkbox" value="50" name="permission[]" 
+                                                    @foreach($roles as $rolePermissions)
+                                                        @if($rolePermissions->permission_id == '50')checked
+                                                        @endif
+                                                    @endforeach
+                                                    />
+                                                    <span></span>
+                                                </label>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>8</td>
-                                            <td>Manufaktur</td>
+                                            <td>Produksi</td>
                                             <td>
                                                 <label class="mt-checkbox mt-checkbox-outline">
                                                     <input type="checkbox" value="7" name="permission[]" 
@@ -470,6 +502,8 @@ FiberTekno | Edit Role
                                                     <span></span>
                                                 </label>
                                             </td>
+                                            <td>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>9</td>
@@ -520,6 +554,8 @@ FiberTekno | Edit Role
                                             </td>
                                             <td>
                                             </td>
+                                            <td>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>10</td>
@@ -551,6 +587,8 @@ FiberTekno | Edit Role
                                             </td>
                                             <td>
                                                 
+                                            </td>
+                                            <td>
                                             </td>
                                             <td>
                                             </td>
