@@ -63,7 +63,7 @@ Fiber Tekno | Add Delivery Order
                                     <th>Jumlah Tersedia</th>
                                     <th>Jumlah Dikirim</th>
 	            					<th>Satuan</th>
-	            					<th>Proses</th>
+	            					<th></th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
@@ -75,19 +75,11 @@ Fiber Tekno | Add Delivery Order
                                         <label class="label label-sm label-danger">{{ number_format(($item->closing_amount),2,',','.')}}
                                         </label>
                                     </td>
-                    				<td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
                     				<td>
-                                        <div class="mt-checkbox-inline">
-                                            <label class="mt-checkbox">
-                                                {!! Form::checkbox('is_shipment[]','1') !!} Kirim
-                                                <span></span>
-                                            </label>
-                                            <label class="mt-checkbox">
-                                                {!! Form::checkbox('is_partial[]','1') !!} Parsial
-                                                <span></span>
-                                            </label>
-                                        </div>
+                                        {{ Form::hidden('id', $key+1) }}
+                                        <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
                                     </td>
 	            				</tr>
                                 @endforeach
@@ -109,4 +101,10 @@ Fiber Tekno | Add Delivery Order
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script>
+function deleteRow(r) {
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("sample_2").deleteRow(i);
+}
+</script>
 @endsection

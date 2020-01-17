@@ -208,25 +208,17 @@
                             <span class="title">Penyesuaian</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['receipt.index','delivery.index','purchase.show','delivery.search','delivery.get']) }}">
-                        <a href="javascript:;" class="nav-link nav-toggle">
-                            <span class="title">Pergerakan Stok</span>
-                            <span class="arrow"></span>
+                    <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
+                        <a href="{{ route('receipt.index') }}" class="nav-link ">
+                            <span class="title">Penerimaan Barang</span>
+                            <span class="badge badge-danger">{{$ex_receipt}}</span>
                         </a>
-                        <ul class="sub-menu">
-                            <li class="nav-item {{ set_active(['receipt.index','purchase.show']) }}">
-                                <a href="{{ route('receipt.index') }}" class="nav-link ">
-                                    <span class="title">Penerimaan Barang</span>
-                                    <span class="badge badge-danger">{{$receipts}}</span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ set_active(['delivery.index','delivery.search','delivery.get']) }}">
-                                <a href="{{ route('delivery.index') }}" class="nav-link ">
-                                    <span class="title">Pengiriman Barang</span>
-                                    <span class="badge badge-danger">{{$deliveries}}</span>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="nav-item {{ set_active(['delivery.index','delivery.search','delivery.get']) }}">
+                        <a href="{{ route('delivery.index') }}" class="nav-link ">
+                            <span class="title">Pengiriman Barang</span>
+                            <span class="badge badge-danger">{{$deliveries}}</span>
+                        </a>
                     </li>
                     <li class="nav-item {{ set_active(['transfer.index','add.transfer']) }}">
                         <a href="{{ route('transfer.index') }}" class="nav-link ">

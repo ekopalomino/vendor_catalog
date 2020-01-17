@@ -38,6 +38,7 @@ class NotificationServiceProvider extends ServiceProvider
                       ->with('transfers',InternalTransfer::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count())
                       ->with('deliveries',Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->count())
                       ->with('invoices',Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->count())
+                      ->with('ex_receipt',Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->count())
                       ->with('receipts',Purchase::where('status','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')->count())
                       ->with('manrequest',Manufacture::where('status_id','5bc79891-e396-4792-a0f3-617ece2a00ce')->count())
                       ->with('manorders',Manufacture::where('status_id','45e139a2-a423-46ef-8901-d07b25b461a3')->count());

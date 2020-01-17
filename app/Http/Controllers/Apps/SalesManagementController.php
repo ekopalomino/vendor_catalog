@@ -16,6 +16,7 @@ use iteos\Models\PaymentTerm;
 use iteos\Models\Warehouse;
 use iteos\Models\InternalTransfer;
 use iteos\Models\InternalItems;
+use iteos\Models\Reference;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -69,7 +70,8 @@ class SalesManagementController extends Controller
 
     public function storeSales(Request $request)
     {
-        $latestOrder = Sale::where('status_id','!=','af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')->count();
+        $latestOrder = Reference::where('type','1')->count();
+        /*$latestOrder = Sale::where('status_id','!=','af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')->count();*/
         $ref = 'SO/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('client_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
 
         $details = Contact::where('ref_id',$request->input('client_code'))->first();
@@ -84,6 +86,10 @@ class SalesManagementController extends Controller
             'delivery_date' => $request->input('delivery_date'),
             'created_by' => auth()->user()->name,
         ];
+        $refs = Reference::create([
+            'type' => '1',
+            'ref_no' => $ref,
+        ]);
         
         $data = Sale::create($input);
         $items = $request->product;

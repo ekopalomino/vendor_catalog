@@ -10,6 +10,7 @@ use iteos\Models\Purchase;
 use iteos\Models\PurchaseItem;
 use iteos\Models\Payment;
 use iteos\Models\Delivery;
+use iteos\Models\Reference;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -41,7 +42,7 @@ class PaymentManagementController extends Controller
 
     public function invoicePoStore(Request $request) 
     {
-        $latestRef = Payment::where('type_id','1')->count();
+        $latestRef = Reference::where('type','9')->count();
         $getClient = Sale::where('order_ref',$request->input('order_ref'))->first();
         $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
         $invoices = Payment::create([
@@ -49,6 +50,10 @@ class PaymentManagementController extends Controller
             'type_id' => '1',
             'sales_order' => $request->input('order_ref'),
             'created_by' => auth()->user()->name,
+        ]);
+        $refs = Reference::create([
+            'type' => '9',
+            'ref_no' => $ref,
         ]);
         $process = Sale::where('order_ref',$invoices->order_ref)->update([
             'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
@@ -66,7 +71,7 @@ class PaymentManagementController extends Controller
 
     public function invoiceDoStore(Request $request) 
     {
-        $latestRef = Payment::where('type_id','1')->count();
+        $latestRef = Reference::where('type','9')->count();
         $getDelivery = Delivery::where('id',$request->input('do_ref'))->first();
         $getClient = Sale::where('order_ref',$getDelivery->order_ref)->first();
         $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
@@ -75,6 +80,10 @@ class PaymentManagementController extends Controller
             'type_id' => '1',
             'sales_order' => $request->input('do_ref'),
             'created_by' => auth()->user()->name,
+        ]);
+        $refs = Reference::create([
+            'type' => '9',
+            'ref_no' => $ref,
         ]);
         $process = Sale::where('id',$invoices->sales_order)->update([
             'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
@@ -163,7 +172,7 @@ class PaymentManagementController extends Controller
         ]);
         $uploadedFile = $request->file('purchase_invoice');
         $path = $uploadedFile->store('purchase'); 
-        $latestRef = Payment::where('type_id','2')->count();
+        $latestRef = Reference::where('type','10')->count();
         $getClient = Purchase::where('id',$request->input('purchase_order'))->first();
         $refs = 'FIN/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->supplier_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
         $invoices = Payment::create([
@@ -174,6 +183,10 @@ class PaymentManagementController extends Controller
             'purchase_invoice' => $path,
             'status_id' => '106da5a6-2c71-4a08-9342-db3fd8ebf71e',
             'created_by' => auth()->user()->name,
+        ]);
+        $refs = Reference::create([
+            'type' => '10',
+            'ref_no' => $ref,
         ]);
         
         $log = 'Pembayaran '.($invoices->refs).' Berhasil Dibuat';

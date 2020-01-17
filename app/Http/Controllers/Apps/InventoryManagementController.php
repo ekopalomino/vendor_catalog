@@ -20,6 +20,7 @@ use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Models\UomValue;
 use iteos\Models\Contact;
+use iteos\Models\Reference;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -85,8 +86,9 @@ class InventoryManagementController extends Controller
         $this->validate($request, [
             'notes' => 'required',
         ]);
-
-        $ref = 'ADJ/FTI/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        
+        $lastestOrder = Reference::where('type','2')->count();
+        $ref = 'ADJ/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $checkInv = Inventory::where('product_name',$request->input('product_name'))
                                ->where('warehouse_name',$request->input('warehouse_name'))
                                ->orderBy('updated_at','DESC')
@@ -95,6 +97,10 @@ class InventoryManagementController extends Controller
                                         ->where('warehouse_name',$request->input('warehouse_name'))
                                         ->orderBy('updated_at','DESC')
                                         ->first();
+        $refs = Reference::create([
+                    'type' => '2',
+                    'ref_no' => $ref,
+                ]);
         if(($checkMove) == null) {
             if(($request->input('plus_amount')) == null) {
                 $input = [
@@ -327,8 +333,8 @@ class InventoryManagementController extends Controller
 
                 return redirect()->back()->with($notification);
             } else {
-                $reference = InternalTransfer::count();
-                $ref = 'MI/FTI'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+                $references = Reference::where('type','3')->count();
+                $ref = 'MI/FTI'.str_pad($references + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
                 $data = [
                     'order_ref' => $ref,
                     'from_wh' => $request->input('from_wh'),
@@ -508,108 +514,6 @@ class InventoryManagementController extends Controller
         return redirect()->route('transfer.index')->with($notification);
     }
 
-    public function deliveryIndex()
-    {
-        $data = Delivery::get();
-        $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','id')->toArray();
-        $services = DeliveryService::pluck('delivery_name','id')->toArray();
-        
-        return view('apps.pages.deliveryOrder',compact('data','sales','services'));
-    }
-
-    public function deliveryOrder(Request $request)
-    {
-        $this->validate($request, [
-            'sales_ref' => 'required',
-            'delivery_service' => 'required',
-            'delivery_cost' => 'required',
-        ]);
-
-        $input = $request->all();
-        
-        $lastOrder = Delivery::count();
-        $refs = 'DO/FTI/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-        $salesRefs = Sale::where('id',($request->input('sales_ref')))->first();
-
-        $orders = Delivery::create([
-            'do_ref' => $refs,
-            'order_ref' => $salesRefs->order_ref,
-            'delivery_id' => $request->input('delivery_service'),
-            'delivery_cost' => $request->input('delivery_cost'),
-            'created_by' => auth()->user()->name,
-        ]);
-        $moves = SaleItem::where('sales_id',$salesRefs->id)->get();
-        
-        foreach($moves as $index=>$val) {
-            $source = InventoryMovement::where('product_name',$val->product_name)->where('warehouse_name','Gudang Pengiriman')->orderBy('created_at','DESC')->first();
-            $movements = InventoryMovement::create([
-                'type' => '5',
-                'inventory_id' => $source->inventory_id,
-                'reference_id' => $refs,
-                'product_name' => $val->product_name,
-                'outgoing' => $val->quantity,
-                'remaining' => ($source->remaining) - ($val->quantity),
-                'warehouse_name' => 'Gudang Pengiriman',
-            ]);
-        };
-        foreach($moves as $index=>$val) {
-            Inventory::where('product_name',$val->product_name)->where('warehouse_name',$movements->warehouse_name)->update([
-                'closing_amount' => $movements->remaining,
-            ]);
-        }
-
-        $log = 'Delivery Order '.($orders->order_ref).' Berhasil Dibuat';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Delivery Order '.($orders->order_ref).' Berhasil Dibuat',
-            'alert-type' => 'success'
-        );
-        
-        return redirect()->route('delivery.index')->with($notification);
-    }
-
-    public function deliveryPrint($id)
-    {
-        $source = Delivery::find($id);
-        $data = Sale::where('order_ref',$source->order_ref)
-                        ->first();             
-        $details = SaleItem::where('sales_id',$data->id)
-                            ->get();
-        
-        $pdf = PDF::loadview('apps.print.deliveryOrder',compact('source','data','details'));
-        return $pdf->download(''.$source->order_ref.'.pdf');                 
-    }
-
-    public function deliveryReceipt($id)
-    { 
-        $data = Delivery::find($id);
-
-        return view('apps.edit.deliveryReceipt',compact('data'))->renderSections()['content'];
-    }
-    public function deliveryDone(Request $request,$id)
-    {
-        $data = Delivery::find($id);
-        $data->update([
-            'receipt' => $request->input('receipt'),
-            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
-            'updated_by' => auth()->user()->name,
-        ]);
-
-        $source = Delivery::where('id',$id)->first();
-        $sales = Sale::where('order_ref',$source->order_ref)->update([
-            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
-        ]);
-
-        $log = 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan',
-            'alert-type' => 'success'
-        );
-    
-        return redirect()->route('delivery.index')->with($notification);
-    }
-
     public function doIndex()
     {
         $data = Delivery::orderBy('created_at','DESC')->get();
@@ -641,8 +545,9 @@ class InventoryManagementController extends Controller
 
     public function doStore(Request $request)
     {
-        $lastOrder = Delivery::count();
-        $refs = 'DO/FTI/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $input = $request->all();
+        $lastOrder = Reference::where('type','4')->count();
+        $refs = 'DO/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         
         $orders = Delivery::create([
             'do_ref' => $refs,
@@ -651,6 +556,10 @@ class InventoryManagementController extends Controller
             'delivery_cost' => $request->input('delivery_cost'),
             'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
             'created_by' => auth()->user()->name,
+        ]);
+        $refs = Reference::create([
+            'type' => '4',
+            'ref_no' => $ref,
         ]);
         $tg = InternalTransfer::create([
             'order_ref' => $request->input('order_ref'),
@@ -676,15 +585,13 @@ class InventoryManagementController extends Controller
                 'uom_id' => $uoms[$index],
             ]);
 
-            $is_deliver = isset($shipments[$index]) ? 1:0;
-            $is_part = isset($partials[$index]) ? 1:0;
             $orderItems = DeliveryItem::create([
                 'delivery_id' => $orders->id,
                 'product_name' => $item,
                 'product_quantity' => $quantity_order[$index],
                 'product_shipment' => $quantity_shipment[$index],
-                'is_shipment' => $is_deliver,
-                'is_partial' => $is_part,
+                'is_shipment' => $shipments[$index],
+                'is_partial' => $partials[$index],
                 'uom_id' => $uoms[$index],
             ]);
             
@@ -692,7 +599,57 @@ class InventoryManagementController extends Controller
             $updateInv = $inventories->update([
                 'closing_amount' => ($inventories->closing_amount) - ($quantity_shipment[$index]),
             ]);
-            $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            if(($orderItems->is_shipment) == '1') {
+                $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+                
+                $movements = InventoryMovement::create([
+                    'inventory_id' => $inventories->id,
+                    'reference_id' => $request->input('order_ref'),
+                    'type' => '4',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Utama',
+                    'incoming' => '0',
+                    'outgoing' => $quantity_shipment[$index],
+                    'remaining' => ($lastMove->remaining) - ($quantity_shipment[$index])
+                ]);
+            
+                $incoming = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Pengiriman')->first();
+                if(($incoming) == null) {
+                    $makeInv = Inventory::create([
+                        'product_id' => '',
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Pengiriman',
+                        'min_stock' => '0',
+                        'opening_amount' => '0',
+                        'closing_amount' => $quantity_shipment[$index],
+                    ]);
+                    $makeMove = InventoryMovement::create([
+                        'inventory_id' => $makeInv->id,
+                        'reference_id' => $request->input('order_ref'),
+                        'type' => '4',
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Pengiriman',
+                        'incoming' => $quantity_shipment[$index],
+                        'outgoing' => '0',
+                        'remaining' => $quantity_shipment[$index]
+                    ]);
+                 } else {
+                    $updateInv = $incoming->update([
+                        'closing_amount' => ($incoming->closing_amount) + ($quantity_shipment[$index])
+                    ]);
+                    $makeMove = InventoryMovement::create([
+                        'inventory_id' => $incoming->id,
+                        'reference_id' => $request->input('order_ref'),
+                        'type' => '4',
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Pengiriman',
+                        'incoming' => $quantity_shipment[$index],
+                        'outgoing' => '0',
+                        'remaining' => $quantity_shipment[$index]
+                    ]);
+                }
+            } 
+            /* $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
             $movements = InventoryMovement::create([
                 'inventory_id' => $inventories->id,
                 'reference_id' => $request->input('order_ref'),
@@ -738,7 +695,7 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => $quantity_shipment[$index]
                 ]);
-            }
+            } */
         }
 
         $salesUpdate = Sale::where('order_ref',$request->input('order_ref'))->update([

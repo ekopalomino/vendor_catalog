@@ -13,6 +13,7 @@ use iteos\Models\Inventory;
 use iteos\Models\InventoryMovement;
 use iteos\Models\Product;
 use iteos\Models\UomValue;
+use iteos\Models\Reference;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -59,8 +60,8 @@ class PurchaseManagementController extends Controller
             'supplier_code' => 'required',
             'delivery_date' => 'required',
         ]);
-        $reference = Purchase::where('status','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
-        $ref = 'PR/FTI/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $references = Reference::where('type','7')->count();
+        $ref = 'PR/FTI/'.str_pad($references + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $details = Contact::where('ref_id',$request->input('supplier_code'))->first();
 
         $input = [
@@ -73,6 +74,11 @@ class PurchaseManagementController extends Controller
             'delivery_date' => $request->input('delivery_date'),
             'created_by' => auth()->user()->name,
         ];
+
+        $refs = Reference::create([
+            'type' => '7',
+            'ref_no' => $ref,
+        ]);
         
         $data = Purchase::create($input);
         $items = $request->product;
@@ -135,6 +141,7 @@ class PurchaseManagementController extends Controller
     public function requestApprove(Request $request,$id)
     {
         $data = Purchase::find($id);
+        $references = Reference::where('type','8')->count();
         $reference = Purchase::where('status','!=','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
         $ref = 'PO/FTI/'.str_pad($reference + 1, 4, "0", STR_PAD_LEFT).'/'.($data->supplier_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $details = Contact::where('ref_id',$request->input('supplier_code'))->first();
@@ -143,6 +150,11 @@ class PurchaseManagementController extends Controller
             'order_ref' => $ref,
             'updated_by' => auth()->user()->name,
         ];
+
+        $refs = Reference::create([
+            'type' => '8',
+            'ref_no' => $ref,
+        ]);
 
         $updates = Purchase::find($id);
         $updates->update($process);

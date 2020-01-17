@@ -66,7 +66,7 @@ class ManufactureManagementController extends Controller
 
     public function storeRequest(Request $request)
     {
-        $latestOrder = Manufacture::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->count();
+        $latestOrder = Reference::where('type','5')->count();
         $ref = 'MR/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $bases = UomValue::where('id',$request->input('uom_id'))->first();
         if($bases->is_parent == null) {
@@ -84,6 +84,10 @@ class ManufactureManagementController extends Controller
             'man_plan' => $convertion,
             'created_by' => auth()->user()->name,
         ];
+        $refs = Reference::create([
+            'type' => '5',
+            'ref_no' => $ref,
+        ]);
         $names = Product::join('product_boms','product_boms.product_id','products.id')
                           ->where('products.name',$request->input('product'))
                           ->orWhere('products.product_barcode',$request->input('product'))
@@ -111,13 +115,17 @@ class ManufactureManagementController extends Controller
 
     public function approveRequest($id)
     {
-        $latestOrder = Manufacture::where('status_id','45e139a2-a423-46ef-8901-d07b25b461a3')->count();
+        $latestOrder = Reference::where('type','6')->count();
         $ref = 'MO/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $data = Manufacture::find($id);
         $accept = $data->update([
             'order_ref' => $ref,
             'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
             'approve_by' => auth()->user()->name,
+        ]);
+        $refs = Reference::create([
+            'type' => '6',
+            'ref_no' => $ref,
         ]);
         $log = 'Manufacture Request '.($data->order_ref).' Berhasil Disetujui';
          \LogActivity::addToLog($log);

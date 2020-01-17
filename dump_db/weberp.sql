@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2020 at 01:37 AM
+-- Generation Time: Jan 17, 2020 at 02:03 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -790,7 +790,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (62, '2019_09_07_212548_create_product_boms_table', 30),
 (63, '2020_01_13_041442_create_payments_table', 31),
 (64, '2019_09_30_225904_create_invoices_table', 32),
-(65, '2020_01_15_235803_create_delivery_items_table', 32);
+(65, '2020_01_15_235803_create_delivery_items_table', 32),
+(66, '2020_01_17_200048_create_references_table', 33);
 
 -- --------------------------------------------------------
 
@@ -1542,6 +1543,20 @@ CREATE TABLE `purchase_items` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `references`
+--
+
+CREATE TABLE `references` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `ref_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `retur_items`
 --
 
@@ -2210,6 +2225,12 @@ ALTER TABLE `purchase_items`
   ADD KEY `purchase_items_purchase_id_foreign` (`purchase_id`);
 
 --
+-- Indexes for table `references`
+--
+ALTER TABLE `references`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `retur_items`
 --
 ALTER TABLE `retur_items`
@@ -2342,7 +2363,7 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -2384,6 +2405,12 @@ ALTER TABLE `product_categories`
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `references`
+--
+ALTER TABLE `references`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
