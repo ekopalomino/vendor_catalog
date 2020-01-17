@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2020 at 09:03 PM
+-- Generation Time: Jan 17, 2020 at 01:11 AM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -58,7 +58,7 @@ INSERT INTO `contacts` (`id`, `ref_id`, `type_id`, `name`, `company`, `phone`, `
 ('4e8b0f0e-e718-4150-a7fb-9dd619e413c1', 'FTI-S-0000001', 2, 'Pak Iban', 'PT Pak Iban', '021 800000001', '08111435076', 'mirza.rizaldy@gmail.com', 'Di Rumah', 'Di Rumah', 1, 3, 0, '0101010', 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 11:51:49', '2020-01-08 11:51:49'),
 ('8894faf4-281a-4c22-b2c2-1aff6f67b346', 'FTI-S-0000002', 2, 'Pak Ibos', 'PT Ibos Makmur', '021 989665', '0811199181918', 'ibosjaya@gmail.com', 'Samping Kanan', 'Samping Kanan', 1, 3, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 15:39:22', '2020-01-08 15:39:22'),
 ('b675bf76-b74c-4bf0-99a1-ebf8f9669fae', 'FTI-C-0000001', 1, 'Data Comm', 'Data Comm', '021 861868686', '0817777777', 'admin@com.com', 'Seberang Kali', 'Seberang Kali', 1, 3, 0, NULL, 'eko', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 15:11:24', '2020-01-08 15:11:24'),
-('fe00a2dd-c3fb-40e3-ab55-d49680724aef', '002', 1, 'PAS', 'PT PUTERATEL ANDALAN SUKSES', '12345', '678910', 'tampanatus@yahoo.com', 'Seberang rumah saya', 'Seberang rumah saya', 1, 3, 1, '45678', 'adminsales1', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-13 16:30:35', '2020-01-13 16:30:35');
+('fe00a2dd-c3fb-40e3-ab55-d49680724aef', 'FTI-C-0000002', 1, 'PAS', 'PT PUTERATEL ANDALAN SUKSES', '12345', '678910', 'tampanatus@yahoo.com', 'Seberang rumah saya', 'Seberang rumah saya', 1, 3, 1, '45678', 'adminsales1', NULL, '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-13 16:30:35', '2020-01-13 16:30:35');
 
 -- --------------------------------------------------------
 
@@ -212,21 +212,21 @@ CREATE TABLE `inventories` (
 --
 
 INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`, `min_stock`, `opening_amount`, `closing_amount`, `created_at`, `updated_at`) VALUES
-(1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 19:57:06'),
-(2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-11 03:22:12'),
+(1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 22:18:00'),
+(2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 22:18:00'),
 (3, '5d9ab3d8-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Green', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (4, '5d9ab536-33c0-11ea-aec2-2e728ce88125', 'Adapter MM DX LC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-13 16:39:58'),
 (5, '5d9ac882-33c0-11ea-aec2-2e728ce88125', 'Adapter MM SX SC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (6, '5d9aca26-33c0-11ea-aec2-2e728ce88125', 'Adapter SC/UPC Auto Shutter', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (7, '5d9acb70-33c0-11ea-aec2-2e728ce88125', 'Adapter SC/UPC DX', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(8, '5d9acca6-33c0-11ea-aec2-2e728ce88125', 'Adapter SM LC/UPC DX', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
+(8, '5d9acca6-33c0-11ea-aec2-2e728ce88125', 'Adapter SM LC/UPC DX', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 20:04:32'),
 (9, '5d9ae2c2-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/APC (BESI) (Dimika)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (10, '5d9ae448-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/APC (BESI) (Dimika) (Tente)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (11, '5d9ae9b6-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC ( BESI ) ( Dimika ) Tutup Biru', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (12, '5d9aeb3c-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC ( BESI ) ( Dimika ) Tutup Hitam', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (13, '5d9b0464-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC PAZ ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (14, '5d9b05ea-33c0-11ea-aec2-2e728ce88125', 'Adapter ST/UPC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(15, '5d9b0734-33c0-11ea-aec2-2e728ce88125', 'Box ONT Huawei', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 19:57:06'),
+(15, '5d9b0734-33c0-11ea-aec2-2e728ce88125', 'Box ONT Huawei', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 21:15:35'),
 (16, '5d9b0874-33c0-11ea-aec2-2e728ce88125', 'Box Splitter 1:8 (Kosongan)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (17, '5d9b09aa-33c0-11ea-aec2-2e728ce88125', 'Box Splitter 1:8 (Splitter Plc 1:8 SC/APC)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (18, '5d9b0d60-33c0-11ea-aec2-2e728ce88125', 'Bundle Cable LC/UPC 8F 1 sisi 12m', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 18:51:31'),
@@ -646,7 +646,9 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (431, '5d9f506e-33c0-11ea-aec2-2e728ce88125', 'Visual Fault Locator JW 3105A', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (432, '5d9f5262-33c0-11ea-aec2-2e728ce88125', 'Wall Mount Rack ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (433, '5d9f53ca-33c0-11ea-aec2-2e728ce88125', 'Wire Tracker', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(434, '5d9f550a-33c0-11ea-aec2-2e728ce88125', 'Young Jin ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11');
+(434, '5d9f550a-33c0-11ea-aec2-2e728ce88125', 'Young Jin ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
+(441, '', 'Adapter Dustcaps Black', 'Gudang Pengiriman', '0.00', '0.00', '0.00', '2020-01-16 22:18:00', '2020-01-16 22:19:11'),
+(442, '', 'Adapter Dustcaps Blue', 'Gudang Pengiriman', '0.00', '0.00', '0.00', '2020-01-16 22:18:00', '2020-01-16 22:19:11');
 
 -- --------------------------------------------------------
 
@@ -692,21 +694,7 @@ CREATE TABLE `log_activities` (
 --
 
 INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:22:41', '2020-01-16 19:22:41'),
-(2, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:22:59', '2020-01-16 19:22:59'),
-(3, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:25:34', '2020-01-16 19:25:34'),
-(4, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:40:50', '2020-01-16 19:40:50'),
-(5, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:41:22', '2020-01-16 19:41:22'),
-(6, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:42:34', '2020-01-16 19:42:34'),
-(7, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:42:47', '2020-01-16 19:42:47'),
-(8, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:44:30', '2020-01-16 19:44:30'),
-(9, 'Stok Adapter Dustcaps Black Berhasil Disesuaikan', 'http://fibertekno.local/apps/inventory/adjustment/store/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:44:43', '2020-01-16 19:44:43'),
-(10, 'Pengajuan PR/FTI/0001/FTI-S-0000001/I/2020 Berhasil Dibuat', 'http://fibertekno.local/apps/purchase/request/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:45:28', '2020-01-16 19:45:28'),
-(11, 'Pengajuan PO/FTI/0001/FTI-S-0000001/I/2020 Berhasil Diproses', 'http://fibertekno.local/apps/purchase/request/approve/15684cf1-0087-4d66-869b-460f56c5bde8', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:45:34', '2020-01-16 19:45:34'),
-(12, 'Pembelian PO/FTI/0001/FTI-S-0000001/I/2020 Berhasil Diterima', 'http://fibertekno.local/apps/inventories/purchase-receipt/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:45:47', '2020-01-16 19:45:47'),
-(13, 'Sales Order SO/FTI/0001/FTI-C-0000001/I/2020 Berhasil Disubmit', 'http://fibertekno.local/apps/sales/orders/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:46:41', '2020-01-16 19:46:41'),
-(14, 'Sales Order SO/FTI/0001/FTI-C-0000001/I/2020 Berhasil Diproses', 'http://fibertekno.local/apps/sales/orders/approve/7f0bb1e2-b0da-4d73-8565-6f1d0f97b259', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:47:32', '2020-01-16 19:47:32'),
-(15, 'Delivery Order DO/FTI/0002/FTI/I/2020 Sedang Diproses', 'http://fibertekno.local/apps/inventories/delivery-order/store', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-16 19:57:06', '2020-01-16 19:57:06');
+(1, 'Hak Akses Administrator berhasil diubah', 'http://fibertekno.local/apps/users/roles/update/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'bb536994-ada3-4caa-b97b-e412dc2cc882', '2020-01-17 00:10:14', '2020-01-17 00:10:14');
 
 -- --------------------------------------------------------
 
@@ -997,7 +985,8 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (46, 'Can Edit Contact', 'web', '2019-12-30 17:44:01', '2019-12-30 17:44:01'),
 (47, 'Can Delete Contact', 'web', '2019-12-30 17:44:01', '2019-12-30 17:44:01'),
 (48, 'Can Access Report', 'web', '2019-12-30 17:47:18', '2019-12-30 17:47:18'),
-(49, 'Can Create Report', 'web', '2019-12-30 17:47:18', '2019-12-30 17:47:18');
+(49, 'Can Create Report', 'web', '2019-12-30 17:47:18', '2019-12-30 17:47:18'),
+(50, 'Can Create Receipt', 'web', '2020-01-17 00:02:47', '2020-01-17 00:02:47');
 
 -- --------------------------------------------------------
 
@@ -1231,8 +1220,8 @@ INSERT INTO `products` (`id`, `product_barcode`, `name`, `category_id`, `uom_id`
 ('5d9d1c40-33c0-11ea-aec2-2e728ce88125', 10000121, 'Paladin Buffer Stripper', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9d1d76-33c0-11ea-aec2-2e728ce88125', 10000122, 'Palu Kecil ( CAB )', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9d1eac-33c0-11ea-aec2-2e728ce88125', 10000123, 'Pantong', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
-('5d9d2000-33c0-11ea-aec2-2e728ce88125', 10000124, 'Patchcord MM DX (2,0mm) LC/UPC-LC/UPC 3m', 1, 1, 'patch1.jpegproduct.jpeg', '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 1, 1, 'eko', 'eko', '2020-01-10 16:17:04', '2020-01-13 17:45:46'),
-('5d9d2140-33c0-11ea-aec2-2e728ce88125', 10000125, 'Patchcord MM DX (2,0mm) SC/UPC-LC/UPC 2m', 1, 1, 'patch1.jpegproduct.jpeg', '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 1, 1, 'eko', 'eko', '2020-01-10 16:17:04', '2020-01-13 17:59:00'),
+('5d9d2000-33c0-11ea-aec2-2e728ce88125', 10000124, 'Patchcord MM DX (2,0mm) LC/UPC-LC/UPC 3m', 1, 1, 'patch1.jpegproduct.jpeg', '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, 1, 'eko', 'eko', '2020-01-10 16:17:04', '2020-01-16 23:58:27'),
+('5d9d2140-33c0-11ea-aec2-2e728ce88125', 10000125, 'Patchcord MM DX (2,0mm) SC/UPC-LC/UPC 2m', 1, 1, 'patch1.jpegproduct.jpeg', '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, 1, 'eko', 'eko', '2020-01-10 16:17:04', '2020-01-16 23:58:43'),
 ('5d9d241a-33c0-11ea-aec2-2e728ce88125', 10000126, 'Patchcord MM DX (3,0mm) SC/UPC-ST/UPC 3m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9d25b4-33c0-11ea-aec2-2e728ce88125', 10000127, 'Patchcord MM DX (3,0mm) ST/UPC-LC/UPC 1m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9d2708-33c0-11ea-aec2-2e728ce88125', 10000128, 'Patchcord MM DX (3,0mm) ST/UPC-ST/UPC 5m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
@@ -1321,7 +1310,7 @@ INSERT INTO `products` (`id`, `product_barcode`, `name`, `category_id`, `uom_id`
 ('5d9e5a7e-33c0-11ea-aec2-2e728ce88125', 10000211, 'Patchcord SM SX (2,0mm) SC/UPC-SC/UPC 10m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9e5bbe-33c0-11ea-aec2-2e728ce88125', 10000212, 'Patchcord SM SX (2,0mm) SC/UPC-SC/UPC 20m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9e5cfe-33c0-11ea-aec2-2e728ce88125', 10000213, 'Patchcord SM SX (2,0mm) SC/UPC-SC/UPC 30m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
-('5d9e5f92-33c0-11ea-aec2-2e728ce88125', 10000214, 'Patchcord SM SX (2,0mm) SC/UPC-SC/UPC 5m', 1, 1, 'patch1.jpegproduct.jpeg', '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 1, 1, 'eko', 'eko', '2020-01-10 16:17:04', '2020-01-13 18:09:16'),
+('5d9e5f92-33c0-11ea-aec2-2e728ce88125', 10000214, 'Patchcord SM SX (2,0mm) SC/UPC-SC/UPC 5m', 1, 1, 'patch1.jpegproduct.jpeg', '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, 1, 'eko', 'eko', '2020-01-10 16:17:04', '2020-01-17 00:00:28'),
 ('5d9e6604-33c0-11ea-aec2-2e728ce88125', 10000215, 'Patchcord SM SX (3,0mm) FC/UPC-FC/UPC 10m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9e6820-33c0-11ea-aec2-2e728ce88125', 10000216, 'Patchcord SM SX (3,0mm) FC/UPC-FC/UPC 20m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
 ('5d9e6988-33c0-11ea-aec2-2e728ce88125', 10000217, 'Patchcord SM SX (3,0mm) FC/UPC-FC/UPC 5m', 1, 1, NULL, '4e8b0f0e-e718-4150-a7fb-9dd619e413c1', '5000.00', '10000.00', '20000.00', '2b643e21-a94c-4713-93f1-f1cbde6ad633', 0, 1, 'eko', NULL, '2020-01-10 16:17:04', '2020-01-10 16:17:04'),
@@ -1482,13 +1471,6 @@ CREATE TABLE `product_boms` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `product_boms`
---
-
-INSERT INTO `product_boms` (`id`, `product_id`, `material_name`, `quantity`, `uom_id`, `created_at`, `updated_at`) VALUES
-(1, '5d9e5f92-33c0-11ea-aec2-2e728ce88125', 'Kabel SM SX (2,0mm)', '5.00', 2, '2020-01-13 18:36:09', '2020-01-13 18:36:09');
 
 -- --------------------------------------------------------
 
@@ -1678,6 +1660,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (47, 1),
 (48, 1),
 (49, 1),
+(50, 1),
 (3, 2),
 (6, 2),
 (9, 2),
@@ -1875,6 +1858,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('72ceba35-758d-4bc2-9295-fd9f9f393c56', 'Empty Stock', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('8083f49e-f0aa-4094-894f-f64cd2e9e4e9', 'Submit', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('82e9ec8c-5a82-4009-ba2f-ab620eeaa71a', 'Suspended', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('8447cd63-c7e7-4b26-81fc-d2eb3aceec97', 'Delivery Cancel', '2020-01-16 20:50:42', '2020-01-16 20:50:42'),
 ('ad5335ed-fc6e-42a1-a0e4-8b802acd6caa', 'Sales Suspend', '2020-01-16 19:59:06', '2020-01-16 19:59:06'),
 ('af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8', 'Rejected', '2019-09-10 16:28:27', '2019-09-10 16:28:27'),
 ('c2fdba02-e765-4ee8-8c8c-3073209ddd26', 'On Process', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
@@ -1973,7 +1957,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `av
 ('820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Rizky ITEOS', 'rizky@local.com', NULL, '$2y$10$b89DIndoVlEjvOv3yYlreOyBZXgeC02QlF5fkR6l9WlHrgcWMsHKW', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
 ('994a52f5-285e-4401-95b2-166cc353bb65', 'adminfinance', 'adminfinance@local.com', NULL, '$2y$10$henHL4LyBKhui8HoC0wCKexpe8P9a4mwOzgR4rGMQGKA3YzBRC/dy', 'user.jpg', '1886a2b3-2fb7-4f40-b577-dad076a5d3b1', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 17:31:55', '36.77.192.232', NULL, '2020-01-09 13:07:34', '2020-01-11 17:31:55'),
 ('a7acf627-9108-44c0-a028-2d9bf7829108', 'adminproduksi', 'adminproduksi@local.com', NULL, '$2y$10$qwIfq0pGNYkn.Tmhp1dbh.AYcunz7fQTj9a4MkARaln5a6IkSA9kS', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-10 15:41:34', '114.124.161.169', NULL, '2020-01-08 11:21:49', '2020-01-10 15:41:34'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-16 23:39:59', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-16 16:39:59'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-17 06:57:53', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-16 23:57:53'),
 ('c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$.PRqNO0.eckPAk032EBdC.1YHqtXS.lLmZo8l/AtN5Ymr1OmDyCEC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 00:06:00', '127.0.0.1', NULL, '2020-01-06 17:46:22', '2020-01-10 17:06:00'),
 ('cb512697-44d9-4683-9bae-0a8e28a3252b', 'pembelian', 'pembelian@local.com', NULL, '$2y$10$nVmVLQvo9BNmFbWJ63qABuoWtHv9cGOjihoTNfp1VQUm9VdExMBO6', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 13:53:25', '180.243.44.60', NULL, '2020-01-08 13:42:59', '2020-01-08 13:53:25'),
 ('f68f2a18-623f-4c1a-bfde-7f029c603a17', 'adminsales2', 'adminsales2@local.com', NULL, '$2y$10$OFHrs.J9ITASIoVP5mOD5uZ0XTkKzKdpobMjf6NSV/LwA4G8vlTpS', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-11 18:09:34', '2020-01-11 18:09:34');
@@ -2312,7 +2296,7 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `delivery_items`
 --
 ALTER TABLE `delivery_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_services`
@@ -2324,31 +2308,31 @@ ALTER TABLE `delivery_services`
 -- AUTO_INCREMENT for table `internal_items`
 --
 ALTER TABLE `internal_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `internal_transfers`
 --
 ALTER TABLE `internal_transfers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=437;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=443;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
 --
 ALTER TABLE `inventory_movements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `manufacture_items`
@@ -2384,13 +2368,13 @@ ALTER TABLE `payment_terms`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `product_boms`
 --
 ALTER TABLE `product_boms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
@@ -2402,7 +2386,7 @@ ALTER TABLE `product_categories`
 -- AUTO_INCREMENT for table `purchase_items`
 --
 ALTER TABLE `purchase_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `retur_items`
@@ -2420,7 +2404,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `uom_categories`
