@@ -160,7 +160,7 @@
                 <ul class="sub-menu">
                 	<li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.edit']) }}">
                 		<a href="{{ route('sales.index') }}" class="nav-link ">
-                            <span class="title">Purchase Orders</span>
+                            <span class="title">Sales Orders</span>
                             <span class="badge badge-danger">{{$sales}}</span>
                         </a>
                     </li>
@@ -253,22 +253,22 @@
             </li>
             @endcan
             @can('Can Access Finances')
-            <li class="nav-item {{ set_active(['invoice.index','invoice.store','purchaseReceipt.index','purchaseReceipt.store']) }}">
+            <li class="nav-item {{ set_active(['invoice.index','invoice.create','invoice.store','purchaseReceipt.index','receiptManual.make','purchaseReceipt.store']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>
-                    <span class="title">Finance</span>
+                    <span class="title">Finance</span> 
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['invoice.index','invoice.store']) }}">
+                    <li class="nav-item {{ set_active(['invoice.index','invoice.create','invoice.store']) }}">
                         <a href="{{ route('invoice.index') }}" class="nav-link nav-toggle">
                             <span class="title">Invoice</span>
                             <span class="badge badge-danger">{{$invoices}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['purchaseReceipt.index','purchaseReceipt.store']) }}">
+                    <li class="nav-item {{ set_active(['purchaseReceipt.index','receiptManual.make','purchaseReceipt.store']) }}">
                         <a href="{{ route('purchaseReceipt.index') }}" class="nav-link nav-toggle">
-                            <span class="title">Purchase Receipt</span>
+                            <span class="title">Pembayaran</span>
                             <span class="badge badge-danger">{{$receipts}}</span>
                         </a>
                     </li>

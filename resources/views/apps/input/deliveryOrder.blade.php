@@ -61,7 +61,8 @@ Fiber Tekno | Add Delivery Order
 	            					<th>Produk</th>
 	            					<th>Jumlah Pesanan</th>
                                     <th>Jumlah Tersedia</th>
-                                    <th>Jumlah Dikirim</th>
+                                    <th>Jumlah Sdh Dikirim</th>
+                                    <th>Jumlah Akan Dikirim</th>
 	            					<th>Satuan</th>
 	            					<th></th>
 	            				</tr>
@@ -71,7 +72,9 @@ Fiber Tekno | Add Delivery Order
 	            				<tr>
 	            					<td>{!! Form::text('product[]', $item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
                     				<td>{!! Form::number('pesanan[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}</td>
-                                    <td>{!! Form::number('pesanan[]', $item->closing_amount, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}
+                                    <td>{!! Form::number('stok[]', $item->closing_amount, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}
+                                    </td>
+                                    <td>{!! Form::number('stok[]', $item->shipping, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}
                                     </td>    
                                     <td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>

@@ -174,6 +174,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('inventories/delivery-order/get/sales-order','Apps\InventoryManagementController@doGet')->name('delivery.get');
     Route::get('inventories/delivery-order/create','Apps\InventoryManagementController@doMake')->name('delivery.create');
     Route::post('inventories/delivery-order/store','Apps\InventoryManagementController@doStore')->name('delivery.store');
+    Route::get('inventories/delivery-order/edit/{id}','Apps\InventoryManagementController@doEdit')->name('delivery.edit');
     Route::post('inventories/delivery-order/cancel/{id}','Apps\InventoryManagementController@doCancel')->name('delivery.cancel');
     Route::get('inventories/delivery-order/show-items/{id}','Apps\InventoryManagementController@doShow')->name('delivery.show');
     Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@doReceipt')->name('delivery.receipt');
@@ -210,7 +211,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
 
     /*-----------------------Finance Management------------------------------------*/
     Route::get('finance/invoices/index','Apps\PaymentManagementController@invoiceIndex')->name('invoice.index');
-    Route::post('finance/invoices/purchase-order/create','Apps\PaymentManagementController@invoicePoStore')->name('invoicePo.store');
+    Route::get('finance/invoices/create','Apps\PaymentManagementController@invoiceMake')->name('invoice.create');
+    Route::post('finance/invoices/purchase-order/create','Apps\PaymentManagementController@invoiceStore')->name('invoice.store');
     Route::post('finance/invoices/delivery-order/create','Apps\PaymentManagementController@invoiceDoStore')->name('invoiceDo.store');
     Route::post('finance/invoices/payment-receive/{id}','Apps\PaymentManagementController@invoicePayment')->name('invoice.payment');
     Route::get('finance/invoices/show/{id}','Apps\PaymentManagementController@invoiceShow')->name('invoice.show');

@@ -21,95 +21,19 @@ FiberTekno | Invoice Management
                     @can('Can Create Finance')
                     <div class="col-md-6">
                         <div class="form-group">
-                            <tr>
-                                <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#sales"> PO Invoice </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#delivery"> DO Invoice </a>
-                                </td>
-                            </tr>
+                            <a href="{{ route('invoice.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Buat Invoice
+                            </button></a>
                         </div>
                     </div>
                     @endcan
-                    <div class="col-md-6">
-                        <div class="modal fade" id="sales" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    {!! Form::open(array('route' => 'invoicePo.store','method'=>'POST')) !!}
-                                    @csrf
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Nomor PO Sales</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">PO Sales</label>
-                                                    {!! Form::select('order_ref', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>  
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Save changes</button>
-                                    </div>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="modal fade" id="delivery" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    {!! Form::open(array('route' => 'invoiceDo.store','method'=>'POST')) !!}
-                                    @csrf
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Nomor DO</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Delivery Order</label>
-                                                    {!! Form::select('do_ref', [null=>'Please Select'] + $deliveries,[], array('class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>  
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Save changes</button>
-                                    </div>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
                 	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>No Order</th>
-                                <th>Invoice Ref</th>
+                				<th>Invoice</th>
+                                <th>Order Ref</th>
                                 <th>Customer</th>
-                                <th>Total Harga</th>
+                                <th>Total Tagihan</th>
                                 <th>Status</th>
                 				<th>Dibuat Oleh</th>
                 				<th>Tgl Dibuat</th>
@@ -121,11 +45,17 @@ FiberTekno | Invoice Management
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->sales_order }}</td>
-                                <td>{{ $val->reference_id }}</td>
-                                <td>{{ $val->Sales->Customers->name}}</td>
-                                <td>{{ number_format($val->Sales->total,2,',','.')}}</td>
-                                <td><label class="label label-sm label-success">{{ $val->Statuses->name }}</label></td>
+                                <td>{{ $val->invoice_ref }}</td>
+                                <td>
+                                    @if(!empty($val->do_ref))
+                                    {{ $val->do_ref }}
+                                    @else
+                                    {{ $val->order_ref }}
+                                    @endif
+                                </td>
+                                <td>{{ $val->Customer->name}}</td>
+                                <td>{{ number_format($val->amount,2,',','.')}}</td>
+                                <td><label class="label label-sm label-success">{{ $val->Status->name }}</label></td>
                                 <td>{{ $val->created_by }}</td> 
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>

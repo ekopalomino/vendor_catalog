@@ -12,7 +12,10 @@ use iteos\Models\ReceivePurchase;
 use iteos\Models\ReceivePurchaseItem;
 use iteos\Models\Payment;
 use iteos\Models\PaymentItem;
+use iteos\Models\Invoice;
+use iteos\Models\InvoiceItem;
 use iteos\Models\Delivery;
+use iteos\Models\DeliveryItem;
 use iteos\Models\Reference;
 use iteos\Models\Contact;
 use iteos\Models\PaymentMethod;
@@ -22,6 +25,7 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
+use DB;
 use PDF;
 
 class PaymentManagementController extends Controller
@@ -36,7 +40,7 @@ class PaymentManagementController extends Controller
 
     public function invoiceIndex()
     {
-        $data = Payment::where('type_id','1')->get();
+        $data = Invoice::get();
         $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
                        ->pluck('order_ref','order_ref')->toArray();
         $deliveries = Delivery::join('sales','sales.order_ref','deliveries.order_ref')
@@ -45,6 +49,137 @@ class PaymentManagementController extends Controller
                                 ->toArray();
 
         return view('apps.pages.invoices',compact('data','sales','deliveries'));
+    }
+
+    public function invoiceMake()
+    {
+        $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
+                       ->pluck('order_ref','order_ref')->toArray();
+        $deliveries = Delivery::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
+                                ->pluck('do_ref','do_ref')
+                                ->toArray();
+        $customers = Contact::where('type_id','1')->pluck('name','id')->toArray();
+        $methods = PaymentMethod::pluck('name','id')->toArray();
+        $terms = PaymentTerm::pluck('name','id')->toArray();
+        $uoms = UomValue::pluck('name','id')->toArray();
+
+        return view('apps.input.invoice',compact('sales','deliveries','customers','methods','terms','uoms'));
+    }
+
+    public function invoiceStore(Request $request)
+    {
+        $this->validate($request,[
+            'customer_id' => 'required',
+            'pay_method' => 'required',
+            'pay_term' => 'required',
+            'terms_no' => 'required',
+            'tax' => 'required',
+            'amount' => 'required|numeric'
+        ]);
+        $latestRef = Reference::where('type','9')->count();
+        $getClient = Contact::where('id',$request->input('customer_id'))->first();
+        dd($getClient);
+        $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+            $reference = Reference::create([
+                'type' => '9',
+                'ref_no' => $refs,
+            ]);
+        if($request->input('do_ref') == null) {
+            $getDeliveryCost = Delivery::where('order_ref',$request->input('order_ref'))->first();
+            if($request->input('tax') == '0') {
+                $invoices = Invoice::create([
+                    'invoice_ref' => $refs,
+                    'order_ref' => $request->input('order_ref'),
+                    'customer_id' => $request->input('customer_id'),
+                    'pay_method' => $request->input('pay_method'),
+                    'pay_term' => $request->input('pay_term'),
+                    'terms_no' => $request->input('terms_no'),
+                    'delivery_cost' => $getDeliveryCost->delivery_cost,
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
+                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                    'created_by' => auth()->user()->name,
+                ]);
+                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                    'alert-type' => 'success'
+                );
+        
+                return redirect()->route('invoice.index')->with($notification);
+            } else {
+                $taxAmount = ($request->input('amount')) * 0.1;
+                $invoices = Invoice::create([
+                    'invoice_ref' => $refs,
+                    'order_ref' => $request->input('order_ref'),
+                    'customer_id' => $request->input('customer_id'),
+                    'pay_method' => $request->input('pay_method'),
+                    'pay_term' => $request->input('pay_term'),
+                    'tax_id' => $request->input('tax_id'),
+                    'tax_amount' => $taxAmount,
+                    'terms_no' => $request->input('terms_no'),
+                    'delivery_cost' => $getDeliveryCost->delivery_cost,
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
+                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                    'created_by' => auth()->user()->name,
+                ]);
+                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                    'alert-type' => 'success'
+                );
+        
+                return redirect()->route('invoice.index')->with($notification);
+            }   
+        } else {
+            if($request->input('tax') == '0') {
+                $invoices = Invoice::create([
+                    'invoice_ref' => $refs,
+                    'do_ref' => $request->input('do_ref'),
+                    'customer_id' => $request->input('customer_id'),
+                    'pay_method' => $request->input('pay_method'),
+                    'pay_term' => $request->input('pay_term'),
+                    'terms_no' => $request->input('terms_no'),
+                    'delivery_cost' => $getDeliveryCost->delivery_cost,
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
+                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                    'created_by' => auth()->user()->name,
+                ]);
+                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                    'alert-type' => 'success'
+                );
+        
+                return redirect()->route('invoice.index')->with($notification);
+            } else {
+                $taxAmount = ($request->input('amount')) * 0.1;
+                $invoices = Invoice::create([
+                    'invoice_ref' => $refs,
+                    'do_ref' => $request->input('do_ref'),
+                    'customer_id' => $request->input('customer_id'),
+                    'pay_method' => $request->input('pay_method'),
+                    'pay_term' => $request->input('pay_term'),
+                    'tax_id' => $request->input('tax_id'),
+                    'tax_amount' => $taxAmount,
+                    'terms_no' => $request->input('terms_no'),
+                    'delivery_cost' => $getDeliveryCost->delivery_cost,
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
+                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                    'created_by' => auth()->user()->name,
+                ]);
+                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                    'alert-type' => 'success'
+                );
+        
+                return redirect()->route('invoice.index')->with($notification);
+            }
+        }
     }
 
     public function invoicePoStore(Request $request) 

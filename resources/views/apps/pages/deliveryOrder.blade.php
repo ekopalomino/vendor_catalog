@@ -87,9 +87,11 @@ FiberTekno | Delivery Order
                                     </a>
                                     @endif
                                     @endcan
+                                    @if(($val->status_id) != 'e9395add-e815-4374-8ed3-c0d5f4481ab8')
                                     {!! Form::open(['method' => 'POST','route' => ['delivery.cancel', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-close"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Cancel DO']) !!}
                                     {!! Form::close() !!}
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
