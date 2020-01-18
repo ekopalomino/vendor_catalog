@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2020 at 07:32 PM
+-- Generation Time: Jan 18, 2020 at 06:08 AM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -74,6 +74,7 @@ CREATE TABLE `deliveries` (
   `delivery_cost` decimal(50,2) DEFAULT NULL,
   `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
   `receipt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `delivered_at` datetime DEFAULT NULL,
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -92,8 +93,6 @@ CREATE TABLE `delivery_items` (
   `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_quantity` decimal(50,2) NOT NULL,
   `product_shipment` decimal(50,2) NOT NULL,
-  `is_shipment` tinyint(1) NOT NULL DEFAULT '0',
-  `is_partial` tinyint(1) NOT NULL DEFAULT '0',
   `uom_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -212,8 +211,8 @@ CREATE TABLE `inventories` (
 --
 
 INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`, `min_stock`, `opening_amount`, `closing_amount`, `created_at`, `updated_at`) VALUES
-(1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 22:18:00'),
-(2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 22:18:00'),
+(1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 02:53:24'),
+(2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 02:53:37'),
 (3, '5d9ab3d8-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Green', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (4, '5d9ab536-33c0-11ea-aec2-2e728ce88125', 'Adapter MM DX LC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-13 16:39:58'),
 (5, '5d9ac882-33c0-11ea-aec2-2e728ce88125', 'Adapter MM SX SC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
@@ -226,7 +225,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (12, '5d9aeb3c-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC ( BESI ) ( Dimika ) Tutup Hitam', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (13, '5d9b0464-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC PAZ ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (14, '5d9b05ea-33c0-11ea-aec2-2e728ce88125', 'Adapter ST/UPC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(15, '5d9b0734-33c0-11ea-aec2-2e728ce88125', 'Box ONT Huawei', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 21:15:35'),
+(15, '5d9b0734-33c0-11ea-aec2-2e728ce88125', 'Box ONT Huawei', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 02:55:32'),
 (16, '5d9b0874-33c0-11ea-aec2-2e728ce88125', 'Box Splitter 1:8 (Kosongan)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (17, '5d9b09aa-33c0-11ea-aec2-2e728ce88125', 'Box Splitter 1:8 (Splitter Plc 1:8 SC/APC)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (18, '5d9b0d60-33c0-11ea-aec2-2e728ce88125', 'Bundle Cable LC/UPC 8F 1 sisi 12m', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 18:51:31'),
@@ -267,7 +266,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (53, '5d9b474e-33c0-11ea-aec2-2e728ce88125', 'Bundle Cable SC/UPC 8F 2 sisi 60m ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (54, '5d9b488e-33c0-11ea-aec2-2e728ce88125', 'Bundle Core 12C 2 sisi SC-LC 10m', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (55, '5d9b4b90-33c0-11ea-aec2-2e728ce88125', 'Bundle Core 2 Sisi 8c SC-SC 5m', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(56, '5d9b4cf8-33c0-11ea-aec2-2e728ce88125', 'Cable Manager W/Cover 1U', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
+(56, '5d9b4cf8-33c0-11ea-aec2-2e728ce88125', 'Cable Manager W/Cover 1U', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 02:55:32'),
 (57, '5d9b4e38-33c0-11ea-aec2-2e728ce88125', 'Cassete FO 24core  ( Black )', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (58, '5d9b4f8c-33c0-11ea-aec2-2e728ce88125', 'Cassete FO 8 Core', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (59, '5d9b50b8-33c0-11ea-aec2-2e728ce88125', 'Cassete FO 96core ( Putih )', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
@@ -323,7 +322,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (109, '5d9c752e-33c0-11ea-aec2-2e728ce88125', 'Cutter Besar (Kenko)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (110, '5d9c77b8-33c0-11ea-aec2-2e728ce88125', 'D-clamp', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (111, '5d9c8032-33c0-11ea-aec2-2e728ce88125', 'Drop Cable 1 Core ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(112, '5d9c8190-33c0-11ea-aec2-2e728ce88125', 'Drop Cable 1 Core 100 Meter', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
+(112, '5d9c8190-33c0-11ea-aec2-2e728ce88125', 'Drop Cable 1 Core 100 Meter', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 02:55:32'),
 (113, '5d9c8492-33c0-11ea-aec2-2e728ce88125', 'Drop Cable 1 Core 150 Meter ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (114, '5d9c860e-33c0-11ea-aec2-2e728ce88125', 'Drop Cable 1 Core 200 Meter', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (115, '5d9c874e-33c0-11ea-aec2-2e728ce88125', 'Drop Cable 1 Core 250 Meter', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
@@ -672,6 +671,49 @@ CREATE TABLE `inventory_movements` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `invoices`
+--
+
+CREATE TABLE `invoices` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `reference_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pay_method` int(11) NOT NULL,
+  `pay_term` int(11) NOT NULL,
+  `terms_no` int(11) NOT NULL,
+  `tax_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tax_amount` decimal(50,2) NOT NULL,
+  `sales_amount` decimal(50,2) NOT NULL,
+  `invoice_amount` decimal(50,2) NOT NULL,
+  `invoice_remaining` decimal(50,2) NOT NULL,
+  `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_made` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice_items`
+--
+
+CREATE TABLE `invoice_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `invoice_id` bigint(20) UNSIGNED NOT NULL,
+  `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_quantity` decimal(50,2) NOT NULL,
+  `uom_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `log_activities`
 --
 
@@ -786,7 +828,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (65, '2020_01_15_235803_create_delivery_items_table', 32),
 (66, '2020_01_17_200048_create_references_table', 33),
 (67, '2020_01_17_230338_create_receive_purchases_table', 34),
-(68, '2020_01_17_230354_create_receive_purchase_items_table', 34);
+(68, '2020_01_17_230354_create_receive_purchase_items_table', 34),
+(69, '2020_01_18_103842_create_payment_items_table', 35),
+(70, '2020_01_18_111930_create_invoices_table', 36),
+(71, '2020_01_18_111938_create_invoice_items_table', 36);
 
 -- --------------------------------------------------------
 
@@ -852,16 +897,36 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `reference_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type_id` smallint(6) NOT NULL,
-  `sales_order` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `purchase_order` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pay_method` int(10) NOT NULL,
+  `pay_term` int(10) NOT NULL,
+  `terms_no` int(10) NOT NULL,
+  `tax_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tax_amount` decimal(50,2) DEFAULT NULL,
   `purchase_amount` decimal(50,2) DEFAULT NULL,
-  `purchase_invoice` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pay_amount` decimal(50,2) NOT NULL,
+  `pay_left` decimal(50,2) NOT NULL,
   `status_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
   `created_by` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_received` datetime DEFAULT NULL,
   `payment_made` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_items`
+--
+
+CREATE TABLE `payment_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_id` bigint(20) UNSIGNED NOT NULL,
+  `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_amount` decimal(50,2) NOT NULL,
+  `uom_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1583,6 +1648,19 @@ CREATE TABLE `references` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `references`
+--
+
+INSERT INTO `references` (`id`, `type`, `ref_no`, `created_at`, `updated_at`) VALUES
+(1, 2, 'ADJ/FTI/0001/I/2020', '2020-01-18 02:53:24', '2020-01-18 02:53:24'),
+(2, 2, 'ADJ/FTI/0002/I/2020', '2020-01-18 02:53:37', '2020-01-18 02:53:37'),
+(3, 7, 'PR/FTI/0001/FTI-S-0000001/I/2020', '2020-01-18 02:54:54', '2020-01-18 02:54:54'),
+(4, 8, 'PO/FTI/0001/FTI-S-0000001/I/2020', '2020-01-18 02:55:01', '2020-01-18 02:55:01'),
+(5, 11, 'RP/0001/FTI/I/2020', '2020-01-18 02:55:32', '2020-01-18 02:55:32'),
+(6, 10, 'FIN/FTI/0001/FTI-S-0000001/I/2020', '2020-01-18 04:54:05', '2020-01-18 04:54:05'),
+(7, 10, 'FIN/FTI/0002/FTI-S-0000001/I/2020', '2020-01-18 04:55:00', '2020-01-18 04:55:00');
+
 -- --------------------------------------------------------
 
 --
@@ -1887,6 +1965,7 @@ CREATE TABLE `statuses` (
 --
 
 INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
+('00c4df56-a91b-45c6-a59c-e02577442072', 'Full Payment', '2020-01-18 04:37:05', '2020-01-18 04:37:05'),
 ('0fb7f4e6-e293-429d-8761-f978dc850a97', 'Complete Process', '2019-09-20 15:37:41', '2019-09-20 15:37:41'),
 ('106da5a6-2c71-4a08-9342-db3fd8ebf71e', 'Receipt Created', '2020-01-12 22:21:22', '2020-01-12 22:21:22'),
 ('2b643e21-a94c-4713-93f1-f1cbde6ad633', 'Active', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
@@ -1906,6 +1985,7 @@ INSERT INTO `statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
 ('af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8', 'Rejected', '2019-09-10 16:28:27', '2019-09-10 16:28:27'),
 ('c2fdba02-e765-4ee8-8c8c-3073209ddd26', 'On Process', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('c51d7be2-7c72-41a8-93ff-03f780ece42a', 'Unpaid', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
+('cc040768-2b4f-48df-867f-7da18b749e61', 'Partial Payment', '2020-01-18 04:37:05', '2020-01-18 04:37:05'),
 ('d6c23804-3b9b-40ca-b050-146af5594f5d', 'Payment Made', '2020-01-12 22:21:22', '2020-01-12 22:21:22'),
 ('e9395add-e815-4374-8ed3-c0d5f4481ab8', 'Delivered', '2019-09-04 07:11:54', '2019-09-04 07:11:54'),
 ('e9f870d8-ebe8-462e-a6b6-c03f4f5bd8eb', 'Retur', '2019-10-12 16:26:16', '2019-10-12 16:26:16'),
@@ -2154,6 +2234,19 @@ ALTER TABLE `inventory_movements`
   ADD KEY `inventory_movements_inventory_id_foreign` (`inventory_id`);
 
 --
+-- Indexes for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `invoice_items`
+--
+ALTER TABLE `invoice_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoice_items_invoice_id_foreign` (`invoice_id`);
+
+--
 -- Indexes for table `log_activities`
 --
 ALTER TABLE `log_activities`
@@ -2203,6 +2296,13 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment_items`
+--
+ALTER TABLE `payment_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payment_items_payment_id_foreign` (`payment_id`);
 
 --
 -- Indexes for table `payment_methods`
@@ -2391,6 +2491,18 @@ ALTER TABLE `inventory_movements`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `invoice_items`
+--
+ALTER TABLE `invoice_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
@@ -2406,12 +2518,18 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payment_items`
+--
+ALTER TABLE `payment_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -2460,7 +2578,7 @@ ALTER TABLE `receive_purchase_items`
 -- AUTO_INCREMENT for table `references`
 --
 ALTER TABLE `references`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `retur_items`
@@ -2521,6 +2639,12 @@ ALTER TABLE `inventory_movements`
   ADD CONSTRAINT `inventory_movements_inventory_id_foreign` FOREIGN KEY (`inventory_id`) REFERENCES `inventories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `invoice_items`
+--
+ALTER TABLE `invoice_items`
+  ADD CONSTRAINT `invoice_items_invoice_id_foreign` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `manufacture_items`
 --
 ALTER TABLE `manufacture_items`
@@ -2537,6 +2661,12 @@ ALTER TABLE `model_has_permissions`
 --
 ALTER TABLE `model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payment_items`
+--
+ALTER TABLE `payment_items`
+  ADD CONSTRAINT `payment_items_payment_id_foreign` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product_boms`

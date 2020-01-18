@@ -8,28 +8,31 @@ class Payment extends Model
 {
     protected $fillable = [
         'reference_id',
-        'type_id',
-        'sales_order',
-        'purchase_order',
+        'order_ref',
+        'supplier_code',
+        'pay_method',
+        'pay_term',
+        'terms_no',
+        'tax_id',
+        'tax_amount',
         'purchase_amount',
-        'purchase_invoice',
+        'pay_amount',
+        'pay_left',
         'status_id',
         'created_by',
         'updated_by',
-        'payment_received',
         'payment_made',
     ];
-
-    public function Sales()
-    {
-        return $this->belongsTo(Sale::class,'sales_order','order_ref');
-    }
 
     public function Purchases()
     {
         return $this->belongsTo(Purchase::class,'purchase_order');
     }
 
+    public function Suppliers()
+    {
+        return $this->belongsTo(Contact::class,'supplier_code','ref_id');
+    }
     public function Statuses()
     {
         return $this->belongsTo(Status::class,'status_id');

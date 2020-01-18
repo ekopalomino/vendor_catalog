@@ -11,8 +11,6 @@ class DeliveryItem extends Model
         'product_name',
         'product_quantity',
         'product_shipment',
-        'is_shipment',
-        'is_partial',
         'uom_id',
     ];
 

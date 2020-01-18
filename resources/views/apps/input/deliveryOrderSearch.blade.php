@@ -27,7 +27,7 @@ Fiber Tekno | Add Delivery Order
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label class="control-label">Cari PO</label>
+                            <label class="control-label">Cari SO</label>
                             {!! Form::select('order_ref', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
@@ -62,7 +62,7 @@ Fiber Tekno | Add Delivery Order
 	            					<th>Jumlah Tersedia</th>
                                     <th>Jumlah Dikirim</th>
 	            					<th>Satuan</th>
-	            					<th>Proses</th>
+	            					<th></th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
@@ -73,16 +73,6 @@ Fiber Tekno | Add Delivery Order
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','disabled')) !!}</td>
                     				<td>
                                     <td>
-                                        <div class="mt-checkbox-inline">
-                                            <label class="mt-checkbox">
-                                                {!! Form::checkbox('is_shipment[]','1') !!} Kirim
-                                                <span></span>
-                                            </label>
-                                            <label class="mt-checkbox">
-                                                {!! Form::checkbox('is_partial[]','1') !!} Parsial
-                                                <span></span>
-                                            </label>
-                                        </div>
                                     </td>
 	            				</tr>
 	            			</tbody>

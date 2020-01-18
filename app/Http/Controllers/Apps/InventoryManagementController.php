@@ -692,10 +692,11 @@ class InventoryManagementController extends Controller
 
     public function doStore(Request $request)
     {
-        $input = $request->all();
+        /*Create Reference Number Based On Trans Count*/
         $lastOrder = Reference::where('type','4')->count();
         $refs = 'DO/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         
+        /*Create Base Data Point*/
         $orders = Delivery::create([
             'do_ref' => $refs,
             'order_ref' => $request->input('order_ref'),
@@ -706,7 +707,7 @@ class InventoryManagementController extends Controller
         ]);
         $refs = Reference::create([
             'type' => '4',
-            'ref_no' => $ref,
+            'ref_no' => $refs,
         ]);
         $tg = InternalTransfer::create([
             'order_ref' => $request->input('order_ref'),
@@ -718,13 +719,25 @@ class InventoryManagementController extends Controller
             'received_by' => auth()->user()->name
         ]);
 
+        /*Get Input Array Table Value*/
         $items = $request->product;
         $quantity_order = $request->pesanan;
         $quantity_shipment = $request->pengiriman;
         $uoms = $request->uom_id;
-        $shipments = $request->is_shipment;
-        $partials = $request->is_partial;
         foreach($items as $index=>$item) {
+            /* Check UOM Value Convertion */
+            $bases = UomValue::where('id',$uoms[$index])->first();
+            if($bases->is_parent == null) {
+                $shipment = ($quantity_shipment[$index]) * ($bases->value); 
+            } else {
+                $shipment = $quantity_shipment[$index];
+            }
+            /* Get Basic Data From Array Input*/
+            $inventories = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->first();
+            $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+            $incoming = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Pengiriman')->first();
+            $getProductId = Product::where('name',$item)->first();
+
             $tgItems = InternalItems::create([
                 'mutasi_id' => $tg->id,
                 'product_name' => $item,
@@ -737,19 +750,14 @@ class InventoryManagementController extends Controller
                 'product_name' => $item,
                 'product_quantity' => $quantity_order[$index],
                 'product_shipment' => $quantity_shipment[$index],
-                'is_shipment' => $shipments[$index],
-                'is_partial' => $partials[$index],
                 'uom_id' => $uoms[$index],
             ]);
             
-            $inventories = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->first();
             $updateInv = $inventories->update([
                 'closing_amount' => ($inventories->closing_amount) - ($quantity_shipment[$index]),
             ]);
-            if(($orderItems->is_shipment) == '1') {
-                $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
-                
-                $movements = InventoryMovement::create([
+
+            $movements = InventoryMovement::create([
                     'inventory_id' => $inventories->id,
                     'reference_id' => $request->input('order_ref'),
                     'type' => '4',
@@ -759,59 +767,10 @@ class InventoryManagementController extends Controller
                     'outgoing' => $quantity_shipment[$index],
                     'remaining' => ($lastMove->remaining) - ($quantity_shipment[$index])
                 ]);
-            
-                $incoming = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Pengiriman')->first();
-                if(($incoming) == null) {
-                    $makeInv = Inventory::create([
-                        'product_id' => '',
-                        'product_name' => $item,
-                        'warehouse_name' => 'Gudang Pengiriman',
-                        'min_stock' => '0',
-                        'opening_amount' => '0',
-                        'closing_amount' => $quantity_shipment[$index],
-                    ]);
-                    $makeMove = InventoryMovement::create([
-                        'inventory_id' => $makeInv->id,
-                        'reference_id' => $request->input('order_ref'),
-                        'type' => '4',
-                        'product_name' => $item,
-                        'warehouse_name' => 'Gudang Pengiriman',
-                        'incoming' => $quantity_shipment[$index],
-                        'outgoing' => '0',
-                        'remaining' => $quantity_shipment[$index]
-                    ]);
-                 } else {
-                    $updateInv = $incoming->update([
-                        'closing_amount' => ($incoming->closing_amount) + ($quantity_shipment[$index])
-                    ]);
-                    $makeMove = InventoryMovement::create([
-                        'inventory_id' => $incoming->id,
-                        'reference_id' => $request->input('order_ref'),
-                        'type' => '4',
-                        'product_name' => $item,
-                        'warehouse_name' => 'Gudang Pengiriman',
-                        'incoming' => $quantity_shipment[$index],
-                        'outgoing' => '0',
-                        'remaining' => $quantity_shipment[$index]
-                    ]);
-                }
-            } 
-            /* $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
-            $movements = InventoryMovement::create([
-                'inventory_id' => $inventories->id,
-                'reference_id' => $request->input('order_ref'),
-                'type' => '4',
-                'product_name' => $item,
-                'warehouse_name' => 'Gudang Utama',
-                'incoming' => '0',
-                'outgoing' => $quantity_shipment[$index],
-                'remaining' => ($lastMove->remaining) - ($quantity_shipment[$index])
-            ]);
-            
-            $incoming = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Pengiriman')->first();
+            /* Check If Destination Warehouse Exist*/
             if(($incoming) == null) {
                 $makeInv = Inventory::create([
-                    'product_id' => '',
+                    'product_id' => $getProductId->id,
                     'product_name' => $item,
                     'warehouse_name' => 'Gudang Pengiriman',
                     'min_stock' => '0',
@@ -842,7 +801,7 @@ class InventoryManagementController extends Controller
                     'outgoing' => '0',
                     'remaining' => $quantity_shipment[$index]
                 ]);
-            } */
+            }
         }
 
         $salesUpdate = Sale::where('order_ref',$request->input('order_ref'))->update([
@@ -883,7 +842,7 @@ class InventoryManagementController extends Controller
         $data = Delivery::find($id);
         $items = DeliveryItem::where('delivery_id',$id)->get();
         
-        return view('apps.show.deliveryOrder',compact('items'))->renderSections()['content'];
+        return view('apps.show.deliveryOrder',compact('items','data'))->renderSections()['content'];
     }
 
     public function doPrint($id)
@@ -949,7 +908,4 @@ class InventoryManagementController extends Controller
     
         return redirect()->route('delivery.index')->with($notification);
     }
-
-    
-
 }

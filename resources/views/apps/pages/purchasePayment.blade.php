@@ -14,80 +14,28 @@ FiberTekno | Invoice Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Data Pembayaran 
+                        <i class="fa fa-database"></i>Data Pembayaran Supplier
                     </div>
                 </div>
                 <div class="portlet-body">
                     @can('Can Create Finance')
                     <div class="col-md-6">
                         <div class="form-group">
-                            <tr>
-                                <td>
-                                    <a class="btn red btn-outline sbold" data-toggle="modal" href="#basic"> Pembayaran Baru </a>
-                                </td>
-                            </tr>
+                            <a href="{{ route('receiptManual.make') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Buat Pembayaran
+                            </button></a>
                         </div>
                     </div>
                     @endcan
-                    <div class="col-md-6">
-                        <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    {!! Form::open(array('route' => 'purchaseReceipt.store','method'=>'POST','files'=>'true')) !!}
-                                    @csrf
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Buat Pembayaran Baru</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Order Ref</label>
-                                                    {!! Form::select('purchase_order', [null=>'Please Select'] + $orders,[], array('class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Jumlah</label>
-                                                    {!! Form::number('purchase_amount', null, array('placeholder' => 'Jumlah Pembelian','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Upload Invoice</label>
-                                                    {!! Form::file('purchase_invoice', null, array('placeholder' => 'Invoice Pembelian','class' => 'form-control')) !!}
-                                                </div>
-                                            </div>
-                                        </div>  
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Save changes</button>
-                                    </div>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
-                	<table class="table table-striped table-bordered table-hover" id="sample_1">
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Order Ref</th>
-                                <th>Invoice Ref</th>
+                                <th>Purchase Order</th>
+                				<th>Payment Ref</th>
                                 <th>Supplier</th>
                                 <th>Total Harga</th>
+                                <th>Total Bayar</th>
+                                <th>Sisa Bayar</th>
                                 <th>Status</th>
                 				<th>Dibuat Oleh</th>
                 				<th>Tgl Dibuat</th>
@@ -99,11 +47,19 @@ FiberTekno | Invoice Management
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->Purchases->order_ref }}</td>
+                                <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->reference_id }}</td>
-                                <td>{{ $val->Purchases->Suppliers->name}}</td>
-                                <td>{{ number_format($val->Purchases->total,2,',','.')}}</td>
-                                <td><label class="label label-sm label-success">{{ $val->Statuses->name }}</label></td>
+                                <td>{{ $val->Suppliers->name}}</td>
+                                <td>{{ number_format($val->purchase_amount,2,',','.')}}</td>
+                                <td>{{ number_format($val->pay_amount,2,',','.')}}</td>
+                                <td>{{ number_format($val->pay_left,2,',','.')}}</td>
+                                <td>
+                                    @if(($val->status_id) == 'cc040768-2b4f-48df-867f-7da18b749e61')
+                                    <label class="label label-sm label-danger">{{ $val->Statuses->name }}</label>
+                                    @else
+                                    <label class="label label-sm label-success">{{ $val->Statuses->name }}</label>
+                                    @endif
+                                </td>
                                 <td>{{ $val->created_by }}</td> 
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>

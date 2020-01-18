@@ -15,6 +15,7 @@ class Delivery extends Model
         'del_service_id',
         'delivery_cost',
         'receipt',
+        'delivered_at',
         'status_id',
         'created_by',
         'updated_by',

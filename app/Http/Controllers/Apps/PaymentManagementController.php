@@ -8,9 +8,16 @@ use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Models\Purchase;
 use iteos\Models\PurchaseItem;
+use iteos\Models\ReceivePurchase;
+use iteos\Models\ReceivePurchaseItem;
 use iteos\Models\Payment;
+use iteos\Models\PaymentItem;
 use iteos\Models\Delivery;
 use iteos\Models\Reference;
+use iteos\Models\Contact;
+use iteos\Models\PaymentMethod;
+use iteos\Models\PaymentTerm;
+use iteos\Models\UomValue;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -157,45 +164,97 @@ class PaymentManagementController extends Controller
 
     public function receiptIndex()
     {
-        $data = Payment::where('type_id','2')->get();
-        $orders = Purchase::where('status','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')->pluck('order_ref','order_ref')->toArray();
-
-        return view('apps.pages.purchasePayment',compact('data','orders'));
+        $data = Payment::orderBy('created_at','DESC')->get();
+        
+        return view('apps.pages.purchasePayment',compact('data'));
     }
 
-    public function receiptStore(Request $request)
+    public function receiptMake()
+    {
+        $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
+        $refs = ReceivePurchase::pluck('ref_no','id')->toArray();
+        $methods = PaymentMethod::pluck('name','id')->toArray();
+        $terms = PaymentTerm::pluck('name','id')->toArray();
+        $uoms = UomValue::pluck('name','id')->toArray();
+
+        return view('apps.input.receiptPayment',compact('suppliers','refs','methods','terms','uoms'));
+    }
+
+    public function receiptManualStore(Request $request)
     {
         $this->validate($request,[
-            'purchase_order' => 'required',
-            'purchase_amount' => 'required|numeric',
-            'purchase_invoice' => 'required|file|mimes:pdf,PDF',
+            'supplier_code' => 'required',
+            'pay_method' => 'required',
+            'pay_term' => 'required',
+            'terms_no' => 'required',
+            'tax' => 'required',
+            'amount' => 'required|numeric'
         ]);
-        $uploadedFile = $request->file('purchase_invoice');
-        $path = $uploadedFile->store('purchase'); 
+
         $latestRef = Reference::where('type','10')->count();
-        $getClient = Purchase::where('id',$request->input('purchase_order'))->first();
-        $refs = 'FIN/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->supplier_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
-        $invoices = Payment::create([
-            'reference_id' => $refs,
-            'type_id' => '2',
-            'purchase_order' => $request->input('purchase_order'),
-            'purchase_amount' => $request->input('purchase_amount'),
-            'purchase_invoice' => $path,
-            'status_id' => '106da5a6-2c71-4a08-9342-db3fd8ebf71e',
-            'created_by' => auth()->user()->name,
-        ]);
-        $refs = Reference::create([
+        $refs = 'FIN/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $reference = Reference::create([
             'type' => '10',
-            'ref_no' => $ref,
+            'ref_no' => $refs,
         ]);
-        
-        $log = 'Pembayaran '.($invoices->refs).' Berhasil Dibuat';
+        $getOrder = ReceivePurchase::where('id',$request->input('pr_ref'))->first();
+        $getPurchase = Purchase::where('order_ref',$getOrder->order_ref)->first();
+        $remaining = ($getPurchase->total) - ($request->input('amount'));
+        if($remaining == '0') {
+            $status = '00c4df56-a91b-45c6-a59c-e02577442072';
+        } else {
+            $status = 'cc040768-2b4f-48df-867f-7da18b749e61';
+        }
+        if($request->input('tax') == 'yes') {
+            $tax_amount = ($request->input('amount')) * (0.1);
+            $payments = Payment::create([
+                'reference_id' => $refs,
+                'order_ref' => $getOrder->order_ref,
+                'purchase_amount' => $getPurchase->total,
+                'supplier_code' => $request->input('supplier_code'),
+                'pay_method' => $request->input('pay_method'),
+                'pay_term' => $request->input('pay_term'),
+                'terms_no' => $request->input('terms_no'),
+                'tax_id' => $request->input('tax_id'),
+                'tax_amount' => $tax_amount,
+                'pay_amount' => $request->input('amount'),
+                'pay_left' =>  $remaining,
+                'status_id' => $status,
+                'created_by' => auth()->user()->name,
+            ]);
+        } else {
+            $payments = Payment::create([
+                'reference_id' => $refs,
+                'order_ref' => $getOrder->order_ref,
+                'supplier_code' => $request->input('supplier_code'),
+                'pay_method' => $request->input('pay_method'),
+                'pay_term' => $request->input('pay_term'),
+                'terms_no' => $request->input('terms_no'),
+                'purchase_amount' => $getPurchase->total,
+                'pay_amount' => $request->input('amount'),
+                'pay_left' =>  $remaining,
+                'status_id' => $status,
+                'created_by' => auth()->user()->name,
+            ]);
+        }
+        $items = $request->product;
+        $orders = $request->pesanan;
+        $received = $request->dikirim;
+        $uoms = $request->uom_id;
+        foreach($items as $index=>$item) {
+            $payItem = PaymentItem::create([
+                'payment_id' => $payments->id,
+                'product_name' => $item,
+                'product_amount' => $received[$index],
+                'uom_id' => $uoms[$index],
+            ]);
+        } 
+        $log = 'Pembayaran '.($refs).' Berhasil Dibuat';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembayaran '.($invoices->refs).' Berhasil Dibuat',
+            'message' => 'Pembayaran '.($refs).' Berhasil Dibuat',
             'alert-type' => 'success'
         );
-        
         return redirect()->route('purchaseReceipt.index')->with($notification);
     }
 

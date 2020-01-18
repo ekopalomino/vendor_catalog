@@ -13,21 +13,11 @@ FiberTekno | Delivery Order
 		<div class="col-md-12">
             <div class="portlet box green">
                 <div class="portlet-title">
-                    <div class="caption">
+                    <div class="caption"> 
                         <i class="fa fa-database"></i>Delivery Order
                     </div>
                 </div>
                 <div class="portlet-body">
-                    @if (count($errors) > 0) 
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                    @endif
                     @can('Can Create Inventory')
                     <div class="col-md-6">
                         <div class="form-group">
@@ -40,15 +30,13 @@ FiberTekno | Delivery Order
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                                <th>Delivery Order</th>
                                 <th>Sales Order</th>
-                				<th>Status</th>
-                                <th>Barang Parsial</th>
-                                <th>Kurir</th>
-                                <th>No Resi</th>
-                                <th>Dibuat Oleh</th>
-                                <th>Tgl Dibuat</th>
-                                <th>Tgl Dikirim</th>
+                				<th>Nama Barang</th>
+                                <th>Jumlah Pesan</th>
+                                <th>Jumlah Kirim</th>
+                                <th>Status</th>
+                                <th>Tgl Proses</th>
+                                <th>Tgl Kirim</th>
                                 <th></th>
                 			</tr>
                 		</thead>
@@ -56,8 +44,28 @@ FiberTekno | Delivery Order
                             @foreach($data as $key=>$val)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $val->do_ref }}</td>
                                 <td>{{ $val->order_ref }}</td>
+                                <td>
+                                    @foreach($val->Child as $child)
+                                    <ul>
+                                        <li>{{$child->product_name}}</li>
+                                    </ul>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($val->Child as $child)
+                                    <ul>
+                                        <li>{{$child->product_quantity}}</li>
+                                    </ul>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($val->Child as $child)
+                                    <ul>
+                                        <li>{{$child->product_shipment}}</li>
+                                    </ul>
+                                    @endforeach
+                                </td>
                                 <td>
                                     @if(($val->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
                                     <label class="label label-sm label-danger">{{ $val->Statuses->name }}</label>
@@ -65,21 +73,11 @@ FiberTekno | Delivery Order
                                     <label class="label label-sm label-success">{{ $val->Statuses->name }}</label>
                                     @endif
                                 </td>
-                                <td>
-                                    @foreach($val->Child as $child)
-                                        @if(($child['is_partial']) == '1') <label class="label label-sm label-danger">Ya</label>
-                                        @else <label class="label label-sm label-success">Tidak</label>
-                                        @endif
-                                    @endforeach
-                                </td>
-                                <td>{{ $val->Courier->delivery_name }}</td>
-                                <td>{{ $val->receipt }}</td>
-                                <td>{{ $val->created_by }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($val->updated_at)) }}</td>
                                 <td>
-                                    <a class="btn btn-xs btn-success modalMd" href="#" value="{{ action('Apps\InventoryManagementController@doShow',
-                                        ['id'=>$val->id]) }}" title="Lihat Item {{$val->do_ref}}" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i>
+                                    <a class="btn btn-xs btn-success modalLg" href="#" value="{{ action('Apps\InventoryManagementController@doShow',
+                                        ['id'=>$val->id]) }}" title="Lihat Item {{$val->do_ref}}" data-toggle="modal" data-target="#modalLg"><i class="fa fa-search"></i>
                                     </a>
                                     <a class="btn btn-xs btn-info" title="Print DO" href="{{ route('delivery.print',$val->id) }}"><i class="fa fa-print"></i></a>
                                     @can('Can Create Receipt')
