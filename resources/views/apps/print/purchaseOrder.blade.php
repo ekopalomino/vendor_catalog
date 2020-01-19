@@ -21,8 +21,8 @@
 						<table style="height: 73px; border-color: #000000;" border="1" width="265">
 							<tbody>
 								<tr>
-								<td style="width: 148px;background:#4B77BE;color:#ffffff;">No Invoice</td>
-								<td style="width: 148px;background:#4B77BE;color:#ffffff;">Tanggal Invoice</td>
+								<td style="width: 148px;background:#4B77BE;color:#ffffff;">No Purchase Order</td>
+								<td style="width: 148px;background:#4B77BE;color:#ffffff;">Tanggal PO</td>
 								</tr>
 								<tr>
 								<td style="width: 148px;">{{$data->order_ref}}</td>
@@ -71,7 +71,7 @@
 			@foreach($details as $key=>$val)
 			<tr>
 				<td style="width: 10px;">{{ $key+1 }}</td>
-				<td style="width: 280px;">{{ $val->Products->name }}</td>
+				<td style="width: 280px;">{{ $val->product_name }}</td>
 				<td style="width: 30px;">{{ number_format($val->quantity,0,',','.')}}</td>
 				<td style="width: 102px;">{{ $val->Uoms->name }}</td>
 				<td style="width: 110px;">Rp {{ number_format($val->purchase_price,0,',','.')}}</td>

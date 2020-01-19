@@ -64,8 +64,8 @@ FiberTekno | Purchase Request Detail
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>No Invoice</th>
-                                                <th>Tanggal Invoice</th>
+                                                <th>No Request</th>
+                                                <th>Tanggal Request</th>
                                             </tr>
                                         </thead>
                                         <tbody>

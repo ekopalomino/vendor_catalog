@@ -69,11 +69,9 @@ FiberTekno | Invoice Management
                                 </td>
                                 <td>
                                     @can('Can Edit Finance')
-                                    @if($val->status_id == '106da5a6-2c71-4a08-9342-db3fd8ebf71e')
                                     {!! Form::open(['method' => 'POST','route' => ['purchaseReceipt.payment', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-bank"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Bayar']) !!}
                                     {!! Form::close() !!}
-                                    @endif
                                     @endcan
                                 </td>
                 			</tr>

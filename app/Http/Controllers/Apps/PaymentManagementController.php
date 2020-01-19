@@ -78,7 +78,7 @@ class PaymentManagementController extends Controller
         ]);
         $latestRef = Reference::where('type','9')->count();
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
-        dd($getClient);
+        
         $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
             $reference = Reference::create([
                 'type' => '9',
@@ -133,10 +133,12 @@ class PaymentManagementController extends Controller
                 return redirect()->route('invoice.index')->with($notification);
             }   
         } else {
+            $getDeliveryCost = Delivery::where('do_ref',$request->input('do_ref'))->first();
             if($request->input('tax') == '0') {
                 $invoices = Invoice::create([
                     'invoice_ref' => $refs,
                     'do_ref' => $request->input('do_ref'),
+                    'order_ref' => $getDeliveryCost->order_ref,
                     'customer_id' => $request->input('customer_id'),
                     'pay_method' => $request->input('pay_method'),
                     'pay_term' => $request->input('pay_term'),
@@ -159,6 +161,7 @@ class PaymentManagementController extends Controller
                 $invoices = Invoice::create([
                     'invoice_ref' => $refs,
                     'do_ref' => $request->input('do_ref'),
+                    'order_ref' => $getDeliveryCost->order_ref,
                     'customer_id' => $request->input('customer_id'),
                     'pay_method' => $request->input('pay_method'),
                     'pay_term' => $request->input('pay_term'),
@@ -182,72 +185,14 @@ class PaymentManagementController extends Controller
         }
     }
 
-    public function invoicePoStore(Request $request) 
-    {
-        $latestRef = Reference::where('type','9')->count();
-        $getClient = Sale::where('order_ref',$request->input('order_ref'))->first();
-        $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
-        $invoices = Payment::create([
-            'reference_id' => $refs,
-            'type_id' => '1',
-            'sales_order' => $request->input('order_ref'),
-            'created_by' => auth()->user()->name,
-        ]);
-        $refs = Reference::create([
-            'type' => '9',
-            'ref_no' => $ref,
-        ]);
-        $process = Sale::where('order_ref',$invoices->order_ref)->update([
-            'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-        ]);
-
-        $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
-            'alert-type' => 'success'
-        );
-        
-        return redirect()->route('invoice.index')->with($notification);
-    }
-
-    public function invoiceDoStore(Request $request) 
-    {
-        $latestRef = Reference::where('type','9')->count();
-        $getDelivery = Delivery::where('id',$request->input('do_ref'))->first();
-        $getClient = Sale::where('order_ref',$getDelivery->order_ref)->first();
-        $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->client_code).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).''; 
-        $invoices = Payment::create([
-            'reference_id' => $refs,
-            'type_id' => '1',
-            'sales_order' => $request->input('do_ref'),
-            'created_by' => auth()->user()->name,
-        ]);
-        $refs = Reference::create([
-            'type' => '9',
-            'ref_no' => $ref,
-        ]);
-        $process = Sale::where('id',$invoices->sales_order)->update([
-            'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-        ]);
-
-        $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
-            'alert-type' => 'success'
-        );
-        
-        return redirect()->route('invoice.index')->with($notification);
-    }
-
     public function invoicePayment(Request $request,$id)
     {
-        $invoices = Payment::find($id);
+        $invoices = Invoice::find($id);
+         
         $payment = $invoices->update([
             'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
             'updated_by' => auth()->user()->name,
-            'payment_received' => Carbon::now(),
+            'payment_made' => Carbon::now(),
         ]);
         $process = Sale::where('order_ref',$invoices->sales_order)->update([
             'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
@@ -263,7 +208,7 @@ class PaymentManagementController extends Controller
 
     public function invoiceShow($id)
     {
-        $source = Payment::find($id);
+        $source = Invoice::find($id);
         $sales = Sale::where('id',$source->sales_order)
                         ->first();   
         $items = SaleItem::where('sales_id',$sales->order_ref)
@@ -274,15 +219,15 @@ class PaymentManagementController extends Controller
 
     public function invoicePrint($id)
     {
-        $source = Payment::find($id);
+        $source = Invoice::find($id);
         $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
-                        ->where('sales.order_ref',$source->sales_order)
+                        ->where('sales.order_ref',$source->order_ref)
                         ->first();   
-        $parent = Sale::where('order_ref',$source->sales_order)->first();
+        $parent = Sale::where('order_ref',$source->order_ref)->first();
         $items = SaleItem::where('sales_id',$parent->id)
                         ->get();
         
-        $filename = $source->reference_id;
+        $filename = $source->invoice_ref;
         $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
@@ -401,18 +346,18 @@ class PaymentManagementController extends Controller
             'updated_by' => auth()->user()->name,
             'payment_made' => Carbon::now(),
         ]);
-        $upPurchase = Purchase::where('order_ref',$invoices->sales_order)->update([
-            'status_id' => 'd6c23804-3b9b-40ca-b050-146af5594f5d'
+        $upPurchase = Purchase::where('order_ref',$invoices->order_ref)->update([
+            'status' => 'd6c23804-3b9b-40ca-b050-146af5594f5d'
         ]);
         
-        $log = 'Pembayaran '.($invoices->refs).' Berhasil Dibayar';
+        $log = 'Pembayaran '.($invoices->reference_id).' Berhasil Dibayar';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembayaran '.($invoices->refs).' Berhasil Dibayar',
+            'message' => 'Pembayaran '.($invoices->reference_id).' Berhasil Dibayar',
             'alert-type' => 'success'
         );
         return redirect()->back()->with($notification);
-    }
+    } 
 
     public function receiptShow($id)
     {

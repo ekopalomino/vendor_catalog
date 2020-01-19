@@ -83,9 +83,7 @@ FiberTekno | Purchase Management
                                     {!! Form::close() !!}
                                     @endcan
                                     @endif
-                                    @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')
                                     <a class="btn btn-xs btn-info" title="Lihat PO" href="{{ route('purchase.show',$val->id) }}"><i class="fa fa-search"></i></a>
-                                    @endif
                                 </td>
                 			</tr>
                             @endforeach

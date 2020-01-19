@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2020 at 10:15 PM
+-- Generation Time: Jan 19, 2020 at 07:51 PM
 -- Server version: 5.7.27
 -- PHP Version: 7.3.5
 
@@ -211,13 +211,13 @@ CREATE TABLE `inventories` (
 --
 
 INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`, `min_stock`, `opening_amount`, `closing_amount`, `created_at`, `updated_at`) VALUES
-(1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 20:09:40'),
-(2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 20:09:40'),
-(3, '5d9ab3d8-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Green', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 18:20:28'),
+(1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-19 18:35:46'),
+(2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-19 18:03:12'),
+(3, '5d9ab3d8-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Green', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-19 18:11:20'),
 (4, '5d9ab536-33c0-11ea-aec2-2e728ce88125', 'Adapter MM DX LC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-13 16:39:58'),
-(5, '5d9ac882-33c0-11ea-aec2-2e728ce88125', 'Adapter MM SX SC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
+(5, '5d9ac882-33c0-11ea-aec2-2e728ce88125', 'Adapter MM SX SC/PC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-19 18:47:15'),
 (6, '5d9aca26-33c0-11ea-aec2-2e728ce88125', 'Adapter SC/UPC Auto Shutter', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(7, '5d9acb70-33c0-11ea-aec2-2e728ce88125', 'Adapter SC/UPC DX', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
+(7, '5d9acb70-33c0-11ea-aec2-2e728ce88125', 'Adapter SC/UPC DX', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-19 18:42:38'),
 (8, '5d9acca6-33c0-11ea-aec2-2e728ce88125', 'Adapter SM LC/UPC DX', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 20:04:32'),
 (9, '5d9ae2c2-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/APC (BESI) (Dimika)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (10, '5d9ae448-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/APC (BESI) (Dimika) (Tente)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
@@ -225,7 +225,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (12, '5d9aeb3c-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC ( BESI ) ( Dimika ) Tutup Hitam', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (13, '5d9b0464-33c0-11ea-aec2-2e728ce88125', 'Adapter SM SC/UPC PAZ ', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (14, '5d9b05ea-33c0-11ea-aec2-2e728ce88125', 'Adapter ST/UPC', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
-(15, '5d9b0734-33c0-11ea-aec2-2e728ce88125', 'Box ONT Huawei', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-18 02:55:32'),
+(15, '5d9b0734-33c0-11ea-aec2-2e728ce88125', 'Box ONT Huawei', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-19 03:57:59'),
 (16, '5d9b0874-33c0-11ea-aec2-2e728ce88125', 'Box Splitter 1:8 (Kosongan)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (17, '5d9b09aa-33c0-11ea-aec2-2e728ce88125', 'Box Splitter 1:8 (Splitter Plc 1:8 SC/APC)', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-10 16:17:11'),
 (18, '5d9b0d60-33c0-11ea-aec2-2e728ce88125', 'Bundle Cable LC/UPC 8F 1 sisi 12m', 'Gudang Utama', '5000.00', '0.00', '0.00', '2020-01-10 16:17:11', '2020-01-16 18:51:31'),
@@ -1631,50 +1631,6 @@ CREATE TABLE `references` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `references`
---
-
-INSERT INTO `references` (`id`, `type`, `ref_no`, `created_at`, `updated_at`) VALUES
-(1, 2, 'ADJ/FTI/0001/I/2020', '2020-01-18 02:53:24', '2020-01-18 02:53:24'),
-(2, 2, 'ADJ/FTI/0002/I/2020', '2020-01-18 02:53:37', '2020-01-18 02:53:37'),
-(3, 7, 'PR/FTI/0001/FTI-S-0000001/I/2020', '2020-01-18 02:54:54', '2020-01-18 02:54:54'),
-(4, 8, 'PO/FTI/0001/FTI-S-0000001/I/2020', '2020-01-18 02:55:01', '2020-01-18 02:55:01'),
-(5, 11, 'RP/0001/FTI/I/2020', '2020-01-18 02:55:32', '2020-01-18 02:55:32'),
-(6, 10, 'FIN/FTI/0001/FTI-S-0000001/I/2020', '2020-01-18 04:54:05', '2020-01-18 04:54:05'),
-(7, 10, 'FIN/FTI/0002/FTI-S-0000001/I/2020', '2020-01-18 04:55:00', '2020-01-18 04:55:00'),
-(8, 2, 'ADJ/FTI/0003/I/2020', '2020-01-18 17:45:33', '2020-01-18 17:45:33'),
-(9, 2, 'ADJ/FTI/0004/I/2020', '2020-01-18 17:45:47', '2020-01-18 17:45:47'),
-(10, 1, 'SO/FTI/0001/FTI-C-0000001/I/2020', '2020-01-18 17:47:15', '2020-01-18 17:47:15'),
-(11, 4, 'DO/0001/FTI/I/2020', '2020-01-18 17:55:33', '2020-01-18 17:55:33'),
-(12, 1, 'SO/FTI/0002/FTI-C-0000001/I/2020', '2020-01-18 18:10:59', '2020-01-18 18:10:59'),
-(13, 4, 'DO/0002/FTI/I/2020', '2020-01-18 18:20:27', '2020-01-18 18:20:27'),
-(14, 4, 'DO/0003/FTI/I/2020', '2020-01-18 18:20:40', '2020-01-18 18:20:40'),
-(15, 1, 'SO/FTI/0003/FTI-C-0000001/I/2020', '2020-01-18 18:23:07', '2020-01-18 18:23:07'),
-(16, 1, 'SO/FTI/0004/FTI-C-0000001/I/2020', '2020-01-18 18:35:18', '2020-01-18 18:35:18'),
-(17, 1, 'SO/FTI/0005/FTI-C-0000001/I/2020', '2020-01-18 18:36:19', '2020-01-18 18:36:19'),
-(18, 4, 'DO/0004/FTI/I/2020', '2020-01-18 18:36:53', '2020-01-18 18:36:53'),
-(19, 1, 'SO/FTI/0006/FTI-C-0000001/I/2020', '2020-01-18 18:41:36', '2020-01-18 18:41:36'),
-(20, 4, 'DO/0005/FTI/I/2020', '2020-01-18 18:42:13', '2020-01-18 18:42:13'),
-(21, 1, 'SO/FTI/0007/FTI-C-0000001/I/2020', '2020-01-18 19:01:22', '2020-01-18 19:01:22'),
-(22, 4, 'DO/0006/FTI/I/2020', '2020-01-18 19:13:30', '2020-01-18 19:13:30'),
-(23, 4, 'DO/0007/FTI/I/2020', '2020-01-18 19:20:04', '2020-01-18 19:20:04'),
-(24, 1, 'SO/FTI/0008/FTI-C-0000001/I/2020', '2020-01-18 20:07:46', '2020-01-18 20:07:46'),
-(25, 1, 'SO/FTI/0009/FTI-C-0000001/I/2020', '2020-01-18 20:08:17', '2020-01-18 20:08:17'),
-(26, 4, 'DO/0008/FTI/I/2020', '2020-01-18 20:08:40', '2020-01-18 20:08:40'),
-(27, 4, 'DO/0009/FTI/I/2020', '2020-01-18 20:09:40', '2020-01-18 20:09:40'),
-(28, 9, 'INV/FTI/0001//I/2020', '2020-01-18 20:38:13', '2020-01-18 20:38:13'),
-(29, 9, 'INV/FTI/0002//I/2020', '2020-01-18 20:39:12', '2020-01-18 20:39:12'),
-(30, 9, 'INV/FTI/0003//I/2020', '2020-01-18 20:42:04', '2020-01-18 20:42:04'),
-(31, 9, 'INV/FTI/0004//I/2020', '2020-01-18 20:42:18', '2020-01-18 20:42:18'),
-(32, 9, 'INV/FTI/0005//I/2020', '2020-01-18 20:45:21', '2020-01-18 20:45:21'),
-(33, 9, 'INV/FTI/0006//I/2020', '2020-01-18 21:00:57', '2020-01-18 21:00:57'),
-(34, 9, 'INV/FTI/0007//I/2020', '2020-01-18 21:01:05', '2020-01-18 21:01:05'),
-(35, 9, 'INV/FTI/0008//I/2020', '2020-01-18 21:01:11', '2020-01-18 21:01:11'),
-(36, 9, 'INV/FTI/0009//I/2020', '2020-01-18 21:01:36', '2020-01-18 21:01:36'),
-(37, 9, 'INV/FTI/0010//I/2020', '2020-01-18 21:02:20', '2020-01-18 21:02:20'),
-(38, 9, 'INV/FTI/0011//I/2020', '2020-01-18 21:08:20', '2020-01-18 21:08:20');
-
 -- --------------------------------------------------------
 
 --
@@ -2095,7 +2051,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `av
 ('820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Rizky ITEOS', 'rizky@local.com', NULL, '$2y$10$b89DIndoVlEjvOv3yYlreOyBZXgeC02QlF5fkR6l9WlHrgcWMsHKW', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
 ('994a52f5-285e-4401-95b2-166cc353bb65', 'adminfinance', 'adminfinance@local.com', NULL, '$2y$10$henHL4LyBKhui8HoC0wCKexpe8P9a4mwOzgR4rGMQGKA3YzBRC/dy', 'user.jpg', '1886a2b3-2fb7-4f40-b577-dad076a5d3b1', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 17:31:55', '36.77.192.232', NULL, '2020-01-09 13:07:34', '2020-01-11 17:31:55'),
 ('a7acf627-9108-44c0-a028-2d9bf7829108', 'adminproduksi', 'adminproduksi@local.com', NULL, '$2y$10$qwIfq0pGNYkn.Tmhp1dbh.AYcunz7fQTj9a4MkARaln5a6IkSA9kS', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-10 15:41:34', '114.124.161.169', NULL, '2020-01-08 11:21:49', '2020-01-10 15:41:34'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-19 00:36:18', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-18 17:36:18'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$z4S3JbuWaaC56f0B01OojuNtgcAzXXFCF.Bv8VFFY42mZfNsrcTCG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-20 00:54:26', '127.0.0.1', NULL, '2019-09-04 06:31:44', '2020-01-19 17:54:26'),
 ('c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$.PRqNO0.eckPAk032EBdC.1YHqtXS.lLmZo8l/AtN5Ymr1OmDyCEC', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-11 00:06:00', '127.0.0.1', NULL, '2020-01-06 17:46:22', '2020-01-10 17:06:00'),
 ('cb512697-44d9-4683-9bae-0a8e28a3252b', 'pembelian', 'pembelian@local.com', NULL, '$2y$10$nVmVLQvo9BNmFbWJ63qABuoWtHv9cGOjihoTNfp1VQUm9VdExMBO6', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-08 13:53:25', '180.243.44.60', NULL, '2020-01-08 13:42:59', '2020-01-08 13:53:25'),
 ('f68f2a18-623f-4c1a-bfde-7f029c603a17', 'adminsales2', 'adminsales2@local.com', NULL, '$2y$10$OFHrs.J9ITASIoVP5mOD5uZ0XTkKzKdpobMjf6NSV/LwA4G8vlTpS', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, NULL, '2020-01-11 18:09:34', '2020-01-11 18:09:34');
@@ -2490,7 +2446,7 @@ ALTER TABLE `internal_transfers`
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=442;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
@@ -2520,7 +2476,7 @@ ALTER TABLE `manufacture_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -2580,7 +2536,7 @@ ALTER TABLE `receive_purchase_items`
 -- AUTO_INCREMENT for table `references`
 --
 ALTER TABLE `references`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `retur_items`

@@ -90,7 +90,7 @@ class InventoryManagementController extends Controller
         ]);
         
         $latestOrder = Reference::where('type','2')->count();
-        $ref = 'ADJ/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $ref = 'ADJ/FTI/'.str_pad($latestOrder + 1, 6, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $refs = Reference::create([
             'type' => '2',
             'ref_no' => $ref,
@@ -235,6 +235,7 @@ class InventoryManagementController extends Controller
         $purchases = Purchase::where('order_ref',$request->input('order_ref'))->first();
         $details = PurchaseItem::join('inventories','inventories.product_name','purchase_items.product_name')
                              ->where('purchase_items.purchase_id',$purchases->id)
+                             ->where('inventories.warehouse_name','Gudang Utama')
                              ->get();
         $locations = Warehouse::pluck('name','name')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
@@ -887,6 +888,7 @@ class InventoryManagementController extends Controller
     {
         $data = Delivery::find($id);
         $items = DeliveryItem::where('delivery_id',$id)->get();
+
         $done = $data->update([
             'receipt' => $request->input('receipt'),
             'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
@@ -912,7 +914,7 @@ class InventoryManagementController extends Controller
                 'warehouse_name' => 'Gudang Pengiriman',
                 'incoming' => '0',
                 'outgoing' => $item->product_shipment,
-                'remaining' => ($movements->remaning) - ($item->product_shipment),
+                'remaining' => ($movements->remaining) - ($item->product_shipment),
             ]);
         }
 

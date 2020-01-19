@@ -64,8 +64,8 @@ FiberTekno | Purchase Order Detail
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>No Invoice</th>
-                                                <th>Tanggal Invoice</th>
+                                                <th>No Order</th>
+                                                <th>Tanggal Order</th>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -59,8 +59,8 @@ FiberTekno | Invoice Management
                                 <td>{{ $val->created_by }}</td> 
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                                 <td>
-                                    @if(!empty($val->payment_received))
-                                    {{date("d F Y H:i",strtotime($val->payment_received)) }}
+                                    @if(!empty($val->payment_made))
+                                    {{date("d F Y H:i",strtotime($val->payment_made)) }}
                                     @endif
                                 </td>
                                 <td>
