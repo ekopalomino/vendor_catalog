@@ -37,6 +37,8 @@
                             Penerimaan Brg
                             @elseif($val->type == 7)
                             Manufaktur
+                            @elseif($val->type == 8)
+                            Cancel Pengiriman
                             @endif
                         </td>
                         <td>{{ $val->reference_id}}</td>

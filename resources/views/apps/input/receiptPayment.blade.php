@@ -32,7 +32,7 @@ Fiber Tekno | Add Purchase Payment
                     <div class="col-md-5">
                         <div class="form-group">
                             <label class="control-label">Nomor Penerimaan Barang</label>
-                            {!! Form::select('pr_ref', [null=>'Please Select'] + $refs,[], array('class' => 'form-control')) !!}
+                            {!! Form::select('order_ref', [null=>'Please Select'] + $refs,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
                     <div class="col-md-5">

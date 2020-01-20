@@ -843,12 +843,34 @@ class InventoryManagementController extends Controller
     public function doCancel(Request $request,$id)
     {
         $data = Delivery::find($id);
+        $items = DeliveryItem::where('delivery_id',$id)->get();
+        foreach($items as $item) {
+            $inventories = Inventory::where('product_name',$item->product_name)->where('warehouse_name','Gudang Utama')->first();
+            $lastMove = InventoryMovement::where('product_name',$item->product_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
+
+            $backInventory = $inventories->update([
+                'closing_amount' => ($inventories->closing_amount) + ($item->product_shipment),
+            ]);
+
+            $backMovement = InventoryMovement::create([
+                'inventory_id' => $inventories->id,
+                'reference_id' => $data->do_ref,
+                'type' => '8',
+                'product_name' => $item->product_name,
+                'warehouse_name' => 'Gudang Utama',
+                'incoming' => $item->product_shipment,
+                'outgoing' => '0',
+                'remaining' => ($lastMove->remaining) + ($item->product_shipment),
+            ]);
+        }
         $sales = Sale::where('order_ref',$data->order_ref)->update([
             'status_id' => '8447cd63-c7e7-4b26-81fc-d2eb3aceec97'
         ]);
         $log = 'Delivery Order '.($data->order_ref).' Berhasil Dibatalkan';
          \LogActivity::addToLog($log);
-        $data->delete();
+        $data->update([
+            'status_id' => '8447cd63-c7e7-4b26-81fc-d2eb3aceec97'
+        ]);
         
         $notification = array (
             'message' => 'Delivery Order '.($data->order_ref).' Berhasil Dibatalkan',

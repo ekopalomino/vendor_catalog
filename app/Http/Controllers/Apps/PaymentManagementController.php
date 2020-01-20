@@ -252,7 +252,7 @@ class PaymentManagementController extends Controller
     public function receiptMake()
     {
         $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
-        $refs = ReceivePurchase::pluck('ref_no','id')->toArray();
+        $refs = ReceivePurchase::pluck('order_ref','id')->toArray();
         $methods = PaymentMethod::pluck('name','id')->toArray();
         $terms = PaymentTerm::pluck('name','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
@@ -272,7 +272,7 @@ class PaymentManagementController extends Controller
         ]);
 
         $latestRef = Reference::where('type','10')->count();
-        $refs = 'FIN/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $refs = 'FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $reference = Reference::create([
             'type' => '10',
             'ref_no' => $refs,

@@ -17,6 +17,7 @@ use iteos\Models\Warehouse;
 use iteos\Models\InternalTransfer;
 use iteos\Models\InternalItems;
 use iteos\Models\Reference;
+use iteos\Models\Delivery;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -274,9 +275,14 @@ class SalesManagementController extends Controller
     public function closeSale(Request $request,$id)
     {
         $data = Sale::find($id);
+        $delivery = Delivery::where('order_ref',$data->order_ref)->first();
         $closing = $data->update([
             'status_id' => '6d32841b-2606-43a5-8cf7-b77291ddbfbb',
             'closing_date' => Carbon::now()
+        ]);
+
+        $endDeliver = $delivery->update([
+            'status_id' => '6d32841b-2606-43a5-8cf7-b77291ddbfbb'
         ]);
 
         $log = 'Sales Order '.($data->order_ref).' Berhasil Ditutup';

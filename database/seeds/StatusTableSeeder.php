@@ -13,8 +13,7 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            'Full Payment',
-            'Partial Payment'
+            'Cancel Delivery',
         ];
 
         foreach($statuses as $status) {
