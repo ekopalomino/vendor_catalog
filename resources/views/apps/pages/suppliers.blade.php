@@ -62,6 +62,7 @@ FiberTekno | Supplier Management
                 				<td>
                                     @can('Can Edit Contact')
                                     <a class="btn btn-xs btn-success" href="{{ route('supplier.edit',$val->id) }}" title="Edit Supplier" ><i class="fa fa-edit"></i></a>
+                                    @endcan
                                     @can('Can Delete Contact')
                                     {!! Form::open(['method' => 'POST','route' => ['supplier.destroy', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Customer']) !!}

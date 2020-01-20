@@ -13,7 +13,7 @@ Fiber Tekno | Add Invoice
         <div class="portlet-body form">
             <div class="m-heading-1 border-red m-bordered">
                 <h3>Petunjuk Pengisian</h3>
-                <p> Pilih Salah Satu Antara <strong>Nomor Sales Order</strong>, <strong>Nomor Delivery Order</strong> Atau <strong>Nama Customer</strong></p>
+                <p> Pilih Salah Satu Antara <strong>Nomor Sales Order</strong>, <strong>Nomor Delivery Order</strong> Dan <strong>Nama Customer</strong></p>
             </div>
             @if (count($errors) > 0) 
             <div class="alert alert-danger">
