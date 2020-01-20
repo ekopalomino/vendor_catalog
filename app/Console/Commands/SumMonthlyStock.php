@@ -48,7 +48,7 @@ class SumMonthlyStock extends Command
             $months = Carbon::now()->month;
             $sum = Inventory::where('product_id',$stock->product_id)->update([
                 'opening_amount' => $stock->closing_amount,
-                'closing_amount' => '0',
+                'closing_amount' => $stock->closing_amount,
             ]);
             $getInventory = Inventory::where('product_id',$stock->product_id)->first();
             $movement = InventoryMovement::create([

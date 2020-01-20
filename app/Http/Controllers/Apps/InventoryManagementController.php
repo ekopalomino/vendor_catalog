@@ -862,6 +862,8 @@ class InventoryManagementController extends Controller
                 'outgoing' => '0',
                 'remaining' => ($lastMove->remaining) + ($item->product_shipment),
             ]);
+
+            $backInventory->delete();
         }
         $sales = Sale::where('order_ref',$data->order_ref)->update([
             'status_id' => '8447cd63-c7e7-4b26-81fc-d2eb3aceec97'
@@ -938,6 +940,8 @@ class InventoryManagementController extends Controller
                 'outgoing' => $item->product_shipment,
                 'remaining' => ($movements->remaining) - ($item->product_shipment),
             ]);
+
+            $inventories->delete();
         }
 
         $sales = Sale::where('order_ref',$data->order_ref)->update([

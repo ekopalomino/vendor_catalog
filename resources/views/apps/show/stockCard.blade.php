@@ -39,6 +39,8 @@
                             Manufaktur
                             @elseif($val->type == 8)
                             Cancel Pengiriman
+                            @elseif($val->type == 9)
+                            Rekap Stok Awal Bulan
                             @endif
                         </td>
                         <td>{{ $val->reference_id}}</td>
