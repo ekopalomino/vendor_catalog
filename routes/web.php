@@ -17,6 +17,11 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
+    Route::get('login/locked','Auth\LoginController@locked')->name('login.locked');
+    Route::post('login/locked','Auth\LoginController@unlock')->name('login.unlock');
+});
+Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
+    
     Route::resource('dashboard','Apps\DashboardController');
     /*-----------------------User Management-----------------------------*/
     Route::get('users','Apps\UserManagementController@userIndex')->name('user.index');

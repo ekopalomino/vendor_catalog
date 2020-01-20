@@ -3,6 +3,7 @@
 namespace iteos\Models;
 
 use iteos\Traits\Uuid;
+use iteos\Traits\LockableTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable, Uuid, HasRoles;
+    use Notifiable, Uuid, HasRoles, LockableTrait;
 
     /**
      * The attributes that are mass assignable.
