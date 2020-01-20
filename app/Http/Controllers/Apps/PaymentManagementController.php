@@ -277,7 +277,7 @@ class PaymentManagementController extends Controller
             'type' => '10',
             'ref_no' => $refs,
         ]);
-        $getOrder = ReceivePurchase::where('id',$request->input('pr_ref'))->first();
+        $getOrder = ReceivePurchase::where('id',$request->input('order_ref'))->first();
         $getPurchase = Purchase::where('order_ref',$getOrder->order_ref)->first();
         $remaining = ($getPurchase->total) - ($request->input('amount'));
         if($remaining == '0') {
