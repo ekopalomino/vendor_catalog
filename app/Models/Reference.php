@@ -8,6 +8,8 @@ class Reference extends Model
 {
     protected $fillable = [
         'type',
+        'month',
+        'year',
         'ref_no',
     ];
 }

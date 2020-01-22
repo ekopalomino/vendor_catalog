@@ -138,6 +138,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('sales/orders/show/{id}','Apps\SalesManagementController@salesShow')->name('sales.show');
     Route::get('sales/barcode','Apps\SalesManagementController@salesBarcode')->name('sales.barcode');
     Route::get('sales/barcode/pdf','Apps\SalesManagementController@barcodePdf')->name('salesbarcode.pdf');
+    Route::get('sales/return-product','Apps\SalesManagementController@returSale')->name('salesRetur.index');
     /*-----------------------End Sales Management------------------------------------*/
 
     /*-----------------------Purchase Management------------------------------------*/
@@ -185,6 +186,10 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('inventories/delivery-order/receipt/{id}','Apps\InventoryManagementController@doReceipt')->name('delivery.receipt');
     Route::post('inventories/delivery-order/delivered/{id}','Apps\InventoryManagementController@doDone')->name('delivery.done');
     Route::get('inventories/delivery-order/print/{id}','Apps\InventoryManagementController@doPrint')->name('delivery.print');
+    Route::get('inventories/delivery-order/retur','Apps\InventoryManagementController@returItem')->name('deliveryRetur.index');
+    Route::get('inventories/delivery-order/retur/search/order','Apps\InventoryManagementController@returSearch')->name('deliveryRetur.search');
+    Route::post('inventories/delivery-order/retur/get/order','Apps\InventoryManagementController@returGet')->name('deliveryRetur.get');
+    Route::post('inventories/delivery-order/retur/store','Apps\InventoryManagementController@returStore')->name('deliveryRetur.store');
     /*-----------------------End Inventory Management------------------------------------*/
 
     /*-----------------------Manufacture Management------------------------------------*/

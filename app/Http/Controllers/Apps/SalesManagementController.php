@@ -71,7 +71,9 @@ class SalesManagementController extends Controller
 
     public function storeSales(Request $request)
     {
-        $latestOrder = Reference::where('type','1')->count();
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $latestOrder = Reference::where('type','1')->where('month',$getMonth)->where('year',$getYear)->count();
         $ref = 'SO/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('client_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
 
         $details = Contact::where('ref_id',$request->input('client_code'))->first();
@@ -88,6 +90,8 @@ class SalesManagementController extends Controller
         ];
         $refs = Reference::create([
             'type' => '1',
+            'month' => $getMonth,
+            'year' => $getYear,
             'ref_no' => $ref,
         ]);
         
@@ -292,6 +296,13 @@ class SalesManagementController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('sales.index')->with($notification);
+    }
+
+    public function returSale()
+    {
+        $data = Sale::where('status_id','')->orderBy('created_at','DESC')->get();
+
+        return view('apps.pages.returSale',compact('data'));
     }
 
 }

@@ -20,6 +20,9 @@ use iteos\Models\DeliveryService;
 use iteos\Models\DeliveryItem;
 use iteos\Models\Sale;
 use iteos\Models\SaleItem;
+use iteos\Models\Retur;
+use iteos\Models\ReturItem;
+use iteos\Models\ReturReason;
 use iteos\Models\UomValue;
 use iteos\Models\Contact;
 use iteos\Models\Reference;
@@ -88,11 +91,14 @@ class InventoryManagementController extends Controller
         $this->validate($request, [
             'notes' => 'required',
         ]);
-        
-        $latestOrder = Reference::where('type','2')->count();
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $latestOrder = Reference::where('type','2')->where('month',$getMonth)->where('year',$getYear)->count();
         $ref = 'ADJ/FTI/'.str_pad($latestOrder + 1, 6, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $refs = Reference::create([
             'type' => '2',
+            'month' => $getMonth,
+            'year' => $getYear,
             'ref_no' => $ref,
         ]);
         
@@ -245,7 +251,9 @@ class InventoryManagementController extends Controller
 
     public function receiptStore(Request $request)
     {
-        $lastOrder = Reference::where('type','11')->count();
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $lastOrder = Reference::where('type','11')->where('month',$getMonth)->where('year',$getYear)->count();
         $refs = 'RP/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         
         $received = ReceivePurchase::create([
@@ -261,6 +269,8 @@ class InventoryManagementController extends Controller
 
         $refs = Reference::create([
             'type' => '11',
+            'month' => $getMonth,
+            'year' => $getYear,
             'ref_no' => $refs,
         ]);
         $items = $request->product;
@@ -481,14 +491,23 @@ class InventoryManagementController extends Controller
 
                 return redirect()->back()->with($notification);
             } else {
-                $references = Reference::where('type','3')->count();
-                $ref = 'MI/FTI'.str_pad($references + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+                $getMonth = Carbon::now()->month;
+                $getYear = Carbon::now()->year;
+                $references = Reference::where('type','3')->where('month',$getMonth)->where('year',$getYear)->count();
+                $ref = 'TG/FTI'.str_pad($references + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
                 $data = [
                     'order_ref' => $ref,
                     'from_wh' => $request->input('from_wh'),
                     'to_wh' => $request->input('to_wh'),
                     'created_by' => auth()->user()->name,
                 ];
+                $refs = Reference::create([
+                    'type' => '3',
+                    'month' => $getMonth,
+                    'year' => $getYear,
+                    'ref_no' => $ref,
+                ]);
+
                 $internal = InternalTransfer::create($data);
                     //Check UOM Value//
                     $bases = UomValue::where('id',$uom[$index])->first();
@@ -695,8 +714,10 @@ class InventoryManagementController extends Controller
     public function doStore(Request $request)
     {
         /*Create Reference Number Based On Trans Count*/
-        $lastOrder = Reference::where('type','4')->count();
-        $refs = 'DO/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $latestOrder = Reference::where('type','4')->where('month',$getMonth)->where('year',$getYear)->count();
+        $refs = 'DO/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $getSales = Sale::where('order_ref',$request->input('order_ref'))->first();
         
         /*Create Base Data Point*/
@@ -710,6 +731,8 @@ class InventoryManagementController extends Controller
         ]);
         $refs = Reference::create([
             'type' => '4',
+            'month' => $getMonth,
+            'year' => $getYear,
             'ref_no' => $refs,
         ]);
         $tg = InternalTransfer::create([
@@ -861,10 +884,9 @@ class InventoryManagementController extends Controller
                 'incoming' => $item->product_shipment,
                 'outgoing' => '0',
                 'remaining' => ($lastMove->remaining) + ($item->product_shipment),
-            ]);
-
-            $backInventory->delete();
+            ]);      
         }
+
         $sales = Sale::where('order_ref',$data->order_ref)->update([
             'status_id' => '8447cd63-c7e7-4b26-81fc-d2eb3aceec97'
         ]);
@@ -940,8 +962,6 @@ class InventoryManagementController extends Controller
                 'outgoing' => $item->product_shipment,
                 'remaining' => ($movements->remaining) - ($item->product_shipment),
             ]);
-
-            $inventories->delete();
         }
 
         $sales = Sale::where('order_ref',$data->order_ref)->update([
@@ -956,5 +976,122 @@ class InventoryManagementController extends Controller
         );
     
         return redirect()->route('delivery.index')->with($notification);
+    }
+
+    public function returItem()
+    {
+        $data = Retur::where('status_id','e9f870d8-ebe8-462e-a6b6-c03f4f5bd8eb')->get();
+        return view('apps.pages.saleRetur',compact('data'));
+    }
+
+    public function returSearch()
+    {
+        $sales = Sale::where('status_id','!=','af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')->pluck('order_ref','order_ref')->toArray();
+        $deliveries = Delivery::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->pluck('do_ref','do_ref')->toArray();
+
+        return view('apps.input.deliveryReturSearch',compact('sales','deliveries'));
+    }
+
+    public function returGet(Request $request)
+    {
+        if(($request->input('delivery_order')) == null)
+        {
+            $findSale = Sale::where('order_ref',$request->input('sales_order'))->first();
+            $findDelivery = Delivery::where('order_ref',$request->input('sales_order'))->first();
+            $findItem = SaleItem::where('sales_id',$findSale->id)->get();
+            $uoms = UomValue::pluck('name','id')->toArray();
+            $reasons = ReturReason::pluck('name','id')->toArray();
+
+            return view('apps.input.salesRetur',compact('findSale','findDelivery','findItem','uoms','reasons'));
+        } else {
+            $findDelivery = Delivery::where('do_ref',$request->input('delivery_order'))->first();
+            $findItem = DeliveryItem::where('delivery_id',$findDelivery->id)->get();
+            $uoms = UomValue::pluck('name','id')->toArray();
+            $reasons = ReturReason::pluck('name','id')->toArray();
+
+            return view('apps.input.deliveryRetur',compact('findDelivery','findItem','uoms','reasons'));
+        }
+    }
+
+    public function returStore(Request $request)
+    {
+        $baseData = Retur::create([
+            'sales_order' => $request->input('sales_order'),
+            'delivery_order' => $request->input('delivery_order'),
+            'status_id' => 'e9f870d8-ebe8-462e-a6b6-c03f4f5bd8eb',
+            'created_by' => auth()->user()->name,
+        ]);
+
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $latestOrder = Reference::where('type','12')->where('month',$getMonth)->where('year',$getYear)->count();
+        $ref = 'RET/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+
+        $items = $request->product;
+        $pesanan = $request->pesanan;
+        $retur_qty = $request->retur_qty;
+        $reason = $request->reason;
+        $uoms = $request->uom_id;
+
+        foreach($items as $index=>$item)
+        {
+            $baseInventory = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Retur')->orderBy('updated_at','DESC')->first();
+            $baseMovement = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Retur')->orderBy('updated_at','DESC')->first();
+            $getProduct = Product::where('name',$item)->first();
+
+            $returItem = ReturItem::create([
+                'retur_id' => $baseData->id,
+                'product_name' => $item,
+                'sales_qty' => $pesanan[$index],
+                'retur_qty' => $retur_qty[$index],
+                'retur_reason' => $reason[$index],
+            ]);
+            if(($baseInventory) == null)
+            {
+                $inventory = Inventory::create([
+                    'product_id' => $getProduct->id,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Retur',
+                    'min_stock' => '0',
+                    'opening_amount' => '0',
+                    'closing_amount' => $retur_qty[$index],
+                ]);
+
+                $movement = InventoryMovement::create([
+                    'inventory_id' => $inventory->id,
+                    'reference_id' => $ref,
+                    'type' => '10',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Retur',
+                    'incoming' => $retur_qty[$index],
+                    'outgoing' => '0',
+                    'remaining' => $retur_qty[$index],
+                ]);
+            } else {
+                $inventory = $baseInventory::update([
+                    'closing_amount' => ($baseInventory->closing_amount) + ($retur_qty[$index]),
+                ]);
+
+                $movement = InventoryMovement::create([
+                    'inventory_id' => $baseInventory->id,
+                    'reference_id' => $ref,
+                    'type' => '10',
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Retur',
+                    'incoming' => $retur_qty[$index],
+                    'outgoing' => '0',
+                    'remaining' => ($baseMovement->remaining) + ($retur_qty[$index]),
+                ]);
+            }
+        }
+
+        $log = 'Retur '.($data->order_ref).' Berhasil Disimpan';
+         \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Retur '.($data->order_ref).' Berhasil Disimpan',
+            'alert-type' => 'success'
+        );
+    
+        return redirect()->route('deliveryRetur.index')->with($notification);
     }
 }

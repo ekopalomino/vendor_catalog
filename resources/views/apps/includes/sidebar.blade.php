@@ -169,6 +169,11 @@
                             <span class="title">Cetak Barcode</span>
                         </a>
                     </li>
+                    <li class="nav-item ">
+                        <a href="" class="nav-link ">
+                            <span class="title">Retur Sales</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan
@@ -191,7 +196,7 @@
             @endcan
             @can('Can Access Inventories') 
             <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','receipt.search','receipt.get','receipt.edit','delivery.index','inventory.card','purchase.show'
-            ,'delivery.search','delivery.get','transfer.index','add.transfer']) }}">
+            ,'delivery.search','delivery.get','transfer.index','add.transfer','deliveryRetur.index','deliveryRetur.search','deliveryRetur.get']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-grid"></i>
             		<span class="title">Gudang</span>
@@ -224,6 +229,11 @@
                         <a href="{{ route('transfer.index') }}" class="nav-link ">
                             <span class="title">Transfer Gudang</span>
                             <span class="badge badge-danger">{{$transfers}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['deliveryRetur.index','deliveryRetur.search','deliveryRetur.get']) }}">
+                        <a href="{{ route('deliveryRetur.index') }}" class="nav-link ">
+                            <span class="title">Barang Retur</span>
                         </a>
                     </li>
                 </ul>

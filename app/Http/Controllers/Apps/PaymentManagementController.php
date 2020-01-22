@@ -76,12 +76,16 @@ class PaymentManagementController extends Controller
             'tax' => 'required',
             'amount' => 'required|numeric'
         ]);
-        $latestRef = Reference::where('type','9')->count();
+        $getMonth  = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
         
         $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
             $reference = Reference::create([
                 'type' => '9',
+                'month' => $getMonth,
+                'year' => $getYear,
                 'ref_no' => $refs,
             ]);
         if($request->input('do_ref') == null) {

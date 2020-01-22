@@ -41,6 +41,8 @@
                             Cancel Pengiriman
                             @elseif($val->type == 9)
                             Rekap Stok Awal Bulan
+                            @elseif($val->type == 10)
+                            Retur Barang
                             @endif
                         </td>
                         <td>{{ $val->reference_id}}</td>
