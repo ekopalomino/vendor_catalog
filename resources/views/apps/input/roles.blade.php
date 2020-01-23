@@ -19,7 +19,7 @@ FiberTekno | Create Role
             <div class="portlet-body">
             	<div class="row">
             		<div class="col-md-12">
-            			{!! Form::open(array('route' => 'role.store','method'=>'POST')) !!}
+            			{!! Form::open(array('route' => 'role.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
 						@csrf
 							<div class="row">
 								<div class="col-md-6">
@@ -41,6 +41,9 @@ FiberTekno | Create Role
 											<th>Hapus Data</th>
 											<th>Accept/Reject Data</th>
 											<th>Input Resi Pengiriman</th>
+											<th>Dashboard User</th>
+											<th>Dashboard Manajemen</th>
+											<th>Dashboard Finance</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -70,6 +73,12 @@ FiberTekno | Create Role
 													<input type="checkbox" value="19" name="permission[]" />
 													<span></span>
 												</label>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
 											</td>
 											<td>
 											</td>
@@ -107,6 +116,12 @@ FiberTekno | Create Role
 											</td>
 											<td>
 											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
 										</tr>
 										<tr>
 											<td>3</td>
@@ -139,6 +154,12 @@ FiberTekno | Create Role
 											</td>
 											<td>
 											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
 										</tr>
 										<tr>
 											<td>4</td>
@@ -160,6 +181,12 @@ FiberTekno | Create Role
 													<input type="checkbox" value="46" name="permission[]" />
 													<span></span>
 												</label>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
 											</td>
 											<td>
 											</td>
@@ -203,6 +230,12 @@ FiberTekno | Create Role
 											</td>
 											<td>
 											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
 										</tr>
 										<tr>
 											<td>6</td>
@@ -236,6 +269,12 @@ FiberTekno | Create Role
 													<input type="checkbox" value="30" name="permission[]" />
 													<span></span>
 												</label>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
 											</td>
 											<td>
 											</td>
@@ -279,6 +318,12 @@ FiberTekno | Create Role
 													<span></span>
 												</label>
 											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
 										</tr>
 										<tr>
 											<td>8</td>
@@ -315,6 +360,12 @@ FiberTekno | Create Role
 											</td>
 											<td>
 											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
 										</tr>
 										<tr>
 											<td>9</td>
@@ -347,6 +398,12 @@ FiberTekno | Create Role
 											</td>
 											<td>
 											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
 										</tr>
 										<tr>
 											<td>10</td>
@@ -368,6 +425,12 @@ FiberTekno | Create Role
 											</td>
 											<td>
 												
+											</td>
+											<td>
+											</td>
+											<td>
+											</td>
+											<td>
 											</td>
 											<td>
 											</td>

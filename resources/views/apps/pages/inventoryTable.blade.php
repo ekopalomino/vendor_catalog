@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Laporan Stok - Tabel
+FiberTekno | Stock Report
 @endsection
 @section('content')
 <div class="page-content">
@@ -25,16 +25,30 @@ FiberTekno | Laporan Stok - Tabel
 			@csrf
 			<div class="form-body">
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Tanggal Awal</label>
 							{!! Form::date('from_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
 						</div>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label">Tanggal Akhir</label>
 							{!! Form::date('to_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Produk</label>
+							{!! Form::select('product_id', [null=>'Please Select'] + $getProduct,[], array('class' => 'form-control')) !!}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Gudang</label>
+							{!! Form::select('warehouse_id', [null=>'Please Select'] + $getWarehouse,[], array('class' => 'form-control')) !!}
 						</div>
 					</div>
 				</div>

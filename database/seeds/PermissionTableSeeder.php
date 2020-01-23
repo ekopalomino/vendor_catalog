@@ -13,7 +13,8 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'Can Create Receipt',
+            'Can View Management Dashboard',
+            'Can View Finance Dashboard',
         ];
 
         foreach($permissions as $permission) {

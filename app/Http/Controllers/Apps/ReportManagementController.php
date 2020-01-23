@@ -8,6 +8,10 @@ use iteos\Models\Sale;
 use iteos\Models\Inventory;
 use iteos\Models\Purchase;
 use iteos\Models\Manufacture;
+use iteos\Models\Product;
+use iteos\Models\Warehouse;
+use iteos\Models\Contact;
+use iteos\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -22,7 +26,11 @@ class ReportManagementController extends Controller
     /*----Sales Reports--------------------*/
     public function saleTable()
     {
-        return view('apps.pages.saleTable');
+        $getProduct = Product::where('category_id','1')->pluck('name','name')->toArray();
+        $getCustomer = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
+        $getSales = User::pluck('name','name')->toArray();
+
+        return view('apps.pages.saleTable',compact('getProduct','getCustomer','getSales'));
     }
 
     public function reportSales(Request $request)
@@ -32,17 +40,42 @@ class ReportManagementController extends Controller
             'to_date' => 'required',
         ]);
 
-        $data = Sale::with('Deliveries')
+        $customers = $request->input('customer_id');
+        $products = $request->input('product_id');
+
+        if($customers == null && $products == null)
+        {
+            $data = Sale::with('Deliveries')
                       ->where('updated_at','>=',$request->input('from_date'))
                       ->where('updated_at','<=',$request->input('to_date'))
                       ->get();
+            
+            return view('apps.reports.saleTable',compact('data'));
+        } elseif (($customers) == null) {
+            $data = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
+                          ->join('delivery_items','delivery_items.delivery_id','deliveries.id')
+                          ->where('sales.updated_at','>=',$request->input('from_date'))
+                          ->where('sales.updated_at','<=',$request->input('to_date'))
+                          ->where('delivery_items.product_name',$products)
+                          ->get();
+            dd($data);
+        } elseif (($products) == null) {
+            $data = Sale::with('Deliveries')
+                      ->where('updated_at','>=',$request->input('from_date'))
+                      ->where('updated_at','<=',$request->input('to_date'))
+                      ->where('client_code',$customers)
+                      ->get();
+            dd($data);
+        }
         
-        return view('apps.show.saleTable',compact('data'));
     }
 
     public function inventoryTable()
     {
-        return view('apps.pages.inventoryTable');
+        $getProduct = Product::where('category_id','1')->pluck('name','name')->toArray();
+        $getWarehouse = Warehouse::pluck('name','name')->toArray();
+
+        return view('apps.pages.inventoryTable',compact('getProduct','getWarehouse'));
     }
 
     public function reportInventory(Request $request)
@@ -51,6 +84,9 @@ class ReportManagementController extends Controller
             'from_date' => 'required',
             'to_date' => 'required',
         ]);
+
+        $getProducts = $request->input('product_id');
+        $getWarehouse = $request->input('warehouse_id');
 
         $data = Inventory::with('Products')
                     ->join('inventory_movements','inventory_movements.inventory_id','inventories.id')
@@ -61,7 +97,7 @@ class ReportManagementController extends Controller
                     inventories.product_name')
                     ->get();
          
-        return view('apps.show.inventoryTable',compact('data'));
+        return view('apps.reports.inventoryTable',compact('data'));
     }
 
     public function purchaseTable()

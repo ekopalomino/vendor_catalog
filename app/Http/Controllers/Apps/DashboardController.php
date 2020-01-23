@@ -8,54 +8,16 @@ use iteos\Models\Sale;
 use iteos\Models\SaleItem;
 use iteos\Charts\DashboardChart;
 use DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $sumSales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->sum('total');
-        $sumOrders = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')->count();
-        $avgSales = Sale::avg('total');
-        $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
-                        ->select(DB::raw('sum(total) as sums'),DB::raw("DATE_FORMAT(updated_at,'%M %Y') as months"))
-                        ->groupBy('months')
-                        ->get();
+        $runMonth = Carbon::now()->month;
+        $totalSale = Sale::where('status_id','6d32841b-2606-43a5-8cf7-b77291ddbfbb')->count();
+        $avgSale = ($totalSale) / ($runMonth);
         
-        if($sales->count()>0) {
-            $chart = new DashboardChart;
-            $chart->labels(['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des']);
-            $chart->dataset($sales[0]->months,'line',[$sales[0]->sums]);
-            $chart->options([
-                'responsive' => 'true'
-            ]);
-        } else {
-            $chart = new DashboardChart;
-            $chart->dataset('no data','line',[0]);
-            $chart->options([
-                'responsive' => 'true'
-            ]);
-        }
-        $products = Sale::join('sale_items','sale_items.sales_id','sales.id')
-                        ->join('products','products.id','sale_items.product_id')
-                        ->where('sales.status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
-                        ->select(DB::raw('sum(sale_items.quantity) as sums'),'products.name as produk')
-                        ->groupBy('products.name')
-                        ->get();
-        $array = $products->toArray();
-        if($products->count()>0) {
-            $prodchart = new DashboardChart;
-            $chart->labels(['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des']);
-            $prodchart->dataset($products[0]->produk,'bar',[$products[0]->sums]);
-            $prodchart->options([
-                'responsive' => 'true'
-            ]);
-        } else {
-            $prodchart = new DashboardChart;
-            $prodchart->dataset('no data','bar',[0]);
-            $prodchart->options([
-                'responsive' => 'true'
-            ]);
-        }
-        return view('apps.pages.dashboard',compact('sumSales','sumOrders','avgSales','chart','prodchart'));
+        return view('apps.pages.dashboard',compact('totalSale','avgSale'));
     }
 }

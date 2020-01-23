@@ -37,8 +37,8 @@ FiberTekno | Log Activities
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $log->subject }}</td>
                 				<td class="text-success">{{ $log->url }}</td>
-                				<td class="text-warning">{{ $log->ip }}</td>
-                				<td><label class="badge badge-info">{{ $log->creator->name }}</label></td>
+                				<td class="text-danger">{{ $log->ip }}</td>
+                				<td><label class="label label-sm label-info">{{ $log->creator->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($log->created_at)) }}</td>
                 			</tr>
                             @endforeach
