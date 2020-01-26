@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="thumbnail" style="min-height: 514px;">
-                <img class="rounded-circle" src="{{ url('public/storage/avatars/{{ $user->avatar }}') }}" />
+                <img class="rounded-circle" src="http://fibertekno.iteos.tech/public/storage/avatars/{{ $user->avatar }}" />
                 <div class="caption">
                     <h3>{{$user->name}}</h3>
                     <p> Hak Akses :
