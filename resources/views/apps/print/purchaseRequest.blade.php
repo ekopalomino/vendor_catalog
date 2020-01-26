@@ -7,7 +7,7 @@
 <tbody>
 <tr>
 <td style="width: 315px;">
-<img src="{{ asset('assets/fibertekno.jpg') }}" alt="" />
+<img src="{{ asset('public/assets/fibertekno.jpg') }}" alt="" />
 <p></p>
 <p><strong>PT. FIBER TEKNOLOGI INDONESIA</strong></p>
 <p>Kirana Two Office Tower Lt. 10A</p>

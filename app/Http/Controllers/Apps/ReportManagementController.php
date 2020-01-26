@@ -5,6 +5,8 @@ namespace iteos\Http\Controllers\Apps;
 use Illuminate\Http\Request;
 use iteos\Http\Controllers\Controller;
 use iteos\Models\Sale;
+use iteos\Models\Delivery;
+use iteos\Models\DeliveryService;
 use iteos\Models\Inventory;
 use iteos\Models\Purchase;
 use iteos\Models\Manufacture;
@@ -29,8 +31,10 @@ class ReportManagementController extends Controller
         $getProduct = Product::where('category_id','1')->pluck('name','name')->toArray();
         $getCustomer = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
         $getSales = User::pluck('name','name')->toArray();
+        $getDelivery = Delivery::pluck('do_ref','do_ref')->toArray();
+        $getServices = DeliveryService::pluck('delivery_name','id')->toArray();
 
-        return view('apps.pages.saleTable',compact('getProduct','getCustomer','getSales'));
+        return view('apps.pages.saleTable',compact('getProduct','getCustomer','getSales','getServices'));
     }
 
     public function reportSales(Request $request)

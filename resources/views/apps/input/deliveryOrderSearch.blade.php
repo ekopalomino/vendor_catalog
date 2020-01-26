@@ -92,5 +92,5 @@ Fiber Tekno | Add Delivery Order
 </div>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 @endsection

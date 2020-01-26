@@ -48,6 +48,11 @@ class SalesManagementController extends Controller
         return view('apps.pages.sales',compact('sales','inventories'));
     }
 
+    public function posIndex()
+    {
+        return view('apps.pages.pointOfSale');
+    }
+
     public function create()
     {
         $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();

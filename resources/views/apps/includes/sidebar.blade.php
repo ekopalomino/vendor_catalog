@@ -177,14 +177,12 @@
                 </ul>
             </li>
             @endcan
-            @can('disable')
-            <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.barcode','sales.edit']) }}">
-                <a href="javascript:;" class="nav-link">
-                    <i class="icon-present"></i>
+            <li class="nav-item {{ set_active(['pos.index']) }}">
+                <a href="{{ route('pos.index') }}" class="nav-link">
+                    <i class="icon-notebook"></i>
                     <span class="title">Point of Sale</span>
                 </a>
             </li>
-            @endcan
             @can('Can Access Purchasing')
             <li class="nav-item {{ set_active(['request.create','purchase.index','request.form','purchase.show','request.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
