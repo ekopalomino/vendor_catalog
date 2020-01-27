@@ -12,6 +12,7 @@ FiberTekno | Dashboard
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawSalesChart);
     google.charts.setOnLoadCallback(drawProductChart);
+    google.charts.setOnLoadCallback(drawCustomerChart);
     function drawSalesChart() {
         var sales = <?php echo $data; ?>;
         var data = google.visualization.arrayToDataTable(sales);
@@ -27,10 +28,20 @@ FiberTekno | Dashboard
         var items = <?php echo $items; ?>;
         var data = google.visualization.arrayToDataTable(items);
         var options = {
-          title: 'Product Sales',
+          title: 'Top 10 Products',
         };
 
-        var chart = new google.visualization.BarChart(document.getElementById('barchart_material'));
+        var chart = new google.visualization.BarChart(document.getElementById('Product_chart_div'));
+        chart.draw(data, options);
+    }
+    function drawCustomerChart() {
+        var customers = <?php echo $customers; ?>;
+        var data = google.visualization.arrayToDataTable(customers);
+        var options = {
+          title: 'Top 10 Customers',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('Customer_chart_div'));
         chart.draw(data, options);
     }
 </script>
@@ -115,28 +126,17 @@ FiberTekno | Dashboard
     </div>
     <div class="clearfix"></div>
     <div class="row">
-    	<div class="col-lg-6 col-xs-12 col-sm-12">
+        <div class="col-lg-6 col-xs-12 col-sm-12">
         	<div class="portlet light bordered">
-        		<div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-share font-red-sunglo hide"></i>
-                        <span class="caption-subject font-dark bold uppercase">10 Produk Terlaris</span>
-                    </div>
-                </div>
                 <div class="portlet-body">
-                    <div id="barchart_material" style="width: 100%; min-height: 450px"></div>
+                    <div id="Product_chart_div" style="width: 100%; min-height: 450px"></div>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-xs-12 col-sm-12">
         	<div class="portlet light bordered">
-        		<div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-share font-red-sunglo hide"></i>
-                        <span class="caption-subject font-dark bold uppercase">10 Customer Terbanyak</span>
-                    </div>
-                </div>
                 <div class="portlet-body">
+                    <div id="Customer_chart_div" style="width: 100%; min-height: 450px"></div>
                 </div>
             </div>
         </div>
