@@ -46,8 +46,11 @@ class ReportManagementController extends Controller
 
         $customers = $request->input('customer_id');
         $products = $request->input('product_id');
+        $sales_ref = $request->input('sales_ref');
+        $delivery_ref = $request->input('do_ref');
+        $services = $request->input('service_id');
 
-        if($customers == null && $products == null)
+        if($customers == null && $products == null && $sales_ref == null && $delivery_ref == null && $services == null)
         {
             $data = Sale::with('Deliveries')
                       ->where('updated_at','>=',$request->input('from_date'))
