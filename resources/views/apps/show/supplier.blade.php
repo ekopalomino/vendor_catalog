@@ -3,7 +3,7 @@
 FiberTekno | Supplier Detail
 @endsection
 @section('header.styles')
-<link href="{{ asset('assets/pages/css/profile-2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('public/assets/pages/css/profile-2.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="page-content">

@@ -123,7 +123,7 @@ Fiber Tekno | Add Purchase Payment
 </div>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){ 

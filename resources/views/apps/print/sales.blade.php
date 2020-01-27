@@ -26,7 +26,7 @@
                 			<div>
                 				<div class="portlet-title">
                                     <div class="caption">
-                                        <img src="{{ asset('assets/fibertekno.jpg') }}" alt="" />
+                                        <img src="{{ asset('public/assets/fibertekno.jpg') }}" alt="" />
                                         <p style="line-height: 1;"><strong>PT. FIBER TEKNOLOGI INDONESIA</strong></p> 
                                         <p style="line-height: 1;">Kirana Two Office Tower Lt. 10A</p>
                                         <p style="line-height: 1;">Jl. Boulevard Timur No.88 </p>

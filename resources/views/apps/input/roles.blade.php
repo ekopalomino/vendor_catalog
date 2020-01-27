@@ -3,8 +3,8 @@
 FiberTekno | Create Role
 @endsection
 @section('header.plugins')
-<link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('public/assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('public/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="page-content">
@@ -454,10 +454,10 @@ FiberTekno | Create Role
 </div>
 @endsection
 @section('footer.plugins')
-<script src="{{ asset('assets/global/scripts/datatable.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/assets/global/scripts/datatable.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/table-datatables-scroller.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/assets/pages/scripts/table-datatables-scroller.min.js') }}" type="text/javascript"></script>
 @endsection

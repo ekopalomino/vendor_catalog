@@ -126,6 +126,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
 
     /*-----------------------Sales Management------------------------------------*/
     Route::get('sales','Apps\SalesManagementController@index')->name('sales.index');
+    Route::get('sales/point-of-sale','Apps\SalesManagementController@posIndex')->name('pos.index');
     Route::get('sales/orders/create','Apps\SalesManagementController@create')->name('sales.create');
     Route::get('sales/product/find','Apps\SalesManagementController@searchProduct')->name('sales.product');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
