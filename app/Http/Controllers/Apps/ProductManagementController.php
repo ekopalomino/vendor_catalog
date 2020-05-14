@@ -115,7 +115,7 @@ class ProductManagementController extends Controller
     public function productStore(Request $request)
     {
         $this->validate($request, [
-            'barcode' => 'required|numeric',
+            'barcode' => 'required',
             'name' => 'required|unique:products,name',
             'category_id' => 'required',
             'uom_id' => 'required',
@@ -231,7 +231,7 @@ class ProductManagementController extends Controller
     public function productUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'product_barcode' => 'required|numeric',
+            'product_barcode' => 'required',
             'name' => 'required',
             'category_id' => 'required',
             'uom_id' => 'required',
