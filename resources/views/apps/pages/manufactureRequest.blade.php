@@ -48,11 +48,7 @@ FiberTekno | Permintaan Manufaktur
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
                                 <td>{{ $val->sales_order }}</td>
-                                <td>
-                                    @foreach($val->Child as $child)
-                                    {{ $child->item_name}}
-                                    @endforeach
-                                </td>
+                                <td>{{ $val->product_name }}</td>
                                 <td>{{ $val->man_plan }}</td>
                                 <td>
                                     @if(!empty($val->deadline))

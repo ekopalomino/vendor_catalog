@@ -16,7 +16,7 @@ class CreateProductBomsTable extends Migration
         Schema::create('product_boms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('product_id');
-            $table->uuid('material_id');
+            $table->string('material_name');
             $table->decimal('quantity',10,2);
             $table->integer('uom_id');
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');

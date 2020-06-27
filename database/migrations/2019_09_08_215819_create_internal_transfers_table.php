@@ -15,10 +15,13 @@ class CreateInternalTransfersTable extends Migration
     {
         Schema::create('internal_transfers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('product_id');
-            $table->uuid('from_id');
-            $table->uuid('to_id');
-            $table->decimal('amount',50,2);
+            $table->string('order_ref');
+            $table->string('from_wh');
+            $table->string('to_wh');
+            $table->uuid('status_id');
+            $table->string('created_by');
+            $table->string('updated_by')->nullable();
+            $table->string('received_by')->nullable();
             $table->timestamps();
         });
     }

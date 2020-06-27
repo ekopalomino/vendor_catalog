@@ -16,6 +16,7 @@ use iteos\Models\ManufactureItem;
 use iteos\Models\WorkItem;
 use iteos\Models\UomValue;
 use iteos\Models\Sale;
+use iteos\Models\Reference;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
@@ -67,6 +68,8 @@ class ManufactureManagementController extends Controller
     public function storeRequest(Request $request)
     {
         $latestOrder = Reference::where('type','5')->count();
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
         $ref = 'MR/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $bases = UomValue::where('id',$request->input('uom_id'))->first();
         if($bases->is_parent == null) {
@@ -86,6 +89,8 @@ class ManufactureManagementController extends Controller
         ];
         $refs = Reference::create([
             'type' => '5',
+            'month' => $getMonth,
+            'year' => $getYear,
             'ref_no' => $ref,
         ]);
         $names = Product::join('product_boms','product_boms.product_id','products.id')
@@ -116,6 +121,8 @@ class ManufactureManagementController extends Controller
     public function approveRequest($id)
     {
         $latestOrder = Reference::where('type','6')->count();
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
         $ref = 'MO/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $data = Manufacture::find($id);
         $accept = $data->update([
@@ -125,6 +132,8 @@ class ManufactureManagementController extends Controller
         ]);
         $refs = Reference::create([
             'type' => '6',
+            'month' => $getMonth,
+            'year' => $getYear,
             'ref_no' => $ref,
         ]);
         $log = 'Manufacture Request '.($data->order_ref).' Berhasil Disetujui';
@@ -274,7 +283,9 @@ class ManufactureManagementController extends Controller
         $items = $request->material_name;
         $usage = $request->usage;
         $scrap = $request->scrap;
+        /*Input Production Result*/
         $updateQty = ManufactureItem::where('id',$request->input('id'))->update(['result'=>$request->input('result')]);
+        /*Create or Update Inventory Production*/
         if($itemInventory == null) {
             $refProduct = Product::where('name',$request->input('product_name'))->first();
             $finishItems = Inventory::create([
@@ -293,6 +304,7 @@ class ManufactureManagementController extends Controller
         }
         $idFinish = Inventory::where('product_name',$request->input('product_name'))->where('warehouse_name','Gudang Produksi')->first();
         $lastMoves = InventoryMovement::where('product_name',$request->input('product_name'))->where('warehouse_name','Gudang Produksi')->orderBy('updated_at','DESC')->first();
+        /*Register Inventory Movement on Production Result*/
         if($lastMoves == null) {
             $finishIn = InventoryMovement::create([
                 'type' => '7',
@@ -316,10 +328,13 @@ class ManufactureManagementController extends Controller
                 'remaining' => ($lastMoves->remaining) + ($request->input('result')),
             ]);
         }
-               
+        /* Register Inventory Movement on Production Material*/       
         foreach($items as $index=>$item) {
             $refProduct = Product::where('name',$item)->first();
             $scrapInventory = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->first();
+            $rawInventory = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Produksi')->first();
+            $startWh = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->first();
+            /*Create or Update Scrap Inventory*/
             if($scrapInventory == null) {
                 $scrapItems = Inventory::create([
                     'product_id' => $refProduct->id,
@@ -329,13 +344,41 @@ class ManufactureManagementController extends Controller
                     'opening_amount' => $scrap[$index],
                     'closing_amount' => $scrap[$index],
                 ]);
+                $outStart = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->update([
+                    'closing_amount' => ($startWh->closing_amount) - ($scrap[$index]),
+                ]);
             } else {
                 $scrapItems = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->update([
                     'closing_amount' => ($scrapInventory->closing_amount) + $scrap[$index],
                 ]);
+                $outStart = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->update([
+                    'closing_amount' => ($startWh->closing_amount) - ($scrap[$index]),
+                ]);
+            }
+            /*Create or Update Raw Production Inventory*/
+            if($rawInventory == null) {
+                $rawItems = Inventory::create([
+                    'product_id' => $refProduct->id,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Produksi',
+                    'min_stock' => '0',
+                    'opening_amount' => $usage[$index],
+                    'closing_amount' => $usage[$index],
+                ]);
+                $outStart = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->update([
+                    'closing_amount' => ($startWh->closing_amount) - ($usage[$index]),
+                ]);
+            } else {
+                $rawItems = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Produksi')->update([
+                    'closing_amount' => ($rawInventory->closing_amount) + $usage[$index],
+                ]);
+                $outStart = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->update([
+                    'closing_amount' => ($startWh->closing_amount) - ($usage[$index]),
+                ]);
             }
             $idScrap = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->first();
             $lastMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Scrap')->orderBy('updated_at','DESC')->first();
+            /*Create Scrap Inventory Movement*/
             if($lastMove == null) {
                 $scrapIn = InventoryMovement::create([
                     'type' => '7',
@@ -359,33 +402,132 @@ class ManufactureManagementController extends Controller
                     'remaining' => ($lastMove->remaining) + ($scrap[$index]),
                 ]);
             }
-            $idUsage = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Produksi')->first();
+            $idUsage = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Utama')->first();
+            $startMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
             $usageMove = InventoryMovement::where('product_name',$item)->where('warehouse_name','Gudang Produksi')->orderBy('updated_at','DESC')->first();
-            $usageOut = InventoryMovement::create([
-                'type' => '7',
-                'inventory_id' => $idUsage->id,
-                'reference_id' => $orders->order_ref,
-                'product_name' => $item,
-                'warehouse_name' => 'Gudang Produksi',
-                'incoming' => '0',
-                'outgoing' => $usage[$index],
-                'remaining' => ($usageMove->remaining) - ($usage[$index]),
-            ]);
-            $scrapOut = InventoryMovement::create([
-                'type' => '7',
-                'inventory_id' => $idUsage->id,
-                'reference_id' => $orders->order_ref,
-                'product_name' => $item,
-                'warehouse_name' => 'Gudang Produksi',
-                'incoming' => '0',
-                'outgoing' => $scrap[$index],
-                'remaining' => ($usageOut->remaining) - ($scrap[$index]),
-            ]);
+            
+                if($usageMove == null) {
+                    $startUsage = InventoryMovement::create([
+                        'type' => '7',
+                        'inventory_id' => $idUsage->id,
+                        'reference_id' => $orders->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Utama',
+                        'incoming' => '0',
+                        'outgoing' => $usage[$index],
+                        'remaining' => ($idUsage->closing_amount) - ($usage[index]),
+                    ]);
+                    $usageIn = InventoryMovement::create([
+                        'type' => '7',
+                        'inventory_id' => $idUsage->id,
+                        'reference_id' => $orders->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Produksi',
+                        'incoming' => $usage[$index],
+                        'outgoing' => '0',
+                        'remaining' => $usage[$index],
+                    ]);
+                    $usageOut = InventoryMovement::create([
+                        'type' => '7',
+                        'inventory_id' => $idUsage->id,
+                        'reference_id' => $orders->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Produksi',
+                        'incoming' => '0',
+                        'outgoing' => $usage[$index],
+                        'remaining' => ($usageIn->remaining) - ($usage[$index]),
+                    ]);
+                } else {
+                    $startUsage = InventoryMovement::create([
+                        'type' => '7',
+                        'inventory_id' => $idUsage->id,
+                        'reference_id' => $orders->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Utama',
+                        'incoming' => '0',
+                        'outgoing' => $usage[$index],
+                        'remaining' => ($idUsage->closing_amount) - ($usage[$index]),
+                    ]);
+                    $usageOut = InventoryMovement::create([
+                        'type' => '7',
+                        'inventory_id' => $idUsage->id,
+                        'reference_id' => $orders->order_ref,
+                        'product_name' => $item,
+                        'warehouse_name' => 'Gudang Produksi',
+                        'incoming' => '0',
+                        'outgoing' => $usage[$index],
+                        'remaining' => ($usageMove->remaining) - ($usage[$index]),
+                    ]);
+                }    
+            
+            /*if($usageMove == null) {
+                $startUsage = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idUsage->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Utama',
+                    'incoming' => '0',
+                    'outgoing' => $usage[$index],
+                    'remaining' => ,
+                ]);
+                $usageIn = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idUsage->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Produksi',
+                    'incoming' => $usage[$index],
+                    'outgoing' => '0',
+                    'remaining' => $usage[$index],
+                ]);
+                $usageOut = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idUsage->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Produksi',
+                    'incoming' => '0',
+                    'outgoing' => $usage[$index],
+                    'remaining' => ($usageIn->remaining) - ($usage[$index]),
+                ]);
+                /*$scrapOut = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idUsage->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Produksi',
+                    'incoming' => '0',
+                    'outgoing' => $scrap[$index],
+                    'remaining' => ($usageOut->remaining) - ($scrap[$index]),
+                ]);
+            } else {
+                $usageOut = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idUsage->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Produksi',
+                    'incoming' => '0',
+                    'outgoing' => $usage[$index],
+                    'remaining' => ($usageMove->remaining) - ($usage[$index]),
+                ]);
+                /*$scrapOut = InventoryMovement::create([
+                    'type' => '7',
+                    'inventory_id' => $idUsage->id,
+                    'reference_id' => $orders->order_ref,
+                    'product_name' => $item,
+                    'warehouse_name' => 'Gudang Produksi',
+                    'incoming' => '0',
+                    'outgoing' => $scrap[$index],
+                    'remaining' => ($usageOut->remaining) - ($scrap[$index]),
+                ]);
+            }*/
+            
             $updateInventory = Inventory::where('product_name',$item)->where('warehouse_name','Gudang Produksi')->first();
             $final = $updateInventory->update([
                 'closing_amount' => ($updateInventory->closing_amount) - (($usage[$index])+($scrap[$index])),
             ]);
-           
         }
         
         $data = Manufacture::join('manufacture_items','manufacture_items.manufacture_id','manufactures.id')->where('manufacture_items.manufacture_id',$request->input('id'))->first();

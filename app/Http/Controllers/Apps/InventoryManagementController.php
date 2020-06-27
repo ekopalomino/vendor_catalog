@@ -122,12 +122,12 @@ class InventoryManagementController extends Controller
                     'warehouse_name' => $request->input('warehouse_name'),
                     'incoming' => '0',
                     'outgoing' => $request->input('min_amount'),
-                    'remaining' => $request->input('min_amount'),
+                    'remaining' => $checkInv->closing_amount - $request->input('min_amount'),
                     'notes' => $request->input('notes'),
                 ];
                 $movements = InventoryMovement::create($input);
                 $source = Inventory::where('id',$id)->update([
-                    'closing_amount' => ($checkInv->closing_amount) - ($movements->remaining),
+                    'closing_amount' => $movements->remaining,
                 ]);
                 
                 $log = 'Stok '.($movements->product_name).' Berhasil Disesuaikan';
@@ -148,12 +148,12 @@ class InventoryManagementController extends Controller
                     'warehouse_name' => $request->input('warehouse_name'),
                     'incoming' => $request->input('plus_amount'),
                     'outgoing' => '0',
-                    'remaining' => $request->input('plus_amount'),
+                    'remaining' => $checkInv->closing_amount + $request->input('plus_amount'),
                     'notes' => $request->input('notes'),
                 ];
                 $movements = InventoryMovement::create($input);
                 $source = Inventory::where('id',$id)->update([
-                    'closing_amount' => ($checkInv->closing_amount) + ($movements->remaining),
+                    'closing_amount' => $movements->remaining,
                 ]);
                 
                 $log = 'Stok '.($movements->product_name).' Berhasil Disesuaikan';
