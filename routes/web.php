@@ -223,6 +223,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     /*-----------------------Finance Management------------------------------------*/
     Route::get('finance/invoices/index','Apps\PaymentManagementController@invoiceIndex')->name('invoice.index');
     Route::get('finance/invoices/create','Apps\PaymentManagementController@invoiceMake')->name('invoice.create');
+    Route::post('finance/invoices/search','Apps\PaymentManagementController@referenceGet')->name('invoice.search');
     Route::post('finance/invoices/purchase-order/create','Apps\PaymentManagementController@invoiceStore')->name('invoice.store');
     Route::post('finance/invoices/delivery-order/create','Apps\PaymentManagementController@invoiceDoStore')->name('invoiceDo.store');
     Route::post('finance/invoices/payment-receive/{id}','Apps\PaymentManagementController@invoicePayment')->name('invoice.payment');

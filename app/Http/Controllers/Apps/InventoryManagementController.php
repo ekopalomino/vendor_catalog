@@ -992,7 +992,7 @@ class InventoryManagementController extends Controller
         return view('apps.input.deliveryReturSearch',compact('sales','deliveries'));
     }
 
-    public function returGet(Request $request)
+    public function returGet(Request $request) 
     {
         if(($request->input('delivery_order')) == null)
         {

@@ -2,7 +2,7 @@
 @section('header.title')
 Fiber Tekno | Add Invoice 
 @endsection
-@section('content')
+@section('content') 
 <div class="page-content">
     <div class="portlet box red ">
         <div class="portlet-title">
@@ -13,7 +13,7 @@ Fiber Tekno | Add Invoice
         <div class="portlet-body form">
             <div class="m-heading-1 border-red m-bordered">
                 <h3>Petunjuk Pengisian</h3>
-                <p> Pilih Salah Satu Antara <strong>Nomor Sales Order</strong>, <strong>Nomor Delivery Order</strong> Dan <strong>Nama Customer</strong></p>
+                <p> Pilih <strong>Nomor Sales Order</strong> untuk full delivery atau <strong>Nomor Delivery Order</strong> untuk partial delivery</p>
             </div>
             @if (count($errors) > 0) 
             <div class="alert alert-danger">
@@ -32,19 +32,19 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Nomor Sales Order</label>
-                            {!! Form::select('order_ref', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
+                            {!! Form::text('sales_order', $findSale->order_ref, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Nomor Delivery Order</label>
-                            {!! Form::select('do_ref', [null=>'Please Select'] + $deliveries,[], array('class' => 'form-control')) !!}
+                            {!! Form::text('delivery_order', $findDelivery->do_ref, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Nama Customer</label>
-                            {!! Form::select('customer_id', [null=>'Please Select'] + $customers,[], array('class' => 'form-control')) !!}
+                            {!! Form::text('customer_id', $findContact->company, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                 </div>
@@ -52,35 +52,19 @@ Fiber Tekno | Add Invoice
             		<div class="col-md-2">
             			<div class="form-group">
             				<label class="control-label">Metode Pembayaran</label>
-            				{!! Form::select('pay_method', [null=>'Please Select'] + $methods,[], array('class' => 'form-control')) !!}
+                            {!! Form::text('pay_method', $findContact->payment_method, array('class' => 'form-control','readonly'=>'true')) !!}
             			</div>
             		</div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Termin Pembayaran</label>
-                            {!! Form::select('pay_term', [null=>'Please Select'] + $terms,[], array('class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="control-label">Pajak</label>
-                            <select class="form-control" name="tax">
-                                <option>Please Select</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
-                            </select>
+                            {!! Form::text('pay_method', $findContact->payment_terms, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">NPWP</label>
-                            {!! Form::text('tax_id', null, array('placeholder' => 'NPWP','class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="control-label">Pembayaran Ke</label>
-                            {!! Form::number('terms_no', null, array('placeholder' => 'Pembayaran Ke','class' => 'form-control')) !!}
+                            {!! Form::text('tax_id', $findContact->tax_no, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -90,7 +74,31 @@ Fiber Tekno | Add Invoice
                         </div>
                     </div>
             		<!--/span-->
-            	</div>        		
+            	</div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-striped table-bordered table-hover" id="sample_2">
+                            <thead>
+                                <tr>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga Satuan</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($findItem as $key=>$item)
+                                <tr>
+                                    <td>{{ $item->product_name }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ $item->sale_price }}</td>
+                                    <td>{{ $item->sub_total }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>        		
             	<div class="form-actions right">
                     <a button type="button" class="btn default" href="{{ route('purchaseReceipt.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">

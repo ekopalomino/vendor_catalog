@@ -51,7 +51,7 @@ class PaymentManagementController extends Controller
         return view('apps.pages.invoices',compact('data','sales','deliveries'));
     }
 
-    public function invoiceMake()
+    /* public function invoiceMake()
     {
         $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
                        ->pluck('order_ref','order_ref')->toArray();
@@ -64,6 +64,32 @@ class PaymentManagementController extends Controller
         $uoms = UomValue::pluck('name','id')->toArray();
 
         return view('apps.input.invoice',compact('sales','deliveries','customers','methods','terms','uoms'));
+    } */
+    
+    public function invoiceMake()
+    {
+        $sales = Sale::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('order_ref','order_ref')->toArray();
+        $deliveries = Delivery::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('do_ref','do_ref')->toArray();
+
+        return view('apps.input.invoiceSearch',compact('sales','deliveries'));
+    }
+
+    public function referenceGet(Request $request)
+    {
+        if(($request->input('delivery_order')) == null)
+        {
+            $findSale = Sale::where('order_ref',$request->input('sales_order'))->first();
+            $findDelivery = Delivery::where('order_ref',$request->input('sales_order'))->first();
+            $findItem = SaleItem::where('sales_id',$findSale->id)->get();
+            $findContact  = Contact::where('id',$findSale->client_id)->first();
+            
+            return view('apps.input.invoice',compact('findSale','findDelivery','findItem','findContact'));
+        } else {
+            $findDelivery = Delivery::where('do_ref',$request->input('delivery_order'))->first();
+            $findItem = DeliveryItem::where('delivery_id',$findDelivery->id)->get();
+            
+            return view('apps.input.invoice',compact('findDelivery','findItem',));
+        }
     }
 
     public function invoiceStore(Request $request)
