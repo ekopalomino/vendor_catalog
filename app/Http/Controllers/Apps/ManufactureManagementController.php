@@ -415,7 +415,7 @@ class ManufactureManagementController extends Controller
                         'warehouse_name' => 'Gudang Utama',
                         'incoming' => '0',
                         'outgoing' => $usage[$index],
-                        'remaining' => ($idUsage->closing_amount) - ($usage[index]),
+                        'remaining' => ($idUsage->closing_amount) - ($usage[$index]),
                     ]);
                     $usageIn = InventoryMovement::create([
                         'type' => '7',

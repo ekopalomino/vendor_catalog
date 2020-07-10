@@ -2,7 +2,7 @@
 @section('header.title')
 Fiber Tekno | Add Product Retur 
 @endsection
-@section('content')
+@section('content') 
 <div class="page-content">
     <div class="portlet box red ">
         <div class="portlet-title">
