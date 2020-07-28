@@ -57,7 +57,7 @@ FiberTekno | Dashboard
                     <div class="number">
                         <span data-counter="counterup" data-value="{{ $totalSale }}">{{ $totalSale }}</span>
                     </div>
-                    <div class="desc"> Total Penjualan </div>
+                    <div class="desc"> Total Akumulasi Penjualan </div>
                 </div>
             </a>
         </div>
@@ -83,7 +83,7 @@ FiberTekno | Dashboard
                     <div class="number">
                         <span data-counter="counterup" data-value="{{ $totalPurchase }}">{{ $totalPurchase }}</span>
                     </div>
-                    <div class="desc"> Total Pembelian </div>
+                    <div class="desc"> Total Akumulasi Pembelian </div>
                 </div>
             </a>
         </div>

@@ -65,14 +65,14 @@ class ReportManagementController extends Controller
                           ->where('sales.updated_at','<=',$request->input('to_date'))
                           ->where('delivery_items.product_name',$products)
                           ->get();
-            dd($data);
+            
         } elseif (($products) == null) {
             $data = Sale::with('Deliveries')
                       ->where('updated_at','>=',$request->input('from_date'))
                       ->where('updated_at','<=',$request->input('to_date'))
                       ->where('client_code',$customers)
                       ->get();
-            dd($data);
+            
         }
         
     }

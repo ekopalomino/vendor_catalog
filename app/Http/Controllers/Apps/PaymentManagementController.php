@@ -86,26 +86,24 @@ class PaymentManagementController extends Controller
             return view('apps.input.invoice',compact('findSale','findDelivery','findItem','findContact'));
         } else {
             $findDelivery = Delivery::where('do_ref',$request->input('delivery_order'))->first();
-            $findItem = DeliveryItem::where('delivery_id',$findDelivery->id)->get();
-            
-            return view('apps.input.invoice',compact('findDelivery','findItem',));
+            $findSale = Sale::where('order_ref',$findDelivery->order_ref)->first();
+            $findContact  = Contact::where('id',$findSale->client_id)->first();
+            /*$findItem = DeliveryItem::where('delivery_id',$findDelivery->id)->get();*/
+            $findItem = SaleItem::where('sales_id',$findSale->id)->get();
+            return view('apps.input.invoice',compact('findDelivery','findItem','findContact'));
         }
     }
-
+ 
     public function invoiceStore(Request $request)
     {
         $this->validate($request,[
-            'customer_id' => 'required',
-            'pay_method' => 'required',
-            'pay_term' => 'required',
-            'terms_no' => 'required',
-            'tax' => 'required',
             'amount' => 'required|numeric'
         ]);
+        
         $getMonth  = Carbon::now()->month;
         $getYear = Carbon::now()->year;
         $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
-        $getClient = Contact::where('id',$request->input('customer_id'))->first();
+        $getClient = Contact::where('company',$request->input('customer_id'))->first();
         
         $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
             $reference = Reference::create([
@@ -114,84 +112,35 @@ class PaymentManagementController extends Controller
                 'year' => $getYear,
                 'ref_no' => $refs,
             ]);
-        if($request->input('do_ref') == null) {
-            $getDeliveryCost = Delivery::where('order_ref',$request->input('order_ref'))->first();
-            if($request->input('tax') == '0') {
-                $invoices = Invoice::create([
-                    'invoice_ref' => $refs,
-                    'order_ref' => $request->input('order_ref'),
-                    'customer_id' => $request->input('customer_id'),
-                    'pay_method' => $request->input('pay_method'),
-                    'pay_term' => $request->input('pay_term'),
-                    'terms_no' => $request->input('terms_no'),
-                    'delivery_cost' => $getDeliveryCost->delivery_cost,
-                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
-                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-                    'created_by' => auth()->user()->name,
-                ]);
-                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
-                \LogActivity::addToLog($log);
-                $notification = array (
-                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
-                    'alert-type' => 'success'
-                );
-        
-                return redirect()->route('invoice.index')->with($notification);
-            } else {
-                $taxAmount = ($request->input('amount')) * 0.1;
-                $invoices = Invoice::create([
-                    'invoice_ref' => $refs,
-                    'order_ref' => $request->input('order_ref'),
-                    'customer_id' => $request->input('customer_id'),
-                    'pay_method' => $request->input('pay_method'),
-                    'pay_term' => $request->input('pay_term'),
-                    'tax_id' => $request->input('tax_id'),
-                    'tax_amount' => $taxAmount,
-                    'terms_no' => $request->input('terms_no'),
-                    'delivery_cost' => $getDeliveryCost->delivery_cost,
-                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
-                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-                    'created_by' => auth()->user()->name,
-                ]);
-                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
-                \LogActivity::addToLog($log);
-                $notification = array (
-                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
-                    'alert-type' => 'success'
-                );
-        
-                return redirect()->route('invoice.index')->with($notification);
-            }   
+
+        $getDeliveryCost = Delivery::where('do_ref',$request->input('delivery_order'))->first();
+        if($request->input('tax') == '0') {
+            $invoices = Invoice::create([
+                'invoice_ref' => $refs,
+                'do_ref' => $request->input('delivery_order'),
+                'order_ref' => $request->input('sales_order'),
+                'customer_id' => $request->input('customer_id'),
+                'pay_method' => $request->input('pay_method'),
+                'pay_term' => $request->input('pay_term'),
+                'terms_no' => $request->input('terms_no'),
+                'delivery_cost' => $getDeliveryCost->delivery_cost,
+                'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
+                'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                'created_by' => auth()->user()->name,
+            ]);
+            $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+            \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('invoice.index')->with($notification);
         } else {
-            $getDeliveryCost = Delivery::where('do_ref',$request->input('do_ref'))->first();
-            if($request->input('tax') == '0') {
+            $taxAmount = ($request->input('amount')) * 0.1;
                 $invoices = Invoice::create([
                     'invoice_ref' => $refs,
-                    'do_ref' => $request->input('do_ref'),
-                    'order_ref' => $getDeliveryCost->order_ref,
-                    'customer_id' => $request->input('customer_id'),
-                    'pay_method' => $request->input('pay_method'),
-                    'pay_term' => $request->input('pay_term'),
-                    'terms_no' => $request->input('terms_no'),
-                    'delivery_cost' => $getDeliveryCost->delivery_cost,
-                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
-                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-                    'created_by' => auth()->user()->name,
-                ]);
-                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
-                \LogActivity::addToLog($log);
-                $notification = array (
-                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
-                    'alert-type' => 'success'
-                );
-        
-                return redirect()->route('invoice.index')->with($notification);
-            } else {
-                $taxAmount = ($request->input('amount')) * 0.1;
-                $invoices = Invoice::create([
-                    'invoice_ref' => $refs,
-                    'do_ref' => $request->input('do_ref'),
-                    'order_ref' => $getDeliveryCost->order_ref,
+                    'do_ref' => $request->input('delivery_order'),
+                    'order_ref' => $request->input('sales_order'),
                     'customer_id' => $request->input('customer_id'),
                     'pay_method' => $request->input('pay_method'),
                     'pay_term' => $request->input('pay_term'),
@@ -211,8 +160,8 @@ class PaymentManagementController extends Controller
                 );
         
                 return redirect()->route('invoice.index')->with($notification);
-            }
-        }
+        }   
+        
     }
 
     public function invoicePayment(Request $request,$id)
@@ -254,11 +203,13 @@ class PaymentManagementController extends Controller
                         ->where('sales.order_ref',$source->order_ref)
                         ->first();   
         $parent = Sale::where('order_ref',$source->order_ref)->first();
+        
         $items = SaleItem::where('sales_id',$parent->id)
                         ->get();
+        $total = SaleItem::where('sales_id',$parent->id)->sum('sub_total');
         
         $filename = $source->invoice_ref;
-        $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items'))
+        $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items','total'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
     }

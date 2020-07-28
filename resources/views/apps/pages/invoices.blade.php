@@ -31,7 +31,8 @@ FiberTekno | Invoice Management
                 			<tr>
                                 <th>No</th>
                 				<th>Invoice</th>
-                                <th>Order Ref</th>
+                                <th>Sales Order</th>
+                                <th>Delivery Order</th>
                                 <th>Customer</th>
                                 <th>Total Tagihan</th>
                                 <th>Status</th>
@@ -46,14 +47,9 @@ FiberTekno | Invoice Management
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                                 <td>{{ $val->invoice_ref }}</td>
-                                <td>
-                                    @if(!empty($val->do_ref))
-                                    {{ $val->do_ref }}
-                                    @else
-                                    {{ $val->order_ref }}
-                                    @endif
-                                </td>
-                                <td>{{ $val->Customer->name}}</td>
+                                <td>{{ $val->order_ref }}</td>
+                                <td>{{ $val->do_ref }}</td>
+                                <td>{{ $val->customer_id}}</td>
                                 <td>{{ number_format($val->amount,2,',','.')}}</td>
                                 <td><label class="label label-sm label-success">{{ $val->Status->name }}</label></td>
                                 <td>{{ $val->created_by }}</td> 

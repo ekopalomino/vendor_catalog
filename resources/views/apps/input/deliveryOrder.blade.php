@@ -78,6 +78,8 @@ Fiber Tekno | Add Delivery Order
                                     </td>    
                                     <td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
+                                    {{ Form::hidden('sale_price[]', $item->sale_price) }}
+                                    {{ Form::hidden('sub_total[]', $item->sub_total) }}
                     				<td>
                                         {{ Form::hidden('id', $key+1) }}
                                         <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">

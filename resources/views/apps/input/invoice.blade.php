@@ -1,7 +1,7 @@
 @extends('apps.layouts.main')
 @section('header.title')
 Fiber Tekno | Add Invoice 
-@endsection
+@endsection 
 @section('content') 
 <div class="page-content">
     <div class="portlet box red ">
@@ -32,7 +32,11 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Nomor Sales Order</label>
+                            @if(isset($findSale))
                             {!! Form::text('sales_order', $findSale->order_ref, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @else
+                            {!! Form::text('sales_order', $findDelivery->order_ref, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -58,7 +62,7 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Termin Pembayaran</label>
-                            {!! Form::text('pay_method', $findContact->payment_terms, array('class' => 'form-control','readonly'=>'true')) !!}
+                            {!! Form::text('pay_term', $findContact->payment_terms, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -89,10 +93,16 @@ Fiber Tekno | Add Invoice
                             <tbody>
                                 @foreach($findItem as $key=>$item)
                                 <tr>
-                                    <td>{{ $item->product_name }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>{{ $item->sale_price }}</td>
-                                    <td>{{ $item->sub_total }}</td>
+                                    <td>{!! Form::text('product[]', $item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
+                                    <td>
+                                        @if(($item->remaining) > '0')
+                                        {!! Form::number('shipment[]', $item->shipping, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}
+                                        @else
+                                        {!! Form::number('quantity[]', $item->shipping, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}
+                                        @endif
+                                    </td>
+                                    <td>{!! Form::number('sale_price[]', $item->sale_price, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
+                                    <td>{!! Form::number('sub_total[]', $item->sub_total, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -100,9 +110,9 @@ Fiber Tekno | Add Invoice
                     </div>
                 </div>        		
             	<div class="form-actions right">
-                    <a button type="button" class="btn default" href="{{ route('purchaseReceipt.index') }}">Cancel</a>
+                    <a button type="button" class="btn default" href="{{ route('invoice.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">
-                    <i class="fa fa-check"></i> Save</button>
+                    <i class="fa fa-check"></i> Create</button>
                 </div>
             </div>
             {!! Form::close() !!}

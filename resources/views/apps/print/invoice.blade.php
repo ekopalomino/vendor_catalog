@@ -25,7 +25,7 @@
 								<td style="width: 148px;background:#4B77BE;color:#ffffff;">Tanggal Invoice</td>
 								</tr>
 								<tr>
-								<td style="width: 148px;">{{$source->reference_id}}</td>
+								<td style="width: 148px;">{{$source->invoice_ref}}</td>
 								<td style="width: 148px;">{{date("d F Y",strtotime($source->created_at)) }}</td>
 								</tr>
 								<tr>
@@ -119,7 +119,7 @@
 					<br>
 					<strong>DELIVERY COST Rp {{ number_format($sales->delivery_cost,0,',','.')}}</strong>
 					<br>
-					<strong>TOTAL Rp {{ number_format(($sales->total) + ($sales->delivery_cost),0,',','.')}}</strong>
+					<strong>TOTAL Rp {{ number_format(($total) + ($sales->delivery_cost),0,',','.')}}</strong>
 				</td>
 			</tr>
 		</tbody>

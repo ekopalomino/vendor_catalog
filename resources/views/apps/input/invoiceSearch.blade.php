@@ -43,7 +43,7 @@ Fiber Tekno | Add Invoice
                     </div>
                 </div>       		
             	<div class="form-actions right">
-                    <a button type="button" class="btn default" href="{{ route('purchaseReceipt.index') }}">Cancel</a>
+                    <a button type="button" class="btn default" href="{{ route('invoice.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">
                     <i class="fa fa-check"></i> Search</button>
                 </div>

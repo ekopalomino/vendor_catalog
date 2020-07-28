@@ -224,8 +224,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('finance/invoices/index','Apps\PaymentManagementController@invoiceIndex')->name('invoice.index');
     Route::get('finance/invoices/create','Apps\PaymentManagementController@invoiceMake')->name('invoice.create');
     Route::post('finance/invoices/search','Apps\PaymentManagementController@referenceGet')->name('invoice.search');
-    Route::post('finance/invoices/purchase-order/create','Apps\PaymentManagementController@invoiceStore')->name('invoice.store');
-    Route::post('finance/invoices/delivery-order/create','Apps\PaymentManagementController@invoiceDoStore')->name('invoiceDo.store');
+    Route::post('finance/invoices/store','Apps\PaymentManagementController@invoiceStore')->name('invoice.store');
     Route::post('finance/invoices/payment-receive/{id}','Apps\PaymentManagementController@invoicePayment')->name('invoice.payment');
     Route::get('finance/invoices/show/{id}','Apps\PaymentManagementController@invoiceShow')->name('invoice.show');
     Route::get('finance/invoices/print/{id}','Apps\PaymentManagementController@invoicePrint')->name('invoice.print');
