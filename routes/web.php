@@ -192,7 +192,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::post('inventories/delivery-order/retur/get/order','Apps\InventoryManagementController@returGet')->name('deliveryRetur.get');
     Route::post('inventories/delivery-order/retur/store','Apps\InventoryManagementController@returStore')->name('deliveryRetur.store');
     /*-----------------------End Inventory Management------------------------------------*/
-
+ 
     /*-----------------------Manufacture Management------------------------------------*/
     Route::get('manufactures/request','Apps\ManufactureManagementController@requestIndex')->name('manufacture-request.index');
     Route::get('manufactures/request/create','Apps\ManufactureManagementController@createRequest')->name('manufacture-request.create');

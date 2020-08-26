@@ -691,6 +691,7 @@ class InventoryManagementController extends Controller
     public function doSearch()
     {
         $sales = Sale::where('status_id','458410e7-384d-47bc-bdbe-02115adc4449')
+                       ->orWhere('status_id','e3f73f52-00f7-47a6-9831-3a81b36f65e8')
                        ->pluck('order_ref','order_ref')->toArray();
         $services = DeliveryService::pluck('delivery_name','id')->toArray();
 
@@ -1002,11 +1003,20 @@ class InventoryManagementController extends Controller
         $data = Delivery::find($id);
         $items = DeliveryItem::where('delivery_id',$id)->get();
 
-        $done = $data->update([
-            'receipt' => $request->input('receipt'),
-            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
-            'updated_by' => auth()->user()->name,
-        ]);
+        if($request->input('delivery_type') == '1') {
+            $done = $data->update([
+                'receipt' => $request->input('receipt'),
+                'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+                'updated_by' => auth()->user()->name,
+            ]);
+        } else {
+            $done = $data->update([
+                'receipt' => $request->input('receipt'),
+                'status_id' => 'e3f73f52-00f7-47a6-9831-3a81b36f65e8',
+                'updated_by' => auth()->user()->name,
+            ]);
+        }
+        
         foreach($items as $item) {
             $inventories = Inventory::where('product_name',$item->product_name)
                                       ->where('warehouse_name','Gudang Pengiriman')

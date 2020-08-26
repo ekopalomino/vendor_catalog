@@ -72,8 +72,8 @@ class SalesManagementController extends Controller
                             ->get();
         
         return response()->json($result);
-    } 
-
+    }
+    
     public function storeSales(Request $request)
     {
         $getMonth = Carbon::now()->month;

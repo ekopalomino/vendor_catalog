@@ -106,7 +106,7 @@
 			<tr>
 				<td style="width: 10px;">{{ $key+1 }}</td>
 				<td style="width: 280px;">{{ $val->Products->name }}</td>
-				<td style="width: 30px;">{{ number_format($val->quantity,0,',','.')}}</td>
+				<td style="width: 30px;">{{ number_format($val->shipping,0,',','.')}}</td>
 				<td style="width: 60px;">{{ $val->Uoms->name }}</td>
 				<td style="width: 70px;">Rp {{ number_format($val->sale_price,0,',','.')}}</td>
 				<td style="width: 50px;">Rp {{ number_format($val->discount,0,',','.')}}</td>

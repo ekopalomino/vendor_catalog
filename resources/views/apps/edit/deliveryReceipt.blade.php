@@ -22,6 +22,16 @@
                 		{!! Form::text('receipt', null, array('placeholder' => 'Resi','class' => 'form-control')) !!}
                 	</div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Tipe Pengiriman</label>
+                        <select name="delivery_type" class="form-control">
+                            <option value="">Please Select</option>
+                            <option value="1">Full Delivery</option>
+                            <option value="2">Partial Delivery</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
