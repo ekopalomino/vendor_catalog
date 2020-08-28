@@ -1009,11 +1009,17 @@ class InventoryManagementController extends Controller
                 'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
                 'updated_by' => auth()->user()->name,
             ]);
+            $sales = Sale::where('order_ref',$data->order_ref)->update([
+                'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
+            ]);
         } else {
             $done = $data->update([
                 'receipt' => $request->input('receipt'),
                 'status_id' => 'e3f73f52-00f7-47a6-9831-3a81b36f65e8',
                 'updated_by' => auth()->user()->name,
+            ]);
+            $sales = Sale::where('order_ref',$data->order_ref)->update([
+                'status_id' => 'e3f73f52-00f7-47a6-9831-3a81b36f65e8',
             ]);
         }
         
@@ -1041,9 +1047,7 @@ class InventoryManagementController extends Controller
             ]);
         }
 
-        $sales = Sale::where('order_ref',$data->order_ref)->update([
-            'status_id' => 'e9395add-e815-4374-8ed3-c0d5f4481ab8',
-        ]);
+        
 
         $log = 'Delivery Order '.($data->order_ref).' Berhasil Dikirimkan';
          \LogActivity::addToLog($log);
