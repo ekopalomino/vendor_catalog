@@ -165,6 +165,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('inventory/adjustment/{id}','Apps\InventoryManagementController@makeAdjust')->name('make.adjust');
     Route::post('inventory/adjustment/store/{id}','Apps\InventoryManagementController@storeAdjust')->name('store.adjust');
     Route::get('inventories/internal-transfer','Apps\InventoryManagementController@internTransfer')->name('transfer.index');
+    Route::get('inventories/internal-transfer/find','Apps\InventoryManagementController@searchProduct')->name('transfer.product');
     Route::get('inventories/internal-transfer/create','Apps\InventoryManagementController@addTransfer')->name('add.transfer');
     Route::post('inventories/internal-transfer/store','Apps\InventoryManagementController@internStore')->name('store.transfer');
     Route::post('inventories/internal-transfer/accept/{id}','Apps\InventoryManagementController@transferAccept')->name('transfer.accept');
@@ -201,6 +202,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('manufactures/request/store/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture-request.check');
     Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
     Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
+    Route::post('manufactures/order/transfer/{id}','Apps\ManufactureManagementController@changeStock')->name('manufactureStock.process');
     Route::post('manufactures/order/process/{id}','Apps\ManufactureManagementController@makeManufacture')->name('manufacture.process');
     Route::get('manufactures/order/done/{id}','Apps\ManufactureManagementController@manufactureDone')->name('manufacture.done');
     Route::post('manufactures/order/complete','Apps\ManufactureManagementController@process')->name('manufacture.complete');
@@ -229,6 +231,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('finance/invoices/show/{id}','Apps\PaymentManagementController@invoiceShow')->name('invoice.show');
     Route::get('finance/invoices/print/{id}','Apps\PaymentManagementController@invoicePrint')->name('invoice.print');
     Route::get('finance/purchase-receipt/index','Apps\PaymentManagementController@receiptIndex')->name('purchaseReceipt.index');
+    Route::get('finance/purchase-receipt/search','Apps\PaymentManagementController@receiptSearch')->name('purchaseReceipt.search');
+    Route::post('finance/purchase-receipt/result','Apps\PaymentManagementController@receiptGet')->name('purchaseReceipt.get');
     Route::get('finance/purchase-receipt/make','Apps\PaymentManagementController@receiptMake')->name('receiptManual.make');
     Route::post('finance/purchase-receipt/create','Apps\PaymentManagementController@receiptManualStore')->name('receiptManual.store');
     Route::post('finance/purchase-receipt/payment-made/{id}','Apps\PaymentManagementController@receiptPayment')->name('purchaseReceipt.payment');

@@ -32,7 +32,7 @@ Fiber Tekno | Add Purchase Request
             		<div class="col-md-5">
             			<div class="form-group">
             				<label class="control-label">Supplier</label>
-            				{!! Form::select('supplier_code', [null=>'Please Select'] + $suppliers,[], array('class' => 'form-control')) !!}
+            				{!! Form::select('supplier_code', [null=>'Please Select'] + $suppliers,[], array('class' => 'form-control','id'=>'supplier')) !!}
             			</div>
             		</div>
                 <div class="col-md-4">

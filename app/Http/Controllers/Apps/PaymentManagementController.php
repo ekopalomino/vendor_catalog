@@ -230,7 +230,36 @@ class PaymentManagementController extends Controller
         return view('apps.pages.purchasePayment',compact('data'));
     }
 
-    public function receiptMake()
+    public function receiptSearch()
+    {
+        $purchaseOrder = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')
+                                   ->orWhere('status','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                   ->pluck('order_ref','id')
+                                   ->toArray();
+        $receiptOrder = ReceivePurchase::where('status_id','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                         ->pluck('order_ref','id')
+                                         ->toArray();
+
+        return view('apps.input.receiptSearch',compact('purchaseOrder','receiptOrder'));
+    }
+
+    public function receiptGet(Request $request)
+    {
+        if(($request->input('delivery_order')) == null) {
+            $search = Purchase::with('purchaseItems')
+                                ->where('id',$request->input('order_ref'))
+                                ->get();
+            
+            return view('apps.input.paymentDetail',compact('search'));
+        } else {
+            $search = Purchase::with('purchaseItems')
+                                ->where('id',$request->input('order_ref'))
+                                ->get();
+            dd($search);
+        }
+    }
+
+    /*public function receiptMake()
     {
         $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
         $refs = ReceivePurchase::pluck('order_ref','id')->toArray();
@@ -239,7 +268,7 @@ class PaymentManagementController extends Controller
         $uoms = UomValue::pluck('name','id')->toArray();
 
         return view('apps.input.receiptPayment',compact('suppliers','refs','methods','terms','uoms'));
-    }
+    }*/
 
     public function receiptManualStore(Request $request)
     {

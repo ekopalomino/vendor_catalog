@@ -51,6 +51,7 @@ class ManufactureManagementController extends Controller
         $search = $request->get('product');
         $result = Product::where('is_manufacture','1')
                             ->where('name','LIKE','%'.$search. '%')
+                            ->where('is_manufacture','1')
                             ->select('id','name')
                             ->get();
 
@@ -127,7 +128,7 @@ class ManufactureManagementController extends Controller
         $data = Manufacture::find($id);
         $accept = $data->update([
             'order_ref' => $ref,
-            'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
+            'status_id' => '7faee188-adbe-4e42-8391-32767cafd68b',
             'approve_by' => auth()->user()->name,
         ]);
         $refs = Reference::create([
@@ -139,7 +140,7 @@ class ManufactureManagementController extends Controller
         $log = 'Manufacture Request '.($data->order_ref).' Berhasil Disetujui';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Manufacture Request '.($data->order_ref).' Berhasil Disetujui',
+            'message' => 'Manufacture Request '.($data->order_ref).' Berhasil Disetujui, JANGAN LUPA melakukan transfer stock ke gudang Manufaktur',
             'alert-type' => 'success'
         );
 
@@ -155,99 +156,29 @@ class ManufactureManagementController extends Controller
         return view('apps.show.manufactureStock',compact('data'))->renderSections()['content'];
     }
 
+    public function changeStock(Request $request,$id)
+    {
+        $data = Manufacture::find($id);
+        $data->update([
+            'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
+            'updated_by' => auth()->user()->name,
+        ]);
+
+        return redirect()->back;
+    }
+
     public function makeManufacture(Request $request,$id)
     {
         $data = Manufacture::find($id);
         $workItems = ManufactureItem::join('products','products.name','manufacture_items.item_name')
                         ->where('manufacture_items.manufacture_id',$id)
                         ->get();
-        
-        /* $transfers = InternalTransfer::create([
-            'order_ref' => $data->order_ref,
-            'from_wh' => 'Gudang Utama',
-            'to_wh' => 'Gudang Manufaktur',
-            'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
-            'created_by' => auth()->user()->name,
-            'updated_by' => auth()->user()->name,
-        ]); */
 
         $updateStatus = $data->update([
             'status_id' => 'c2fdba02-e765-4ee8-8c8c-3073209ddd26',
             'process_by' => auth()->user()->name,
             'start_production' => Carbon::now(),
         ]);
-        
-        /* foreach($workItems as $workItem)
-        {
-            $baseInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
-            $baseMovement = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Utama')->orderBy('updated_at','DESC')->first();
-            $newInventory = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->orderBy('updated_at','DESC')->first();
-            
-            $totalQty = ($workItem->qty) * ($workItem->quantity);
-            
-            $itemTransfers = InternalItems::create([
-                'mutasi_id' => $transfers->id,
-                'product_name' => $workItem->item_name,
-                'quantity' => $workItem->qty,
-                'uom_id' => $workItem->uom_id,
-            ]);
-
-            $inventoryOut = $baseInventory->update([
-                'closing_amount' => ($baseInventory->closing_amount) - ($workItem->qty),
-            ]);
-            
-            if($newInventory == null) {
-                $inventoryIn = Inventory::create([
-                    'product_id' => $workItem->id,
-                    'product_name' => $workItem->item_name,
-                    'warehouse_name' => 'Gudang Manufaktur',
-                    'min_stock' => '0',
-                    'opening_amount' => $workItem->qty,
-                    'closing_amount' => $workItem->qty,
-                ]);
-                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->first();
-                $movementIn = InventoryMovement::create([
-                    'type' => '7',
-                    'inventory_id' => $id->id,
-                    'reference_id' => $data->order_ref,
-                    'product_name' => $workItem->item_name,
-                    'warehouse_name' => 'Gudang Manufaktur',
-                    'incoming' => $workItem->qty,
-                    'outgoing' => '0',
-                    'remaining' => $workItem->qty,
-                ]);
-            } else {
-                $inventoryIn = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->update([
-                    'opening_amount' => ($newInventory->closing_amount) + ($workItem->qty),
-                    'closing_amount' => ($newInventory->closing_amount) + ($workItem->qty),
-                ]);
-                $id = Inventory::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->first();
-                $last = InventoryMovement::where('product_name',$workItem->item_name)->where('warehouse_name','Gudang Manufaktur')->first();
-                $movementIn = InventoryMovement::create([
-                    'type' => '7',
-                    'inventory_id' => $id->id,
-                    'reference_id' => $data->order_ref,
-                    'product_name' => $workItem->item_name,
-                    'warehouse_name' => 'Gudang Manufaktur',
-                    'incoming' => $workItem->qty,
-                    'outgoing' => '0',
-                    'remaining' => ($last->remaining) + ($workItem->qty),
-                ]);
-            }
-            
-            $movementOut = InventoryMovement::create([
-                'type' => '7',
-                'inventory_id' => $baseInventory->id,
-                'reference_id' => $data->order_ref,
-                'product_name' => $workItem->item_name,
-                'warehouse_name' => 'Gudang Manufaktur',
-                'incoming' => '0',
-                'outgoing' => $totalQty,
-                'remaining' => ($baseMovement->remaining) - ($workItem->qty),
-            ]);    
-            
-            
-        } */
         $log = 'Manufacture Order '.($data->order_ref).' Berhasil Dijalankan';
          \LogActivity::addToLog($log);
         $notification = array (

@@ -64,6 +64,11 @@ FiberTekno | Manufactures
                                     @endif
                                 </td>
                                 <td>
+                                    @if($val->status_id == '7faee188-adbe-4e42-8391-32767cafd68b')
+                                    {!! Form::open(['method' => 'POST','route' => ['manufactureStock.process', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmTransfer()']) !!}
+                                    {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Stock']) !!}
+                                    {!! Form::close() !!}
+                                    @endif
                                     @can('Can Edit Manufacture')
                                     @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmStart()']) !!}
@@ -94,6 +99,16 @@ FiberTekno | Manufactures
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('public/assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
+<script>
+    function ConfirmTransfer()
+    {
+    var x = confirm("Transfer Stock Sudah Dilakukan?");
+    if (x)
+        return true;
+    else
+        return false;
+    }
+</script>
 <script>
     function ConfirmStart()
     {

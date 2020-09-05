@@ -21,7 +21,7 @@ FiberTekno | Invoice Management
                     @can('Can Create Finance')
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('receiptManual.make') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Buat Pembayaran
+                            <a href="{{ route('purchaseReceipt.search') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Buat Pembayaran
                             </button></a>
                         </div>
                     </div>

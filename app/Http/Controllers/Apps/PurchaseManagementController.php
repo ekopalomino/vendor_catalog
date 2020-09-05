@@ -45,7 +45,7 @@ class PurchaseManagementController extends Controller
                             ->get();
         
         return response()->json($result);
-    } 
+    }
 
     public function requestCreate()
     {
