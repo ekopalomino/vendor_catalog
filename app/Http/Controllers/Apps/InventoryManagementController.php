@@ -54,6 +54,7 @@ class InventoryManagementController extends Controller
     public function stockCard(Request $request,$id)
     {
         $source = Inventory::where('id',$id)->first();
+        
         $data = InventoryMovement::where('product_name',$source->product_name)
                                    ->paginate(10);
         

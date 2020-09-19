@@ -23,7 +23,7 @@ class InventoryMovement extends Model
         return $this->belongsTo(Product::class,'product_id');
     }
 
-    public function Child()
+    public function Parent()
     {
         return $this->belongsTo(Inventory::class,'inventory_id');
     }
