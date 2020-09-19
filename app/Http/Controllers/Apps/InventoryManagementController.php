@@ -238,15 +238,11 @@ class InventoryManagementController extends Controller
 
     public function receiptGet(Request $request)
     {
-        $purchases = Purchase::where('order_ref',$request->input('order_ref'))->first();
-        $details = PurchaseItem::join('inventories','inventories.product_name','purchase_items.product_name')
-                             ->where('purchase_items.purchase_id',$purchases->id)
-                             ->where('inventories.warehouse_name','Gudang Utama')
-                             ->get();
+        $purchases = Purchase::with('purchaseItems')->where('order_ref',$request->input('order_ref'))->first();
         $locations = Warehouse::pluck('name','name')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
         
-        return view('apps.input.receiptOrder',compact('purchases','details','locations','uoms'));
+        return view('apps.input.receiptOrder',compact('purchases','locations','uoms'));
     }
 
     public function receiptStore(Request $request)
@@ -259,8 +255,10 @@ class InventoryManagementController extends Controller
         $received = ReceivePurchase::create([
             'ref_no' => $refs,
             'order_ref' => $request->input('order_ref'),
+            'supplier_id' => $request->input('supplier_id'),
             'warehouse' => $request->input('warehouse_name'),
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
+            'received_by' => auth()->user()->name
         ]);
 
         $updatePurchase = Purchase::where('order_ref',$request->input('order_ref'))->update([
@@ -278,6 +276,7 @@ class InventoryManagementController extends Controller
         $delivered = $request->pengiriman;
         $damaged = $request->rusak;
         $uom = $request->uom_id;
+        $harga = $request->price;
 
         foreach($items as $index=>$item) {
             $bases = UomValue::where('id',$uom[$index])->first();
@@ -305,6 +304,7 @@ class InventoryManagementController extends Controller
                 'received' => $convertion,
                 'damaged' => $destroyed,
                 'uom_id' => $uom[$index],
+                'sub_total' => $harga[$index] * $convertion
             ]); 
             
             if(($productInventory) == null) {

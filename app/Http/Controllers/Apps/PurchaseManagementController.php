@@ -212,4 +212,21 @@ class PurchaseManagementController extends Controller
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$data->order_ref.'.pdf');
     }
+
+    public function purchaseClose(Request $request,$id)
+    {
+        $data = Purchase::find($id);
+        $data->update([
+            'status' => '596ae55c-c0fb-4880-8e06-56725b21f6dc',
+            'updated_by' => auth()->user()->name
+        ]);
+        $log = 'Pembelian '.($data->order_ref).' Selesai Diproses';
+        \LogActivity::addToLog($log);
+        $notification = array (
+            'message' => 'Pembelian '.($data->order_ref).' Selesai Diproses',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('purchase.index')->with($notification);
+    }
 }

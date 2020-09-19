@@ -51,21 +51,6 @@ class PaymentManagementController extends Controller
         return view('apps.pages.invoices',compact('data','sales','deliveries'));
     }
 
-    /* public function invoiceMake()
-    {
-        $sales = Sale::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
-                       ->pluck('order_ref','order_ref')->toArray();
-        $deliveries = Delivery::where('status_id','e9395add-e815-4374-8ed3-c0d5f4481ab8')
-                                ->pluck('do_ref','do_ref')
-                                ->toArray();
-        $customers = Contact::where('type_id','1')->pluck('name','id')->toArray();
-        $methods = PaymentMethod::pluck('name','id')->toArray();
-        $terms = PaymentTerm::pluck('name','id')->toArray();
-        $uoms = UomValue::pluck('name','id')->toArray();
-
-        return view('apps.input.invoice',compact('sales','deliveries','customers','methods','terms','uoms'));
-    } */
-    
     public function invoiceMake()
     {
         $sales = Sale::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('order_ref','order_ref')->toArray();
@@ -76,14 +61,17 @@ class PaymentManagementController extends Controller
 
     public function referenceGet(Request $request)
     {
-        if(($request->input('delivery_order')) == null)
-        {
+        if((($request->input('delivery_order')) == null) && (($request->input('sales_order')) == null)) {
+            $notification = array (
+                'message' => 'Anda Belum Memilih No Order. Silahkan Pilh Terlebih Dahulu',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        } elseif(($request->input('delivery_order')) == null) {
             $findSale = Sale::where('order_ref',$request->input('sales_order'))->first();
             $findDelivery = Delivery::where('order_ref',$request->input('sales_order'))->first();
             $findItem = SaleItem::where('sales_id',$findSale->id)->get();
             $findContact  = Contact::where('id',$findSale->client_id)->first();
-            
-            return view('apps.input.invoice',compact('findSale','findDelivery','findItem','findContact'));
         } else {
             $findDelivery = Delivery::where('do_ref',$request->input('delivery_order'))->first();
             $findSale = Sale::where('order_ref',$findDelivery->order_ref)->first();
@@ -232,117 +220,84 @@ class PaymentManagementController extends Controller
 
     public function receiptSearch()
     {
-        $purchaseOrder = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')
-                                   ->orWhere('status','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
-                                   ->pluck('order_ref','id')
+        $purchaseOrder = Purchase::where('status','596ae55c-c0fb-4880-8e06-56725b21f6dc')
+                                   ->pluck('order_ref','order_ref')
                                    ->toArray();
-        $receiptOrder = ReceivePurchase::where('status_id','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
-                                         ->pluck('order_ref','id')
-                                         ->toArray();
-
-        return view('apps.input.receiptSearch',compact('purchaseOrder','receiptOrder'));
+        $receiptPurchase = ReceivePurchase::where('status_id','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                            ->pluck('ref_no','ref_no')
+                                            ->toArray();
+        
+        return view('apps.input.receiptSearch',compact('purchaseOrder','receiptPurchase'));
     }
 
     public function receiptGet(Request $request)
     {
-        if(($request->input('delivery_order')) == null) {
-            $search = Purchase::with('purchaseItems')
-                                ->where('id',$request->input('order_ref'))
-                                ->get();
-            
-            return view('apps.input.paymentDetail',compact('search'));
+        if((($request->input('order_ref')) == null) && (($request->input('receipt_ref')) == null)) {
+            $notification = array (
+                'message' => 'Anda Belum Memilih No Order. Silahkan Pilh Terlebih Dahulu',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        } elseif(($request->input('order_ref')) == null) {
+            $data = ReceivePurchase::with('Child')->where('ref_no',$request->input('receipt_ref'))->first();
+            dd($data);
+            return view('apps.input.receiptPayment',compact('data'));
         } else {
-            $search = Purchase::with('purchaseItems')
-                                ->where('id',$request->input('order_ref'))
-                                ->get();
-            dd($search);
+            $data = ReceivePurchase::with('Child')->where('order_ref',$request->input('order_ref'))->first();
+            
+            return view('apps.input.receiptPayment',compact('data'));
         }
     }
 
-    /*public function receiptMake()
+    public function receiptStore(Request $request)
     {
-        $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
-        $refs = ReceivePurchase::pluck('order_ref','id')->toArray();
-        $methods = PaymentMethod::pluck('name','id')->toArray();
-        $terms = PaymentTerm::pluck('name','id')->toArray();
-        $uoms = UomValue::pluck('name','id')->toArray();
-
-        return view('apps.input.receiptPayment',compact('suppliers','refs','methods','terms','uoms'));
-    }*/
-
-    public function receiptManualStore(Request $request)
-    {
-        $this->validate($request,[
-            'supplier_code' => 'required',
-            'pay_method' => 'required',
-            'pay_term' => 'required',
-            'terms_no' => 'required',
-            'tax' => 'required',
-            'amount' => 'required|numeric'
-        ]);
-
+        $getSupplier = Contact::where('id',$request->input('supplier_code'))->first();
+        
+        $getMonth  = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
         $latestRef = Reference::where('type','10')->count();
-        $refs = 'FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('supplier_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $refs = 'FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getSupplier->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $reference = Reference::create([
             'type' => '10',
             'ref_no' => $refs,
+            'month' => $getMonth,
+            'year' => $getYear,
         ]);
-        $getOrder = ReceivePurchase::where('id',$request->input('order_ref'))->first();
-        $getPurchase = Purchase::where('order_ref',$getOrder->order_ref)->first();
-        $remaining = ($getPurchase->total) - ($request->input('amount'));
-        if($remaining == '0') {
-            $status = '00c4df56-a91b-45c6-a59c-e02577442072';
-        } else {
-            $status = 'cc040768-2b4f-48df-867f-7da18b749e61';
-        }
-        if($request->input('tax') == 'yes') {
-            $tax_amount = ($request->input('amount')) * (0.1);
-            $payments = Payment::create([
-                'reference_id' => $refs,
-                'order_ref' => $getOrder->order_ref,
-                'purchase_amount' => $getPurchase->total,
-                'supplier_code' => $request->input('supplier_code'),
-                'pay_method' => $request->input('pay_method'),
-                'pay_term' => $request->input('pay_term'),
-                'terms_no' => $request->input('terms_no'),
-                'tax_id' => $request->input('tax_id'),
-                'tax_amount' => $tax_amount,
-                'pay_amount' => $request->input('amount'),
-                'pay_left' =>  $remaining,
-                'status_id' => $status,
-                'created_by' => auth()->user()->name,
-            ]);
-        } else {
-            $payments = Payment::create([
-                'reference_id' => $refs,
-                'order_ref' => $getOrder->order_ref,
-                'supplier_code' => $request->input('supplier_code'),
-                'pay_method' => $request->input('pay_method'),
-                'pay_term' => $request->input('pay_term'),
-                'terms_no' => $request->input('terms_no'),
-                'purchase_amount' => $getPurchase->total,
-                'pay_amount' => $request->input('amount'),
-                'pay_left' =>  $remaining,
-                'status_id' => $status,
-                'created_by' => auth()->user()->name,
-            ]);
-        }
+        $amount = array_sum($request->sub_total);
+        $taxes = array_sum($request->tax);
+        $payment = Payment::create([
+            'reference_no' => $refs,
+            'type_id' => '2',
+            'contact_id' => $getSupplier->id,
+            'purchase_order' => $request->input('order_ref'),
+            'warehouse_ref' => $request->input('ref_no'),
+            'subtotal' => array_sum($request->sub_total),
+            'amount' => (array_sum($request->sub_total)) + (array_sum($request->tax)) + $request->input('delivery_cost'),
+            'tax_total' => array_sum($request->tax),
+            'delivery_cost' => $request->input('delivery_cost'),
+            'created_by' => auth()->user()->name,
+        ]);
+        
         $items = $request->product;
         $orders = $request->pesanan;
-        $received = $request->dikirim;
+        $deliveries = $request->kiriman;
         $uoms = $request->uom_id;
+        $subtotal = $request->sub_total;
+        $taxes = $request->tax;
         foreach($items as $index=>$item) {
-            $payItem = PaymentItem::create([
-                'payment_id' => $payments->id,
+            $details = PaymentItem::create([
+                'payment_id' => $payment->id,
                 'product_name' => $item,
-                'product_amount' => $received[$index],
                 'uom_id' => $uoms[$index],
+                'subtotal' => $subtotal[$index],
+                'tax_amount' => $taxes[$index],
             ]);
-        } 
-        $log = 'Pembayaran '.($refs).' Berhasil Dibuat';
+        }
+
+        $log = 'Pembayaran Untuk'.($refs).' Berhasil Dibuat';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Pembayaran '.($refs).' Berhasil Dibuat',
+            'message' => 'Pembayaran Untuk'.($refs).' Berhasil Dibuat',
             'alert-type' => 'success'
         );
         return redirect()->route('purchaseReceipt.index')->with($notification);
@@ -353,7 +308,7 @@ class PaymentManagementController extends Controller
         $invoices = Payment::find($id);
         $payment = $invoices->update([
             'status_id' => 'd6c23804-3b9b-40ca-b050-146af5594f5d',
-            'updated_by' => auth()->user()->name,
+            'release_by' => auth()->user()->name,
             'payment_made' => Carbon::now(),
         ]);
         $upPurchase = Purchase::where('order_ref',$invoices->order_ref)->update([
@@ -382,14 +337,10 @@ class PaymentManagementController extends Controller
 
     public function receiptPrint($id)
     {
-        $source = Payment::find($id);
-        $purchases = Purchase::where('id',$source->order_ref)
-                        ->first();   
-        $items = PurchaseItem::where('purchase_id',$purchases->id)
-                        ->get();
+        $source = Payment::with('Child')->where('id',$id)->first();
         
-        $filename = $source->order_ref;
-        $pdf = PDF::loadview('apps.print.purchaseReceipt',compact('source','purchases','items'))
+        $filename = $source->reference_no;
+        $pdf = PDF::loadview('apps.print.purchaseReceipt',compact('source'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
     }

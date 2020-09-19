@@ -44,7 +44,7 @@ FiberTekno | Lihat Produk
 										<div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Barcode :</label>
-                                                <p><img src="data:image/png;base64,{{DNS1D::getBarcodePNG($product->barcode, 'UPCA')}}" alt="barcode" /></p>
+                                                <p><img src="data:image/png;base64,{{DNS1D::getBarcodePNG($product->barcode, 'C128')}}" alt="barcode" /></p>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label">Kategori :</label>

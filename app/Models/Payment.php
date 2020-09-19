@@ -7,20 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $fillable = [
-        'reference_id',
-        'order_ref',
-        'supplier_code',
-        'pay_method',
-        'pay_term',
+        'reference_no',
+        'type_id',
+        'contact_id',
         'terms_no',
-        'tax_id',
-        'tax_amount',
-        'purchase_amount',
-        'pay_amount',
-        'pay_left',
+        'sales_order',
+        'purchase_order',
+        'warehouse_ref',
+        'subtotal',
+        'amount',
+        'tax_total',
+        'delivery_cost',
         'status_id',
         'created_by',
-        'updated_by',
+        'release_by',
+        'payment_received',
         'payment_made',
     ];
 
@@ -29,11 +30,11 @@ class Payment extends Model
         return $this->belongsTo(Purchase::class,'purchase_order');
     }
 
-    public function Suppliers()
+    public function Contacts()
     {
-        return $this->belongsTo(Contact::class,'supplier_code','ref_id');
+        return $this->belongsTo(Contact::class,'contact_id');
     }
-    public function Statuses()
+    public function Status()
     {
         return $this->belongsTo(Status::class,'status_id');
     }
@@ -46,5 +47,10 @@ class Payment extends Model
     public function Editor()
     {
         return $this->belongsTo(User::class,'updated_by');
+    }
+
+    public function Child()
+    {
+        return $this->hasMany(PaymentItem::class,'payment_id');
     }
 }

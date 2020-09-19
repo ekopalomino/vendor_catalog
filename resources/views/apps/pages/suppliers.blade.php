@@ -41,9 +41,11 @@ FiberTekno | Supplier Management
                 			<tr>
                                 <th>No</th>
                                 <th>Supplier ID</th>
-                				<th>Name</th>
+                				<th>Nama</th>
                 				<th>Email</th>
-                				<th>Address</th>
+                				<th>Alamat</th>
+                                <th>Bank</th>
+                                <th>Account No</th>
                 				<th>Status</th>
                 				<th>Created At</th>
                 				<th></th>
@@ -57,6 +59,8 @@ FiberTekno | Supplier Management
                 				<td>{{ $val->name }}</td>
                                 <td>{{ $val->email }}</td>
                                 <td>{{ $val->billing_address }}</td>
+                                <td>{{ $val->bank_name }}</td>
+                                <td>{{ $val->account_no }}</td>
                 				<td><label class="label label-sm label-info">{{ $val->Statuses->name }}</label></td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>

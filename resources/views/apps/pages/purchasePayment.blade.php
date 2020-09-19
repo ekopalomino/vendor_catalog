@@ -33,9 +33,7 @@ FiberTekno | Invoice Management
                                 <th>Purchase Order</th>
                 				<th>Payment Ref</th>
                                 <th>Supplier</th>
-                                <th>Total Harga</th>
                                 <th>Total Bayar</th>
-                                <th>Sisa Bayar</th>
                                 <th>Status</th>
                 				<th>Dibuat Oleh</th>
                 				<th>Tgl Dibuat</th>
@@ -47,17 +45,15 @@ FiberTekno | Invoice Management
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->reference_id }}</td>
-                                <td>{{ $val->Suppliers->name}}</td>
-                                <td>{{ number_format($val->purchase_amount,2,',','.')}}</td>
-                                <td>{{ number_format($val->pay_amount,2,',','.')}}</td>
-                                <td>{{ number_format($val->pay_left,2,',','.')}}</td>
+                                <td>{{ $val->purchase_order }}</td>
+                                <td>{{ $val->reference_no }}</td>
+                                <td>{{ $val->Contacts->name}}</td>
+                                <td>{{ number_format($val->amount,2,',','.')}}</td>
                                 <td>
                                     @if(($val->status_id) == 'cc040768-2b4f-48df-867f-7da18b749e61')
-                                    <label class="label label-sm label-danger">{{ $val->Statuses->name }}</label>
+                                    <label class="label label-sm label-danger">{{ $val->Status->name }}</label>
                                     @else
-                                    <label class="label label-sm label-success">{{ $val->Statuses->name }}</label>
+                                    <label class="label label-sm label-success">{{ $val->Status->name }}</label>
                                     @endif
                                 </td>
                                 <td>{{ $val->created_by }}</td> 
@@ -68,11 +64,14 @@ FiberTekno | Invoice Management
                                     @endif
                                 </td>
                                 <td>
+                                    <a class="btn btn-xs btn-info" title="PDF Invoice" href="{{ route('purchaseReceipt.print',$val->id) }}"><i class="fa fa-file-pdf-o"></i></a>
+                                    @if(($val->status) == '3da32f6e-494f-4b61-b010-7ccc0e006fb3')
                                     @can('Can Edit Finance')
                                     {!! Form::open(['method' => 'POST','route' => ['purchaseReceipt.payment', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-bank"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Terima Bayar']) !!}
                                     {!! Form::close() !!}
                                     @endcan
+                                    @endif
                                 </td>
                 			</tr>
                             @endforeach

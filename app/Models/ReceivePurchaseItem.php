@@ -12,7 +12,8 @@ class ReceivePurchaseItem extends Model
     	'orders',
     	'received',
     	'damaged',
-    	'uom_id',
+        'uom_id',
+        'sub_total'
     ];
 
     public function Parent()

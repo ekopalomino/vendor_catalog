@@ -154,6 +154,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('purchase/order/show/{id}','Apps\PurchaseManagementController@purchaseShow')->name('purchase.show');
     Route::post('purchase/orders/rejected/{id}','Apps\PurchaseManagementController@requestRejected')->name('request.rejected');
     Route::get('purchase/orders/print/{id}','Apps\PurchaseManagementController@purchasePrint')->name('purchase.print');
+    Route::post('purchase/orders/close/{id}','Apps\PurchaseManagementController@purchaseClose')->name('purchase.close');
     /*-----------------------End Purchase Management------------------------------------*/
 
     /*-----------------------Inventory Management------------------------------------*/
@@ -233,8 +234,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('finance/purchase-receipt/index','Apps\PaymentManagementController@receiptIndex')->name('purchaseReceipt.index');
     Route::get('finance/purchase-receipt/search','Apps\PaymentManagementController@receiptSearch')->name('purchaseReceipt.search');
     Route::post('finance/purchase-receipt/result','Apps\PaymentManagementController@receiptGet')->name('purchaseReceipt.get');
-    Route::get('finance/purchase-receipt/make','Apps\PaymentManagementController@receiptMake')->name('receiptManual.make');
-    Route::post('finance/purchase-receipt/create','Apps\PaymentManagementController@receiptManualStore')->name('receiptManual.store');
+    Route::get('finance/purchase-receipt/make','Apps\PaymentManagementController@receiptMake')->name('receiptPayment.make');
+    Route::post('finance/purchase-receipt/create','Apps\PaymentManagementController@receiptStore')->name('receiptPayment.store');
     Route::post('finance/purchase-receipt/payment-made/{id}','Apps\PaymentManagementController@receiptPayment')->name('purchaseReceipt.payment');
     Route::get('finance/purchase-receipt/show/{id}','Apps\PaymentManagementController@receiptShow')->name('purchaseReceipt.show');
     Route::get('finance/purchase-receipt/print/{id}','Apps\PaymentManagementController@receiptPrint')->name('purchaseReceipt.print');

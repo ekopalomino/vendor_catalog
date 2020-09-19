@@ -13,7 +13,9 @@ class ReceivePurchase extends Model
         'ref_no',
     	'order_ref',
     	'warehouse',
-    	'status_id',
+        'status_id',
+        'received_by',
+        'supplier_id'
     ];
 
     public $incrementing = false;
@@ -26,5 +28,10 @@ class ReceivePurchase extends Model
     public function Status()
     {
         return $this->belongsTo(Status::class,'status_id');
+    }
+
+    public function Contacts()
+    {
+        return $this->belongsTo(Contact::class,'supplier_id');
     }
 }

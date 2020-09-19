@@ -271,7 +271,7 @@
             </li>
             @endcan
             @can('Can Access Finances')
-            <li class="nav-item {{ set_active(['invoice.index','invoice.create','invoice.search','invoice.store','purchaseReceipt.index','receiptManual.make','purchaseReceipt.store']) }}">
+            <li class="nav-item {{ set_active(['invoice.index','invoice.create','invoice.search','invoice.store','purchaseReceipt.index','purchaseReceipt.search','purchaseReceipt.get','purchaseReceipt.store']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>
                     <span class="title">Finance</span> 
@@ -284,7 +284,7 @@
                             <span class="badge badge-danger">{{$invoices}}</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['purchaseReceipt.index','receiptManual.make','purchaseReceipt.store']) }}">
+                    <li class="nav-item {{ set_active(['purchaseReceipt.index','purchaseReceipt.search','purchaseReceipt.get','purchaseReceipt.store']) }}">
                         <a href="{{ route('purchaseReceipt.index') }}" class="nav-link nav-toggle">
                             <span class="title">Pembayaran</span>
                             <span class="badge badge-danger">{{$receipts}}</span>

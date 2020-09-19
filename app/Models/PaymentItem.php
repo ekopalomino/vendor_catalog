@@ -10,6 +10,18 @@ class PaymentItem extends Model
     	'payment_id',
     	'product_name',
     	'product_amount',
-    	'uom_id',
-    ];
+		'uom_id',
+		'subtotal',
+		'tax_amount',
+	];
+	
+	public function Uoms()
+	{
+		return $this->belongsTo(UomValue::class,'uom_id');
+	}
+
+	public function Parent()
+    {
+        return $this->belongsTo(Payment::class,'payment_id');
+    }
 }

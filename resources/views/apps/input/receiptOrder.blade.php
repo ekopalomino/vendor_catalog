@@ -45,6 +45,7 @@ Fiber Tekno | Add Receipt Order
                             {!! Form::select('warehouse_name', [null=>'Please Select'] + $locations,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
+                    {{Form::hidden('supplier_id', $purchases->supplier_id)}}
             	</div>            		
             	<div class="row">
             		<div class="col-md-12">
@@ -60,23 +61,24 @@ Fiber Tekno | Add Receipt Order
 	            				</tr>
 	            			</thead>
 	            			<tbody>
-                                @foreach($details as $key=>$item)
+                                @foreach($purchases->purchaseItems as $key=>$item)
 	            				<tr>
 	            					<td>{!! Form::text('product[]', $item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
                     				<td>{!! Form::number('pesanan[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control','readonly'=>'true')) !!}</td>
                                     <td>{!! Form::number('pengiriman[]', null, array('placeholder' => 'Jumlah Dikirim','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('rusak[]', null, array('placeholder' => 'Jumlah Rusak','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control','readonly'=>'true')) !!}</td>
                     				<td>
                                         {{ Form::hidden('id', $key+1) }}
                                         <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">
                                     </td>
+                                    {{Form::hidden('price[]', $item->purchase_price)}}
 	            				</tr>
                                 @endforeach
 	            			</tbody>
 	            		</table>
 	            	</div>
-            	</div>
+            	</div> 
             	<div class="form-actions right">
                     <a button type="button" class="btn default" href="{{ route('receipt.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">

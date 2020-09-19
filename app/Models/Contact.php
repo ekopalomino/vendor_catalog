@@ -21,6 +21,8 @@ class Contact extends Model
         'shipping_address',
         'payment_method',
         'payment_terms',
+        'bank_name',
+        'account_no',
         'tax',
         'tax_no',
         'created_by',

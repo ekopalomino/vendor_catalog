@@ -74,6 +74,7 @@ FiberTekno | Purchase Management
                                 <td>
                                     @if(($val->status) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     <a class="btn btn-xs btn-info" title="Lihat PR" href="{{ route('request.show',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    @endif
                                     @can('Can Approve Purchase')
                                     {!! Form::open(['method' => 'POST','route' => ['request.approve', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmAccept()']) !!}
                                     {!! Form::button('<i class="fa fa-check"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve PR']) !!}
@@ -81,9 +82,15 @@ FiberTekno | Purchase Management
                                     {!! Form::open(['method' => 'POST','route' => ['request.rejected', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-remove"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Tolak PR']) !!}
                                     {!! Form::close() !!}
-                                    @endcan
+                                    @if(($val->status) == '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                    {!! Form::open(['method' => 'POST','route' => ['purchase.close', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmClose()']) !!}
+                                    {!! Form::button('<i class="fa fa-lock"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Tolak PR']) !!}
+                                    {!! Form::close() !!}
                                     @endif
+                                    @endcan
+                                    @if(($val->status) == '458410e7-384d-47bc-bdbe-02115adc4449')
                                     <a class="btn btn-xs btn-info" title="Lihat PO" href="{{ route('purchase.show',$val->id) }}"><i class="fa fa-search"></i></a>
+                                    @endif
                                 </td>
                 			</tr>
                             @endforeach
