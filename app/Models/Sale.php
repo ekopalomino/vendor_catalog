@@ -43,11 +43,6 @@ class Sale extends Model
         return $this->belongsTo(User::class,'updated_by');
     }
 
-    public function Items()
-    {
-        return $this->hasMany(SaleItem::class,'sales_id');
-    }
-
     public function Statuses()
     {
         return $this->belongsTo(Status::class,'status_id');
@@ -61,5 +56,10 @@ class Sale extends Model
     public function Deliveries()
     {
         return $this->hasOne(Delivery::class,'order_ref','order_ref');
+    }
+
+    public function Child()
+    {
+        return $this->hasMany(SaleItem::class,'sales_id');
     }
 }

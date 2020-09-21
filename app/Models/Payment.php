@@ -11,6 +11,7 @@ class Payment extends Model
         'type_id',
         'contact_id',
         'terms_no',
+        'total_terms',
         'sales_order',
         'purchase_order',
         'warehouse_ref',

@@ -32,9 +32,10 @@ FiberTekno | Invoice Management
                                 <th>No</th>
                 				<th>Invoice</th>
                                 <th>Sales Order</th>
-                                <th>Delivery Order</th>
                                 <th>Customer</th>
-                                <th>Total Tagihan</th>
+                                <th>Total Penjualan</th>
+                                <td>Total Tagihan</td>
+                                <td>Pembayaran Ke</td>
                                 <th>Status</th>
                 				<th>Dibuat Oleh</th>
                 				<th>Tgl Dibuat</th>
@@ -46,11 +47,12 @@ FiberTekno | Invoice Management
                             @foreach($data as $key => $val)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                                <td>{{ $val->invoice_ref }}</td>
-                                <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->do_ref }}</td>
-                                <td>{{ $val->customer_id}}</td>
+                                <td>{{ $val->reference_no }}</td>
+                                <td>{{ $val->sales_order }}</td>
+                                <td>{{ $val->Contacts->name}}</td>
+                                <td>{{ number_format($val->subtotal,2,',','.')}}</td>
                                 <td>{{ number_format($val->amount,2,',','.')}}</td>
+                                <td>{{ ($val->terms_no) }} / {{ ($val->total_terms)}}</td>
                                 <td><label class="label label-sm label-success">{{ $val->Status->name }}</label></td>
                                 <td>{{ $val->created_by }}</td> 
                                 <td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>

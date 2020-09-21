@@ -47,7 +47,7 @@ FiberTekno | Invoice Detail
                                             </tr>
                                         </thead>
                                     </table>
-                                    <p style="line-height: 1;"><strong>{{$data->Sales->Customers->name}}</strong></p>
+                                    <p style="line-height: 1;"><strong>{{$source->Sales->Customers->name}}</strong></p>
                                     <p style="line-height: 1;">{{$data->billing_address}}</p>
                                 </div>
                             </div>

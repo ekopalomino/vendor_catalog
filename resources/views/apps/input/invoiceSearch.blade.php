@@ -29,16 +29,26 @@ Fiber Tekno | Add Invoice
             @csrf
             <div class="form-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Nomor Sales Order</label>
                             {!! Form::select('sales_order', [null=>'Please Select'] + $sales,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Nomor Delivery Order</label>
                             {!! Form::select('delivery_order', [null=>'Please Select'] + $deliveries,[], array('class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Pembayaran Cicilan</label>
+                            <select name="is_cicil" class="form-control">
+                                <option value="">Please Select</option>
+                                <option value="1">Ya</option>
+                                <option value="2">Tidak</option>
+                            </select>
                         </div>
                     </div>
                 </div>       		
