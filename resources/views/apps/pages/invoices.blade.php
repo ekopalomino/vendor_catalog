@@ -62,6 +62,7 @@ FiberTekno | Invoice Management
                                     @endif
                                 </td>
                                 <td>
+                                    <a class="btn btn-xs btn-info" title="PDF Invoice" href="{{ route('invoiceCicilan.create',$val->id) }}"><i class="fa fa-file-pdf-o"></i></a>
                                     <a class="btn btn-xs btn-info" title="PDF Invoice" href="{{ route('invoice.print',$val->id) }}"><i class="fa fa-file-pdf-o"></i></a>
                                     @can('Can Edit Finance')
                                     @if($val->status_id == '3da32f6e-494f-4b61-b010-7ccc0e006fb3')
