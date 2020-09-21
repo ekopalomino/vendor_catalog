@@ -232,7 +232,10 @@ class InventoryManagementController extends Controller
 
     public function receiptSearch()
     {
-        $purchases = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')->pluck('order_ref','order_ref')->toArray();
+        $purchases = Purchase::where('status','458410e7-384d-47bc-bdbe-02115adc4449')
+                                ->orWhere('status','314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43')
+                                ->pluck('order_ref','order_ref')
+                                ->toArray();
         
         return view('apps.input.receiptOrderSearch',compact('purchases'));
     }
@@ -380,12 +383,33 @@ class InventoryManagementController extends Controller
 
     public function receiptUpdate(Request $request,$id)
     {
+        $getMonth = Carbon::now()->month;
+        $getYear = Carbon::now()->year;
+        $lastOrder = Reference::where('type','11')->where('month',$getMonth)->where('year',$getYear)->count();
+        $ref = 'RP/'.str_pad($lastOrder + 1, 4, "0", STR_PAD_LEFT).'/'.'FTI'.'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+
+        $refs = Reference::create([
+            'type' => '11',
+            'month' => $getMonth,
+            'year' => $getYear,
+            'ref_no' => $ref,
+        ]);
+
         $data = ReceivePurchase::find($id);
         $items = $request->product;
         $deliveries = $request->parsial;
         $damaged = $request->rusak;
         $uoms = $request->uom_id;
+        
+        $data = ReceivePurchase::create([
+            'ref_no' => $ref,
+            'order_ref' => $data->order_ref,
+            'supplier_id' => $data->supplier_id,
+            'warehouse' => $data->warehouse,
+            'status_id' => $data->status_id,
+            'received_by' => auth()->user()->name,
 
+        ]);
         foreach($items as $index=>$item) {
             $bases = UomValue::where('id',$uoms[$index])->first();
             if($bases->is_parent == null) {

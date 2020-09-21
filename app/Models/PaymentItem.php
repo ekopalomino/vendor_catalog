@@ -9,7 +9,7 @@ class PaymentItem extends Model
     protected $fillable = [
     	'payment_id',
     	'product_name',
-    	'product_amount',
+    	'quantity',
 		'uom_id',
 		'subtotal',
 		'tax_amount',

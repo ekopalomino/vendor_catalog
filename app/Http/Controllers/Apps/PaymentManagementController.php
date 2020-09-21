@@ -240,7 +240,7 @@ class PaymentManagementController extends Controller
             return redirect()->back()->with($notification);
         } elseif(($request->input('order_ref')) == null) {
             $data = ReceivePurchase::with('Child')->where('ref_no',$request->input('receipt_ref'))->first();
-            dd($data);
+            
             return view('apps.input.receiptPayment',compact('data'));
         } else {
             $data = ReceivePurchase::with('Child')->where('order_ref',$request->input('order_ref'))->first();
@@ -288,6 +288,7 @@ class PaymentManagementController extends Controller
             $details = PaymentItem::create([
                 'payment_id' => $payment->id,
                 'product_name' => $item,
+                'quantity' => $deliveries[$index],
                 'uom_id' => $uoms[$index],
                 'subtotal' => $subtotal[$index],
                 'tax_amount' => $taxes[$index],
