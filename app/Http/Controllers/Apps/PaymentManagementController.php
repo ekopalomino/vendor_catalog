@@ -74,15 +74,8 @@ class PaymentManagementController extends Controller
                 return view('apps.input.invoiceNormal',compact('data'));
             }
         } else {
-            if(($request->input('is_cicil')) == '1') {
-                $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
-
+            $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
                 return view('apps.input.invoice',compact('data'));
-            } else {
-                $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
-
-                return view('apps.input.invoice',compact('data'));
-            }
         }
     }
 

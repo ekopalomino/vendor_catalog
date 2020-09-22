@@ -32,11 +32,18 @@
                             @endif
                         </td>
 	                </tr>
-
                 	@endforeach
                 </tbody>
-            </table>         
-		</div>
+            </table>
+            {!! Form::open(array('route' => ['manufactureStock.validate',$getID->id],'method'=>'POST', 'class' => 'horizontal-form')) !!}
+            @csrf
+            <div class="form-actions">
+                <button type="submit" class="btn btn-sm blue">
+                    <i class="fa fa-check"></i> Validate
+                </button>
+            </div>
+            {!! Form::close() !!}         
+		</div> 
 	</div>
 </div>       
 @endsection

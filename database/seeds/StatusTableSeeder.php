@@ -13,7 +13,7 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $statuses = [
-            'Payment Complete',
+            'Ready - Stock Transferred',
         ];
 
         foreach($statuses as $status) {

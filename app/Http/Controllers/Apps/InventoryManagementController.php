@@ -540,7 +540,7 @@ class InventoryManagementController extends Controller
                                 ->first();
             
             /* Delete Transfer If No Stock Available */
-            if (($getStock->closing_amount) <= $quantity[$index]) {
+            if (($getStock->closing_amount) < $quantity[$index]) {
                 $notification = array (
                     'message' => 'Stok Produk '.($item).' Di '.($request->input('from_wh')).' Tidak Cukup',
                     'alert-type' => 'error'
@@ -559,20 +559,20 @@ class InventoryManagementController extends Controller
                 //Get Reference Value From Product//
                 $refProduct = Product::where('name',$item)->first();
                 /* Base Query */ 
-                $base = Inventory::where('product_name',$item)->where('warehouse_name',$data->to_wh)->first();
+                $dest = Inventory::where('product_name',$item)->where('warehouse_name',$data->to_wh)->first();
                 $source = Inventory::where('product_name',$item)->where('warehouse_name',$data->from_wh)->first();
                 $from = InventoryMovement::where('product_name',$item)->where('warehouse_name',$data->from_wh)->orderBy('updated_at','DESC')->first();
                 $to = InventoryMovement::where('product_name',$item)->where('warehouse_name',$data->to_wh)->orderBy('updated_at','DESC')->first();
-                        
+                       
                 $items = InternalItems::create([
                     'product_name' => $item,
                     'mutasi_id' => $data->id,
                     'quantity' => $quantity[$index],
                     'uom_id' => $uom[$index],
                 ]);
-                /* Check if Product Has Inventory In Dest Warehouse */
-                if($base == null) {
-                    /* Create Inventory Data*/
+                /* Check if Product Has Inventory In Destination Warehouse */
+                if($dest == null) {
+                    /* Create Inventory Data In Destination Warehouse*/
                     $dataInvent = Inventory::create([
                         'product_id' => $source->product_id,
                         'product_name' => $item,
@@ -581,9 +581,9 @@ class InventoryManagementController extends Controller
                         'opening_amount' => '0',
                         'closing_amount' => $convertion,
                     ]);
-                    /* Create Inventory Movement */
+                    /* Check If Source Warehouse Has Movement */
                     if($from == null) {
-                        $outcome = InventoryMovement::create([
+                        $outgoing = InventoryMovement::create([
                             'type' => '4',
                             'inventory_id' => $dataInvent->id,
                             'reference_id' => $ref,
@@ -594,7 +594,7 @@ class InventoryManagementController extends Controller
                             'remaining' => ($source->closing_amount) - ($convertion),
                         ]);
         
-                        $income = InventoryMovement::create([
+                        $incoming = InventoryMovement::create([
                             'type' => '4',
                             'inventory_id' => $dataInvent->id,
                             'reference_id' => $ref,
@@ -605,7 +605,7 @@ class InventoryManagementController extends Controller
                             'remaining' => $convertion,
                         ]);
                     } else {
-                        $outcome = InventoryMovement::create([
+                        $outgoing = InventoryMovement::create([
                             'type' => '4',
                             'inventory_id' => $dataInvent->id,
                             'reference_id' => $ref,
@@ -616,7 +616,7 @@ class InventoryManagementController extends Controller
                             'remaining' => ($source->closing_amount) - ($convertion),
                         ]);
             
-                        $income = InventoryMovement::create([
+                        $incoming = InventoryMovement::create([
                             'type' => '4',
                             'inventory_id' => $dataInvent->id,
                             'reference_id' => $ref,
@@ -633,32 +633,56 @@ class InventoryManagementController extends Controller
                     ]);
                 } else {
                     /* Update Source Warehouse Stock */
-                    $dataInvent = $base->update([
-                        'closing_amount' => ($base->closing_amount) + ($convertion),
+                    $dataInvent = $dest->update([
+                        'closing_amount' => ($dest->closing_amount) + ($convertion),
                     ]);
-                    $income = InventoryMovement::create([
-                        'type' => '4',
-                        'inventory_id' => $base->id,
-                        'reference_id' => $ref,
-                        'product_name' => $base->product_name,
-                        'warehouse_name' => $base->warehouse_name,
-                        'incoming' => $convertion,
-                        'outgoing' => '0',
-                        'remaining' => ($to->remaining) + ($convertion),
-                    ]);
-            
-                    $outcome = InventoryMovement::create([
-                        'type' => '4',
-                        'inventory_id' => $base->id,
-                        'reference_id' => $ref,
-                        'product_name' => $base->product_name,
-                        'warehouse_name' => $from->warehouse_name,
-                        'incoming' => '0',
-                        'outgoing' => $convertion,
-                        'remaining' => ($from->remaining) - ($convertion),
-                    ]);
+                    if($to == null) {
+                        $outgoing = InventoryMovement::create([
+                            'type' => '4',
+                            'inventory_id' => $dest->id,
+                            'reference_id' => $ref,
+                            'product_name' => $dest->product_name,
+                            'warehouse_name' => $from->warehouse_name,
+                            'incoming' => '0',
+                            'outgoing' => $convertion,
+                            'remaining' => ($from->remaining) - ($convertion),
+                        ]); 
 
-                    $updateInvent = Inventory::where('product_name',$item)->where('warehouse_name',$internal->from_wh)->update([
+                        $incoming = InventoryMovement::create([
+                            'type' => '4',
+                            'inventory_id' => $dest->id,
+                            'reference_id' => $ref,
+                            'product_name' => $dest->product_name,
+                            'warehouse_name' => $dest->warehouse_name,
+                            'incoming' => $convertion,
+                            'outgoing' => '0',
+                            'remaining' => $convertion,
+                        ]);
+                    } else {
+                        $outgoing = InventoryMovement::create([
+                            'type' => '4',
+                            'inventory_id' => $dest->id,
+                            'reference_id' => $ref,
+                            'product_name' => $dest->product_name,
+                            'warehouse_name' => $from->warehouse_name,
+                            'incoming' => '0',
+                            'outgoing' => $convertion,
+                            'remaining' => ($from->remaining) - ($convertion),
+                        ]);
+
+                        $incoming = InventoryMovement::create([
+                            'type' => '4',
+                            'inventory_id' => $dest->id,
+                            'reference_id' => $ref,
+                            'product_name' => $dest->product_name,
+                            'warehouse_name' => $dest->warehouse_name,
+                            'incoming' => $convertion,
+                            'outgoing' => '0',
+                            'remaining' => ($to->remaining) + ($convertion),
+                        ]);
+                    }
+                    
+                    $updateInvent = Inventory::where('product_name',$item)->where('warehouse_name',$data->from_wh)->update([
                         'closing_amount' => ($source->closing_amount) - ($convertion),
                     ]);
                 }

@@ -128,7 +128,7 @@ class ManufactureManagementController extends Controller
         $data = Manufacture::find($id);
         $accept = $data->update([
             'order_ref' => $ref,
-            'status_id' => '7faee188-adbe-4e42-8391-32767cafd68b',
+            'status_id' => '5af2f030-efe0-426e-819d-6df5f6fb8cc5',
             'approve_by' => auth()->user()->name,
         ]);
         $refs = Reference::create([
@@ -156,15 +156,25 @@ class ManufactureManagementController extends Controller
         return view('apps.show.manufactureStock',compact('data'))->renderSections()['content'];
     }
 
-    public function changeStock(Request $request,$id)
+    public function reCheckStock($id)
+    {
+        $data = ManufactureItem::join('inventories','inventories.product_name','=','manufacture_items.item_name')
+                                ->where('manufacture_items.manufacture_id',$id)
+                                ->where('inventories.warehouse_name','Gudang Produksi')
+                                ->get();
+        $getID = Manufacture::find($id);
+        return view('apps.show.manufactureStock',compact('data','getID'))->renderSections()['content'];
+    }
+
+    public function approveStock(Request $request,$id)
     {
         $data = Manufacture::find($id);
         $data->update([
-            'status_id' => '45e139a2-a423-46ef-8901-d07b25b461a3',
+            'status_id' => 'd4f7f9f3-4f5f-4063-b6ab-dc03f89ec87e',
             'updated_by' => auth()->user()->name,
         ]);
 
-        return redirect()->back;
+        return redirect()->back();
     }
 
     public function makeManufacture(Request $request,$id)

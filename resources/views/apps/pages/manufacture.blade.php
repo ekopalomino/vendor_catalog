@@ -64,13 +64,9 @@ FiberTekno | Manufactures
                                     @endif
                                 </td>
                                 <td>
-                                    @if($val->status_id == '7faee188-adbe-4e42-8391-32767cafd68b')
-                                    {!! Form::open(['method' => 'POST','route' => ['manufactureStock.process', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmTransfer()']) !!}
-                                    {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Approve Stock']) !!}
-                                    {!! Form::close() !!}
-                                    @endif
+                                    <a class="btn btn-xs btn-info modalMd" href="#" value="{{ action('Apps\ManufactureManagementController@reCheckStock',['id'=>$val->id]) }}" title="Cek Stok" data-toggle="modal" data-target="#modalMd"><i class="fa fa-search"></i></a>
                                     @can('Can Edit Manufacture')
-                                    @if($val->status_id == '45e139a2-a423-46ef-8901-d07b25b461a3')
+                                    @if($val->status_id == 'd4f7f9f3-4f5f-4063-b6ab-dc03f89ec87e')
                                     {!! Form::open(['method' => 'POST','route' => ['manufacture.process', $val->id],'style'=>'display:inline','onsubmit' => 'return ConfirmStart()']) !!}
                                     {!! Form::button('<i class="fa fa-play"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Mulai Proses Manufaktur']) !!}
                                     {!! Form::close() !!}

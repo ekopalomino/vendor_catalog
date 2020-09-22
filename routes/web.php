@@ -203,7 +203,8 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('manufactures/request/store/{id}','Apps\ManufactureManagementController@checkStock')->name('manufacture-request.check');
     Route::post('manufactures/request/approve/{id}','Apps\ManufactureManagementController@approveRequest')->name('manufacture-request.approve');
     Route::get('manufactures','Apps\ManufactureManagementController@index')->name('manufacture.index');
-    Route::post('manufactures/order/transfer/{id}','Apps\ManufactureManagementController@changeStock')->name('manufactureStock.process');
+    Route::get('manufactures/order/stock-check/{id}','Apps\ManufactureManagementController@reCheckStock')->name('manufactureStock.check');
+    Route::post('manufactures/order/stock-validate/{id}','Apps\ManufactureManagementController@approveStock')->name('manufactureStock.validate');
     Route::post('manufactures/order/process/{id}','Apps\ManufactureManagementController@makeManufacture')->name('manufacture.process');
     Route::get('manufactures/order/done/{id}','Apps\ManufactureManagementController@manufactureDone')->name('manufacture.done');
     Route::post('manufactures/order/complete','Apps\ManufactureManagementController@process')->name('manufacture.complete');
