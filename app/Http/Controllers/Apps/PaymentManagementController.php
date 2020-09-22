@@ -64,15 +64,9 @@ class PaymentManagementController extends Controller
 
             return redirect()->back()->with($notification);
         } elseif(($request->input('delivery_order')) == null) {
-            if(($request->input('is_cicil')) == '1') {
-                $data = Sale::with('Child')->where('order_ref',$request->input('sales_order'))->first();
+            $data = Sale::with('Child')->where('order_ref',$request->input('sales_order'))->first();
 
-                return view('apps.input.invoiceCicil',compact('data'));
-            } else {
-                $data = Sale::with('Child')->where('order_ref',$request->input('sales_order'))->first();
-
-                return view('apps.input.invoiceNormal',compact('data'));
-            }
+            return view('apps.input.invoice',compact('data'));
         } else {
             $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
                 return view('apps.input.invoice',compact('data'));
@@ -95,7 +89,7 @@ class PaymentManagementController extends Controller
             ]);
 
         $getDeliveryCost = Delivery::where('do_ref',$request->input('delivery_order'))->first();
-        if(($request->input('terms_no') == NULL)) {
+        if(($request->input('total_terms') == NULL)) {
             $invoices = Payment::create([
                 'reference_no' => $refs,
                 'type_id' => '1',
@@ -139,7 +133,7 @@ class PaymentManagementController extends Controller
                 'warehouse_ref' => $request->input('delivery_order'),
                 'sales_order' => $request->input('sales_order'),
                 'contact_id' => $request->input('customer_id'),
-                'terms_no' => $request->input('terms_no'),
+                'terms_no' => '1',
                 'total_terms' => $request->input('total_terms'),
                 'delivery_cost' => $getDeliveryCost->delivery_cost,
                 'subtotal' => array_sum($request->sub_total),
