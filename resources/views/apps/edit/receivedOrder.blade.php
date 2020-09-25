@@ -55,7 +55,9 @@ Fiber Tekno | Edit Receipt Order
                                     <td>{!! Form::number('pengiriman[]', $item->received, array('placeholder' => 'Jumlah Dikirim','class' => 'form-control','readonly'=>'true')) !!}</td>
                                     <td>{!! Form::number('parsial[]', null, array('placeholder' => 'Jumlah Dikirim','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('rusak[]', null, array('placeholder' => 'Jumlah Rusak','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', $uoms,$item->uom_id, array('class' => 'form-control')) !!}
+                                        {{Form::hidden('price[]', $item->sub_total)}}
+                                    </td>
                     				<td>
                                         {{ Form::hidden('id', $key+1) }}
                                         <input type="button" value="Delete" class="btn red" onclick="deleteRow(this)">

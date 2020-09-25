@@ -377,7 +377,7 @@ class InventoryManagementController extends Controller
         $data = ReceivePurchase::find($id);
         $details = ReceivePurchaseItem::where('receive_id',$id)->get();
         $uoms = UomValue::pluck('name','id')->toArray();
-
+        
         return view('apps.edit.receivedOrder',compact('data','details','uoms'));
     }
 
@@ -397,9 +397,12 @@ class InventoryManagementController extends Controller
 
         $data = ReceivePurchase::find($id);
         $items = $request->product;
-        $deliveries = $request->parsial;
+        $orders = $request->pesanan;
+        $deliveries = $request->pengiriman;
+        $accepted = $request->parsial;
         $damaged = $request->rusak;
         $uoms = $request->uom_id;
+        $harga = $request->price;
         
         $data = ReceivePurchase::create([
             'ref_no' => $ref,
@@ -413,10 +416,10 @@ class InventoryManagementController extends Controller
         foreach($items as $index=>$item) {
             $bases = UomValue::where('id',$uoms[$index])->first();
             if($bases->is_parent == null) {
-                $convertion = ($deliveries[$index]) * ($bases->value);
+                $convertion = ($accepted[$index]) * ($bases->value);
                 $destroyed = ($damaged) * ($bases->value); 
             } else {
-                $convertion = $deliveries[$index];
+                $convertion = $accepted[$index];
                 $destroyed = $damaged[$index];
             }
             $details = ReceivePurchaseItem::where('receive_id',$id)->where('product_name',$item)->first();
@@ -429,11 +432,15 @@ class InventoryManagementController extends Controller
                                                   ->orderBy('updated_at','DESC')
                                                   ->first();
             
-            $updateDetail = $details->update([
-                'received' => ($details->received) + ($convertion),
+            $receiveItem = ReceivePurchaseItem::create([
+                'receive_id' => $data->id,
+                'product_name' => $item,
+                'orders' => $orders[$index],
+                'received' => $convertion,
                 'damaged' => $destroyed,
                 'uom_id' => $uoms[$index],
-            ]);
+                'sub_total' => ($harga[$index] / $deliveries[$index])*$convertion,
+            ]); 
 
             $updateInventory = $productInventory->update([
                 'closing_amount' => ($productInventory->closing_amount) + ($convertion)

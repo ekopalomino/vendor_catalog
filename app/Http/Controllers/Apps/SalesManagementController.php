@@ -67,6 +67,7 @@ class SalesManagementController extends Controller
         
         $result = Product::join('inventories','inventories.product_id','=','products.id')
                             ->where('products.is_sale','=','1')
+                            ->where('warehouse_name','Gudang Utama')
                             ->where('products.name','LIKE','%'.$search.'%')
                             ->select('products.name','products.name')
                             ->get();

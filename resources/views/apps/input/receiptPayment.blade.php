@@ -120,7 +120,7 @@ Fiber Tekno | Add Purchase Payment
                     </div>
                 </div> 
                 <div class="form-actions right">
-                    <a button type="button" class="btn default" href="{{ route('receipt.index') }}">Cancel</a>
+                    <a button type="button" class="btn default" href="{{ route('purchaseReceipt.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">
                     <i class="fa fa-check"></i> Create</button>
                 </div>
