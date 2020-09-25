@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2020 at 11:15 PM
+-- Generation Time: Sep 25, 2020 at 08:43 PM
 -- Server version: 5.7.30
 -- PHP Version: 7.3.5
 
@@ -251,8 +251,8 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (1, '5d9aaffa-33c0-11ea-aec2-2e728ce88125', 'AC 1/2PK', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-21 21:33:54'),
 (2, '5d9ab270-33c0-11ea-aec2-2e728ce88125', 'AC 1PK', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-06-26 15:39:49'),
 (3, '5d9ab3d8-33c0-11ea-aec2-2e728ce88125', 'AC 5PK', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
-(4, '5d9ab536-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-22 19:12:34'),
-(5, '5d9ac882-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-22 19:12:34'),
+(4, '5d9ab536-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Black', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-25 18:34:41'),
+(5, '5d9ac882-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Blue', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-25 18:32:21'),
 (6, '5d9aca26-33c0-11ea-aec2-2e728ce88125', 'Adapter Dustcaps Green', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-22 19:12:34'),
 (7, '5d9acb70-33c0-11ea-aec2-2e728ce88125', 'Adapter MM DX LC/PC', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (8, '5d9acca6-33c0-11ea-aec2-2e728ce88125', 'Adapter MM SX SC/PC', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
@@ -422,7 +422,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (181, '5d9cfc7e-33c0-11ea-aec2-2e728ce88125', 'Connector MM ST/PC (3,0mm)', 'Gudang Utama', '0.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (182, '5d9cfdbe-33c0-11ea-aec2-2e728ce88125', 'Connector MM FC/PC (2,0mm) ', 'Gudang Utama', '0.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (183, '5d9cfef4-33c0-11ea-aec2-2e728ce88125', 'Connector MM LC/PC (3,0mm)', 'Gudang Utama', '0.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
-(184, '5d9d002a-33c0-11ea-aec2-2e728ce88125', 'Connector MM SC/PC 3,0mm', 'Gudang Utama', '0.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-22 20:23:55'),
+(184, '5d9d002a-33c0-11ea-aec2-2e728ce88125', 'Connector MM SC/PC 3,0mm', 'Gudang Utama', '0.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-25 07:10:10'),
 (185, '5d9d02f0-33c0-11ea-aec2-2e728ce88125', 'Connector SM FC/APC (0,9mm)', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (186, '5d9d04b2-33c0-11ea-aec2-2e728ce88125', 'Connector SM FC/APC (2,0mm)', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (187, '5d9d0610-33c0-11ea-aec2-2e728ce88125', 'Connector SM FC/UPC (0,9mm)', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
@@ -931,7 +931,7 @@ INSERT INTO `inventories` (`id`, `product_id`, `product_name`, `warehouse_name`,
 (688, 'd78490b7-e743-42fe-ad32-2b8bb30e45a8', 'S Clamp Jepit', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (689, '1e9b09f1-5da1-45c6-aa2b-44c3e4bbc231', 'S Clamp Jepit telkom ', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (690, '68c359d4-afcb-4cf3-ae7d-c7ba0242a614', 'Sarung Tangan Kain', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
-(691, '01966044-8fd0-49e0-9354-1e0b8616591f', 'Sarung Tangan Karet', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-22 20:23:55'),
+(691, '01966044-8fd0-49e0-9354-1e0b8616591f', 'Sarung Tangan Karet', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-09-25 07:10:10'),
 (692, '33e6c87d-a476-4593-9666-2dd8eae2acaf', 'SFP 10GB', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (693, 'a0d04984-a833-46be-8c70-bafd601588bc', 'SIMPLEX STOPPER FC (0,9mm)', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
 (694, '838a72ce-5789-459a-a9c6-15337dd9f5fe', 'SIMPLEX STOPPER FC (2,00mm, 3,00mm)', 'Gudang Utama', '100.00', '0.00', '0.00', '2020-05-16 07:14:11', '2020-05-16 07:14:11'),
@@ -2946,7 +2946,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `av
 ('820cbe25-baf5-4d2b-b877-9ce7fdffdc21', 'Rizky ITEOS', 'rizky@local.com', NULL, '$2y$10$b89DIndoVlEjvOv3yYlreOyBZXgeC02QlF5fkR6l9WlHrgcWMsHKW', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', NULL, NULL, 0, '', NULL, '2020-01-12 18:56:45', '2020-01-12 18:56:45'),
 ('994a52f5-285e-4401-95b2-166cc353bb65', 'Reny (Finance Adm)', 'reneebagas@gmail.com', NULL, '$2y$10$WhuBu0MmegkIqEckvYp.aeIU6tmLJEVmkzCFZ/XGwoLwZGEZ4mfg2', 'user.jpg', '1886a2b3-2fb7-4f40-b577-dad076a5d3b1', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-06-19 17:45:13', '10.0.0.1', 0, 'rdjoAa3VSsJo3Rl3iTEkXWMlal3v4Gl0XXLf8SCx', NULL, '2020-01-09 13:07:34', '2020-06-19 10:45:13'),
 ('a7acf627-9108-44c0-a028-2d9bf7829108', 'Irena (Production Adm)', 'adminproduksi@local.com', NULL, '$2y$10$QAnCQHVav8fniX6l4G8z1enbYeH2geHjiiBRWReEGMgL0J70ZkhXy', 'user.jpg', 'fe97cbde-836a-439e-8b64-31783aaee279', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-06-19 17:51:09', '10.0.0.1', 0, 'EyggFp2aR8X12wIqsXxz2Qlw4RGMoXyR30cniThU', NULL, '2020-01-08 11:21:49', '2020-06-19 10:51:09'),
-('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$iSHBp.VTgyBazpklQVtU1e.V16Yiwdy6ph7LAJ1Zi8sNdwQbA4r16', 'bb536994-ada3-4caa-b97b-e412dc2cc882_avatar1580087198.png', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-09-23 01:52:26', '127.0.0.1', 30, 'dZ5kAW0EcAoBx6eySUJooS40h53oarP5n2ieAPH2', NULL, '2019-09-04 06:31:44', '2020-09-22 18:52:26'),
+('bb536994-ada3-4caa-b97b-e412dc2cc882', 'eko', 'eko@local.com', NULL, '$2y$10$iSHBp.VTgyBazpklQVtU1e.V16Yiwdy6ph7LAJ1Zi8sNdwQbA4r16', 'bb536994-ada3-4caa-b97b-e412dc2cc882_avatar1580087198.png', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-09-26 01:09:49', '127.0.0.1', 30, 'Nb9YRR5FaI6K1e2HZi33SHOoUdG39AnwXr9beO9G', NULL, '2019-09-04 06:31:44', '2020-09-25 18:09:49'),
 ('c7e50632-3efc-4cff-99fd-2a39dee275b2', 'Mirza Rizaldy', 'mirza@local.com', NULL, '$2y$10$uX/4npRHnwttZ5TRhny5OehUdwjBRBCrMfkdSWjVlCQ.egeZKfsAG', 'user.jpg', '413ec199-f1dd-42a7-a346-67a74fb807b0', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-07-27 11:37:55', '192.168.0.1', 0, 'Bapt2WhsoFuaVawgxrD6he2VimPLtJXXBuYMtzbf', NULL, '2020-01-06 17:46:22', '2020-07-27 11:37:55'),
 ('cb512697-44d9-4683-9bae-0a8e28a3252b', 'Dina', 'purchasing@local.com', NULL, '$2y$10$8rm11sCcK0vrsAIULWdBBOWUtfp9pP/wdwTg4FSNqXEzThrnaUWC2', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-06-19 16:44:22', '10.0.0.1', 0, 'lXBfk2TWTnPRc5ZrtJGqn8mXgGra8ozCo6cp8Tt9', NULL, '2020-01-08 13:42:59', '2020-06-19 09:44:22'),
 ('f68f2a18-623f-4c1a-bfde-7f029c603a17', 'adminsales2', 'adminsales2@local.com', NULL, '$2y$10$OFHrs.J9ITASIoVP5mOD5uZ0XTkKzKdpobMjf6NSV/LwA4G8vlTpS', 'user.jpg', '784f06d5-0e19-490f-91d4-60ea243eae53', '2b643e21-a94c-4713-93f1-f1cbde6ad633', '2020-01-29 08:45:16', '101.255.5.4', 0, 'IvYF5OuXbHXDMkH0wBDydu3TzuUpiaqGOPwUqZ2W', NULL, '2020-01-11 18:09:34', '2020-01-29 08:45:16');
@@ -3334,7 +3334,7 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `delivery_items`
 --
 ALTER TABLE `delivery_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `delivery_services`
@@ -3358,7 +3358,7 @@ ALTER TABLE `internal_transfers`
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=829;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=817;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
