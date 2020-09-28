@@ -273,18 +273,18 @@ class PaymentManagementController extends Controller
     public function invoicePrint($id)
     {
         $source = Payment::with('Child')->find($id);
-        dd($source);
+        
         $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
                         ->where('sales.order_ref',$source->order_ref)
                         ->first();   
-        $parent = Sale::where('order_ref',$source->order_ref)->first();
+        /* $parent = Sale::where('order_ref',$source->order_ref)->first();
         
         $items = SaleItem::where('sales_id',$parent->id)
                         ->get();
-        $total = SaleItem::where('sales_id',$parent->id)->sum('sub_total');
+        $total = SaleItem::where('sales_id',$parent->id)->sum('sub_total'); */
         
-        $filename = $source->invoice_ref;
-        $pdf = PDF::loadview('apps.print.invoice',compact('source','sales','items','total'))
+        $filename = $source->reference_no;
+        $pdf = PDF::loadview('apps.print.invoice',compact('source'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
     }
