@@ -26,11 +26,13 @@ class CreateContactsTable extends Migration
             $table->text('shipping_address');
             $table->integer('payment_method');
             $table->integer('payment_terms');
+            $table->string('bank_id')->nullable();
+            $table->string('bank_account_no')->nullable();
             $table->integer('tax');
             $table->string('tax_no')->nullable();
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
-            $table->uuid('active')->default('2b643e21-a94c-4713-93f1-f1cbde6ad633');
+            $table->uuid('active');
             $table->primary('id');
             $table->timestamps();
         });

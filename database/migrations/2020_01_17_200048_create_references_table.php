@@ -16,6 +16,8 @@ class CreateReferencesTable extends Migration
         Schema::create('references', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('type');
+            $table->integer('month');
+            $table->integer('year');
             $table->string('ref_no');
             $table->timestamps();
         });

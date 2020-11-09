@@ -17,7 +17,7 @@ class CreateDeliveryItemsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('delivery_id');
             $table->string('product_name');
-            $table->decimal('product_quantity',50,2);
+            $table->integer('product_quantity');
             $table->integer('uom_id');
             $table->foreign('delivery_id')->references('id')->on('deliveries')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

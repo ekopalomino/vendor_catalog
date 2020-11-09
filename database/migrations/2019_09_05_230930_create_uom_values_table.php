@@ -16,6 +16,8 @@ class CreateUomValuesTable extends Migration
         Schema::create('uom_values', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('type_id');
+            $table->tinyInteger('is_parent')->nullable();
+            $table->integer('parent_id')->nullable();
             $table->string('name');
             $table->decimal('value',10,2);
             $table->uuid('created_by');

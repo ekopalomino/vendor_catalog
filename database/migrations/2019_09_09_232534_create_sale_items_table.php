@@ -17,7 +17,10 @@ class CreateSaleItemsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('sales_id');
             $table->uuid('product_id');
+            $table->string('product_name');
             $table->decimal('quantity',50,2);
+            $table->decimal('remain',50,2)->nullable();
+            $table->uuid('uom_id');
             $table->decimal('discount',50,2)->nullable();
             $table->decimal('sale_price',50,2);
             $table->decimal('sub_total',50,2);

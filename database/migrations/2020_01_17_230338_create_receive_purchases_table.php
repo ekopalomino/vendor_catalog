@@ -15,9 +15,12 @@ class CreateReceivePurchasesTable extends Migration
     {
         Schema::create('receive_purchases', function (Blueprint $table) {
             $table->uuid('id');
+            $table->string('ref_no');
             $table->string('order_ref');
+            $table->uuid('supplier_id');
             $table->string('warehouse');
             $table->uuid('status_id');
+            $table->uuid('received_by')->nullable();
             $table->primary('id');
             $table->timestamps();
         });

@@ -17,7 +17,7 @@ class CreateInternalItemsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('mutasi_id')->unsigned();
             $table->string('product_name');
-            $table->decimal('quantity',50,2);
+            $table->integer('quantity');
             $table->uuid('uom_id');
             $table->foreign('mutasi_id')->references('id')->on('internal_transfers')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

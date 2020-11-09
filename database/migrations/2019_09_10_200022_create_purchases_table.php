@@ -23,7 +23,7 @@ class CreatePurchasesTable extends Migration
             $table->date('delivery_date');
             $table->decimal('quantity',10,2)->nullable();
             $table->decimal('total',10,2)->nullable();
-            $table->uuid('status')->default('8083f49e-f0aa-4094-894f-f64cd2e9e4e9');
+            $table->uuid('status');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->primary('id');

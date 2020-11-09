@@ -22,10 +22,11 @@ class CreatePaymentsTable extends Migration
             $table->string('sales_order')->nullable();
             $table->string('purchase_order')->nullable();
             $table->string('warehouse_ref');
-            $table->decimal('amount',50,2);
-            $table->decimal('tax_total',50,2)->nullable();
-            $table->decimal('delivery_cost',50,2);
-            $table->uuid('status_id')->default('3da32f6e-494f-4b61-b010-7ccc0e006fb3');
+            $table->bigInteger('subtotal');
+            $table->bigInteger('amount');
+            $table->bigInteger('tax_total')->nullable();
+            $table->decimal('delivery_cost');
+            $table->uuid('status_id');
             $table->uuid('created_by');
             $table->uuid('release_by')->nullable();
             $table->date('payment_received')->nullable();

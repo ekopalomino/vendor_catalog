@@ -17,8 +17,8 @@ class CreateReturItemsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('retur_id');
             $table->string('product_name');
-            $table->decimal('sales_qty',50,2);
-            $table->decimal('retur_qty',50,2);
+            $table->bigInteger('sales_qty');
+            $table->bigInteger('retur_qty');
             $table->string('retur_reason');
             $table->text('notes')->nullable();
             $table->foreign('retur_id')->references('id')->on('returs')->onUpdate('cascade')->onDelete('cascade');

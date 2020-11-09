@@ -17,10 +17,11 @@ class CreateReceivePurchaseItemsTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('receive_id');
             $table->string('product_name');
-            $table->decimal('orders',50,2);
-            $table->decimal('received',50,2);
-            $table->decimal('damaged',50,2);
+            $table->bigInteger('orders');
+            $table->bigInteger('received');
+            $table->bigInteger('damaged');
             $table->integer('uom_id');
+            $table->bigInteger('subtotal')->nullable();
             $table->foreign('receive_id')->references('id')->on('receive_purchases')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

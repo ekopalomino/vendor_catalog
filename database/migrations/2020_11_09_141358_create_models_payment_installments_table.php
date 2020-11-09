@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePaymentItemsTable extends Migration
+class CreateModelsPaymentInstallmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreatePaymentItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_items', function (Blueprint $table) {
+        Schema::create('models_payment_installments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('payment_id')->unsigned();
-            $table->string('product_name');
-            $table->integer('uom_id');
-            $table->bigInteger('quantity');
-            $table->bigInteger('subtotal');
-            $table->integer('tax_amount')->nullable();
+            $table->bigInteger('payment');
+            $table->bigInteger('remaining');
             $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
@@ -33,6 +30,6 @@ class CreatePaymentItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_items');
+        Schema::dropIfExists('models_payment_installments');
     }
 }

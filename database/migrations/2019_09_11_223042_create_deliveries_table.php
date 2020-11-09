@@ -15,12 +15,15 @@ class CreateDeliveriesTable extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->uuid('id');
+            $table->tinyInteger('type_id');
+            $table->smallInteger('total_deliveries')->nullable();
+            $table->smallInteger('number_of_deliveries')->nullable();
             $table->string('do_ref');
             $table->string('order_ref');
             $table->integer('del_service_id');
             $table->decimal('delivery_cost',50,2)->nullable();
             $table->string('receipt');
-            $table->uuid('status_id')->default('c2fdba02-e765-4ee8-8c8c-3073209ddd26');
+            $table->uuid('status_id');
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->primary('id');

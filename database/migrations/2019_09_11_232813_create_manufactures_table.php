@@ -15,13 +15,19 @@ class CreateManufacturesTable extends Migration
     {
         Schema::create('manufactures', function (Blueprint $table) {
             $table->uuid('id');
-            $table->uuid('sales_order');
+            $table->uuid('sales_order')->nullable();
             $table->string('order_ref');
-            $table->date('deadline');
-            $table->uuid('status_id')->default('8083f49e-f0aa-4094-894f-f64cd2e9e4e9');
+            $table->date('expected_finish');
+            $table->uuid('status_id');
             $table->uuid('warehouse_id');
             $table->uuid('created_by');
-            $table->uuid('updated_by')->nullable();
+            $table->uuid('approved_by')->nullable();
+            $table->uuid('process_by')->nullable();
+            $table->uuid('end_by')->nullable();
+            $table->datetime('start_production');
+            $table->datetime('end_production')->nullable();
+            $table->integer('quantity_plan');
+            $table->integer('quantity_result')->nullable();
             $table->primary('id');
             $table->timestamps();
         });

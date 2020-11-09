@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->uuid('status_id');
             $table->datetime('last_login_at');
             $table->string('last_login_from');
+            $table->integer('lockout_time')->default('30');
+            $table->string('session_id');
             $table->rememberToken();
             $table->primary('id');
             $table->timestamps();

@@ -16,11 +16,12 @@ class CreatePurchaseItemsTable extends Migration
         Schema::create('purchase_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('purchase_id');
-            $table->uuid('product_id');
+            $table->string('product_name');
             $table->decimal('quantity',10,2);
-            $table->decimal('discount',10,2)->nullable();
-            $table->decimal('sale_price',10,2);
-            $table->decimal('sub_total',10,2);
+            $table->uuid('uom_id');
+            $table->decimal('discount',50,2)->nullable();
+            $table->decimal('purchase_price',50,2);
+            $table->decimal('sub_total',50,2);
             $table->foreign('purchase_id')->references('id')->on('purchases')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
