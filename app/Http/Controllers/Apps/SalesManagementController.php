@@ -253,7 +253,7 @@ class SalesManagementController extends Controller
         $sales = Sale::find($id);
         $data = SaleItem::where('sales_id',$id)->get();
         $filename = $sales->order_ref;
-        $pdf = PDF::loadview('apps.print.salesOrder',compact('data','sales'));
+        $pdf = PDF::loadview('apps.print.salesNew',compact('data','sales'));
         
         return $pdf->download(''.$filename.'.pdf');
     }

@@ -124,7 +124,7 @@ class PurchaseManagementController extends Controller
         $data = Purchase::find($id);
         $details = PurchaseItem::where('purchase_id',$id)->get();
 
-        return view('apps.show.purchaseRequest',compact('data','details'));
+        return view('apps.print.prNew',compact('data','details'));
     }
 
     public function requestForm($id)
@@ -140,7 +140,7 @@ class PurchaseManagementController extends Controller
         $data = Purchase::find($id);
         $details = PurchaseItem::where('purchase_id',$id)->get();
 
-        return view('apps.show.purchaseOrder',compact('data','details'));
+        return view('apps.print.poNew',compact('data','details'));
     }
 
     public function requestApprove(Request $request,$id)
@@ -199,7 +199,7 @@ class PurchaseManagementController extends Controller
         $data = Purchase::find($id);
         $details = PurchaseItem::where('purchase_id',$id)->get();
 
-        $pdf = PDF::loadview('apps.print.purchaseRequest',compact('data','details'))
+        $pdf = PDF::loadview('apps.print.prNew',compact('data','details'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$data->order_ref.'.pdf');
     }

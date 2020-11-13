@@ -22,7 +22,7 @@
 				</td>
 				<td style="width: 316px;">
 					<h2 align="right"><strong>INVOICE</strong></h2>
-						<table style="height: 73px; border-color: #000000;" border="1" width="265">
+						<table style="height: 73px; border-color: #000000;" border="1" width="270">
 							<tbody>
 								<tr>
 								<td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">No Invoice</td>

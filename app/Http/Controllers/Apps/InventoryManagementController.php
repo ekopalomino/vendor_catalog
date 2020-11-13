@@ -1039,7 +1039,7 @@ class InventoryManagementController extends Controller
                         ->first();             
         $details = DeliveryItem::where('delivery_id',$id)->get();
         
-        $pdf = PDF::loadview('apps.print.deliveryOrder',compact('source','data','details'));
+        $pdf = PDF::loadview('apps.print.doNew',compact('source','data','details'));
         return $pdf->download(''.$source->do_ref.'.pdf');                 
     }
 
