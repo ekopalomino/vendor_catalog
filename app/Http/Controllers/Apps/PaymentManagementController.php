@@ -40,8 +40,12 @@ class PaymentManagementController extends Controller
     public function invoiceIndex()
     {
         $data = Payment::where('type_id','1')->get();
+        $sales = Sale::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')
+                            ->orWhere('status_id','eca81b8f-bfb9-48b9-8e8d-86f4517bc129')
+                            ->pluck('order_ref','order_ref')->toArray();
+        $deliveries = Delivery::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('do_ref','do_ref')->toArray();
 
-        return view('apps.pages.invoices',compact('data'));
+        return view('apps.pages.invoices',compact('data','sales','deliveries'));
     }
 
     public function invoiceMake()

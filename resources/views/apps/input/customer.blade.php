@@ -108,7 +108,7 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tax No</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Tax No" name="tax_no"> 
+                                {!! Form::text('tax_no', null, array('placeholder' => 'NPWP', 'class' => 'form-control')) !!} 
                             </div>
                         </div>
                         {{ Form::hidden('type_id', '1') }}
@@ -126,5 +126,5 @@ Fiber Tekno | Tambah Customer
 </div>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 @endsection

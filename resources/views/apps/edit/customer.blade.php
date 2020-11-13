@@ -104,7 +104,7 @@ Fiber Tekno | Edit Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Tax No</label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Tax No" name="tax_no"> 
+                                {!! Form::text('tax_no', null, array('placeholder' => 'NPWP', 'class' => 'form-control')) !!} 
                             </div>
                         </div>
                         {{ Form::hidden('type_id', '1') }}

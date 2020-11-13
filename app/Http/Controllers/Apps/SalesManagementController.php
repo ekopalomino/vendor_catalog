@@ -55,7 +55,7 @@ class SalesManagementController extends Controller
 
     public function create()
     {
-        $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
+        $customers = Contact::where('type_id','1')->get();
         $uoms = UomValue::pluck('name','id')->toArray();
         
         return view('apps.input.sales',compact('customers','uoms'));

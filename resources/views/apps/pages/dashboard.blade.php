@@ -3,8 +3,8 @@
 FiberTekno | Dashboard
 @endsection
 @section('header.plugins')
-<link href="{{ asset('public/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('public/assets/global/plugins/morris/morris.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/morris/morris.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('header.styles')
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -144,13 +144,13 @@ FiberTekno | Dashboard
 </div>
 @endsection
 @section('footer.plugins')
-<script src="{{ asset('public/assets/global/plugins/moment.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/global/plugins/morris/morris.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/global/plugins/morris/raphael-min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/global/plugins/counterup/jquery.waypoints.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/global/plugins/counterup/jquery.counterup.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/moment.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/morris/morris.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/morris/raphael-min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/counterup/jquery.waypoints.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/counterup/jquery.counterup.min.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/dashboard.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/dashboard.min.js') }}" type="text/javascript"></script>
 @endsection

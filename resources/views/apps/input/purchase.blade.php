@@ -3,8 +3,10 @@
 Fiber Tekno | Add Purchase Request
 @endsection
 @section('header.plugins')
-<link href="{{ asset('public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('public/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="page-content">
@@ -32,7 +34,12 @@ Fiber Tekno | Add Purchase Request
             		<div class="col-md-5">
             			<div class="form-group">
             				<label class="control-label">Supplier</label>
-            				{!! Form::select('supplier_code', [null=>'Please Select'] + $suppliers,[], array('class' => 'form-control','id'=>'supplier')) !!}
+            				<select id="single" class="form-control select2">
+                                <option></option>
+                                @foreach($suppliers as $contact)
+                                <option value="{{$contact->ref_id}}">{{$contact->name}}</option>
+                                @endforeach
+                            </select>
             			</div>
             		</div>
                 <div class="col-md-4">
@@ -80,11 +87,13 @@ Fiber Tekno | Add Purchase Request
 </div>
 @endsection
 @section('footer.plugins')
-<script src="{{ asset('public/assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){      

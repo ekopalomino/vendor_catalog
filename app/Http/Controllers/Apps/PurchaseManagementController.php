@@ -34,6 +34,7 @@ class PurchaseManagementController extends Controller
     public function index()
     {
         $data = Purchase::orderBy('created_at','DESC')->get();
+        
         return view('apps.pages.purchase',compact('data'));
     }
 
@@ -49,7 +50,7 @@ class PurchaseManagementController extends Controller
 
     public function requestCreate()
     {
-        $suppliers = Contact::where('type_id','2')->pluck('name','ref_id')->toArray();
+        $suppliers = Contact::where('type_id','2')->get();
         $uoms = UomValue::pluck('name','id')->toArray();
         return view('apps.input.purchase',compact('suppliers','uoms'));
     }

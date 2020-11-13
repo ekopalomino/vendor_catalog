@@ -85,5 +85,5 @@ Fiber Tekno | Add Receipt Order
 </div>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 @endsection

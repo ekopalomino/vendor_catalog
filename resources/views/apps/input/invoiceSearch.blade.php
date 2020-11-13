@@ -41,16 +41,6 @@ Fiber Tekno | Add Invoice
                             {!! Form::select('delivery_order', [null=>'Please Select'] + $deliveries,[], array('class' => 'form-control')) !!}
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="control-label">Pembayaran Cicilan</label>
-                            <select name="is_cicil" class="form-control">
-                                <option value="">Please Select</option>
-                                <option value="1">Ya</option>
-                                <option value="2">Tidak</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>       		
             	<div class="form-actions right">
                     <a button type="button" class="btn default" href="{{ route('invoice.index') }}">Cancel</a>
@@ -65,5 +55,5 @@ Fiber Tekno | Add Invoice
 </div>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 @endsection

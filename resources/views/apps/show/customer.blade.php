@@ -3,10 +3,10 @@
 FiberTekno | Lihat Data Customer
 @endsection
 @section('header.plugins')
-<link href="{{ asset('public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('header.styles')
-<link href="{{ asset('public/assets/pages/css/profile.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/pages/css/profile.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content') 
 <div class="page-content">
@@ -15,7 +15,7 @@ FiberTekno | Lihat Data Customer
 			<div class="profile-sidebar">
 				<div class="portlet light profile-sidebar-portlet ">
 					<div class="profile-userpic">
-						<img src="/public/products/{{$product->image}}" class="img-responsive" alt="">
+						<img src="/products/{{$product->image}}" class="img-responsive" alt="">
 					</div>
 					<div class="profile-usertitle">
 						<div class="profile-usertitle-name">{{ $data->name}}</div>
@@ -126,9 +126,9 @@ FiberTekno | Lihat Data Customer
 </div>
 @endsection
 @section('footer.plugins')
-<script src="{{ asset('public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/global/plugins/jquery.sparkline.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/jquery.sparkline.min.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/profile.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/profile.min.js') }}" type="text/javascript"></script>
 @endsection
