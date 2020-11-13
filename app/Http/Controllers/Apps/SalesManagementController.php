@@ -91,6 +91,8 @@ class SalesManagementController extends Controller
             'delivery_date' => $request->input('delivery_date'),
             'billing_address' => $details->billing_address,
             'shipping_address' => $details->shipping_address,
+            'customer_po' => $request->input('customer_po'),
+            'description' => $request->input('description'),
             'delivery_date' => $request->input('delivery_date'),
             'created_by' => auth()->user()->name,
         ];
@@ -199,12 +201,17 @@ class SalesManagementController extends Controller
                             'tax' => ($subtotal) * ($tax/100),
                             'total' => ($subtotal) + (($subtotal)*($tax/100)),
                             'delivery_date' => $request->input('delivery_date'),
+                            'change_note' => $request->input('notes'),
                             ]);
         } else {
             $saleData = DB::table('sales')
                         ->where('id',$sale_id)
-                        ->update(['quantity' => $qty, 'total' => $price,
-                        'delivery_date' => $request->input('delivery_date'),]);
+                        ->update([
+                            'quantity' => $qty,
+                            'total' => $price,
+                            'delivery_date' => $request->input('delivery_date'),
+                            'change_note' => $request->input('notes')
+                        ]);
         }
      
         $log = 'Sales Order '.($data->order_ref).' Berhasil Diubah Dengan Catatan '.($request->input('notes')).' ';

@@ -29,22 +29,34 @@ Fiber Tekno | Edit Sales Order
                 {!! Form::model($data, ['method' => 'POST','route' => ['sales.update', $data->id],'class' => 'horizontal-form']) !!}
                 @csrf
             	<div class="row">
-            		<div class="col-md-5">
+            		<div class="col-md-3">
             			<div class="form-group">
             				<label class="control-label">ID Pelanggan</label>
                             {!! Form::text('client_code', null, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
-            		</div>
-                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Nomor SO</label>
+                            {!! Form::text('order_ref', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Nomor Customer PO</label>
+                            {!! Form::text('customer_po', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                        </div>
                         <div class="form-group">
                             <label class="control-label">Ubah Tgl Pengiriman</label>
                             {!! Form::date('delivery_date', old('delivery_date'), array('id' => 'datepicker','class' => 'form-control')) !!}
                         </div>
                     </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="control-label">Deskripsi</label>
+                            {!! Form::textarea('description', null, array('class' => 'form-control','readonly' => 'true')) !!}
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label">Catatan</label>
-                            {!! Form::textarea('notes', null, array('id' => 'datepicker','class' => 'form-control')) !!}
+                            <label class="control-label">Catatan Perubahan</label>
+                            {!! Form::textarea('change_note', null, array('class' => 'form-control')) !!}
                         </div>
                     </div>
             		<!--/span-->

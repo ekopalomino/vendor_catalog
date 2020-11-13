@@ -3,8 +3,8 @@
 Fiber Tekno | Add Sales Order 
 @endsection
 @section('header.plugins')
-<link href="{{ asset('public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('public/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="page-content">
@@ -29,18 +29,26 @@ Fiber Tekno | Add Sales Order
             @csrf
             <div class="form-body">
             	<div class="row">
-            		<div class="col-md-5">
+            		<div class="col-md-3">
             			<div class="form-group">
             				<label class="control-label">Customer</label>
             				{!! Form::select('client_code', [null=>'Please Select'] + $customers,[], array('class' => 'form-control')) !!}
             			</div>
+                        <div class="form-group">
+                            <label class="control-label">Customer PO</label>
+                            {!! Form::text('customer_po', null, array('placeholder' => 'Customer PO', 'class' => 'form-control')) !!}
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label">Tgl Pengiriman</label>
+                        {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+                      </div>
             		</div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label class="control-label">Tgl Pengiriman</label>
-                    {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
-                  </div>
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Deskripsi (Opsional)</label>
+                            {!! Form::textarea('description', null, array('placeholder' => 'Deskripsi', 'class' => 'form-control')) !!}
+                        </div>
+                    </div>
             		<!--/span-->
             	</div>            		
             	<div class="row">
@@ -82,11 +90,11 @@ Fiber Tekno | Add Sales Order
 </div>
 @endsection
 @section('footer.plugins')
-<script src="{{ asset('public/assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
-<script src="{{ asset('public/assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){ 

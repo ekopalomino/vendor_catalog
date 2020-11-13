@@ -21,7 +21,7 @@
 					Phone : 021 - 21484090</p>
 				</td>
 				<td style="width: 316px;">
-					<h2 align="right"><strong>INVOICE</strong></h2>
+					<h2 align="right"><strong>DELIVER ORDER</strong></h2>
 						<table style="height: 73px; border-color: #000000;" border="1" width="265">
 							<tbody>
 								<tr>
