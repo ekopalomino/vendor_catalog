@@ -5,8 +5,10 @@ Fiber Tekno | Buat Permintaan Manufaktur
 @section('header.plugins')
 <link href="{{ asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
-@section('content')
+@section('content') 
 <div class="page-content">
     <div class="portlet box red ">
         <div class="portlet-title">
@@ -54,7 +56,14 @@ Fiber Tekno | Buat Permintaan Manufaktur
 	            			</thead>
 	            			<tbody>
 	            				<tr>
-	            					<td>{!! Form::text('product', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
+	            					<td>
+                                        <select id="single" name="product" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('quantity', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
 	            				</tr>
@@ -76,19 +85,10 @@ Fiber Tekno | Buat Permintaan Manufaktur
 @endsection
 @section('footer.plugins')
 <script src="{{ asset('assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-<script type="text/javascript">
-    var route = "{{ route('manufacture-request.product') }}";
-    $("input[name^='product']").typeahead({
-        source:  function (product, process) {
-            return $.get(route, { product: product }, function (data) {
-                    return process(data);
-                });
-            }
-      });
-</script>   
+<script src="{{ asset('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
 @endsection

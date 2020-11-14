@@ -188,7 +188,7 @@ class PaymentManagementController extends Controller
         $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
     
-        $refs = 'INV/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
             $reference = Reference::create([
                 'type' => '9',
                 'month' => $getMonth,
@@ -347,7 +347,7 @@ class PaymentManagementController extends Controller
         $getMonth  = Carbon::now()->month;
         $getYear = Carbon::now()->year;
         $latestRef = Reference::where('type','10')->count();
-        $refs = 'FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getSupplier->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $refs = 'INV/AP/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getSupplier->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $reference = Reference::create([
             'type' => '10',
             'ref_no' => $refs,

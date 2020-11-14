@@ -23,6 +23,7 @@
 			</tr>
 		</tbody>
 	</table>
+	<h2 align="center"><strong>SURAT JALAN</strong></h2>
 	<table style="height: 9px;" width="540">
 		<tbody>
 			<tr>

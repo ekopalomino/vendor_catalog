@@ -21,7 +21,7 @@
                     Phone : 021 - 21484090</p>
                 </td>
                 <td style="width: 316px;">
-                    <h2 align="right"><strong>PURCHASE ORDER</strong></h2>
+                    <h2 align="right"><strong>MANUFACTURE ORDER</strong></h2>
                         <table style="height: 73px; border-color: #000000;" border="1" width="270">
                             <tbody>
                                 <tr>
@@ -32,63 +32,21 @@
                                 <td style="width: 148px;font-size: 10px;">{{$data->order_ref}}</td>
                                 <td style="width: 148px;font-size: 10px;">{{date("d F Y",strtotime($data->created_at)) }}</td>
                                 </tr>
-                                <tr>
-                                <td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">ID Vendor</td>
-                                </tr>
-                                <tr>
-                                <td style="width: 148px;font-size: 10px;">{{$data->supplier_code}}</td>
-                                </tr>
                             </tbody>
                         </table>
                 </td>
             </tr>
         </tbody>
     </table>
-    <table style="height: 9px;" width="540">
-        <tbody>
-            <tr>
-                <td style="width: 172px;background:#4B77BE;color:#ffffff;font-size: 12px;">VENDOR</td>
-                <td style="width: 173px;">&nbsp;</td>
-            </tr>
-            <tr>
-            <td style="width: 172px;">
-                <table style="height: 72px;" width="174">
-                    <tbody>
-                        <tr>
-                            <td style="width: 164px;font-size: 10px;">{{$data->Suppliers->name}}</td>
-                        </tr>
-                        <tr>
-                            <td style="width: 164px;font-size: 10px;">{{$data->Suppliers->billing_address}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tbody>
-    </table>
     <table style="height: 41px; border-color: #000000;" border="1" width="540">
         <tbody>
             <tr> 
-                <td style="width: 10px;background:#4B77BE;color:#ffffff;font-size: 16px;">NO</td>
                 <td style="width: 280px;background:#4B77BE;color:#ffffff;font-size: 16px;">NAMA BARANG/JASA</td>
                 <td style="width: 60px;background:#4B77BE;color:#ffffff;font-size: 16px;">JML</td>
-                <td style="width: 60px;background:#4B77BE;color:#ffffff;font-size: 16px;">SATUAN</td>
-                <td style="width: 70px;background:#4B77BE;color:#ffffff;font-size: 16px;">HARGA</td>
-                <td style="width: 70px;background:#4B77BE;color:#ffffff;font-size: 16px;">SUBTOTAL</td>
             </tr>
-            @foreach($details as $key=>$val)
             <tr>
-                <td style="width: 10px;font-size: 13px;">{{ $key+1 }}</td>
-                <td style="width: 280px;">{{ $val->product_name }}</td>
-                <td style="width: 60px;">{{ number_format($val->quantity,0,',','.')}}</td>
-                <td style="width: 102px;">{{ $val->Uoms->name }}</td>
-                <td style="width: 110px;">Rp {{ number_format($val->purchase_price,0,',','.')}}</td>
-                <td style="width: 102px;">Rp {{ number_format($val->sub_total,0,',','.')}}</td>
-            </tr>
-            @endforeach
-            <tr>
-                <td style="width: 102px;font-size: 12px;text-align: right;" colspan="6">
-                    <strong style="font-size: 14px;">TOTAL Rp {{ number_format(($data->total),0,',','.')}}</strong>
-                </td>
+                <td style="width: 280px;">{{ $data->product_name }}</td>
+                <td style="width: 60px;">{{ number_format($data->man_result,0,',','.')}}</td>
             </tr>
         </tbody>
     </table>
@@ -107,7 +65,7 @@
     </table>
     <div class="actions">
         <div class="btn-group">
-            <a href="{{ route('purchase.print',$data->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PO</button></a>
+            <a href=""><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print MO</button></a>
             <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
         </div>
     </div>

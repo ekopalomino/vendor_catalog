@@ -38,21 +38,13 @@ class PurchaseManagementController extends Controller
         return view('apps.pages.purchase',compact('data'));
     }
 
-    public function searchProduct(Request $request)
-    {
-        $search = $request->get('product');
-        $result = Product::where('name','LIKE','%'.$search. '%')
-                            ->select('name')
-                            ->get();
-        
-        return response()->json($result);
-    }
-
     public function requestCreate()
     {
         $suppliers = Contact::where('type_id','2')->get();
         $uoms = UomValue::pluck('name','id')->toArray();
-        return view('apps.input.purchase',compact('suppliers','uoms'));
+        $products = Product::orderBy('name','ASC')->get();
+
+        return view('apps.input.purchase',compact('suppliers','uoms','products'));
     }
 
     public function requestStore(Request $request)
@@ -124,7 +116,7 @@ class PurchaseManagementController extends Controller
         $data = Purchase::find($id);
         $details = PurchaseItem::where('purchase_id',$id)->get();
 
-        return view('apps.print.prNew',compact('data','details'));
+        return view('apps.show.purchaseRequest',compact('data','details'));
     }
 
     public function requestForm($id)
@@ -140,7 +132,7 @@ class PurchaseManagementController extends Controller
         $data = Purchase::find($id);
         $details = PurchaseItem::where('purchase_id',$id)->get();
 
-        return view('apps.print.poNew',compact('data','details'));
+        return view('apps.show.purchaseOrder',compact('data','details'));
     }
 
     public function requestApprove(Request $request,$id)

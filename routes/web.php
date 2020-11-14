@@ -128,7 +128,6 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::get('sales','Apps\SalesManagementController@index')->name('sales.index');
     Route::get('sales/point-of-sale','Apps\SalesManagementController@posIndex')->name('pos.index');
     Route::get('sales/orders/create','Apps\SalesManagementController@create')->name('sales.create');
-    Route::get('sales/product/find','Apps\SalesManagementController@searchProduct')->name('sales.product');
     Route::post('sales/orders/store','Apps\SalesManagementController@storeSales')->name('sales.store');
     Route::get('sales/orders/edit/{id}','Apps\SalesManagementController@editSales')->name('sales.edit');
     Route::post('sales/orders/update/{id}','Apps\SalesManagementController@updateSales')->name('sales.update');
@@ -145,7 +144,6 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     /*-----------------------Purchase Management------------------------------------*/
     Route::get('purchase','Apps\PurchaseManagementController@index')->name('purchase.index');
     Route::get('purchase/request/create','Apps\PurchaseManagementController@requestCreate')->name('request.create');
-    Route::get('purchase/product/find','Apps\PurchaseManagementController@searchProduct')->name('purchase.product');
     Route::post('purchase/request/store','Apps\PurchaseManagementController@requestStore')->name('request.store');
     Route::get('purchase/request/show/{id}','Apps\PurchaseManagementController@requestShow')->name('request.show');
     Route::get('purchase/request/print/{id}','Apps\PurchaseManagementController@requestPrint')->name('request.print');

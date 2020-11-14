@@ -103,7 +103,27 @@ FiberTekno | Sales Management
                                 <td>{{ $sale->Customers->name}}</td>
                                 <td>{{ number_format($sale->quantity,2,',','.')}}</td>
                                 <td>{{ number_format($sale->total,2,',','.')}}</td>
-                                <td><label class="label label-sm label-success">{{ $sale->Statuses->name }}</label></td>
+                                <td>
+                                    @if( ($sale->status_id) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
+                                    <label class="label label-sm label-warning">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
+                                    <label class="label label-sm label-success">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')
+                                    <label class="label label-sm label-danger">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
+                                    <label class="label label-sm label-warning">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129')
+                                    <label class="label label-sm label-info">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == 'c2fdba02-e765-4ee8-8c8c-3073209ddd26')
+                                    <label class="label label-sm label-warnng">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == '6d32841b-2606-43a5-8cf7-b77291ddbfbb')
+                                    <label class="label label-sm label-success">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == '8447cd63-c7e7-4b26-81fc-d2eb3aceec97')
+                                    <label class="label label-sm label-danger">{{ $sale->Statuses->name }}</label>
+                                    @elseif( ($sale->status_id) == '458410e7-384d-47bc-bdbe-02115adc4449')
+                                    <label class="label label-sm label-success">{{ $sale->Statuses->name }}</label>
+                                    @endif
+                                </td>
                                 <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
                                 <td>
                                     @if(!empty($sale->closing_date))

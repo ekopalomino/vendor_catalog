@@ -76,7 +76,7 @@ FiberTekno | Produk
                                     @endcan
                                     @can('Can Delete Product')
                                     {!! Form::open(['method' => 'POST','route' => ['product.destroy', $product->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Delete Product']) !!}
+                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Disable Product']) !!}
                                     {!! Form::close() !!}
                                     @endcan
                                 </td>
@@ -101,7 +101,7 @@ FiberTekno | Produk
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to delete?");
+    var x = confirm("Are you sure you want to deactivate?");
     if (x)
         return true;
     else

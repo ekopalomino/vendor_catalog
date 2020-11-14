@@ -62,8 +62,10 @@ class ManufactureManagementController extends Controller
     {
         $orders  = Sale::where('status_id','8083f49e-f0aa-4094-894f-f64cd2e9e4e9')->pluck('order_ref','id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
+        $products = Product::where('is_manufacture','1')
+                            ->get();
 
-        return view('apps.input.manufactureRequest',compact('orders','uoms'));
+        return view('apps.input.manufactureRequest',compact('orders','uoms','products'));
     }
 
     public function storeRequest(Request $request)
@@ -203,7 +205,7 @@ class ManufactureManagementController extends Controller
         $data = Manufacture::find($id);
         $details = ManufactureItem::where('manufacture_id',$id)->get();
         
-        return view('apps.show.manufactureOrder',compact('data','details'));
+        return view('apps.show.manufactureOrderNew',compact('data','details'));
     }
 
     public function manufactureDone($id)

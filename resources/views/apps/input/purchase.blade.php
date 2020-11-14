@@ -26,7 +26,7 @@ Fiber Tekno | Add Purchase Request
                 @endforeach
                 </ul>
             </div>
-            @endif
+            @endif 
             {!! Form::open(array('route' => 'request.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
             @csrf
             <div class="form-body">
@@ -34,7 +34,7 @@ Fiber Tekno | Add Purchase Request
             		<div class="col-md-5">
             			<div class="form-group">
             				<label class="control-label">Supplier</label>
-            				<select id="single" class="form-control select2">
+            				<select id="single" name="supplier_code" class="form-control select2">
                                 <option></option>
                                 @foreach($suppliers as $contact)
                                 <option value="{{$contact->ref_id}}">{{$contact->name}}</option>
@@ -59,17 +59,139 @@ Fiber Tekno | Add Purchase Request
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
 	            					<th>Harga Satuan</th>
-	            					<th></th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
 	            				<tr>
-	            					<td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td>
+	            					<td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control','required')) !!}</td>
-                    				<td><button type="button" name="add" id="add" class="btn btn-success">Tambah</button></td>
-	            				</tr>
+                    			</tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
+                                    <td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td>
+                                </tr>
 	            			</tbody>
 	            		</table>
 	            	</div>
@@ -94,32 +216,4 @@ Fiber Tekno | Add Purchase Request
 <script src="{{ asset('assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){      
-      var route = "{{ route('purchase.product') }}";
-      $("input[name^='product']").typeahead({
-        source:  function (product, process) {
-            return $.get(route, { product: product }, function (data) {
-                    return process(data);
-                });
-            }
-      }); 
-      var i=1;  
-      $('#add').click(function(){  
-           i++;  
-           $('#sample_2').append('<tr id="row'+i+'" class="dynamic-added"><td>{!! Form::text('product[]', null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','required')) !!}</td><td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td><td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td><td>{!! Form::number('purchase_price[]', null, array('placeholder' => 'Harga Satuan','class' => 'form-control')) !!}</td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>').find('input[type=text]').typeahead({
-                source:  function (product, process) {
-                return $.get(route, { product: product }, function (data) {
-                    return process(data);
-                });
-            } 
-             }); 
-      });  
-      $(document).on('click', '.btn_remove', function(){  
-           var button_id = $(this).attr("id");   
-           $('#row'+button_id+'').remove();  
-      });    
-    });  
-</script>
 @endsection

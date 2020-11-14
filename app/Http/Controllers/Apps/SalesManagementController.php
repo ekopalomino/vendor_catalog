@@ -57,24 +57,15 @@ class SalesManagementController extends Controller
     {
         $customers = Contact::where('type_id','1')->get();
         $uoms = UomValue::pluck('name','id')->toArray();
-        
-        return view('apps.input.sales',compact('customers','uoms'));
-    }
-
-    public function searchProduct(Request $request)
-    {
-        $search = $request->get('product');
-        
-        $result = Product::join('inventories','inventories.product_id','=','products.id')
+        $products = Product::join('inventories','inventories.product_id','=','products.id')
                             ->where('products.is_sale','=','1')
                             ->where('warehouse_name','Gudang Utama')
-                            ->where('products.name','LIKE','%'.$search.'%')
                             ->select('products.name','products.name')
                             ->get();
-        
-        return response()->json($result);
+
+        return view('apps.input.sales',compact('customers','uoms','products'));
     }
-    
+
     public function storeSales(Request $request)
     {
         $getMonth = Carbon::now()->month;
@@ -111,17 +102,19 @@ class SalesManagementController extends Controller
         $sale_id = $data->id;
         $discounts = $request->discount;
         foreach($items as $index=>$item) {
-            $names = Product::where('name',$item)->first();
-            $items = SaleItem::create([
-                'sales_id' => $sale_id,
-                'product_id' => $names->id,
-                'product_name' => $item,
-                'quantity' => $quantity[$index],
-                'uom_id' => $uoms[$index],
-                'sale_price' => $sale_price[$index],
-                'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
-                'discount' => $discounts[$index],
-            ]);
+            if (isset($item)) {
+                $names = Product::where('name',$item)->first();
+                $items = SaleItem::create([
+                    'sales_id' => $sale_id,
+                    'product_id' => $names->id,
+                    'product_name' => $item,
+                    'quantity' => $quantity[$index],
+                    'uom_id' => $uoms[$index],
+                    'sale_price' => $sale_price[$index],
+                    'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
+                    'discount' => $discounts[$index],
+                ]);
+            }
         }
 
         $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');

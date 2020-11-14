@@ -296,18 +296,16 @@ class ProductManagementController extends Controller
     public function productDestroy($id)
     {
         $data = Product::find($id);
-        $invent = Inventory::where('product_id',$id)->first();
-        $file = $data->image;
-        $log = 'Produk '.($data->name).' Berhasil Dihapus';
+        $invent = Inventory::where('product_id',$id)->update([
+            'active' => '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a'
+        ]);
+        $log = 'Produk '.($data->name).' Berhasil Dinonaktifkan';
          \LogActivity::addToLog($log);
         $notification = array (
-            'message' => 'Produk '.($data->name).' Berhasil Dihapus',
+            'message' => 'Produk '.($data->name).' Berhasil Dinonaktifkan',
             'alert-type' => 'success'
         );
-        $invent->delete();
-        $data->delete();
-        \File::delete(\public_path('products'. $file));
-
+        
         return redirect()->route('product.index')->with($notification);
     }
 

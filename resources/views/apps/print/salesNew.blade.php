@@ -1,5 +1,5 @@
 <!DOCTYPE html> 
-<html>
+<html> 
 <head>
 </head>
 <body>
@@ -122,12 +122,13 @@
 	<table style="height: 26px; border-color: #000000;" border="1" width="540">
 		<tbody>
 			<tr>
-			<td style="width: 316px;">
-				<p style="text-align: left;"><strong>Deskripsi</strong>
-				<br>
-				{{ $sales->description}}
-				</p>
-			</td>
+				<td style="width: 316px;">
+					<p style="text-align: left;"><strong>Deskripsi</strong>
+					<br>
+					{{ $sales->description}}
+					</p>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 	<p style="text-align: center;">Jika memerlukan informasi, silahkan hubungi

@@ -78,15 +78,15 @@
 			@foreach($details as $key=>$val)
 			<tr>
 				<td style="width: 10px;font-size: 13px;">{{ $key+1 }}</td>
-				<td style="width: 280px;">{{ $val->product_name }}</td>
-				<td style="width: 60px;">{{ number_format($val->quantity,0,',','.')}}</td>
-				<td style="width: 102px;">{{ $val->Uoms->name }}</td>
-				<td style="width: 110px;">Rp {{ number_format($val->purchase_price,0,',','.')}}</td>
-				<td style="width: 102px;">Rp {{ number_format($val->sub_total,0,',','.')}}</td>
+				<td style="width: 280px;font-size: 13px;">{{ $val->product_name }}</td>
+				<td style="width: 60px;font-size: 13px;">{{ number_format($val->quantity,0,',','.')}}</td>
+				<td style="width: 102px;font-size: 13px;">{{ $val->Uoms->name }}</td>
+				<td style="width: 110px;font-size: 13px;">Rp {{ number_format($val->purchase_price,0,',','.')}}</td>
+				<td style="width: 102px;font-size: 13px;">Rp {{ number_format($val->sub_total,0,',','.')}}</td>
 			</tr>
 			@endforeach
 			<tr>
-				<td style="width: 102px;font-size: 12px;" colspan="2">
+				<td style="width: 102px;font-size: 12px;text-align: right;" colspan="6">
 					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($data->total),0,',','.')}}</strong>
 				</td>
 			</tr>
@@ -111,11 +111,5 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="actions">
-		<div class="btn-group">
-            <a href="{{ route('request.print',$data->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PR</button></a>
-            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
-        </div>
-    </div>
 </body>
 </html>

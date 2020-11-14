@@ -1,176 +1,121 @@
-@extends('apps.layouts.main')
-@section('header.title')
-FiberTekno | Purchase Request Detail
-@endsection
-@section('header.plugin')
-<link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
-<div class="page-content">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="portlet light portlet-fit portlet-datatable bordered">
-				<div class="portlet-title">
-					<div class="caption">
-						
-                    </div>
-                    <div class="actions">
-                        <div class="btn-group">
-                            <a href="{{ route('request.print',$data->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PR</button></a>
-                            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                	<div class="row">
-                		<div class="col-md-6 col-sm-12">
-                			<div>
-                				<div class="portlet-title">
-                                    <div class="caption">
-                                        <img src="{{ asset('assets/fibertekno.jpg') }}" alt="" />
-                                        <p style="line-height: 1;"><strong>PT. FIBER TEKNOLOGI INDONESIA</strong></p> 
-                                        <p style="line-height: 1;">Kirana Two Office Tower Lt. 10A</p>
-                                        <p style="line-height: 1;">Jl. Boulevard Timur No.88 </p>
-                                        <p style="line-height: 1;">Jakarta Utara 14250</p>
-                                        <p style="line-height: 1;">email : sales@fibertekno.co.id</p>
-                                        <p style="line-height: 1;">Phone : 021 - 21484090</p>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <table class="table table-bordered table-hover" style="width: 50%;background:#4B77BE;">
-                                        <thead>
-                                            <tr>
-                                                <th style="color: #ffffff;">DI BAYARKAN KEPADA</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                    <p style="line-height: 1;"><strong>{{$data->Suppliers->name}}</strong></p>
-                                    <p style="line-height: 1;">{{$data->Suppliers->billing_address}}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div>
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <h2 align="right"><strong>PURCHASE REQUEST</strong></h2>
-                                        
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>No Request</th>
-                                                <th>Tanggal Request</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{$data->order_ref}}</td>
-                                                <td>{{date("d F Y",strtotime($data->created_at)) }}</td>
-                                            </tr>
-                                        </tbody>
-                                        <thead>
-                                            <tr>
-                                                <th>Tanggal Pengiriman</th>
-                                                <th>Termin Pembayaran</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{date("d F Y",strtotime($data->delivery_date)) }}</td>
-                                                <td>{{$data->Suppliers->Terms->name}}</td>
-                                            </tr>
-                                        </tbody>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="2">ID Supplier</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="2">{{$data->supplier_code}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <table class="table table-bordered table-hover" style="width: 50%;background:#4B77BE;margin-top: -10px;">
-                                        <thead>
-                                            
-                                        </thead>
-                                    </table>
-                                    <p style="line-height: 1;"><strong></strong></p>
-                                    <p style="line-height: 1;"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>KETERANGAN NAMA BARANG/JASA</th>
-                                        <th>JML</th>
-                                        <th>SATUAN</th>
-                                        <th>HARGA PER UNIT</th>
-                                        <th>JUMLAH(RUPIAH)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($details as $key=>$val)
-                                    <tr>
-                                        <td>{{ $key+1 }}</td>
-                                        <td>{{ $val->product_name }}</td>
-                                        <td>{{ number_format($val->quantity,0,',','.')}}</td>
-                                        <td>{{ $val->Uoms->name }}</td>
-                                        <td>Rp {{ number_format($val->purchase_price,0,',','.')}}</td>
-                                        <td>Rp {{ number_format($val->sub_total,0,',','.')}}</td>
-                                    </tr>
-                                    @endforeach
-                                    <tr>
-                                        <td colspan="2" style="background:#4B77BE;color: #ffffff;" align="center">Thank You For Your Business!</td>
-                                        <td colspan="4"><strong>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp {{ number_format($data->total,0,',','.')}}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            
-                                        </td>
-                                        <td colspan="4">
-                                            <p style="line-height: 1;" align="center">PT. FIBER TEKNOLOGI INOVASI</p>
-                                            <p align="center">
-                                                <br>
-                                                <br>
-                                                <br>
-                                                <br>
-                                                <br>
-                                                <br>
-                                                (DIAN)
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!DOCTYPE html> 
+<html>
+<head>
+</head>
+<body>
+    <table style="height: 5px;" width="540">
+        <tbody>
+            <tr>
+                <td style="width: 315px;">
+                    <img src="{{ asset('assets/fibertekno.jpg') }}" alt="" />
+                    <p></p>
+                    <p><strong>PT. FIBER TEKNOLOGI INDONESIA</strong></p>
+                    <p style="text-align: left;">Kirana Two Office Tower Lt. 10A
+                    <br>
+                    Jl. Boulevard Timur No.88
+                    <br>
+                    Jakarta Utara 14250
+                    <br>
+                    email : sales@fibertekno.co.id
+                    <br>
+                    Phone : 021 - 21484090</p>
+                </td>
+                <td style="width: 316px;">
+                    <h2 align="right"><strong>PURCHASE REQUEST</strong></h2>
+                        <table style="height: 73px; border-color: #000000;" border="1" width="270">
+                            <tbody>
+                                <tr>
+                                <td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">No Order</td>
+                                <td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">Tanggal Order</td>
+                                </tr>
+                                <tr>
+                                <td style="width: 148px;font-size: 10px;">{{$data->order_ref}}</td>
+                                <td style="width: 148px;font-size: 10px;">{{date("d F Y",strtotime($data->created_at)) }}</td>
+                                </tr>
+                                <tr>
+                                <td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">ID Vendor</td>
+                                </tr>
+                                <tr>
+                                <td style="width: 148px;font-size: 10px;">{{$data->supplier_code}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="height: 9px;" width="540">
+        <tbody>
+            <tr>
+                <td style="width: 172px;background:#4B77BE;color:#ffffff;font-size: 12px;">VENDOR</td>
+                <td style="width: 173px;">&nbsp;</td>
+            </tr>
+            <tr>
+            <td style="width: 172px;">
+                <table style="height: 72px;" width="174">
+                    <tbody>
+                        <tr>
+                            <td style="width: 164px;font-size: 10px;">{{$data->Suppliers->name}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 164px;font-size: 10px;">{{$data->Suppliers->billing_address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tbody>
+    </table>
+    <table style="height: 41px; border-color: #000000;" border="1" width="540">
+        <tbody>
+            <tr> 
+                <td style="width: 10px;background:#4B77BE;color:#ffffff;font-size: 16px;">NO</td>
+                <td style="width: 280px;background:#4B77BE;color:#ffffff;font-size: 16px;">NAMA BARANG/JASA</td>
+                <td style="width: 60px;background:#4B77BE;color:#ffffff;font-size: 16px;">JML</td>
+                <td style="width: 60px;background:#4B77BE;color:#ffffff;font-size: 16px;">SATUAN</td>
+                <td style="width: 70px;background:#4B77BE;color:#ffffff;font-size: 16px;">HARGA</td>
+                <td style="width: 70px;background:#4B77BE;color:#ffffff;font-size: 16px;">SUBTOTAL</td>
+            </tr>
+            @foreach($details as $key=>$val)
+            <tr>
+                <td style="width: 10px;font-size: 13px;">{{ $key+1 }}</td>
+                <td style="width: 280px;font-size: 13px;">{{ $val->product_name }}</td>
+                <td style="width: 60px;font-size: 13px;">{{ number_format($val->quantity,0,',','.')}}</td>
+                <td style="width: 102px;font-size: 13px;">{{ $val->Uoms->name }}</td>
+                <td style="width: 110px;font-size: 13px;">Rp {{ number_format($val->purchase_price,0,',','.')}}</td>
+                <td style="width: 102px;font-size: 13px;">Rp {{ number_format($val->sub_total,0,',','.')}}</td>
+            </tr>
+            @endforeach
+            <tr>
+                <td style="width: 102px;font-size: 12px;text-align: right;" colspan="6">
+                    <strong style="font-size: 14px;">TOTAL Rp {{ number_format(($data->total),0,',','.')}}</strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="height: 26px;" width="540">
+        <tbody>
+            <tr>
+                <td style="width: 172px; text-align: center;">
+                    <p>Requester</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>(.................)</p>
+                </td>
+                <td style="width: 173px;">&nbsp;</td>
+                <td style="width: 173px; text-align: center;">
+                    <p>Approval&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>(....................)</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="actions">
+        <div class="btn-group">
+            <a href="{{ route('request.print',$data->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PR</button></a>
+            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
         </div>
     </div>
-</div>
-@endsection
-@section('footer.plugins')
-<script src="{{ asset('assets/global/scripts/datatable.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/datatables/datatables.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript"></script>
-@endsection
-@section('footer.scripts')
-<script src="{{ asset('assets/pages/scripts/ecommerce-orders-view.min.js') }}" type="text/javascript"></script>
-@endsection
+</body>
+</html>

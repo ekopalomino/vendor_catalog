@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html>
 <head>
 </head>
@@ -21,7 +21,7 @@
 					Phone : 021 - 21484090</p>
 				</td>
 				<td style="width: 316px;">
-					<h2 align="right"><strong>PURCHASE REQUEST</strong></h2>
+					<h2 align="right"><strong>PURCHASE ORDER</strong></h2>
 						<table style="height: 73px; border-color: #000000;" border="1" width="270">
 							<tbody>
 								<tr>
@@ -86,7 +86,7 @@
 			</tr>
 			@endforeach
 			<tr>
-				<td style="width: 102px;font-size: 12px;" colspan="2">
+				<td style="width: 102px;font-size: 12px;text-align: right;" colspan="6">
 					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($data->total),0,',','.')}}</strong>
 				</td>
 			</tr>
@@ -105,11 +105,5 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="actions">
-		<div class="btn-group">
-            <a href="{{ route('purchase.print',$data->id) }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Print PO</button></a>
-            <a href="{{ url()->previous() }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold">Back</button></a>
-        </div>
-    </div>
 </body>
 </html>
