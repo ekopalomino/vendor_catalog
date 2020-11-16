@@ -92,7 +92,7 @@ Fiber Tekno | Tambah Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Payment Terms</label>
                             <div class="col-md-4">
-                                {!! Form::select('payment_term', [null=>'Please Select'] + $terms,[], array('class' => 'form-control')) !!}
+                                {!! Form::select('payment_terms', [null=>'Please Select'] + $terms,[], array('class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="form-group">

@@ -8,6 +8,7 @@ class Payment extends Model
 {
     protected $fillable = [
         'reference_no',
+        'id_cicilan',
         'type_id',
         'contact_id',
         'terms_no',
@@ -53,5 +54,10 @@ class Payment extends Model
     public function Child()
     {
         return $this->hasMany(PaymentItem::class,'payment_id');
+    }
+
+    public function Cicil()
+    {
+        return $this->hasMany(PaymentCicilan::class,'id_cicilan');
     }
 }

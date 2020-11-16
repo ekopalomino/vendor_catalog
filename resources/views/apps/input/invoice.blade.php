@@ -34,7 +34,9 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Nomor Delivery Order</label>
+                            @isset($data->Deliveries->do_ref)
                             {!! Form::text('delivery_order', $data->Deliveries->do_ref, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -76,7 +78,7 @@ Fiber Tekno | Add Invoice
                     </div>
                     <div class="col-md-3" id="cicilan">
                         <div class="form-group">
-                            <label class="control-label">Termin Cicilan</label>
+                            <label class="control-label">Jumlah Cicilan</label>
                             {!! Form::number('total_terms', null, array('placeholder' => 'Termin','class' => 'form-control')) !!}
                         </div>
                     </div>
@@ -100,7 +102,7 @@ Fiber Tekno | Add Invoice
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Total Penjualan</label>
+                            <label class="control-label">Total Pembayaran</label>
                             {!! Form::number('amount', null, array('placeholder' => 'Total Bayar','class' => 'form-control','required')) !!}
                         </div>
                     </div>

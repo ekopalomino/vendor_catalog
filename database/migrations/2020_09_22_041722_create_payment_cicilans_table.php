@@ -15,10 +15,10 @@ class CreatePaymentCicilansTable extends Migration
     {
         Schema::create('payment_cicilans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('payment_id')->unsigned();
-            $table->decimal('payment',50,2);
-            $table->decimal('remaining',50,2);
-            $table->foreign('payment_id')->references('id')->on('payments')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('cicilan_id');
+            $table->integer('billed');
+            $table->integer('payment');
+            $table->integer('remaining');
             $table->timestamps();
         });
     }

@@ -67,7 +67,7 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Sisa Tagihan</label>
-                            {!! Form::number('total_terms', $remaining, array('placeholder' => 'Total Cicilan','class' => 'form-control','readonly'=>'true')) !!}
+                            {!! Form::number('total_terms', $remaining->remaining, array('placeholder' => 'Total Cicilan','class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-3">
