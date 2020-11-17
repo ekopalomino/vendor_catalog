@@ -359,7 +359,7 @@ class PaymentManagementController extends Controller
         $total = SaleItem::where('sales_id',$parent->id)->sum('sub_total'); */
         
         $filename = $source->reference_no;
-        $pdf = PDF::loadview('apps.print.invoice',compact('source'))
+        $pdf = PDF::loadview('apps.print.invoice',compact('source','sales'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
     }
