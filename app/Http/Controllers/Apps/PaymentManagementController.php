@@ -349,9 +349,7 @@ class PaymentManagementController extends Controller
     {
         $source = Payment::with('Child')->find($id);
         
-        $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
-                        ->where('sales.order_ref',$source->order_ref)
-                        ->first();  
+        $sales = Sale::where('order_ref',$source->sales_order)->first();
         dd($sales); 
         /* $parent = Sale::where('order_ref',$source->order_ref)->first();
         
