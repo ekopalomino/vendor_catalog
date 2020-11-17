@@ -46,7 +46,7 @@ class ContactManagementController extends Controller
             'email' => 'required|email',
             'billing_address' => 'required',
             'payment_method' => 'required',
-            'payment_term' => 'required',
+            'payment_terms' => 'required',
             'tax' => 'required',
         ]);
 
@@ -122,7 +122,7 @@ class ContactManagementController extends Controller
             'email' => 'required|email',
             'billing_address' => 'required',
             'payment_method' => 'required',
-            'payment_term' => 'required',
+            'payment_terms' => 'required',
             'tax' => 'required',
         ]); 
 
