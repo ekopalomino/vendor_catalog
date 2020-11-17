@@ -351,7 +351,8 @@ class PaymentManagementController extends Controller
         
         $sales = Sale::join('deliveries','deliveries.order_ref','sales.order_ref')
                         ->where('sales.order_ref',$source->order_ref)
-                        ->first();   
+                        ->first();  
+        dd($sales); 
         /* $parent = Sale::where('order_ref',$source->order_ref)->first();
         
         $items = SaleItem::where('sales_id',$parent->id)
