@@ -16,7 +16,7 @@
 					<br>
 					Jakarta Utara 14250
 					<br>
-					email : sales@fibertekno.co.id
+					email : sales@fibertekno.co.id 
 					<br>
 					Phone : 021 - 21484090</p>
 				</td>
@@ -38,7 +38,7 @@
 								</tr>
 								<tr>
 								<td style="width: 148px;font-size: 10px;">{{$source->sales_order}}</td>
-								<td style="width: 148px;font-size: 10px;"></td>
+								<td style="width: 148px;font-size: 10px;">{{$source->customer_po}}</td>
 								</tr>
 								<tr>
 								<td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">ID Customer</td>
