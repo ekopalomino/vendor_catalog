@@ -296,7 +296,7 @@ class ProductManagementController extends Controller
     public function productDestroy($id)
     {
         $data = Product::find($id);
-        $invent = Inventory::where('product_id',$id)->update([
+        $invent = Product::where('id',$id)->update([
             'active' => '82e9ec8c-5a82-4009-ba2f-ab620eeaa71a'
         ]);
         $log = 'Produk '.($data->name).' Berhasil Dinonaktifkan';
