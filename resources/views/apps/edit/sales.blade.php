@@ -5,6 +5,8 @@ Fiber Tekno | Edit Sales Order
 @section('header.plugins')
 <link href="{{ asset('public/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('public/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/global/plugins/select2/css/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="page-content">
@@ -80,7 +82,13 @@ Fiber Tekno | Edit Sales Order
 	            			<tbody>
                                 @foreach($items as $key=>$item)
 	            				<tr>
-                                    <td>{!! Form::text('product_name[]',$item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}" @if(old('product_name') == $val->product_name)selected @endif>{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', $uoms,old('uom_id'), array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', $item->sale_price, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -92,7 +100,13 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 @endforeach
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}" @if(old('product_name[]') == $val->product_name)selected @endif>{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -102,7 +116,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -112,7 +133,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -122,7 +150,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -132,7 +167,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -142,7 +184,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -152,7 +201,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -162,7 +218,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -172,7 +235,14 @@ Fiber Tekno | Edit Sales Order
                                     </td>
                     			</tr>
                                 <tr>
-                                    <td>{!! Form::text('product_name[]',null, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control')) !!}</td>
+                                    <td>
+                                        <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
+                                            @foreach($products as $val)
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                     				<td>{!! Form::number('kuantitas[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -198,23 +268,12 @@ Fiber Tekno | Edit Sales Order
 @endsection
 @section('footer.plugins')
 <script src="{{ asset('public/assets//global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('public/assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/assets/pages/scripts/form-samples.min.js') }}" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){ 
-    var route = "{{ route('sales.product') }}";
-    $("input[name^='product']").typeahead({
-        source:  function (product, process) {
-            return $.get(route, { product: product }, function (data) {
-                    return process(data);
-                });
-            }
-      });     
-    });  
-</script>
+<script src="{{ asset('assets/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
 <script>
 function deleteRow(r) {
   var i = r.parentNode.parentNode.rowIndex;

@@ -108,7 +108,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     Route::post('products/bom/delete/{id}','Apps\ProductManagementController@destroyBom')->name('product-bom.destroy');
     /*-----------------------End Product Management--------------------------------*/
 
-    /*-----------------------Contact Management------------------------------------*/
+    /*-----------------------Contact Management------------------------------------*/ 
     Route::get('customers','Apps\ContactManagementController@customerIndex')->name('customer.index');
     Route::get('customers/create','Apps\ContactManagementController@customerCreate')->name('customer.create');
     Route::post('customers/store','Apps\ContactManagementController@customerStore')->name('customer.store');

@@ -151,8 +151,13 @@ class SalesManagementController extends Controller
         $items = SaleItem::where('sales_id',$id)->get();
         $customers = Contact::where('type_id','1')->pluck('name','ref_id')->toArray();
         $uoms = UomValue::pluck('name','id')->toArray();
+        $products = Product::join('inventories','inventories.product_id','=','products.id')
+                            ->where('products.is_sale','=','1')
+                            ->where('warehouse_name','Gudang Utama')
+                            ->select('products.name','products.name')
+                            ->get();
         
-        return view('apps.edit.sales',compact('data','uoms','items','customers'));
+        return view('apps.edit.sales',compact('data','uoms','items','customers','products'));
     }
 
     public function updateSales(Request $request,$id)

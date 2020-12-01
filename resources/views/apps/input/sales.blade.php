@@ -79,6 +79,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                     				<td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
                     				<td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control','required')) !!}</td>
@@ -92,6 +93,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -105,6 +107,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -118,6 +121,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -131,6 +135,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -144,6 +149,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -157,6 +163,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -170,6 +177,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -183,6 +191,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
@@ -196,6 +205,7 @@ Fiber Tekno | Add Sales Order
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
+                                    </td>
                                     <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                                     <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
                                     <td>{!! Form::number('sale_price[]', null, array('placeholder' => 'Harga','class' => 'form-control')) !!}</td>
