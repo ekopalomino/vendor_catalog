@@ -85,15 +85,17 @@ class PurchaseManagementController extends Controller
         $purchase_id = $data->id;
         
         foreach($items as $index=>$item) {
-            $names = Product::where('name',$item)->orWhere('product_barcode',$item)->first();
-            $items = PurchaseItem::create([
-                'purchase_id' => $purchase_id,
-                'product_name' => $names->name,
-                'quantity' => $quantity[$index],
-                'uom_id' => $uoms[$index],
-                'purchase_price' => $purchase_price[$index],
-                'sub_total' => ($purchase_price[$index]) * ($quantity[$index]),
-            ]);
+            if (isset($item)) {
+                $names = Product::where('name',$item)->first();
+                $items = PurchaseItem::create([
+                    'purchase_id' => $purchase_id,
+                    'product_name' => $names->name,
+                    'quantity' => $quantity[$index],
+                    'uom_id' => $uoms[$index],
+                    'purchase_price' => $purchase_price[$index],
+                    'sub_total' => ($purchase_price[$index]) * ($quantity[$index]),
+                ]);
+            } 
         }
         $qty = PurchaseItem::where('purchase_id',$purchase_id)->sum('quantity');
         $price = PurchaseItem::where('purchase_id',$purchase_id)->sum('sub_total');
