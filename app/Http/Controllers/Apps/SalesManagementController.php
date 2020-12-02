@@ -68,6 +68,11 @@ class SalesManagementController extends Controller
 
     public function storeSales(Request $request)
     {
+        $this->validate($request, [
+            'client_code' => 'required',
+            'delivery_date' => 'required',
+        ]);
+        
         $getMonth = Carbon::now()->month;
         $getYear = Carbon::now()->year;
         $latestOrder = Reference::where('type','1')->where('month',$getMonth)->where('year',$getYear)->count();
@@ -199,7 +204,7 @@ class SalesManagementController extends Controller
                             'tax' => ($subtotal) * ($tax/100),
                             'total' => ($subtotal) + (($subtotal)*($tax/100)),
                             'delivery_date' => $request->input('delivery_date'),
-                            'change_note' => $request->input('notes'),
+                            'change_note' => $request->input('change_note'),
                             ]);
         } else {
             $saleData = DB::table('sales')
@@ -208,7 +213,7 @@ class SalesManagementController extends Controller
                             'quantity' => $qty,
                             'total' => $price,
                             'delivery_date' => $request->input('delivery_date'),
-                            'change_note' => $request->input('notes')
+                            'change_note' => $request->input('change_note')
                         ]);
         }
      

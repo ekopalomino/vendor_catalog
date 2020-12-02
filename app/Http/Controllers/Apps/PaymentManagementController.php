@@ -41,11 +41,8 @@ class PaymentManagementController extends Controller
     {
         $data = Payment::where('type_id','1')->get();
         $sales = Sale::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')
-                            ->orWhere('status_id','eca81b8f-bfb9-48b9-8e8d-86f4517bc129')
-                            ->orWhere('status_id','458410e7-384d-47bc-bdbe-02115adc4449')
-                            ->pluck('order_ref','order_ref')->toArray();
+                           ->pluck('order_ref','order_ref')->toArray();
         $deliveries = Delivery::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('do_ref','do_ref')->toArray();
-
         return view('apps.pages.invoices',compact('data','sales','deliveries'));
     }
 
@@ -55,7 +52,7 @@ class PaymentManagementController extends Controller
                             ->orWhere('status_id','eca81b8f-bfb9-48b9-8e8d-86f4517bc129')
                             ->pluck('order_ref','order_ref')->toArray();
         $deliveries = Delivery::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('do_ref','do_ref')->toArray();
-
+        
         return view('apps.input.invoiceSearch',compact('sales','deliveries'));
     }
 
@@ -74,7 +71,8 @@ class PaymentManagementController extends Controller
             return view('apps.input.invoice',compact('data'));
         } else {
             $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
-                return view('apps.input.invoice',compact('data'));
+            $detail = Sale::where('order_ref',$data->order_ref)->first();
+            return view('apps.input.invoice',compact('data','detail'));
         }
     }
 
@@ -82,57 +80,111 @@ class PaymentManagementController extends Controller
     {
         $getMonth  = Carbon::now()->month;
         $getYear = Carbon::now()->year;
-        $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
-    
-        $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        $getDeliveryCost = Delivery::where('do_ref',$request->input('delivery_order'))->first();
+        if(($request->input('total_terms') == NULL)) {
+            if(($request->input('tax_amount') == NULL)) {
+                $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
+                $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+                $reference = Reference::create([
+                    'type' => '9',
+                    'month' => $getMonth,
+                    'year' => $getYear,
+                    'ref_no' => $refs,
+                ]);
+                $invoices = Payment::create([
+                    'reference_no' => $refs,
+                    'type_id' => '1',
+                    'warehouse_ref' => $request->input('delivery_order'),
+                    'sales_order' => $request->input('sales_order'),
+                    'contact_id' => $request->input('customer_id'),
+                    'delivery_cost' => $getDeliveryCost->delivery_cost,
+                    'subtotal' => array_sum($request->sub_total),
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
+                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                    'created_by' => auth()->user()->name,
+                ]);
+                $items = $request->product;
+                $quantity = $request->shipment;
+                $prices = $request->salesPrint;
+                $uoms = $request->uom_id;
+                $total = $request->sub_total;
+                foreach($items as $index => $item) {
+                    $details = PaymentItem::create([
+                        'payment_id' => $invoices->id,
+                        'product_name' => $item,
+                        'uom_id' => $uoms[$index],
+                        'quantity' => $quantity[$index],
+                        'subtotal' => $total[$index],
+                    ]);
+                }
+        
+                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                    'alert-type' => 'success'
+                );
+                
+                return redirect()->route('invoice.index')->with($notification);
+            } else {
+                $latestRef = Reference::where('type','9')->where('pajak','1')->where('month',$getMonth)->where('year',$getYear)->count();
+                $refs = 'INV/AR/P/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+                $reference = Reference::create([
+                    'type' => '9',
+                    'pajak' => '1',
+                    'month' => $getMonth,
+                    'year' => $getYear,
+                    'ref_no' => $refs,
+                ]);
+                $invoices = Payment::create([
+                    'reference_no' => $refs,
+                    'type_id' => '1',
+                    'warehouse_ref' => $request->input('delivery_order'),
+                    'sales_order' => $request->input('sales_order'),
+                    'contact_id' => $request->input('customer_id'),
+                    'delivery_cost' => $getDeliveryCost->delivery_cost,
+                    'subtotal' => array_sum($request->sub_total),
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost) + ($request->input('tax_amount')),
+                    'tax_total' => $request->input('tax_amount'),
+                    'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
+                    'created_by' => auth()->user()->name,
+                ]);
+                $items = $request->product;
+                $quantity = $request->shipment;
+                $prices = $request->salesPrint;
+                $uoms = $request->uom_id;
+                $total = $request->sub_total;
+                foreach($items as $index => $item) {
+                    $details = PaymentItem::create([
+                        'payment_id' => $invoices->id,
+                        'product_name' => $item,
+                        'uom_id' => $uoms[$index],
+                        'quantity' => $quantity[$index],
+                        'subtotal' => $total[$index],
+                    ]);
+                }
+        
+                $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
+                \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
+                    'alert-type' => 'success'
+                );
+                
+                return redirect()->route('invoice.index')->with($notification);
+            }
+        } else {
+            $latestRef = Reference::where('type','9')->where('cicilan','1')->where('month',$getMonth)->where('year',$getYear)->count();
+            $cicilan = 'C'.'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'/'.($request->input('total_terms')).'';
             $reference = Reference::create([
                 'type' => '9',
+                'cicilan' => '1',
                 'month' => $getMonth,
                 'year' => $getYear,
                 'ref_no' => $refs,
             ]);
-        $cicilan = 'C'.'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'/'.($request->input('total_terms')).'';
 
-        $getDeliveryCost = Delivery::where('do_ref',$request->input('delivery_order'))->first();
-        if(($request->input('total_terms') == NULL)) {
-            $invoices = Payment::create([
-                'reference_no' => $refs,
-                'type_id' => '1',
-                'warehouse_ref' => $request->input('delivery_order'),
-                'sales_order' => $request->input('sales_order'),
-                'contact_id' => $request->input('customer_id'),
-                'delivery_cost' => $getDeliveryCost->delivery_cost,
-                'subtotal' => array_sum($request->sub_total),
-                'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost) + ($request->input('tax_total')),
-                'tax_total' => $request->input('tax_total'),
-                'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
-                'created_by' => auth()->user()->name,
-            ]);
-            $items = $request->product;
-            $quantity = $request->shipment;
-            $prices = $request->salesPrint;
-            $uoms = $request->uom_id;
-            $total = $request->sub_total;
-            foreach($items as $index => $item) {
-                $details = PaymentItem::create([
-                    'payment_id' => $invoices->id,
-                    'product_name' => $item,
-                    'uom_id' => $uoms[$index],
-                    'quantity' => $quantity[$index],
-                    'subtotal' => $total[$index],
-                ]);
-            }
-    
-            $log = 'Invoice '.($invoices->refs).' Berhasil Dibuat';
-            \LogActivity::addToLog($log);
-            $notification = array (
-                'message' => 'Invoice '.($invoices->refs).' Berhasil Dibuat',
-                'alert-type' => 'success'
-            );
-            
-            return redirect()->route('invoice.index')->with($notification);
-        } else {
             if($getDeliveryCost->delivery_cost != 0) {
                 $invoices = Payment::create([
                     'reference_no' => $refs,
@@ -247,16 +299,16 @@ class PaymentManagementController extends Controller
         $data = Payment::find($id);
         $getMonth  = Carbon::now()->month;
         $getYear = Carbon::now()->year;
-        $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
-    
-        $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-            $reference = Reference::create([
-                'type' => '9',
-                'month' => $getMonth,
-                'year' => $getYear,
-                'ref_no' => $refs,
-            ]);
+        $latestRef = Reference::where('type','9')->where('cicilan','1')->where('month',$getMonth)->where('year',$getYear)->count();
+        $cicilan = 'C'.'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'/'.($request->input('total_terms')).'';
+        $reference = Reference::create([
+            'type' => '9',
+            'cicilan' => '1',
+            'month' => $getMonth,
+            'year' => $getYear,
+            'ref_no' => $refs,
+        ]);
         $invoice = Payment::create([
             'reference_no' => $refs,
             'type_id' => '1',
@@ -316,22 +368,58 @@ class PaymentManagementController extends Controller
     public function invoicePayment(Request $request,$id)
     {
         $invoices = Payment::find($id);
-         
-        $payment = $invoices->update([
-            'status_id' => '805ec360-ebe1-4872-9798-a69dbac86a29',
-            'updated_by' => auth()->user()->name,
-            'payment_made' => Carbon::now(),
-        ]);
-        $process = Sale::where('order_ref',$invoices->sales_order)->update([
-            'status_id' => 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129',
-        ]);
-        $log = 'Invoice '.($invoices->refs).' Berhasil Dibayar';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Invoice '.($invoices->refs).' Berhasil Dibayar',
-            'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification);
+        if($invoice->id_cicilan == NULL) {
+            $payment = $invoices->update([
+                'status_id' => '805ec360-ebe1-4872-9798-a69dbac86a29',
+                'updated_by' => auth()->user()->name,
+                'payment_made' => Carbon::now(),
+            ]);
+            $process = Sale::where('order_ref',$invoices->sales_order)->update([
+                'status_id' => '805ec360-ebe1-4872-9798-a69dbac86a29',
+            ]);
+            $log = 'Invoice '.($invoices->refs).' Berhasil Dibayar';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Invoice '.($invoices->refs).' Berhasil Dibayar',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+        } else {
+            $terms = PaymentCicilan::where('cicilan_id',$invoices->id_cicilan)->orderBy('updated_at','DESC')->first();
+            if($terms->remaining != '0') {
+                $payment = $invoices->update([
+                    'status_id' => 'cc040768-2b4f-48df-867f-7da18b749e61',
+                    'updated_by' => auth()->user()->name,
+                    'payment_made' => Carbon::now(),
+                ]);
+                $process = Sale::where('order_ref',$invoices->sales_order)->update([
+                    'status_id' => 'cc040768-2b4f-48df-867f-7da18b749e61',
+                ]);
+                $log = 'Cicilan Invoice '.($invoices->refs).' Berhasil Dibayar';
+                 \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Cicilan Invoice '.($invoices->refs).' Berhasil Dibayar',
+                    'alert-type' => 'success'
+                );
+                return redirect()->back()->with($notification);
+            } else {
+                $payment = $invoices->update([
+                    'status_id' => '805ec360-ebe1-4872-9798-a69dbac86a29',
+                    'updated_by' => auth()->user()->name,
+                    'payment_made' => Carbon::now(),
+                ]);
+                $process = Sale::where('order_ref',$invoices->sales_order)->update([
+                    'status_id' => '805ec360-ebe1-4872-9798-a69dbac86a29',
+                ]);
+                $log = 'Cicilan Invoice '.($invoices->refs).' Selesai Dibayar';
+                 \LogActivity::addToLog($log);
+                $notification = array (
+                    'message' => 'Cicilan Invoice '.($invoices->refs).' Selesai Dibayar',
+                    'alert-type' => 'success'
+                );
+            }
+        }
+        
     }
 
     public function invoiceShow($id)

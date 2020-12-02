@@ -116,7 +116,6 @@ class ContactManagementController extends Controller
     public function customerUpdate(Request $request,$id)
     {
         $this->validate($request, [
-            'ref_id' => 'required',
             'name' => 'required',
             'mobile' => 'required',
             'email' => 'required|email',

@@ -828,8 +828,8 @@ class InventoryManagementController extends Controller
                 $orderItems = DeliveryItem::create([
                     'delivery_id' => $orders->id,
                     'product_name' => $item,
-                    'product_quantity' => $quantity_order[$index],
-                    'product_shipment' => $quantity_shipment[$index],
+                    'quantity' => $quantity_order[$index],
+                    'shipping' => $quantity_shipment[$index],
                     'uom_id' => $uoms[$index],
                 ]);
             
@@ -898,8 +898,8 @@ class InventoryManagementController extends Controller
                 $orderItems = DeliveryItem::create([
                     'delivery_id' => $orders->id,
                     'product_name' => $item,
-                    'product_quantity' => $quantity_order[$index],
-                    'product_shipment' => $quantity_shipment[$index],
+                    'quantity' => $quantity_order[$index],
+                    'shipping' => $quantity_shipment[$index],
                     'uom_id' => $uoms[$index],
                 ]);
             

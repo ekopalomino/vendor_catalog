@@ -29,7 +29,7 @@ Fiber Tekno | Edit Customer
                         <div class="form-group">
                             <label class="col-md-3 control-label">Customer ID</label>
                             <div class="col-md-4">
-                                {!! Form::text('ref_id', null, array('placeholder' => 'Supplier ID','class' => 'form-control')) !!}
+                                {!! Form::text('ref_id', null, array('placeholder' => 'Supplier ID','class' => 'form-control','readonly')) !!}
                             </div>
                         </div>
                         <div class="form-group">

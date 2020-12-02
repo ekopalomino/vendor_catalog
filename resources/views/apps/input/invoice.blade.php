@@ -34,16 +34,25 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Nomor Delivery Order</label>
-                            @isset($data->Deliveries->do_ref)
+                            @isset($data->client_code)
                             {!! Form::text('delivery_order', $data->Deliveries->do_ref, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
+                            @isset($data->do_ref)
+                            {!! Form::text('delivery_order', $data->do_ref, array('class' => 'form-control','readonly'=>'true')) !!}
                             @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Nama Customer</label>
+                            @isset($data->client_code)
                             {!! Form::text('customer_name', $data->Customers->name, array('class' => 'form-control','readonly'=>'true')) !!}
                             {{Form::hidden('customer_id', $data->client_id)}}
+                            @endisset
+                            @isset($data->do_ref)
+                            {!! Form::text('customer_name', $detail->Customers->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            {{Form::hidden('customer_id', $detail->client_id)}}
+                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -57,13 +66,23 @@ Fiber Tekno | Add Invoice
             		<div class="col-md-3">
             			<div class="form-group">
             				<label class="control-label">Metode Pembayaran</label>
+                            @isset($data->client_code)
                             {!! Form::text('pay_method', $data->Customers->Methods->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
+                            @isset($data->do_ref)
+                            {!! Form::text('pay_method', $detail->Customers->Methods->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
             			</div>
             		</div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Termin Pembayaran</label>
+                            @isset($data->client_code)
                             {!! Form::text('pay_term', $data->Customers->Terms->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
+                            @isset($data->do_ref)
+                            {!! Form::text('pay_term', $detail->Customers->Terms->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3" id="is_cicil">
@@ -87,17 +106,31 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">PKP</label>
+                            @isset($data->client_code)
                             @if(($data->Customers->tax) == 1)
                             {!! Form::text('is_tax', "Ya", array('class' => 'form-control','readonly'=>'true')) !!}
                             @else
                             {!! Form::text('is_tax', "Tidak", array('class' => 'form-control','readonly'=>'true')) !!}
                             @endif
+                            @endisset
+                            @isset($data->do_ref)
+                            @if(($detail->Customers->tax) == 1)
+                            {!! Form::text('is_tax', "Ya", array('class' => 'form-control','readonly'=>'true')) !!}
+                            @else
+                            {!! Form::text('is_tax', "Tidak", array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endif
+                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">NPWP</label>
+                            @isset($data->client_code)
                             {!! Form::text('tax_id', $data->Customers->tax_no, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
+                            @isset($data->do_ref)
+                            {!! Form::text('tax_id', $detail->Customers->tax_no, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -106,6 +139,7 @@ Fiber Tekno | Add Invoice
                             {!! Form::number('amount', null, array('placeholder' => 'Total Bayar','class' => 'form-control','required')) !!}
                         </div>
                     </div>
+                    @isset($data->client_code)
                     @if(($data->Customers->tax) == 1)
                     <div class="col-md-3">
                         <div class="form-group">
@@ -114,6 +148,17 @@ Fiber Tekno | Add Invoice
                         </div>
                     </div>
                     @endif
+                    @endisset
+                    @isset($data->do_ref)
+                    @if(($detail->Customers->tax) == 1)
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Total Pajak</label>
+                            {!! Form::number('tax_amount', null, array('placeholder' => 'Total Pajak','class' => 'form-control')) !!}
+                        </div>
+                    </div>
+                    @endif
+                    @endisset
             		<!--/span-->
             	</div>
                 <div class="row">
