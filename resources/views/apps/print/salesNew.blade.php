@@ -107,7 +107,7 @@
 				<td style="width: 60px;font-size: 13px;">{{ $val->Uoms->name }}</td>
 				<td style="width: 70px;font-size: 13px;">Rp {{ number_format($val->sale_price,0,',','.')}}</td>
 				<td style="width: 50px;font-size: 13px;">Rp {{ number_format($val->discount,0,',','.')}}</td>
-				<td style="width: 102px;font-size: 13px;">Rp {{ number_format($val->subtotal,0,',','.')}}</td>
+				<td style="width: 102px;font-size: 13px;">Rp {{ number_format($val->sub_total,0,',','.')}}</td>
 			</tr>
 			@endforeach
 			<tr>
