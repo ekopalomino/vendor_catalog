@@ -83,11 +83,13 @@ Fiber Tekno | Edit Sales Order
                                 @foreach($items as $key=>$item)
 	            				<tr>
                                     <td>
+                                        @if(isset($item))
                                         <select id="single" name="product[]" class="form-control select2">
                                             @foreach($products as $val)
-                                            <option value="{{$val->name}}" @if(old('product_name') == $val->product_name)selected @endif>{{$val->name}}</option>
+                                            <option value="{{$item->product_name}}" @if(old('product_name') == $item->product_name)selected @endif>{{$item->product_name}}</option>
                                             @endforeach
                                         </select>
+                                        @endif
                                     </td>
                     				<td>{!! Form::number('kuantitas[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', $uoms,old('uom_id'), array('class' => 'form-control')) !!}</td>
@@ -102,8 +104,9 @@ Fiber Tekno | Edit Sales Order
                                 <tr>
                                     <td>
                                         <select id="single" name="product[]" class="form-control select2">
+                                            <option></option>
                                             @foreach($products as $val)
-                                            <option value="{{$val->name}}" @if(old('product_name[]') == $val->product_name)selected @endif>{{$val->name}}</option>
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
                                     </td>
