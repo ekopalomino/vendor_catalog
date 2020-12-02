@@ -68,7 +68,7 @@ Fiber Tekno | Edit Sales Order
 	            		<table class="table table-striped table-bordered table-hover" id="sample_2">
 	            			<thead>
 	            				<tr>
-                                    <th>Produk</th>
+                                    <th style="width: 30%;">Produk</th>
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
 	            					<th>Harga Satuan</th>
@@ -83,13 +83,7 @@ Fiber Tekno | Edit Sales Order
                                 @foreach($items as $key=>$item)
 	            				<tr>
                                     <td>
-                                        @if(isset($item))
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            @foreach($products as $val)
-                                            <option value="{{$item->product_name}}" @if(old('product_name') == $item->product_name)selected @endif>{{$item->product_name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @endif
+                                        {!! Form::text('product_name[]', $item->product_name, array('placeholder' => 'Produk','class' => 'form-control' ,'readonly')) !!}
                                     </td>
                     				<td>{!! Form::number('kuantitas[]', $item->quantity, array('placeholder' => 'Quantity','class' => 'form-control')) !!}</td>
                     				<td>{!! Form::select('uom_id[]', $uoms,old('uom_id'), array('class' => 'form-control')) !!}</td>
@@ -103,7 +97,7 @@ Fiber Tekno | Edit Sales Order
                                 @endforeach
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -120,7 +114,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -137,7 +131,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -154,7 +148,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -171,7 +165,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -188,7 +182,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -205,7 +199,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -222,7 +216,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
@@ -239,7 +233,7 @@ Fiber Tekno | Edit Sales Order
                     			</tr>
                                 <tr>
                                     <td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product_name[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
                                             <option value="{{$val->name}}">{{$val->name}}</option>
