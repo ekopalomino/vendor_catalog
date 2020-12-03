@@ -59,6 +59,7 @@ class SalesManagementController extends Controller
         $uoms = UomValue::pluck('name','id')->toArray();
         $products = Product::join('inventories','inventories.product_id','=','products.id')
                             ->where('products.is_sale','=','1')
+                            ->where('inventories.closing_amount','!=','0')
                             ->where('warehouse_name','Gudang Utama')
                             ->select('products.name','products.name')
                             ->get();
@@ -79,75 +80,149 @@ class SalesManagementController extends Controller
         $ref = 'SO/FTI/'.str_pad($latestOrder + 1, 4, "0", STR_PAD_LEFT).'/'.($request->input('client_code')).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
 
         $details = Contact::where('ref_id',$request->input('client_code'))->first();
-        $input = [
-            'order_ref' => $ref,
-            'client_code' => $request->input('client_code'),
-            'client_id' => $details->id,
-            'client_name' => $details->name,
-            'delivery_date' => $request->input('delivery_date'),
-            'billing_address' => $details->billing_address,
-            'shipping_address' => $details->shipping_address,
-            'customer_po' => $request->input('customer_po'),
-            'description' => $request->input('description'),
-            'delivery_date' => $request->input('delivery_date'),
-            'created_by' => auth()->user()->name,
-        ];
-        $refs = Reference::create([
-            'type' => '1',
-            'month' => $getMonth,
-            'year' => $getYear,
-            'ref_no' => $ref,
-        ]);
-        
-        $data = Sale::create($input);
-        $items = $request->product;
-        $quantity = $request->quantity;
-        $sale_price = $request->sale_price;
-        $uoms = $request->uom_id;
-        $sale_id = $data->id;
-        $discounts = $request->discount;
-        foreach($items as $index=>$item) {
-            if (isset($item)) {
-                $names = Product::where('name',$item)->first();
-                $items = SaleItem::create([
-                    'sales_id' => $sale_id,
-                    'product_id' => $names->id,
-                    'product_name' => $item,
-                    'quantity' => $quantity[$index],
-                    'uom_id' => $uoms[$index],
-                    'sale_price' => $sale_price[$index],
-                    'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
-                    'discount' => $discounts[$index],
-                ]);
+        if($request->input('sale_date') == NULL) {
+            $input = [
+                'order_ref' => $ref,
+                'client_code' => $request->input('client_code'),
+                'client_id' => $details->id,
+                'client_name' => $details->name,
+                'delivery_date' => $request->input('delivery_date'),
+                'billing_address' => $details->billing_address,
+                'shipping_address' => $details->shipping_address,
+                'customer_po' => $request->input('customer_po'),
+                'description' => $request->input('description'),
+                'delivery_date' => $request->input('delivery_date'),
+                'created_by' => auth()->user()->name,
+                'sale_date' => Carbon::now()
+            ];
+            $refs = Reference::create([
+                'type' => '1',
+                'month' => $getMonth,
+                'year' => $getYear,
+                'ref_no' => $ref,
+            ]);
+            
+            $data = Sale::create($input);
+            $items = $request->product;
+            $quantity = $request->quantity;
+            $sale_price = $request->sale_price;
+            $uoms = $request->uom_id;
+            $sale_id = $data->id;
+            $discounts = $request->discount;
+            foreach($items as $index=>$item) {
+                if (isset($item)) {
+                    $names = Product::where('name',$item)->first();
+                    $items = SaleItem::create([
+                        'sales_id' => $sale_id,
+                        'product_id' => $names->id,
+                        'product_name' => $item,
+                        'quantity' => $quantity[$index],
+                        'uom_id' => $uoms[$index],
+                        'sale_price' => $sale_price[$index],
+                        'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
+                        'discount' => $discounts[$index],
+                    ]);
+                }
             }
-        }
-
-        $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
-        $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
-        $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
-        $tax = '10';
-        $subtotal = ($price) - ($disc);
-        if($details->tax == '1') {
-            $saleData = DB::table('sales')
-                        ->where('id',$sale_id)
-                        ->update([
-                            'quantity' => $qty,
-                            'tax' => ($subtotal) * ($tax/100),
-                            'total' => ($subtotal) + (($subtotal)*($tax/100)), 
-                            ]);
+    
+            $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
+            $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
+            $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
+            $tax = '10';
+            $subtotal = ($price) - ($disc);
+            if($details->tax == '1') {
+                $saleData = DB::table('sales')
+                            ->where('id',$sale_id)
+                            ->update([
+                                'quantity' => $qty,
+                                'tax' => ($subtotal) * ($tax/100),
+                                'total' => ($subtotal) + (($subtotal)*($tax/100)), 
+                                ]);
+            } else {
+                $saleData = DB::table('sales')
+                            ->where('id',$sale_id)
+                            ->update(['quantity' => $qty, 'total' => $price]);
+            }
+                  
+            $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Sales Order '.($data->order_ref).' Berhasil Disubmit',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('sales.index')->with($notification);
         } else {
-            $saleData = DB::table('sales')
-                        ->where('id',$sale_id)
-                        ->update(['quantity' => $qty, 'total' => $price]);
+            $input = [
+                'order_ref' => $ref,
+                'client_code' => $request->input('client_code'),
+                'client_id' => $details->id,
+                'client_name' => $details->name,
+                'delivery_date' => $request->input('delivery_date'),
+                'billing_address' => $details->billing_address,
+                'shipping_address' => $details->shipping_address,
+                'customer_po' => $request->input('customer_po'),
+                'description' => $request->input('description'),
+                'delivery_date' => $request->input('delivery_date'),
+                'created_by' => auth()->user()->name,
+                'sale_date' => $request->input('sale_date')
+            ];
+            $refs = Reference::create([
+                'type' => '1',
+                'month' => $getMonth,
+                'year' => $getYear,
+                'ref_no' => $ref,
+            ]);
+            
+            $data = Sale::create($input);
+            $items = $request->product;
+            $quantity = $request->quantity;
+            $sale_price = $request->sale_price;
+            $uoms = $request->uom_id;
+            $sale_id = $data->id;
+            $discounts = $request->discount;
+            foreach($items as $index=>$item) {
+                if (isset($item)) {
+                    $names = Product::where('name',$item)->first();
+                    $items = SaleItem::create([
+                        'sales_id' => $sale_id,
+                        'product_id' => $names->id,
+                        'product_name' => $item,
+                        'quantity' => $quantity[$index],
+                        'uom_id' => $uoms[$index],
+                        'sale_price' => $sale_price[$index],
+                        'sub_total' => (($sale_price[$index]) * ($quantity[$index])) - (($discounts[$index]) * ($quantity[$index])),
+                        'discount' => $discounts[$index],
+                    ]);
+                }
+            }
+    
+            $qty = SaleItem::where('sales_id',$sale_id)->sum('quantity');
+            $price = SaleItem::where('sales_id',$sale_id)->sum('sub_total');
+            $disc = SaleItem::where('sales_id',$sale_id)->sum('discount');
+            $tax = '10';
+            $subtotal = ($price) - ($disc);
+            if($details->tax == '1') {
+                $saleData = DB::table('sales')
+                            ->where('id',$sale_id)
+                            ->update([
+                                'quantity' => $qty,
+                                'tax' => ($subtotal) * ($tax/100),
+                                'total' => ($subtotal) + (($subtotal)*($tax/100)), 
+                                ]);
+            } else {
+                $saleData = DB::table('sales')
+                            ->where('id',$sale_id)
+                            ->update(['quantity' => $qty, 'total' => $price]);
+            }
+                  
+            $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
+             \LogActivity::addToLog($log);
+            $notification = array (
+                'message' => 'Sales Order '.($data->order_ref).' Berhasil Disubmit',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('sales.index')->with($notification);
         }
-              
-        $log = 'Sales Order '.($data->order_ref).' Berhasil Disubmit';
-         \LogActivity::addToLog($log);
-        $notification = array (
-            'message' => 'Sales Order '.($data->order_ref).' Berhasil Disubmit',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('sales.index')->with($notification);
     }
 
     public function editSales($id)

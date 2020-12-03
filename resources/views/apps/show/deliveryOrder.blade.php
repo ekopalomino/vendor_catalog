@@ -18,8 +18,8 @@
                 	@foreach($items as $key=>$val)
                 	<tr>
 	                	<td>{{ $val->product_name}}</td>                           
-						<td>{{ number_format(($val->product_quantity),2,',','.')}}</td>
-	                	<td>{{ number_format(($val->product_shipment),2,',','.')}}</td>
+						<td>{{ number_format(($val->quantity),2,',','.')}}</td>
+	                	<td>{{ number_format(($val->shipping),2,',','.')}}</td>
 	                	<td>{{ $val->Uoms->name}}</td>
 	                </tr>
                 	@endforeach

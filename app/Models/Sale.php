@@ -26,6 +26,7 @@ class Sale extends Model
         'status_id',
         'created_by',
         'updated_by',
+        'sale_date',
         'closing_date',
     ];
 

@@ -30,7 +30,7 @@
                                 </tr>
                                 <tr>
                                 <td style="width: 148px;font-size: 10px;">{{$sales->order_ref}}</td>
-                                <td style="width: 148px;font-size: 10px;">{{date("d F Y",strtotime($sales->created_at)) }}</td>
+                                <td style="width: 148px;font-size: 10px;">{{date("d F Y",strtotime($sales->sale_date)) }}</td>
                                 </tr>
                                 <tr>
                                 <td style="width: 148px;background:#4B77BE;color:#ffffff;font-size: 12px;">ID Customer</td>
@@ -112,7 +112,7 @@
             @endforeach
             <tr>
                 <td style="width: 150px;font-size: 14px;" colspan="5">Thank You For Your Business!</td>
-                <td style="width: 102px;font-size: 12px;" colspan="2">PPN(10%) Rp {{ number_format($sales->tax_total,0,',','.')}}
+                <td style="width: 102px;font-size: 12px;" colspan="2">PPN(10%) Rp {{ number_format($sales->tax,0,',','.')}}
                     <br>
                     <strong style="font-size: 14px;">TOTAL Rp {{ number_format(($sales->total),0,',','.')}}</strong>
                 </td>

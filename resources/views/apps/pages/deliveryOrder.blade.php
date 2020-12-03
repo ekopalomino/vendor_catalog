@@ -55,14 +55,14 @@ FiberTekno | Delivery Order
                                 <td>
                                     @foreach($val->Child as $child)
                                     <ul>
-                                        <li>{{$child->product_quantity}}</li>
+                                        <li>{{$child->quantity}}</li>
                                     </ul>
                                     @endforeach
                                 </td>
                                 <td>
                                     @foreach($val->Child as $child)
                                     <ul>
-                                        <li>{{$child->product_shipment}}</li>
+                                        <li>{{$child->shipping}}</li>
                                     </ul>
                                     @endforeach
                                 </td>

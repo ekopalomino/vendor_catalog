@@ -136,7 +136,7 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Total Pembayaran</label>
-                            {!! Form::number('amount', null, array('placeholder' => 'Total Bayar','class' => 'form-control','required')) !!}
+                            {!! Form::number('amount', $data->total, array('placeholder' => 'Total Bayar','class' => 'form-control','required')) !!}
                         </div>
                     </div>
                     @isset($data->client_code)
@@ -144,7 +144,7 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Total Pajak</label>
-                            {!! Form::number('tax_amount', null, array('placeholder' => 'Total Pajak','class' => 'form-control')) !!}
+                            {!! Form::number('tax_amount', $data->tax, array('placeholder' => 'Total Pajak','class' => 'form-control')) !!}
                         </div>
                     </div>
                     @endif

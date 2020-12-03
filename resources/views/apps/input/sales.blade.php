@@ -45,10 +45,18 @@ Fiber Tekno | Add Sales Order
                             <label class="control-label">Customer PO</label>
                             {!! Form::text('customer_po', null, array('placeholder' => 'Customer PO', 'class' => 'form-control')) !!}
                         </div>
-                        <div class="form-group">
-                        <label class="control-label">Tgl Pengiriman</label>
-                        {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
-                      </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Tgl Pembelian</label>
+                                {!! Form::date('sale_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Tgl Pengiriman</label>
+                                {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+                            </div>
+                        </div>
             		</div>
                     <div class="col-md-6">
                         <div class="form-group">

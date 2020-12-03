@@ -71,7 +71,8 @@ class PaymentManagementController extends Controller
             return view('apps.input.invoice',compact('data'));
         } else {
             $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
-            $detail = Sale::where('order_ref',$data->order_ref)->first();
+            $detail = Sale::with('Child')->where('order_ref',$data->order_ref)->first();
+            
             return view('apps.input.invoice',compact('data','detail'));
         }
     }
@@ -182,7 +183,7 @@ class PaymentManagementController extends Controller
                 'cicilan' => '1',
                 'month' => $getMonth,
                 'year' => $getYear,
-                'ref_no' => $refs,
+                'ref_no' => $cicilan,
             ]);
 
             if($getDeliveryCost->delivery_cost != 0) {
