@@ -146,7 +146,7 @@ class PaymentManagementController extends Controller
                     'contact_id' => $request->input('customer_id'),
                     'delivery_cost' => $getDeliveryCost->delivery_cost,
                     'subtotal' => array_sum($request->sub_total),
-                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost) + ($request->input('tax_amount')),
+                    'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost),
                     'tax_total' => $request->input('tax_amount'),
                     'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
                     'created_by' => auth()->user()->name,
