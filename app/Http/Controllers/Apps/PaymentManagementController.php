@@ -65,15 +65,28 @@ class PaymentManagementController extends Controller
             );
 
             return redirect()->back()->with($notification);
-        } elseif(($request->input('delivery_order')) == null) {
-            $data = Sale::with('Child')->where('order_ref',$request->input('sales_order'))->first();
-
-            return view('apps.input.invoice',compact('data'));
         } else {
-            $data = Delivery::with('Child')->where('do_ref',$request->input('delivery_order'))->first();
-            $detail = Sale::with('Child')->where('order_ref',$data->order_ref)->first();
+            $data =  DB::table('deliveries')
+                         ->join('sales','sales.order_ref','deliveries.order_ref')
+                         ->join('contacts','contacts.ref_id','sales.client_code')
+                         ->join('statuses','statuses.id','deliveries.status_id')
+                         ->join('payment_methods','payment_methods.id','contacts.payment_method')
+                         ->join('payment_terms','payment_terms.id','contacts.payment_terms')
+                         ->where('deliveries.do_ref',$request->input('delivery_order'))
+                         ->orWhere('sales.order_ref',$request->input('sales_order'))
+                         ->select('contacts.name','deliveries.order_ref','deliveries.do_ref','statuses.name as status','payment_methods.name as method','payment_terms.name as terms','contacts.tax','contacts.tax_no',
+                         'contacts.id as contact_id','sales.total','sales.tax as pajak')
+                         ->first();
             
-            return view('apps.input.invoice',compact('data','detail'));
+            $details = Delivery::join('sales','sales.order_ref','deliveries.order_ref')
+                                ->join('sale_items','sale_items.sales_id','sales_id')
+                                ->join('uom_values','uom_values.id','sale_items.uom_id')
+                                ->where('deliveries.do_ref',$request->input('delivery_order'))
+                                ->orWhere('deliveries.order_ref',$request->input('sales_order'))
+                                ->select('sale_items.product_name','sale_items.shipping','sale_items.sale_price','sale_items.uom_id as uom','uom_values.name as uom_name')
+                                ->get();
+            
+            return view('apps.input.invoice',compact('data','details'));
         }
     }
 
@@ -369,7 +382,7 @@ class PaymentManagementController extends Controller
     public function invoicePayment(Request $request,$id)
     {
         $invoices = Payment::find($id);
-        if($invoice->id_cicilan == NULL) {
+        if($invoices->id_cicilan == NULL) {
             $payment = $invoices->update([
                 'status_id' => '805ec360-ebe1-4872-9798-a69dbac86a29',
                 'updated_by' => auth()->user()->name,

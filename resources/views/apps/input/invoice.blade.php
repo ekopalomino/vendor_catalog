@@ -34,31 +34,20 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Nomor Delivery Order</label>
-                            @isset($data->client_code)
-                            {!! Form::text('delivery_order', $data->Deliveries->do_ref, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
-                            @isset($data->do_ref)
                             {!! Form::text('delivery_order', $data->do_ref, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Nama Customer</label>
-                            @isset($data->client_code)
-                            {!! Form::text('customer_name', $data->Customers->name, array('class' => 'form-control','readonly'=>'true')) !!}
-                            {{Form::hidden('customer_id', $data->client_id)}}
-                            @endisset
-                            @isset($data->do_ref)
-                            {!! Form::text('customer_name', $detail->Customers->name, array('class' => 'form-control','readonly'=>'true')) !!}
-                            {{Form::hidden('customer_id', $detail->client_id)}}
-                            @endisset
+                            {!! Form::text('customer_name', $data->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            {{Form::hidden('customer_id', $data->contact_id)}}
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Status Pembelian</label>
-                            {!! Form::text('status_id', $data->Statuses->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            {!! Form::text('status_id', $data->name, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                 </div>
@@ -66,23 +55,13 @@ Fiber Tekno | Add Invoice
             		<div class="col-md-3">
             			<div class="form-group">
             				<label class="control-label">Metode Pembayaran</label>
-                            @isset($data->client_code)
-                            {!! Form::text('pay_method', $data->Customers->Methods->name, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
-                            @isset($data->do_ref)
-                            {!! Form::text('pay_method', $detail->Customers->Methods->name, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
-            			</div>
+                            {!! Form::text('pay_method', $data->method, array('class' => 'form-control','readonly'=>'true')) !!}
+                        </div>
             		</div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Termin Pembayaran</label>
-                            @isset($data->client_code)
-                            {!! Form::text('pay_term', $data->Customers->Terms->name, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
-                            @isset($data->do_ref)
-                            {!! Form::text('pay_term', $detail->Customers->Terms->name, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
+                            {!! Form::text('pay_term', $data->terms, array('class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
                     <div class="col-md-3" id="is_cicil">
@@ -106,59 +85,35 @@ Fiber Tekno | Add Invoice
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">PKP</label>
-                            @isset($data->client_code)
-                            @if(($data->Customers->tax) == 1)
+                            @if(($data->tax) == 1)
                             {!! Form::text('is_tax', "Ya", array('class' => 'form-control','readonly'=>'true')) !!}
                             @else
                             {!! Form::text('is_tax', "Tidak", array('class' => 'form-control','readonly'=>'true')) !!}
                             @endif
-                            @endisset
-                            @isset($data->do_ref)
-                            @if(($detail->Customers->tax) == 1)
-                            {!! Form::text('is_tax', "Ya", array('class' => 'form-control','readonly'=>'true')) !!}
-                            @else
-                            {!! Form::text('is_tax', "Tidak", array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endif
-                            @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">NPWP</label>
-                            @isset($data->client_code)
-                            {!! Form::text('tax_id', $data->Customers->tax_no, array('class' => 'form-control','readonly'=>'true')) !!}
-                            @endisset
-                            @isset($data->do_ref)
-                            {!! Form::text('tax_id', $detail->Customers->tax_no, array('class' => 'form-control','readonly'=>'true')) !!}
+                            @isset($data->tax_no)
+                            {!! Form::text('tax_id', $data->tax_no, array('class' => 'form-control','readonly'=>'true')) !!}
                             @endisset
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Total Pembayaran</label>
+                            <label class="control-label">Total Sales</label>
                             {!! Form::number('amount', $data->total, array('placeholder' => 'Total Bayar','class' => 'form-control','required')) !!}
                         </div>
                     </div>
-                    @isset($data->client_code)
-                    @if(($data->Customers->tax) == 1)
+                    @if(($data->tax) == 1)
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Total Pajak</label>
-                            {!! Form::number('tax_amount', $data->tax, array('placeholder' => 'Total Pajak','class' => 'form-control')) !!}
+                            {!! Form::number('tax_amount', $data->pajak, array('placeholder' => 'Total Pajak','class' => 'form-control')) !!}
                         </div>
                     </div>
                     @endif
-                    @endisset
-                    @isset($data->do_ref)
-                    @if(($detail->Customers->tax) == 1)
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label">Total Pajak</label>
-                            {!! Form::number('tax_amount', null, array('placeholder' => 'Total Pajak','class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    @endif
-                    @endisset
             		<!--/span-->
             	</div>
                 <div class="row">
@@ -174,13 +129,13 @@ Fiber Tekno | Add Invoice
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($data->Child as $key=>$item)
+                                @foreach($details as $index =>$item)
                                 <tr>
                                     <td>{!! Form::text('product[]', $item->product_name, array('placeholder' => 'Produk','id' => 'product','class' => 'form-control','readonly'=>'true')) !!}</td>
                                     <td>{!! Form::number('shipment[]', $item->shipping, array('placeholder' => 'Produk','class' => 'form-control','readonly'=>'true')) !!}</td>
-                                    <td>{!! Form::text('satuan[]', $item->Uoms->name, array('placeholder' => 'Produk','class' => 'form-control','readonly'=>'true')) !!}{{Form::hidden('uom_id[]', $item->uom_id)}}</td>
+                                    <td>{!! Form::text('satuan[]', $item->uom_name, array('placeholder' => 'Produk','class' => 'form-control','readonly'=>'true')) !!}{{Form::hidden('uom_id[]', $item->uom)}}</td>
                                     <td>{!! Form::number('sale_price[]', $item->sale_price, array('placeholder' => 'Produk','class' => 'form-control','readonly'=>'true')) !!}</td>
-                                    <td>{!! Form::number('sub_total[]', $item->sub_total, array('placeholder' => 'Produk','class' => 'form-control','readonly'=>'true')) !!}</td>
+                                    <td>{!! Form::number('sub_total[]', ($item->sale_price) * ($item->shipping), array('placeholder' => 'Produk','class' => 'form-control','readonly'=>'true')) !!}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

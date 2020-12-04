@@ -793,7 +793,7 @@ class InventoryManagementController extends Controller
             'status_id' => '314f31d1-4e50-4ad9-ae8c-65f0f7ebfc43',
             'created_by' => auth()->user()->name,
             'updated_by' => auth()->user()->name,
-            'received_by' => auth()->user()->name
+            'received_by' => 'SYSTEM'
         ]);
 
         /*Get Input Array Table Value*/
@@ -839,7 +839,6 @@ class InventoryManagementController extends Controller
                 $updateSaleItem = SaleItem::where('sales_id',$getSales->id)->where('product_name',$item)->update([
                     'remain' => ($quantity_order[$index]) - ($quantity_shipment[$index]),
                     'shipping' => $quantity_shipment[$index],
-                    'sub_total' => $quantity_shipment[$index] * $prices[$index],
                 ]);
 
                 $movements = InventoryMovement::create([
@@ -910,7 +909,6 @@ class InventoryManagementController extends Controller
                 $updateSaleItem = SaleItem::where('sales_id',$getSales->id)->where('product_name',$item)->update([
                     'remain' => ($quantity_order[$index]) - ($quantity_shipment[$index]),
                     'shipping' => $quantity_shipment[$index],
-                    'sub_total' => $quantity_shipment[$index] * $prices[$index],
                 ]);
 
                 $movements = InventoryMovement::create([

@@ -40,7 +40,7 @@ class Delivery extends Model
 
     public function Sales()
     {
-        return $this->belongsTo(Sale::class,'order_ref');
+        return $this->belongsTo(Sale::class,'order_ref','order_ref');
     }
 
     public function Courier()
@@ -52,6 +52,4 @@ class Delivery extends Model
     {
         return $this->hasMany(DeliveryItem::class,'delivery_id');
     }
-
-
 }

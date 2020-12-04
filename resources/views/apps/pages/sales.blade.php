@@ -90,7 +90,7 @@ FiberTekno | Sales Management
                                 <th>Jumlah Brg</th>
                                 <th>Total Harga</th>
                                 <th>Status</th>
-                				<th>Tgl Dibuat</th>
+                				<th>Tgl Pesanan</th>
                                 <th>Tgl Selesai</th>
                 				<th></th>
                 			</tr>
@@ -106,7 +106,7 @@ FiberTekno | Sales Management
                                 <td>
                                     @if( ($sale->status_id) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
                                     <label class="label label-sm label-warning">{{ $sale->Statuses->name }}</label>
-                                    @elseif( ($sale->status_id) == '8083f49e-f0aa-4094-894f-f64cd2e9e4e9')
+                                    @elseif( ($sale->status_id) == '805ec360-ebe1-4872-9798-a69dbac86a29')
                                     <label class="label label-sm label-success">{{ $sale->Statuses->name }}</label>
                                     @elseif( ($sale->status_id) == 'af0e1bc3-7acd-41b0-b926-5f54d2b6c8e8')
                                     <label class="label label-sm label-danger">{{ $sale->Statuses->name }}</label>
@@ -124,7 +124,7 @@ FiberTekno | Sales Management
                                     <label class="label label-sm label-success">{{ $sale->Statuses->name }}</label>
                                     @endif
                                 </td>
-                                <td>{{date("d F Y H:i",strtotime($sale->created_at)) }}</td>
+                                <td>{{date("d F Y H:i",strtotime($sale->sale_date)) }}</td>
                                 <td>
                                     @if(!empty($sale->closing_date))
                                     {{date("d F Y H:i",strtotime($sale->closing_date)) }}
@@ -143,12 +143,12 @@ FiberTekno | Sales Management
                                     {!! Form::open(['method' => 'POST','route' => ['sales.rejected', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
                                     {!! Form::button('<i class="fa fa-remove"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Cancel Sale']) !!}
                                     {!! Form::close() !!}
+                                    @endcan
                                     @endif
                                     @if(($sale->status_id) == '805ec360-ebe1-4872-9798-a69dbac86a29')
                                     {!! Form::open(['method' => 'POST','route' => ['sales.close', $sale->id],'style'=>'display:inline','onsubmit' => 'return ConfirmClose()']) !!}
                                     {!! Form::button('<i class="fa fa-lock"></i>',['type'=>'submit','class' => 'btn btn-xs btn-success','title'=>'Close Sale']) !!}
                                     {!! Form::close() !!}
-                                    @endcan
                                     @endif
                                 </td>
                 			</tr>
