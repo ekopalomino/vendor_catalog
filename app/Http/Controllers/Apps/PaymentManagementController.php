@@ -41,6 +41,7 @@ class PaymentManagementController extends Controller
     {
         $data = Payment::where('type_id','1')->get();
         $sales = Sale::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')
+                           ->orWhere('status_id','cc040768-2b4f-48df-867f-7da18b749e61')
                            ->pluck('order_ref','order_ref')->toArray();
         $deliveries = Delivery::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('do_ref','do_ref')->toArray();
         return view('apps.pages.invoices',compact('data','sales','deliveries'));
@@ -49,7 +50,7 @@ class PaymentManagementController extends Controller
     public function invoiceMake()
     {
         $sales = Sale::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')
-                            ->orWhere('status_id','eca81b8f-bfb9-48b9-8e8d-86f4517bc129')
+                            ->orWhere('status_id','cc040768-2b4f-48df-867f-7da18b749e61')
                             ->pluck('order_ref','order_ref')->toArray();
         $deliveries = Delivery::where('status_id','c2fdba02-e765-4ee8-8c8c-3073209ddd26')->pluck('do_ref','do_ref')->toArray();
         
@@ -189,7 +190,8 @@ class PaymentManagementController extends Controller
                 return redirect()->route('invoice.index')->with($notification);
             }
         } else {
-            $latestRef = Reference::where('type','9')->where('cicilan','1')->where('month',$getMonth)->where('year',$getYear)->count();
+            $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
+            $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
             $cicilan = 'C'.'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'/'.($request->input('total_terms')).'';
             $reference = Reference::create([
                 'type' => '9',
@@ -315,6 +317,7 @@ class PaymentManagementController extends Controller
         $getYear = Carbon::now()->year;
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
         $latestRef = Reference::where('type','9')->where('cicilan','1')->where('month',$getMonth)->where('year',$getYear)->count();
+        $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
         $cicilan = 'C'.'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'/'.($request->input('total_terms')).'';
         $reference = Reference::create([
             'type' => '9',

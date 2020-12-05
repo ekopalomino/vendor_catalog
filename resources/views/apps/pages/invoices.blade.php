@@ -104,7 +104,7 @@ FiberTekno | Invoice Management
                                     @endif
                                 </td>
                                 <td>
-                                    @if($val->status_id == 'eca81b8f-bfb9-48b9-8e8d-86f4517bc129')
+                                    @if($val->status_id == 'cc040768-2b4f-48df-867f-7da18b749e61')
                                     <a class="btn btn-xs btn-info" title="Bayar Cicilan" href="{{ route('invoiceCicilan.create',$val->id) }}"><i class="fa fa-edit"></i></a>
                                     @endif
                                     <a class="btn btn-xs btn-info" title="PDF Invoice" href="{{ route('invoice.print',$val->id) }}"><i class="fa fa-file-pdf-o"></i></a>
