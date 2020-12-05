@@ -79,13 +79,13 @@ class PaymentManagementController extends Controller
                          ->first();
             
             $details = Delivery::join('sales','sales.order_ref','deliveries.order_ref')
-                                ->join('sale_items','sale_items.sales_id','sales_id')
+                                ->join('sale_items','sale_items.sales_id','sales.id')
                                 ->join('uom_values','uom_values.id','sale_items.uom_id')
                                 ->where('deliveries.do_ref',$request->input('delivery_order'))
                                 ->orWhere('deliveries.order_ref',$request->input('sales_order'))
                                 ->select('sale_items.product_name','sale_items.shipping','sale_items.sale_price','sale_items.uom_id as uom','uom_values.name as uom_name')
                                 ->get();
-            
+             
             return view('apps.input.invoice',compact('data','details'));
         }
     }
