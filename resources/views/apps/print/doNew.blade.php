@@ -24,6 +24,7 @@
 		</tbody>
 	</table>
 	<h2 align="center"><strong>SURAT JALAN</strong></h2>
+	<p align="center">{{ $source->do_ref }}</p>
 	<table style="height: 9px;" width="540">
 		<tbody>
 			<tr>
@@ -58,7 +59,7 @@
 			<tr>
 				<td style="width: 10px;font-size: 13px;">{{ $key+1 }}</td>
 				<td style="width: 280px;font-size: 13px;">{{ $val->product_name }}</td>
-				<td style="width: 30px;font-size: 13px;">{{ number_format($val->product_shipment,0,',','.')}}</td>
+				<td style="width: 30px;font-size: 13px;">{{ number_format($val->shipping,0,',','.')}}</td>
 				<td style="width: 60px;font-size: 13px;">{{ $val->Uoms->name }}</td>
 			</tr>
 			@endforeach
