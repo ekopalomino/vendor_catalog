@@ -52,19 +52,19 @@ Fiber Tekno | Add Invoice
                     </div>
                 </div>
             	<div class="row">
-            		<div class="col-md-3">
+            		<div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Cicilan Dibayar</label>
                             {!! Form::number('terms_no', $data->terms_no, array('placeholder' => 'Cicilan Ke','class' => 'form-control','required','readonly'=>'true')) !!}
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Total Cicilan</label>
                             {!! Form::number('total_terms', $data->total_terms, array('placeholder' => 'Total Cicilan','class' => 'form-control','readonly'=>'true')) !!}
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label class="control-label">Sisa Tagihan</label>
                             {!! Form::number('total_terms', $remaining->remaining, array('placeholder' => 'Total Cicilan','class' => 'form-control','readonly'=>'true')) !!}
@@ -74,6 +74,12 @@ Fiber Tekno | Add Invoice
                         <div class="form-group">
                             <label class="control-label">Total Pembayaran</label>
                             {!! Form::number('amount', null, array('placeholder' => 'Total Bayar','class' => 'form-control','required')) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Total Pajak</label>
+                            {!! Form::number('tax_amount', null, array('placeholder' => 'Total Pajak','class' => 'form-control','required')) !!}
                         </div>
                     </div>
                 </div>

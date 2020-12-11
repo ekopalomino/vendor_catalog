@@ -27,44 +27,55 @@ Fiber Tekno | Add Sales Order
                 </ul>
             </div>
             @endif 
-            {!! Form::open(array('route' => 'sales.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
+            {!! Form::open(array('route' => 'sales.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
             @csrf
             <div class="form-body">
             	<div class="row">
             		<div class="col-md-6">
             			<div class="form-group">
-            				<label class="control-label">Customer</label>
-                            <select id="single" name="client_code" class="form-control select2">
-                                <option></option>
-                                @foreach($customers as $cust)
-                                <option value="{{$cust->ref_id}}">{{$cust->name}}</option>
-                                @endforeach
-                            </select>
+            				<label class="col-md-2 control-label">Customer</label>
+                            <div class="col-md-5">
+                                <select id="single" name="client_code" class="form-control select2">
+                                    <option></option>
+                                    @foreach($customers as $cust)
+                                    <option value="{{$cust->ref_id}}">{{$cust->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
             			</div>
                         <div class="form-group">
-                            <label class="control-label">Customer PO</label>
+                            <label class="col-md-2 control-label">PO Number</label>
+                            <div class="col-md-5">
                             {!! Form::text('customer_po', null, array('placeholder' => 'Customer PO', 'class' => 'form-control')) !!}
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Tgl Pembelian</label>
-                                {!! Form::date('sale_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Tgl Pengiriman</label>
-                                {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">SO Number</label>
+                            <div class="col-md-5">
+                            {!! Form::text('order_ref', $ref, array('placeholder' => 'Customer PO', 'class' => 'form-control','readonly')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Sales Date</label>
+                            <div class="col-md-5">
+                                {!! Form::date('sale_date', \Carbon\Carbon::now(), array('id' => 'datepicker','class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Delivery Date</label>
+                            <div class="col-md-5">
+                                {!! Form::date('delivery_date', \Carbon\Carbon::now(), array('id' => 'datepicker','class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Status</label>
+                            <div class="col-md-5">
+                                {!! Form::text('status', 'Open', array('class' => 'form-control','readonly')) !!}
                             </div>
                         </div>
             		</div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Deskripsi (Opsional)</label>
-                            {!! Form::textarea('description', null, array('placeholder' => 'Deskripsi', 'class' => 'form-control')) !!}
-                        </div>
-                    </div>
-            		<!--/span-->
             	</div>            		
             	<div class="row">
             		<div class="col-md-12">
@@ -75,7 +86,7 @@ Fiber Tekno | Add Sales Order
 	            					<th>Jumlah</th>
 	            					<th>Satuan</th>
 	            					<th>Harga Satuan</th>
-                                    <th>Diskon (Rp)</th>
+                                    <th>Diskon (dalam Rupiah)</th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
@@ -223,6 +234,25 @@ Fiber Tekno | Add Sales Order
 	            		</table>
 	            	</div>
             	</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Description</label>
+                            <div class="col-md-10">
+                                {!! Form::textarea('description', null, array('placeholder' => 'Deskripsi', 'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Sales Person</label>
+                            <div class="col-md-5">
+                                {!! Form::text('sale_person', auth()->user()->name, array('placeholder' => 'Deskripsi', 'class' => 'form-control','readonly')) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
             	<div class="form-actions right">
                     <a button type="button" class="btn default" href="{{ route('sales.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">

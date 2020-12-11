@@ -105,7 +105,7 @@
 				<td style="width: 60px;background:#4B77BE;color:#ffffff;font-size: 16px;">SATUAN</td>
 				<td style="width: 70px;background:#4B77BE;color:#ffffff;font-size: 16px;">HARGA</td>
 				<td style="width: 50px;background:#4B77BE;color:#ffffff;font-size: 16px;">DISC</td>
-				<td style="width: 102px;background:#4B77BE;color:#ffffff;font-size: 16px;">SUBTOTAL</td>
+				<td style="width: 110px;background:#4B77BE;color:#ffffff;font-size: 16px;">SUBTOTAL</td>
 			</tr>
 			@foreach($source->Child as $key=>$val)
 			<tr>
@@ -115,17 +115,24 @@
 				<td style="width: 60px;font-size: 13px;">{{ $val->Uoms->name }}</td>
 				<td style="width: 70px;font-size: 13px;">Rp {{ number_format(($val->subtotal)/($val->quantity),0,',','.')}}</td>
 				<td style="width: 50px;font-size: 13px;">Rp {{ number_format($val->discount,0,',','.')}}</td>
-				<td style="width: 102px;font-size: 13px;">Rp {{ number_format($val->subtotal,0,',','.')}}</td>
+				<td style="width: 110px;font-size: 13px;">Rp {{ number_format($val->subtotal,0,',','.')}}</td>
 			</tr>
 			@endforeach
+			@isset($source->terms_no)
+			<tr>
+				<td style="width: 280px;font-size: 13px;" colspan="7">Pembayaran Cicilan untuk Sales Order {{ $sales->order_ref }}</td>
+			</tr>
+			@endisset
 			<tr>
 				<td style="width: 150px;font-size: 14px;" colspan="5">Thank You For Your Business!</td>
 				<td style="width: 102px;font-size: 12px;" colspan="2">PPN(10%) Rp {{ number_format($source->tax_total,0,',','.')}}
 					<br>
-					<strong style="font-size: 12px;">DELIVERY COST Rp {{ number_format($source->delivery_cost,0,',','.')}}</strong>
+					DELIVERY COST Rp {{ number_format($source->delivery_cost,0,',','.')}}
+					<br>
+					SUB TOTAL Rp {{ number_format($source->amount,0,',','.')}}
 					<br>
 					<br>
-					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($source->amount),0,',','.')}}</strong>
+					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($source->amount) + ($source->tax_total),0,',','.')}}</strong>
 				</td>
 			</tr>
 		</tbody>

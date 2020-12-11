@@ -112,8 +112,10 @@
 			@endforeach
 			<tr>
 				<td style="width: 150px;font-size: 14px;" colspan="5">Thank You For Your Business!</td>
-				<td style="width: 102px;font-size: 12px;" colspan="2">PPN(10%) Rp {{ number_format($sales->tax_total,0,',','.')}}
+				<td style="width: 102px;font-size: 12px;" colspan="2">PPN(10%) Rp {{ number_format($sales->tax,0,',','.')}}
 					<br>
+                    SUB TOTAL Rp {{ number_format(($sales->total) - ($sales->tax),0,',','.')}}
+                    <br>
 					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($sales->total),0,',','.')}}</strong>
 				</td>
 			</tr>

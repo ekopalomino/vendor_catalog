@@ -1,4 +1,4 @@
-@extends('apps.layouts.main')
+@extends('apps.layouts.main') 
 @section('header.title')
 Fiber Tekno | Edit Sales Order 
 @endsection
@@ -28,40 +28,49 @@ Fiber Tekno | Edit Sales Order
             </div>
             @endif
             <div class="form-body">
-                {!! Form::model($data, ['method' => 'POST','route' => ['sales.update', $data->id],'class' => 'horizontal-form']) !!}
+                {!! Form::model($data, ['method' => 'POST','route' => ['sales.update', $data->id],'class' => 'form-horizontal']) !!}
                 @csrf
             	<div class="row">
-            		<div class="col-md-3">
-            			<div class="form-group">
-            				<label class="control-label">ID Pelanggan</label>
-                            {!! Form::text('client_code', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Customer Code</label>
+                            <div class="col-md-5">
+                                {!! Form::text('client_code', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Nomor SO</label>
-                            {!! Form::text('order_ref', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                            <label class="col-md-2 control-label">SO Number</label>
+                            <div class="col-md-5">
+                                {!! Form::text('order_ref', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Nomor Customer PO</label>
-                            {!! Form::text('customer_po', null, array('class' => 'form-control','readonly'=>'true')) !!}
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Ubah Tgl Pengiriman</label>
-                            {!! Form::date('delivery_date', old('delivery_date'), array('id' => 'datepicker','class' => 'form-control')) !!}
+                            <label class="col-md-2 control-label">PO Number</label>
+                            <div class="col-md-5">
+                                {!! Form::text('customer_po', null, array('class' => 'form-control','readonly'=>'true')) !!}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label">Deskripsi</label>
-                            {!! Form::textarea('description', null, array('class' => 'form-control','readonly' => 'true')) !!}
+                            <label class="col-md-2 control-label">Sales Date</label>
+                            <div class="col-md-5">
+                                {!! Form::date('sale_date', old('sale_date'), array('id' => 'datepicker','class' => 'form-control','readonly')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Delivery Date</label>
+                            <div class="col-md-5">
+                                {!! Form::date('delivery_date', old('delivery_date'), array('id' => 'datepicker','class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Status</label>
+                            <div class="col-md-5">
+                                {!! Form::text('status', $data->Statuses->name, array('class' => 'form-control','readonly'=>'true')) !!}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="control-label">Catatan Perubahan</label>
-                            {!! Form::textarea('change_note', null, array('class' => 'form-control')) !!}
-                        </div>
-                    </div>
-            		<!--/span-->
             	</div>
                 <div class="row">
             		<div class="col-md-12">
@@ -252,6 +261,24 @@ Fiber Tekno | Edit Sales Order
 	            		</table>
 	            	</div>
             	</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Description</label>
+                            <div class="col-md-10">
+                                {!! Form::textarea('description', null, array('placeholder' => 'Deskripsi', 'class' => 'form-control','readonly')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Change Note</label>
+                            <div class="col-md-10">
+                                {!! Form::textarea('change_note', null, array('placeholder' => 'Deskripsi', 'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             	<div class="form-actions right">
                     <a button type="button" class="btn default" href="{{ route('sales.index') }}">Cancel</a>
                     <button type="submit" class="btn blue">

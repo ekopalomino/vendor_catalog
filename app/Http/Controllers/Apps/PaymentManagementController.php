@@ -97,7 +97,9 @@ class PaymentManagementController extends Controller
         $getYear = Carbon::now()->year;
         $getClient = Contact::where('id',$request->input('customer_id'))->first();
         $getDeliveryCost = Delivery::where('do_ref',$request->input('delivery_order'))->first();
+        /*Calculate Full Payment*/
         if(($request->input('total_terms') == NULL)) {
+            /*Calculate Full Payment Non Tax*/
             if(($request->input('tax_amount') == NULL)) {
                 $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
                 $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
@@ -143,6 +145,7 @@ class PaymentManagementController extends Controller
                 
                 return redirect()->route('invoice.index')->with($notification);
             } else {
+                /*Calculate Full Payment Tax*/
                 $latestRef = Reference::where('type','9')->where('pajak','1')->where('month',$getMonth)->where('year',$getYear)->count();
                 $refs = 'INV/AR/P/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
                 $reference = Reference::create([
@@ -190,6 +193,7 @@ class PaymentManagementController extends Controller
                 return redirect()->route('invoice.index')->with($notification);
             }
         } else {
+            /*Calculate Payment Installment*/
             $latestRef = Reference::where('type','9')->where('month',$getMonth)->where('year',$getYear)->count();
             $refs = 'INV/AR/FTI/'.str_pad($latestRef + 1, 4, "0", STR_PAD_LEFT).'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
             $cicilan = 'C'.'/'.($getClient->ref_id).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'/'.($request->input('total_terms')).'';
@@ -201,7 +205,7 @@ class PaymentManagementController extends Controller
                 'ref_no' => $cicilan,
             ]);
 
-            if($getDeliveryCost->delivery_cost != 0) {
+            if(($request->input('tax_amount') == NULL)) {
                 $invoices = Payment::create([
                     'reference_no' => $refs,
                     'id_cicilan' => $cicilan,
@@ -214,7 +218,6 @@ class PaymentManagementController extends Controller
                     'delivery_cost' => $getDeliveryCost->delivery_cost,
                     'subtotal' => array_sum($request->sub_total),
                     'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost) + ($request->input('tax_total')),
-                    'tax_total' => $request->input('tax_total'),
                     'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
                     'created_by' => auth()->user()->name,
                 ]);
@@ -262,7 +265,7 @@ class PaymentManagementController extends Controller
                 'delivery_cost' => $getDeliveryCost->delivery_cost,
                 'subtotal' => array_sum($request->sub_total),
                 'amount' => ($request->input('amount')) + ($getDeliveryCost->delivery_cost) + ($request->input('tax_total')),
-                'tax_total' => $request->input('tax_total'),
+                'tax_total' => $request->input('tax_amount'),
                 'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
                 'created_by' => auth()->user()->name,
             ]);
@@ -271,6 +274,7 @@ class PaymentManagementController extends Controller
                 'cicilan_id' => $cicilan,
                 'billed' => $invoices->subtotal,
                 'payment' => $request->input('amount'),
+                'tax_paid' => $request->input('tax_amount'),
                 'remaining' => ($invoices->subtotal) - ($request->input('amount')) 
             ]);
 
@@ -298,7 +302,6 @@ class PaymentManagementController extends Controller
             
             return redirect()->route('invoice.index')->with($notification);
             }
-            
         }
     }
 
@@ -337,6 +340,7 @@ class PaymentManagementController extends Controller
             'delivery_cost' => '0',
             'subtotal' => $data->subtotal,
             'amount' => $request->input('amount'),
+            'tax_total' => $request->input('tax_amount'),
             'status_id' => '3da32f6e-494f-4b61-b010-7ccc0e006fb3',
             'created_by' => auth()->user()->name,
         ]);
@@ -347,6 +351,7 @@ class PaymentManagementController extends Controller
             'cicilan_id' => $source->cicilan_id,
             'billed' => $invoice->subtotal,
             'payment' => $request->input('amount'),
+            'tax_paid' => $request->input('tax_amount'),
             'remaining' => ($source->remaining) - ($invoice->amount)
         ]);
 
@@ -436,7 +441,6 @@ class PaymentManagementController extends Controller
                 );
             }
         }
-        
     }
 
     public function invoiceShow($id)

@@ -27,28 +27,43 @@ Fiber Tekno | Add Purchase Request
                 </ul>
             </div>
             @endif 
-            {!! Form::open(array('route' => 'request.store','method'=>'POST', 'class' => 'horizontal-form')) !!}
+            {!! Form::open(array('route' => 'request.store','method'=>'POST', 'class' => 'form-horizontal')) !!}
             @csrf
             <div class="form-body">
             	<div class="row">
-            		<div class="col-md-5">
+            		<div class="col-md-6">
             			<div class="form-group">
-            				<label class="control-label">Supplier</label>
-            				<select id="single" name="supplier_code" class="form-control select2">
-                                <option></option>
-                                @foreach($suppliers as $contact)
-                                <option value="{{$contact->ref_id}}">{{$contact->name}}</option>
-                                @endforeach
-                            </select>
+            				<label class="col-md-2 control-label">Supplier</label>
+                            <div class="col-md-10">
+                				<select id="single" name="supplier_code" class="form-control select2">
+                                    <option></option>
+                                    @foreach($suppliers as $contact)
+                                    <option value="{{$contact->ref_id}}">{{$contact->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
             			</div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Est. Delivery</label>
+                            <div class="col-md-5">
+                                {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
+                            </div>
+                        </div>
             		</div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label class="control-label">Estimasi Penerimaan</label>
-                    {!! Form::date('delivery_date', '', array('id' => 'datepicker','class' => 'form-control')) !!}
-                  </div>
-                </div>
-            		<!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">PR Number</label>
+                            <div class="col-md-5">
+                                {!! Form::text('order_ref', $refs, array('placeholder' => 'Customer PO', 'class' => 'form-control','readonly')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Status</label>
+                            <div class="col-md-5">
+                                {!! Form::text('status', 'Open', array('class' => 'form-control','readonly')) !!}
+                            </div>
+                        </div>
+                    </div>
             	</div>       		
             	<div class="row">
             		<div class="col-md-12">

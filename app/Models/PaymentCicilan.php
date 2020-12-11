@@ -10,6 +10,7 @@ class PaymentCicilan extends Model
         'cicilan_id',
         'billed',
         'payment',
+        'tax_paid',
         'remaining',
     ];
 
