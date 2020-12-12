@@ -93,7 +93,7 @@ FiberTekno | Invoice Management
                                 <td>{{ $val->sales_order }}</td>
                                 <td>{{ $val->Contacts->name}}</td>
                                 <td>{{ number_format($val->subtotal,2,',','.')}}</td>
-                                <td>{{ number_format(($val->amount) + ($val->tax_total),2,',','.')}}</td>
+                                <td>{{ number_format(($val->amount),2,',','.')}}</td>
                                 <td>{{ ($val->terms_no) }} / {{ ($val->total_terms)}}</td>
                                 <td><label class="label label-sm label-success">{{ $val->Status->name }}</label></td>
                                 <td>{{ $val->created_by }}</td> 

@@ -129,10 +129,10 @@
 					<br>
 					DELIVERY COST Rp {{ number_format($source->delivery_cost,0,',','.')}}
 					<br>
-					SUB TOTAL Rp {{ number_format($source->amount,0,',','.')}}
+					SUB TOTAL Rp {{ number_format($source->subtotal,0,',','.')}}
 					<br>
 					<br>
-					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($source->amount) + ($source->tax_total),0,',','.')}}</strong>
+					<strong style="font-size: 14px;">TOTAL Rp {{ number_format(($source->amount),0,',','.')}}</strong>
 				</td>
 			</tr>
 		</tbody>
