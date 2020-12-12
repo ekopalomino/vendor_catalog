@@ -11,5 +11,7 @@ class Reference extends Model
         'month',
         'year',
         'ref_no',
+        'pajak',
+        'cicilan'
     ];
 }
