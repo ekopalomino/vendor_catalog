@@ -609,7 +609,7 @@ class PaymentManagementController extends Controller
         $source = Payment::with('Child')->where('id',$id)->first();
         
         $filename = $source->reference_no;
-        $pdf = PDF::loadview('apps.print.purchaseReceipt',compact('source'))
+        $pdf = PDF::loadview('apps.print.invoiceReceipt',compact('source'))
                     ->setPaper('a4','portrait');
         return $pdf->download(''.$filename.'.pdf');
     }
