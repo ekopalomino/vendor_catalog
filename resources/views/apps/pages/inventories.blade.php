@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Persediaan
+FiberTekno | Persediaan 
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -80,14 +80,4 @@ FiberTekno | Persediaan
 @endsection
 @section('footer.scripts')
 <script src="{{ asset('assets/pages/scripts/table-datatables-buttons.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript">
-    $(document).on('ajaxComplete ajaxReady ready', function () {
-        $('ul.pagination li a').off('click').on('click', function (e) {
-            $("#modalLg").modal('show');
-            $('#modalLgContent').load($(this).attr('href'));
-            $('#modalLgTitle').html($(this).attr('title'));
-            e.preventDefault();
-        });
-    });
-</script>
 @endsection
