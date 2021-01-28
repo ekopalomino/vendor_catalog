@@ -78,7 +78,7 @@ class ConfigurationController extends Controller
         );
 
         return redirect()->route('warehouse.index')->with($notification);
-    }
+    } 
 
     public function warehouseDestroy($id)
     {
