@@ -214,7 +214,7 @@ class ContactManagementController extends Controller
             'email' => 'required|email',
             'billing_address' => 'required',
             'payment_method' => 'required',
-            'payment_term' => 'required',
+            'payment_terms' => 'required',
             'tax' => 'required',
         ]);
 
@@ -229,7 +229,7 @@ class ContactManagementController extends Controller
                 'billing_address' => $request->input('billing_address'),
                 'shipping_address' => $request->input('billing_address'),
                 'payment_method' => $request->input('payment_method'),
-                'payment_terms' => $request->input('payment_term'),
+                'payment_terms' => $request->input('payment_terms'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
                 'created_by' => auth()->user()->name,
@@ -246,7 +246,7 @@ class ContactManagementController extends Controller
                 'billing_address' => $request->input('billing_address'),
                 'shipping_address' => $request->input('shipping_address'),
                 'payment_method' => $request->input('payment_method'),
-                'payment_terms' => $request->input('payment_term'),
+                'payment_terms' => $request->input('payment_terms'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
                 'created_by' => auth()->user()->name,
@@ -290,7 +290,7 @@ class ContactManagementController extends Controller
             'email' => 'required|email',
             'billing_address' => 'required',
             'payment_method' => 'required',
-            'payment_term' => 'required',
+            'payment_terms' => 'required',
             'tax' => 'required',
         ]);
 
@@ -305,7 +305,7 @@ class ContactManagementController extends Controller
                 'billing_address' => $request->input('billing_address'),
                 'shipping_address' => $request->input('billing_address'),
                 'payment_method' => $request->input('payment_method'),
-                'payment_terms' => $request->input('payment_term'),
+                'payment_terms' => $request->input('payment_terms'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
                 'updated_by' => auth()->user()->name,
@@ -322,7 +322,7 @@ class ContactManagementController extends Controller
                 'billing_address' => $request->input('billing_address'),
                 'shipping_address' => $request->input('shipping_address'),
                 'payment_method' => $request->input('payment_method'),
-                'payment_terms' => $request->input('payment_term'),
+                'payment_terms' => $request->input('payment_terms'),
                 'tax' => $request->input('tax'),
                 'tax_no' => $request->input('tax_no'),
                 'updated_by' => auth()->user()->name,
