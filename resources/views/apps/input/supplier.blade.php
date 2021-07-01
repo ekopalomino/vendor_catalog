@@ -90,7 +90,7 @@ Fiber Tekno | Add Supplier
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Payment Terms</label>
+                            <label class="col-md-3 control-label">Payment Terms</label> 
                             <div class="col-md-4">
                                 {!! Form::select('payment_terms', [null=>'Please Select'] + $terms,[], array('class' => 'form-control')) !!}
                             </div>
