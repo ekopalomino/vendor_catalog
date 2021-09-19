@@ -47,6 +47,12 @@ FiberTekno | Kategori Produk
                                                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Parent Kategori</label>
+                                                    {!! Form::select('parent_id', [null=>'Please Select'] + $parent,[], array('class' => 'form-control')) !!}
+                                                </div>
+                                            </div>
                                         </div>  
                                     </div>
                                     <div class="modal-footer">
