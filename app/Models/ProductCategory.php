@@ -22,4 +22,14 @@ class ProductCategory extends Model
     {
         return $this->belongsTo(User::class,'updated_by');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(ProductCategory::class,'parent_id')->where('parent_id',0)->with('parent');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(ProductCategory::class,'parent_id')->with('children');
+    }
 }

@@ -66,8 +66,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(UserWarehouse::class);
     }
 
-    public function Child()
+    public function Contacts()
     {
-        return $this->belongsTo(Contact::class,'user_id','id');
+        return $this->hasOne(Contact::class);
     }
 }

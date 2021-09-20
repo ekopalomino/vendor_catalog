@@ -194,7 +194,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Inventories') 
+            @can('disable') 
             <li class="nav-item  {{ set_active(['inventory.index','inventory.adjust','receipt.index','receipt.search','receipt.get','receipt.edit','delivery.index','inventory.card','purchase.show'
             ,'delivery.search','delivery.get','transfer.index','add.transfer','deliveryRetur.index','deliveryRetur.search','deliveryRetur.get']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
@@ -239,7 +239,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Manufactures')
+            @can('disable')
             <li class="nav-item {{ set_active(['manufacture.index','manufacture.create','manufacture-request.index','manufacture-request.create','manufacture.show']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-puzzle"></i>
@@ -262,7 +262,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Finances')
+            @can('disable')
             <li class="nav-item {{ set_active(['invoice.index','invoice.create','invoice.search','invoice.store','purchaseReceipt.index','purchaseReceipt.search','purchaseReceipt.get','purchaseReceipt.store']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-calculator"></i>
@@ -348,7 +348,7 @@
                 </ul>
             </li>
             @endcan
-            @can('Can Access Report')
+            @can('disable')
             <li class="nav-item {{ set_active(['sale.table','purchase.table','inventory.table','sale-table.view','inventory-table.view','manufacture.table','purchase-table.view',
                 'manufacture-table.view']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">

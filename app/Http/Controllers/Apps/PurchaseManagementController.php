@@ -12,6 +12,7 @@ use iteos\Models\PurchaseItem;
 use iteos\Models\Inventory;
 use iteos\Models\InventoryMovement;
 use iteos\Models\Product;
+use iteos\Models\ProductCategory;
 use iteos\Models\UomValue;
 use iteos\Models\Reference;
 use Spatie\Permission\Models\Role;
@@ -40,14 +41,14 @@ class PurchaseManagementController extends Controller
 
     public function requestCreate()
     {
-        $suppliers = Contact::where('type_id','2')->get();
+        $suppliers = Contact::orderBy('company','ASC')->get();
         $uoms = UomValue::pluck('name','id')->toArray();
-        $products = Product::orderBy('name','ASC')->get();
+        $products = ProductCategory::with('children')->where('parent_id',0)->orderBy('name','ASC')->get();
         $getMonth = Carbon::now()->month;
         $getYear = Carbon::now()->year;
         $references = Reference::where('type','7')->where('month',$getMonth)->where('year',$getYear)->count();
-        $refs = 'PR/FTI/'.str_pad($references + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
-
+        $refs = 'RFQ/ARG/'.str_pad($references + 1, 4, "0", STR_PAD_LEFT).'/'.(\GenerateRoman::integerToRoman(Carbon::now()->month)).'/'.(Carbon::now()->year).'';
+        
         return view('apps.input.purchase',compact('suppliers','uoms','products','refs'));
     }
 

@@ -62,11 +62,10 @@ Agrinesia | Add RFQ
                                         <select id="single" name="product[]" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
-                                            <optgroup label="{{ $val->name }}">
-                                                @foreach ($val->children as $sub)
-                                                <option value="{{$sub->name}}">{{$sub->name}}</option>
-                                                @endforeach
-                                            </optgroup>
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                            @if (count($val->children) > 0)
+                                                @include('subcategories', ['subcategories' => $val->children, 'parent' => $val->name])
+                                            @endif
                                             @endforeach
                                         </select>
                                     </td>

@@ -56,8 +56,8 @@ class Contact extends Model
         return $this->belongsTo(Status::class,'active');
     }
 
-    public function Parents()
+    public function Users()
     {
-        return $this->hasOne(User::class,'user_id');
+        return $this->belongsTo(User::class);
     }
 }
