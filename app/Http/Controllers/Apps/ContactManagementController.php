@@ -191,8 +191,7 @@ class ContactManagementController extends Controller
 
     public function supplierIndex()
     {
-        $data = Contact::where('type_id','2')
-                         ->where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')
+        $data = Contact::where('active','2b643e21-a94c-4713-93f1-f1cbde6ad633')
                          ->get();
 
     	return view('apps.pages.suppliers',compact('data'));

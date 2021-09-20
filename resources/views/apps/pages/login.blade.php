@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Fiber Teknologi Inovasi | User Login</title>
+        <title>Agrinesia Vendor Catalog| Login</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -35,7 +35,7 @@
         <!-- BEGIN LOGO -->
         <div class="logo">
             <a href="">
-                <img src="{{ asset('assets/fibertekno.jpg') }}" alt="" /> </a>
+                <img src="{{ asset('Agri.png') }}" alt="" /> </a>
         </div>
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
@@ -85,6 +85,7 @@
                     <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
                 </div>
             </form>
+            <p style="font-size:20px;color:white;text-align:center">New User?Please Register <a href="{{ route('register') }}">Here</a></p>
             <!-- END FORGOT PASSWORD FORM -->
         </div>
         <!-- BEGIN CORE PLUGINS -->

@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, Uuid, HasRoles, LockableTrait;
 
@@ -27,6 +27,8 @@ class User extends Authenticatable
         'status_id',
         'last_login_at',
         'last_login_from',
+        'type_id',
+        'vendor_id'
     ];
 
     /**
@@ -62,5 +64,10 @@ class User extends Authenticatable
     public function Warehouses()
     {
         return $this->hasMany(UserWarehouse::class);
+    }
+
+    public function Child()
+    {
+        return $this->belongsTo(Contact::class,'user_id','id');
     }
 }

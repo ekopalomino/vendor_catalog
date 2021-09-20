@@ -10,8 +10,6 @@ class Contact extends Model
     use Uuid;
 
     protected $fillable = [
-        'ref_id',
-        'type_id',
         'name',
         'company',
         'phone',
@@ -28,6 +26,7 @@ class Contact extends Model
         'created_by',
         'updated_by',
         'active',
+        'user_id'
     ];
 
     public $incrementing = false;
@@ -55,5 +54,10 @@ class Contact extends Model
     public function Statuses()
     {
         return $this->belongsTo(Status::class,'active');
+    }
+
+    public function Parents()
+    {
+        return $this->hasOne(User::class,'user_id');
     }
 }

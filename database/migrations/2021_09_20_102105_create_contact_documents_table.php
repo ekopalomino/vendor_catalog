@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductCategoryChildrenTable extends Migration
+class CreateContactDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateProductCategoryChildrenTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_category_children', function (Blueprint $table) {
+        Schema::create('contact_documents', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->uuid('contact_id');
+            $table->smallInteger('document_type');
+            $table->string('documents');
+            $table->foreign('contact_id')->references('id')->on('contacts')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateProductCategoryChildrenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_category_children');
+        Schema::dropIfExists('contact_documents');
     }
 }

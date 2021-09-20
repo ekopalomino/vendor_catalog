@@ -14,7 +14,7 @@ FiberTekno | Purchase Management
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Data Purchase Order 
+                        <i class="fa fa-database"></i>Data Request for Quotation
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -55,7 +55,11 @@ FiberTekno | Purchase Management
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                                 <td>{{ $val->order_ref }}</td>
-                                <td>{{ $val->Suppliers->name}}</td>
+                                <td>
+                                    @if(!empty($val->supplier_id))    
+                                    {{ $val->Suppliers->name}}
+                                    @endif
+                                </td>
                                 <td>{{ number_format($val->total,2,',','.')}}</td>
                                 <td>{{ $val->created_by }}</td>
                                 <td>{{ $val->updated_by }}</td>

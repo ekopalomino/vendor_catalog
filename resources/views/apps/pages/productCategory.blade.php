@@ -79,6 +79,7 @@ FiberTekno | Kategori Produk
                 			<tr>
                                 <th>No</th>
                 				<th>Name</th>
+                                <th>Parent Name</th>
                                 <th>Created By</th>
                 				<th>Created At</th>
                 				<th>Action</th>
@@ -89,6 +90,7 @@ FiberTekno | Kategori Produk
                 			<tr>
                 				<td>{{ $key+1 }}</td>
                 				<td>{{ $val->name }}</td>
+                                <td>{{ $val->parent_id }}</td>
                                 <td>{{ $val->created_by }}</td>
                 				<td>{{date("d F Y H:i",strtotime($val->created_at)) }}</td>
                 				<td>

@@ -14,7 +14,7 @@
                 </a>
             </li>
             @can('Can Access Settings')
-            <li class="nav-item {{ set_active(['warehouse.index','uom-cat.index','uom-val.index','pay-method.index','pay-term.index','delivery-service.index']) }}">
+            <li class="nav-item {{ set_active(['warehouse.index','uom-cat.index','uom-val.index','pay-method.index','pay-term.index','delivery-service.index','product-cat.index']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-settings"></i>
                     <span class="title">Konfigurasi Umum</span>
@@ -28,11 +28,17 @@
                         </a>
                     </li>
                     @endcan
-                    <li class="nav-item {{ set_active(['delivery-service.index']) }}">
-                        <a href="{{ route('delivery-service.index') }}" class="nav-link">
-                            <span class="title">Jasa Pengiriman</span>
+                    <li class="nav-item {{ set_active(['product-cat.index']) }}">
+                		<a href="{{ route('product-cat.index') }}" class="nav-link ">
+                            <span class="title">Kategori Produk</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ set_active(['delivery-service.index']) }}">
+                        <a href="{{ route('delivery-service.index') }}" class="nav-link">
+                            <span class="title">Kategori Pengiriman</span>
+                        </a>
+                    </li>
+                    @can('disable')
                     <li class="nav-item {{ set_active(['uom-cat.index','uom-val.index']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Satuan Ukur</span>
@@ -68,7 +74,8 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>                                    
+                    </li>
+                    @endcan                                    
                 </ul>
             </li>
             @endcan
@@ -104,7 +111,7 @@
             </li>
             @endcan
             @can('Can Access Products')
-            <li class="nav-item {{ set_active(['product-cat.index','product.index','product.create','product.edit','product-bom.index','product-bom.create','product.show','product.barcode']) }}">
+            <li class="nav-item {{ set_active(['product.index','product.create','product.edit','product-bom.index','product-bom.create','product.show','product.barcode']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-social-dropbox"></i>
             		<span class="title">Produk</span>
@@ -116,41 +123,26 @@
                             <span class="title">Data Produk</span>
                         </a>
                     </li>
-                    <li class="nav-item {{ set_active(['product-cat.index']) }}">
-                		<a href="{{ route('product-cat.index') }}" class="nav-link ">
-                            <span class="title">Kategori Produk</span>
-                        </a>
-                    </li>
+                    @can('disable')
                     <li class="nav-item {{ set_active(['product.barcode']) }}">
                         <a href="{{ route('product.barcode') }}" class="nav-link ">
                             <span class="title">Produk Barcode</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </li>
             @endcan
             @can('Can Access Contact')
-            <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','customer.show','supplier.index','supplier.create','supplier.edit']) }}">
-                <a href="javascript:;" class="nav-link nav-toggle">
+            <li class="nav-item {{ set_active(['supplier.index','supplier.create','supplier.edit']) }}">
+                <a href="{{ route('supplier.index') }}" class="nav-link">
                     <i class="icon-user-follow"></i>
                     <span class="title">Kontak</span>
                     <span class="arrow"></span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="nav-item {{ set_active(['customer.index','customer.create','customer.edit','customer.show']) }}">
-                        <a href="{{ route('customer.index') }}" class="nav-link ">
-                            <span class="title">Data Pelanggan</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ set_active(['supplier.index','supplier.create','supplier.edit']) }}">
-                        <a href="{{ route('supplier.index') }}" class="nav-link ">
-                            <span class="title">Data Pemasok</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
             @endcan
-            @can('Can Access Sales')
+            @can('disable')
             <li class="nav-item {{ set_active(['sales.index','sales.create','sales.show','sales.barcode','sales.edit']) }}">
             	<a href="javascript:;" class="nav-link nav-toggle">
             		<i class="icon-present"></i>
@@ -195,7 +187,7 @@
                 <ul class="sub-menu">
                     <li class="nav-item {{ set_active(['purchase.index','request.create','purchase.show','request.show']) }}">
                         <a href="{{ route('purchase.index') }}" class="nav-link">
-                            <span class="title">Permintaan Eksternal</span>
+                            <span class="title">Permintaan Vendor</span>
                             <span class="badge badge-danger">{{$purchases}}</span>
                         </a>
                     </li>

@@ -3,6 +3,7 @@
 namespace iteos\Http\Controllers\Auth;
 
 use iteos\Models\User;
+use iteos\Models\Contact;
 use iteos\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/apps/users/profile';
 
     /**
      * Create a new controller instance.
@@ -51,7 +52,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
     }
 
@@ -63,10 +64,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $users = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'type_id' => '2',
         ]);
+
+        Contact::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'company' => $data['company_name'],
+            'user_id' => $users->id,
+        ]);
+
+        return $users;
     }
 }

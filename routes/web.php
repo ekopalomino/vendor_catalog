@@ -15,12 +15,9 @@ Route::get('/', function () {
     return view('apps.pages.login');
 });
 
-Auth::routes(['register' => false]);
+Auth::routes(['verify' => true]);
+
 Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
-    Route::get('login/locked','Auth\LoginController@locked')->name('login.locked');
-    Route::post('login/locked','Auth\LoginController@unlock')->name('login.unlock'); 
-});
-Route::group(['prefix' => 'apps', 'middleware' => ['auth.lock']], function() {
     
     Route::resource('dashboard','Apps\DashboardController');
     /*-----------------------User Management-----------------------------*/

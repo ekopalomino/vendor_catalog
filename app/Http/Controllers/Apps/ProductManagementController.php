@@ -29,7 +29,7 @@ class ProductManagementController extends Controller
     public function categoryIndex()
     {
         $data = ProductCategory::orderBy('name','asc')->get();
-        $parent = ProductCategory::pluck('id','name')->toArray();
+        $parent = ProductCategory::pluck('name','name')->toArray();
 
         return view('apps.pages.productCategory',compact('data','parent'));
     }
