@@ -6,6 +6,7 @@
                     <span></span>
                 </div>
             </li>
+            @if(Auth::user()->type_id == 1)
             <li class="nav-item {{ set_active('dashboard.index') }}">
                 <a href="{{ route('dashboard.index') }}" class="nav-link">
                     <i class="icon-home"></i>
@@ -38,7 +39,6 @@
                             <span class="title">Kategori Pengiriman</span>
                         </a>
                     </li>
-                    @can('disable')
                     <li class="nav-item {{ set_active(['uom-cat.index','uom-val.index']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Satuan Ukur</span>
@@ -57,6 +57,7 @@
                             </li>
                         </ul>
                     </li>
+                    @can('disable')
                     <li class="nav-item {{ set_active(['pay-method.index','pay-term.index']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Kategori Pembayaran</span>
@@ -188,6 +189,12 @@
                     <li class="nav-item {{ set_active(['purchase.index','request.create','purchase.show','request.show']) }}">
                         <a href="{{ route('purchase.index') }}" class="nav-link">
                             <span class="title">Permintaan Vendor</span>
+                            <span class="badge badge-danger">{{$purchases}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ set_active(['purchase.index','request.create','purchase.show','request.show']) }}">
+                        <a href="{{ route('purchase.index') }}" class="nav-link">
+                            <span class="title">Barang Sampel</span>
                             <span class="badge badge-danger">{{$purchases}}</span>
                         </a>
                     </li>
@@ -380,6 +387,35 @@
                 </ul>
             </li>
             @endcan
+            @endif
+            @if(Auth::user()->type_id == 2)
+            <li class="nav-item {{ set_active('dashboard.index') }}">
+                <a href="{{ route('dashboard.index') }}" class="nav-link">
+                    <i class="icon-home"></i>
+                    <span class="title">Beranda</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-bar-chart"></i>
+                    <span class="title">Data Perusahaan</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item ">
+                        <a href="{{ route('vendor.index') }}" class="nav-link ">
+                            <span class="title">Profil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="" class="nav-link ">
+                            <span class="title">Legalitas</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endif
         </ul>
     </div>
 </div>

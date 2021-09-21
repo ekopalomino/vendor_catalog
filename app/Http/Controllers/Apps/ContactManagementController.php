@@ -13,13 +13,13 @@ use Auth;
 
 class ContactManagementController extends Controller
 {
-    function __construct()
+    /*function __construct()
     {
         $this->middleware('permission:Can Access Contact');
         $this->middleware('permission:Can Create Contact', ['only' => ['create','store']]);
         $this->middleware('permission:Can Edit Contact', ['only' => ['edit','update']]);
         $this->middleware('permission:Can Delete Contact', ['only' => ['destroy']]);
-    }
+    }*/
 
     public function customerIndex()
     {
@@ -354,5 +354,10 @@ class ContactManagementController extends Controller
         ]);
 
         return redirect()->route('supplier.index')->with($notification);
+    }
+
+    public function vendorIndex()
+    {
+        return view('apps.pages.vendorProfile');
     }
 }

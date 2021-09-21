@@ -33,7 +33,7 @@ Agrinesia | Add RFQ
             	<div class="row">
             		<div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-2 control-label">RRFQ Number</label>
+                            <label class="col-md-2 control-label">RFQ Number</label>
                             <div class="col-md-5">
                                 {!! Form::text('order_ref', $refs, array('placeholder' => 'Customer PO', 'class' => 'form-control','readonly')) !!}
                             </div>

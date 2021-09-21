@@ -237,4 +237,6 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::post('finance/purchase-receipt/payment-made/{id}','Apps\PaymentManagementController@receiptPayment')->name('purchaseReceipt.payment');
     Route::get('finance/purchase-receipt/show/{id}','Apps\PaymentManagementController@receiptShow')->name('purchaseReceipt.show');
     Route::get('finance/purchase-receipt/print/{id}','Apps\PaymentManagementController@receiptPrint')->name('purchaseReceipt.print');
+
+    Route::get('vendor/index','Apps\ContactManagementController@vendorIndex')->name('vendor.index');
 });
