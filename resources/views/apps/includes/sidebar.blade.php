@@ -396,14 +396,14 @@
                     <span class="selected"></span>
                 </a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item {{ set_active(['vendor.index']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Data Perusahaan</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item ">
+                    <li class="nav-item {{ set_active('vendor.index') }}">
                         <a href="{{ route('vendor.index') }}" class="nav-link ">
                             <span class="title">Profil</span>
                         </a>
@@ -411,6 +411,30 @@
                     <li class="nav-item ">
                         <a href="" class="nav-link ">
                             <span class="title">Legalitas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="" class="nav-link ">
+                            <span class="title">Katalog Produk</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item ">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-notebook"></i>
+                    <span class="title">Data Penawaran</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item ">
+                        <a href="" class="nav-link ">
+                            <span class="title">Penawaran Terbaru</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="" class="nav-link ">
+                            <span class="title">Histori Penawaran</span>
                         </a>
                     </li>
                 </ul>

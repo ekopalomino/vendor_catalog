@@ -13,10 +13,9 @@ class Contact extends Model
         'name',
         'company',
         'phone',
-        'mobile',
+        'sales_phone',
         'email',
         'billing_address',
-        'shipping_address',
         'payment_method',
         'payment_terms',
         'bank_name',
@@ -26,7 +25,14 @@ class Contact extends Model
         'created_by',
         'updated_by',
         'active',
-        'user_id'
+        'user_id',
+        'fax_number',
+        'postal',
+        'city',
+        'email_confirmation',
+        'supplier_id',
+        'sales_id',
+        'tdp_no'
     ];
 
     public $incrementing = false;

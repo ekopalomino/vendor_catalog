@@ -1,7 +1,5 @@
 @extends('apps.layouts.main')
-@section('header.title')
-Agrinesia Vendor Catalog | Profil
-@endsection
+@section('pageTitle', 'User Profile')
 @section('header.plugins')
 <link href="{{ asset('assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
@@ -18,7 +16,7 @@ Agrinesia Vendor Catalog | Profil
         <div class="portlet-title">
             <div class="caption">
                 <i class="icon-settings font-dark"></i>
-                <span class="caption-subject font-dark sbold uppercase">Data Perusahaan</span>
+                <span class="caption-subject font-dark sbold uppercase">Company Profile</span>
             </div>
         </div>
         <div class="portlet-body">
@@ -29,85 +27,61 @@ Agrinesia Vendor Catalog | Profil
                             <tr>
                                 <td style="width:15%"> Nama Perusahaan </td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="company_name" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td> Alamat Perusahaan </td>
                                 <td>
-                                    <a href="javascript:;" id="company_address" data-type="textarea" data-pk="1" data-placeholder="Your address here..." data-original-title="Enter Company Address">{{$data->billing_address}}
+                                    <a href="javascript:;" id="comments" data-type="textarea" data-pk="1" data-placeholder="Your comments here..." data-original-title="Enter Company Address">{{$data->billing_address}}
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%"> Kode POS </td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="postal" data-type="text" data-pk="1" data-original-title="Enter Postal Code"> {{$data->postal}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%"> Kota </td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="city" data-type="text" data-pk="1" data-original-title="Enter City Name"> {{$data->city}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%"> Telepon Kantor </td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="phone" data-type="text" data-pk="1" data-original-title="Enter Company Phone"> {{$data->phone}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%"> Fax </td>
+                                <td style="width:50%">
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%"> Email PIC PO </td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="email" data-type="text" data-pk="1" data-original-title="Enter Email"> {{$data->email}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:15%"> Email PIC Konfirmasi </td>
+                                <td style="width:50%">
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%"> Nama Sales </td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="sales_name" data-type="text" data-pk="1" data-original-title="Enter Sales Name"> {{$data->name}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:15%"> Telepon Sales</td>
                                 <td style="width:50%">
-                                    <a href="javascript:;" id="sales_phone" data-type="text" data-pk="1" data-original-title="Enter Sales Phone"> {{$data->sales_phone}} </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:15%"> No NPWP</td>
-                                <td style="width:50%">
-                                    <a href="javascript:;" id="tax_no" data-type="text" data-pk="1" data-original-title="Enter Tax No"> {{$data->tax_no}} </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:15%"> No TDP</td>
-                                <td style="width:50%">
-                                    <a href="javascript:;" id="tdp_no" data-type="text" data-pk="1" data-original-title="Enter TDP No"> {{$data->tdp_no}} </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:15%"> Mata Uang</td>
-                                <td style="width:50%">
-                                    <a href="javascript:;" id="currency" data-type="text" data-pk="1" data-original-title="Enter Currency"> {{$data->currency}} </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:15%"> Nama Bank</td>
-                                <td style="width:50%">
-                                    <a href="javascript:;" id="bank" data-type="text" data-pk="1" data-original-title="Enter Bank Name"> {{$data->bank}} </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:15%"> Pemegang Rekening</td>
-                                <td style="width:50%">
-                                    <a href="javascript:;" id="acc_name" data-type="text" data-pk="1" data-original-title="Enter Account Name"> {{$data->acc_name}} </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:15%"> No Rekening</td>
-                                <td style="width:50%">
-                                    <a href="javascript:;" id="acc_no" data-type="text" data-pk="1" data-original-title="Enter Account No"> {{$data->acc_no}} </a>
+                                    <a href="javascript:;" id="username" data-type="text" data-pk="1" data-original-title="Enter Company Name"> {{$data->company}} </a>
                                 </td>
                             </tr>
                         </tbody>

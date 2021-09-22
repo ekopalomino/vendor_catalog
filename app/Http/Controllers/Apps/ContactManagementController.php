@@ -358,6 +358,8 @@ class ContactManagementController extends Controller
 
     public function vendorIndex()
     {
-        return view('apps.pages.vendorProfile');
+        $data = Contact::where('user_id',Auth::user()->id)->first();
+        
+        return view('apps.pages.vendorProfile',compact('data'));
     }
 }
