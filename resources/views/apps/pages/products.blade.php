@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-FiberTekno | Produk
+Agrinesia Vendor Catalog | Katalog Produk
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -28,25 +28,20 @@ FiberTekno | Produk
                                 </ul>
                         </div>
                     @endif
-                    @can('Can Create Product')
                     <div class="col-md-6">
                         <div class="form-group">
-                            <a href="{{ route('product.create') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah Produk
+                            <a href="{{ route('vendor.prodCreate') }}"><button id="sample_editable_1_new" class="btn red btn-outline sbold"> Tambah Produk
                             </button></a>
                         </div>
                     </div>
-                    @endcan
-                	<table class="table table-striped table-bordered table-hover" id="sample_2">
+                    <table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Nama</th>
-                                <th>Kategori</th>
-                                <th>Satuan</th>
+                				<th>Kategori</th>
                                 <th>Gambar</th>
                                 <th>Dibuat</th>
-                                <th>Status</th>
-                				<th>Tgl Input</th>
+                                <th>Tgl Input</th>
                 				<th>Tgl Update</th>
                 				<th></th>
                 			</tr>
@@ -55,38 +50,16 @@ FiberTekno | Produk
                             @foreach($data as $key => $product)
                 			<tr>
                 				<td>{{ $key+1 }}</td>
-                				<td>{{ $product->name }}</td>
-                                <td>@if(!empty($product->category_id))
+                				<td>@if(!empty($product->category_id))
                                     {{ $product->Categories->name }}
                                     @endif 
                                 </td>
-                                <td>{{ $product->Uoms->name }}</td>
-                                <td><img src="http://fibertekno.iteos.tech/public/products/{{$product->image}}" width="75" height="100" ></td>
+                                <td><img src="{{$product->image}}" width="75" height="100" ></td>
                                 <td>{{ $product->created_by }}</td>
-                                <td>
-                                    @if($product->active == '2b643e21-a94c-4713-93f1-f1cbde6ad633')
-                                    <label class="label label-sm label-info">{{ $product->Statuses->name }}</label>
-                                    @else
-                                    <label class="label label-sm label-danger">{{ $product->Statuses->name }}</label>
-                                    @endif
-                                </td>
-                				<td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
+                                <td>{{date("d F Y H:i",strtotime($product->created_at)) }}</td>
                                 <td>{{date("d F Y H:i",strtotime($product->updated_at)) }}</td>
                 				<td>
-                                    @if($product->is_manufacture == 1)
-                                    {!! Form::open(['method' => 'GET','route' => ['product-bom.create', $product ->id],'style'=>'display:inline']) !!}
-                                    {!! Form::button('<i class="fa fa-sitemap"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Add BoM']) !!}
-                                    {!! Form::close() !!}
-                                    @endif
-                                    <a class="btn btn-xs btn-success" href="{{ route('product.show',$product->id) }}" title="Show Product" ><i class="fa fa-search"></i></a>
-                                    @can('Can Edit Product')
-                                    <a class="btn btn-xs btn-success" href="{{ route('product.edit',$product->id) }}" title="Edit Product" ><i class="fa fa-edit"></i></a>
-                                    @endcan
-                                    @can('Can Delete Product')
-                                    {!! Form::open(['method' => 'POST','route' => ['product.destroy', $product->id],'style'=>'display:inline','onsubmit' => 'return ConfirmDelete()']) !!}
-                                    {!! Form::button('<i class="fa fa-trash"></i>',['type'=>'submit','class' => 'btn btn-xs btn-danger','title'=>'Disable Product']) !!}
-                                    {!! Form::close() !!}
-                                    @endcan
+                                    
                                 </td>
                 			</tr>
                             @endforeach

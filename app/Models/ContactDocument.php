@@ -12,7 +12,7 @@ class ContactDocument extends Model
         'documents'
     ];
 
-    public function Contacts()
+    public function Parent()
     {
         return $this->belongTo(Contact::class,'contact_id');
     }

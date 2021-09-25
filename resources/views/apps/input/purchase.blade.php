@@ -39,6 +39,14 @@ Agrinesia | Add RFQ
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-2 control-label">Request Name</label>
+                            <div class="col-md-5">
+                                {!! Form::text('req_name', null, array('placeholder' => 'Request Name', 'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label class="col-md-2 control-label">Status</label>
                             <div class="col-md-5">
                                 {!! Form::text('status', 'Open', array('class' => 'form-control','readonly')) !!}
@@ -53,134 +61,20 @@ Agrinesia | Add RFQ
 	            				<tr>
 	            					<th>Kategori Produk</th>
 	            					<th>Jumlah</th>
-	            					<th>Satuan</th>
 	            				</tr>
 	            			</thead>
 	            			<tbody>
 	            				<tr>
 	            					<td>
-                                        <select id="single" name="product[]" class="form-control select2">
+                                        <select id="single" name="product" class="form-control select2">
                                             <option></option>
                                             @foreach($products as $val)
-                                            <optgroup label="{{ $val->name }}">
-                                                @foreach ($val->children as $sub)
-                                                <option value="{{$sub->name}}">{{$sub->name}}</option>
-                                                @endforeach
-                                            </optgroup>
+                                            <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
                                         </select>
                                     </td>
                     				<td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control','required')) !!}</td>
-                    				<td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control','required')) !!}</td>
                     			</tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select id="single" name="product[]" class="form-control select2">
-                                            <option></option>
-                                            @foreach($products as $val)
-                                            <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>{!! Form::number('quantity[]', null, array('placeholder' => 'Jumlah','class' => 'form-control')) !!}</td>
-                                    <td>{!! Form::select('uom_id[]', [null=>'Please Select'] + $uoms,[], array('class' => 'form-control')) !!}</td>
-                                </tr>
 	            			</tbody>
 	            		</table>
 	            	</div>

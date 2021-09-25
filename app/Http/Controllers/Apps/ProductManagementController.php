@@ -29,9 +29,8 @@ class ProductManagementController extends Controller
     public function categoryIndex()
     {
         $data = ProductCategory::orderBy('name','asc')->get();
-        $parent = ProductCategory::pluck('name','name')->toArray();
-
-        return view('apps.pages.productCategory',compact('data','parent'));
+        
+        return view('apps.pages.productCategory',compact('data'));
     }
 
     public function categoryStore(Request $request)
@@ -42,7 +41,6 @@ class ProductManagementController extends Controller
 
         $input = [
             'name' => $request->input('name'),
-            'parent_id' => $request->input('parent_id'),
             'created_by' => auth()->user()->name,
         ];
         $data = ProductCategory::create($input);

@@ -10,6 +10,7 @@ class Contact extends Model
     use Uuid;
 
     protected $fillable = [
+        'ref_id',
         'name',
         'company',
         'phone',
@@ -32,7 +33,8 @@ class Contact extends Model
         'email_confirmation',
         'supplier_id',
         'sales_id',
-        'tdp_no'
+        'tdp_no',
+        'currency'
     ];
 
     public $incrementing = false;
@@ -65,5 +67,10 @@ class Contact extends Model
     public function Users()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function Child()
+    {
+        return $this->hasMany(ContactDocument::class,'contact_id','id');
     }
 }

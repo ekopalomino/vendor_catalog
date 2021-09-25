@@ -117,7 +117,7 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('suppliers/create','Apps\ContactManagementController@supplierCreate')->name('supplier.create');
     Route::post('suppliers/store','Apps\ContactManagementController@supplierStore')->name('supplier.store');
     Route::get('suppliers/show/{id}','Apps\ContactManagementController@supplierShow')->name('supplier.show');
-    Route::get('suppliers/edit/{id}','Apps\ContactManagementController@supplierEdit')->name('supplier.edit');
+    Route::get('suppliers/edit','Apps\ContactManagementController@supplierEdit')->name('supplier.edit');
     Route::post('suppliers/update/{id}','Apps\ContactManagementController@supplierUpdate')->name('supplier.update');
     Route::post('suppliers/delete/{id}','Apps\ContactManagementController@supplierDestroy')->name('supplier.destroy');
 
@@ -238,5 +238,11 @@ Route::group(['prefix' => 'apps', 'middleware' => ['auth']], function() {
     Route::get('finance/purchase-receipt/show/{id}','Apps\PaymentManagementController@receiptShow')->name('purchaseReceipt.show');
     Route::get('finance/purchase-receipt/print/{id}','Apps\PaymentManagementController@receiptPrint')->name('purchaseReceipt.print');
 
-    Route::get('vendor/index','Apps\ContactManagementController@vendorIndex')->name('vendor.index');
+    /*-----------------------------Vendor Side---------------------------------------------------*/
+    Route::get('vendor/profile','Apps\VendorPageController@vendorPage')->name('vendor.index');
+    Route::post('vendor/update','Apps\VendorPageController@vendorUpdate')->name('vendor.update');
+    Route::get('vendor/documents','Apps\VendorPageController@documentIndex')->name('vendor.document');
+    Route::get('vendor/products/index','Apps\VendorPageController@productIndex')->name('vendor.product');
+    Route::get('vendor/products/create','Apps\VendorPageController@productCreate')->name('vendor.prodCreate');
+    Route::post('vendor/products/store','Apps\VendorPageController@productStore')->name('vendor.prodStore');
 });

@@ -1,6 +1,6 @@
 @extends('apps.layouts.main')
 @section('header.title')
-Agrinesia Vendor Catalog | Legalitas
+Agrinesia Vendor Catalog | Dokumen Vendor
 @endsection
 @section('header.styles')
 <link href="{{ asset('assets/global/plugins/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
@@ -11,10 +11,10 @@ Agrinesia Vendor Catalog | Legalitas
 <div class="page-content">
 	<div class="row">
 		<div class="col-md-12">
-            <div class="portlet box green">
+			<div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-database"></i>Data Produk 
+                        <i class="fa fa-database"></i>Data Dokumen
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -41,17 +41,17 @@ Agrinesia Vendor Catalog | Legalitas
                         <div class="modal fade" id="basic" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    {!! Form::open(array('route' => 'uom-cat.store','method'=>'POST')) !!}
+                                    {!! Form::open(array('route' => 'uker.store','method'=>'POST')) !!}
                                     @csrf
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                        <h4 class="modal-title">Tambah Dokumen</h4>
+                                        <h4 class="modal-title">Unit Kerja Baru</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Tipe Dokumen</label>
+                                                    <label class="control-label">Nama</label>
                                                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                                 </div>
                                             </div>
@@ -59,36 +59,34 @@ Agrinesia Vendor Catalog | Legalitas
                                     </div>
                                     <div class="modal-footer">
                                         <button type="close" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                        <button id="register" type="submit" class="btn green">Submit</button>
+                                        <button id="register" type="submit" class="btn green">Save changes</button>
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered table-hover" id="sample_2">
+                	<table class="table table-striped table-bordered table-hover" id="sample_2">
                 		<thead>
                 			<tr>
                                 <th>No</th>
-                				<th>Tipe</th>
-                                <th>Tgl Input</th>
-                				<th>Tgl Update</th>
+                				<th>Tipe Dokumen</th>
+                                <th>Link</th>
+                                <th>Dibuat</th>
+                				<th>Tgl Dibuat</th>
                 				<th></th>
                 			</tr>
                 		</thead>
                 		<tbody>
-                            @foreach($data as $key => $doc)
-                			<tr>
-                				<td>{{ $key+1 }}</td>
-                				<td>{{ $doc->document_type }}</td>
-                                <td>{{date("d F Y H:i",strtotime($doc->created_at)) }}</td>
-                                <td>{{date("d F Y H:i",strtotime($doc->updated_at)) }}</td>
-                				<td>
-                                    
-                                </td>
+                            <tr>
+                				<td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                 			</tr>
-                            @endforeach
-                		</tbody>
+                        </tbody>
                 	</table>
                 </div>
             </div>
@@ -107,7 +105,7 @@ Agrinesia Vendor Catalog | Legalitas
 <script>
     function ConfirmDelete()
     {
-    var x = confirm("Are you sure you want to deactivate?");
+    var x = confirm("Yakin Data Akan Dihapus?");
     if (x)
         return true;
     else

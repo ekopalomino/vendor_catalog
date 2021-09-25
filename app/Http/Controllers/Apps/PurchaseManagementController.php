@@ -43,7 +43,7 @@ class PurchaseManagementController extends Controller
     {
         $suppliers = Contact::orderBy('company','ASC')->get();
         $uoms = UomValue::pluck('name','id')->toArray();
-        $products = ProductCategory::with('children')->where('parent_id',0)->orderBy('name','ASC')->get();
+        $products = ProductCategory::orderBy('name','ASC')->get();
         $getMonth = Carbon::now()->month;
         $getYear = Carbon::now()->year;
         $references = Reference::where('type','7')->where('month',$getMonth)->where('year',$getYear)->count();

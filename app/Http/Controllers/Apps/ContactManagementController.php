@@ -272,12 +272,12 @@ class ContactManagementController extends Controller
         return view('apps.show.supplier',compact('data'));
     }
 
-    public function supplierEdit($id)
+    public function supplierEdit()
     {
-        $suppliers = Contact::find($id);
+        $data = Contact::where('user_id',Auth::user()->id)->first();
         $methods = PaymentMethod::pluck('name','id')->toArray();
         $terms = PaymentTerm::pluck('name','id')->toArray();
-        return view('apps.edit.supplier',compact('suppliers','methods','terms'));
+        return view('apps.pages.vendorProfile',compact('data','methods','terms'));
     }
 
     public function supplierUpdate(Request $request,$id)
@@ -361,5 +361,24 @@ class ContactManagementController extends Controller
         $data = Contact::where('user_id',Auth::user()->id)->first();
         
         return view('apps.pages.vendorProfile',compact('data'));
+    }
+
+    public function vendorUpdate(Request $request)
+    {
+        if ($request->ajax()) {
+            Contact::find($request->pk)
+                ->update([
+                    $request->company => $request->value
+                ]);
+  
+            return response()->json(['success' => true]);
+        }
+     }
+
+    public function vendorDocument()
+    {
+        $data = Contact::with('Child')->where('user_id',Auth::user()->id)->get();
+        
+        return view('apps.pages.vendorLegal',compact('data'));
     }
 }

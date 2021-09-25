@@ -57,7 +57,6 @@
                             </li>
                         </ul>
                     </li>
-                    @can('disable')
                     <li class="nav-item {{ set_active(['pay-method.index','pay-term.index']) }}">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <span class="title">Kategori Pembayaran</span>
@@ -76,7 +75,6 @@
                             </li>
                         </ul>
                     </li>
-                    @endcan                                    
                 </ul>
             </li>
             @endcan
@@ -396,7 +394,7 @@
                     <span class="selected"></span>
                 </a>
             </li>
-            <li class="nav-item {{ set_active(['vendor.index']) }}">
+            <li class="nav-item {{ set_active(['vendor.index','vendor.document','vendor.product','vendor.prodCreate']) }}">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-bar-chart"></i>
                     <span class="title">Data Perusahaan</span>
@@ -408,13 +406,13 @@
                             <span class="title">Profil</span>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">
+                    <li class="nav-item {{ set_active('vendor.document') }}">
+                        <a href="{{ route('vendor.document') }}" class="nav-link ">
                             <span class="title">Legalitas</span>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a href="" class="nav-link ">
+                    <li class="nav-item {{ set_active(['vendor.product','vendor.prodCreate']) }}">
+                        <a href="{{ route('vendor.product') }}" class="nav-link ">
                             <span class="title">Katalog Produk</span>
                         </a>
                     </li>
@@ -429,7 +427,7 @@
                 <ul class="sub-menu">
                     <li class="nav-item ">
                         <a href="" class="nav-link ">
-                            <span class="title">Penawaran Terbaru</span>
+                            <span class="title">Penawaran Berlangsung</span>
                         </a>
                     </li>
                     <li class="nav-item ">
